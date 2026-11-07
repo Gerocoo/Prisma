@@ -126,7 +126,7 @@
     <string name="settings_option_name_and_code">%1$s (%2$s)</string>
 
     <string name="settings_theme_title">Motyw</string>
-    <string name="settings_theme_subtitle_current">Wybierz, jak Spotube dopasowuje się do wyglądu systemu. Obecnie: %1$s</string>
+    <string name="settings_theme_subtitle_current">Wybierz, jak Tubify dopasowuje się do wyglądu systemu. Obecnie: %1$s</string>
     <string name="settings_theme_light">Jasny</string>
     <string name="settings_theme_dark">Ciemny</string>
     <string name="settings_theme_system">Systemowy</string>
@@ -176,7 +176,7 @@
     <string name="settings_download_folder_title">Własny folder pobierania</string>
     <string name="settings_download_folder_current">Obecny folder: %1$s</string>
     <string name="settings_download_folder_description">Pozostaw puste, aby używać domyślnego folderu muzyki.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Spotube</string>
+    <string name="settings_download_folder_placeholder">C:\Music\Tubify</string>
     <string name="settings_local_media_folders_title">Foldery lokalnych multimediów</string>
     <string name="settings_local_media_folders_subtitle_current">Własne foldery skanowane na komputerze. Dodano: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">Nie dodano jeszcze własnego folderu</string>
@@ -223,8 +223,8 @@
     <string name="settings_allow_remote_control_subtitle">Pozwól innym urządzeniom w tej samej sieci sterować odtwarzaniem po połączeniu.</string>
     <string name="settings_remote_device_name_title">Nazwa urządzenia do zdalnego sterowania</string>
     <string name="settings_remote_device_name_subtitle">Nazwa widoczna dla innych urządzeń podczas wykrywania. Obecnie: %1$s</string>
-    <string name="settings_remote_device_name_description">Wybierz przyjazną nazwę, którą zobaczą inne urządzenia w Twojej sieci, gdy wykryją tę instancję Spotube.</string>
-    <string name="settings_remote_device_name_placeholder">np. Spotube w salonie</string>
+    <string name="settings_remote_device_name_description">Wybierz przyjazną nazwę, którą zobaczą inne urządzenia w Twojej sieci, gdy wykryją tę instancję Tubify.</string>
+    <string name="settings_remote_device_name_placeholder">np. Tubify w salonie</string>
     <string name="settings_remote_device_name_default">nazwa hosta urządzenia</string>
     <string name="settings_playback_port_subtitle_current">Port używany przez serwer proxy odtwarzania. Obecnie: %1$d</string>
     <string name="settings_playback_port_description">Wybierz port od 1 do 65535.</string>
@@ -236,12 +236,12 @@
     <string name="settings_blacklist_subtitle">Zarządzaj utworami i wykonawcami na czarnej liście</string>
 
     <string name="settings_desktop_minimize_title">Minimalizuj do zasobnika</string>
-    <string name="settings_desktop_minimize_subtitle">Po zminimalizowaniu okna Spotube działa dalej w zasobniku systemowym.</string>
+    <string name="settings_desktop_minimize_subtitle">Po zminimalizowaniu okna Tubify działa dalej w zasobniku systemowym.</string>
     <string name="settings_desktop_discord_title">Status Discord (Rich Presence)</string>
     <string name="settings_desktop_discord_subtitle">Pokazuj w Discordzie, czego teraz słuchasz (na komputerze).</string>
 
     <string name="settings_updates_auto_check_title">Automatycznie sprawdzaj aktualizacje</string>
-    <string name="settings_updates_auto_check_subtitle">Wyszukuj nowe wersje Spotube w tle.</string>
+    <string name="settings_updates_auto_check_subtitle">Wyszukuj nowe wersje Tubify w tle.</string>
 
     <string name="settings_plugins_manage_title">Zarządzaj wtyczkami</string>
     <string name="settings_plugins_manage_subtitle">Zarządzaj swoimi wtyczkami</string>
@@ -308,7 +308,7 @@
     <string name="settings_jam_broker_username">Nazwa użytkownika (opcjonalnie)</string>
     <string name="settings_jam_broker_password">Hasło (opcjonalnie)</string>
     <string name="settings_jam_broker_client_id">Prefiks ID klienta</string>
-    <string name="settings_jam_broker_client_id_subtitle">Służy do identyfikacji tej instancji Spotube</string>
+    <string name="settings_jam_broker_client_id_subtitle">Służy do identyfikacji tej instancji Tubify</string>
     <string name="settings_jam_broker_tls_subtitle">Szyfruj połączenie z brokerem</string>
     <string name="settings_jam_broker_diagnostics_subtitle">Sprawdź bieżące ustawienia brokera przed utworzeniem pokoju.</string>
     <string name="settings_jam_broker_test">Testuj połączenie</string>
@@ -352,7 +352,7 @@
     <string name="jam_error_create">Nie udało się utworzyć sesji Jam</string>
     <string name="jam_error_join">Nie udało się dołączyć do sesji Jam</string>
     <string name="jam_error_invalid_code">Wpisz sześcioznakowy kod pokoju złożony z liter i cyfr.</string>
-    <string name="jam_share_message">Dołącz do mojego Jamu w Spotube, kod: %1$s</string>
+    <string name="jam_share_message">Dołącz do mojego Jamu w Tubify, kod: %1$s</string>
 
     <string name="player_go_to_album">Przejdź do albumu</string>
     <string name="player_sleep_timer">Wyłącznik czasowy</string>
@@ -364,8 +364,8 @@
 
     <string name="update_action_ignore">Ignoruj</string>
     <string name="update_action_update">Aktualizuj</string>
-    <string name="app_update_dialog_title">Dostępna jest wersja Spotube %1$s</string>
-    <string name="app_update_dialog_no_notes">Sprawdź nowości w tej wersji na stronie pobierania Spotube.</string>
+    <string name="app_update_dialog_title">Dostępna jest wersja Tubify %1$s</string>
+    <string name="app_update_dialog_no_notes">Sprawdź nowości w tej wersji na stronie pobierania Tubify.</string>
     <string name="plugin_update_dialog_title">Dostępna jest wersja %2$s wtyczki %1$s</string>
     <string name="plugin_update_dialog_current_version">Obecnie zainstalowana: %1$s</string>
     <string name="plugin_update_dialog_no_notes">Sprawdź nowości w tej aktualizacji na stronie wtyczki.</string>
@@ -374,7 +374,7 @@
     <string name="welcome_next">Dalej</string>
     <string name="welcome_back">Wstecz</string>
     <string name="welcome_get_started">Zaczynamy</string>
-    <string name="welcome_app_name">Spotube</string>
+    <string name="welcome_app_name">Tubify</string>
     <string name="welcome_brand_freedom">Muzyka bez żadnych warunków.</string>
     <string name="welcome_brand_quiet_description">Otwartoźródłowy odtwarzacz dla całego świata muzyki.\nOdkrywaj go. Zrób go po swojemu.</string>
     <string name="welcome_donate_quiet_title">Pomóż utrzymać ten projekt.</string>
@@ -391,7 +391,7 @@
     <string name="welcome_step_plugins">Wtyczki</string>
     <string name="welcome_step_guide">Przewodnik</string>
 
-    <string name="welcome_guide_title">Jak korzystać ze Spotube</string>
+    <string name="welcome_guide_title">Jak korzystać ze Tubify</string>
     <string name="welcome_guide_subtitle">Cztery szybkie kroki i już słuchasz.</string>
     <string name="welcome_guide_signin_title">Zaloguj się</string>
     <string name="welcome_guide_signin_desc">Połącz konto lub wybierz własną wtyczkę katalogu.</string>
@@ -441,7 +441,7 @@
     <!-- Page 3: plugins -->
     <string name="welcome_plugins_eyebrow">Modułowa architektura</string>
     <string name="welcome_plugins_title">Wybierz, skąd pochodzi Twoja muzyka.</string>
-    <string name="welcome_plugins_subtitle">Spotube rozdziela odkrywanie katalogu, strumieniowanie dźwięku i zsynchronizowane teksty. Skonfiguruj silniki poniżej lub zmień je w dowolnej chwili.</string>
+    <string name="welcome_plugins_subtitle">Tubify rozdziela odkrywanie katalogu, strumieniowanie dźwięku i zsynchronizowane teksty. Skonfiguruj silniki poniżej lub zmień je w dowolnej chwili.</string>
     <string name="welcome_plugins_metadata_title">Silnik metadanych</string>
     <string name="welcome_plugins_metadata_description">Odpowiada za odkrywanie muzyki, wyszukiwanie, listy utworów i playlisty.</string>
     <string name="welcome_plugins_audio_title">Silnik audio</string>
@@ -463,13 +463,13 @@
     <!-- Page 4: how it works -->
     <string name="welcome_how_eyebrow">Retro-nowoczesna architektura</string>
     <string name="welcome_how_title">Czyste Hi-Fi, zero pośredników</string>
-    <string name="welcome_how_subtitle">Oto jak Spotube organizuje zdecentralizowane odtwarzanie bezpośrednio na Twoim komputerze.</string>
+    <string name="welcome_how_subtitle">Oto jak Tubify organizuje zdecentralizowane odtwarzanie bezpośrednio na Twoim komputerze.</string>
     <string name="welcome_how_status_badge">BEZPOŚREDNIO PEER-TO-PEER • 256 KBPS OPUS</string>
     <string name="welcome_how_mockup_title">Niebieska godzina</string>
-    <string name="welcome_how_mockup_artist">Spotube · demonstracja odtwarzacza</string>
+    <string name="welcome_how_mockup_artist">Tubify · demonstracja odtwarzacza</string>
     <string name="welcome_how_mockup_lyric">Trochę muzyki na chwile pomiędzy.</string>
     <string name="welcome_how_step_search_title">1. Zdecentralizowane odkrywanie</string>
-    <string name="welcome_how_step_search_desc">Zapytania trafiają prosto do wybranej wtyczki katalogu. Spotube nigdy nie profiluje Twojego gustu.</string>
+    <string name="welcome_how_step_search_desc">Zapytania trafiają prosto do wybranej wtyczki katalogu. Tubify nigdy nie profiluje Twojego gustu.</string>
     <string name="welcome_how_step_stream_title">2. Bezpośrednie pozyskiwanie strumienia</string>
     <string name="welcome_how_step_stream_desc">Dźwięk płynie bezpośrednio z serwerów treści na Twój komputer. Bez pośrednich serwerów proxy i zdalnego zbierania danych.</string>
     <string name="welcome_how_step_playback_title">3. Lokalne DSP i odtwarzanie</string>
@@ -851,8 +851,8 @@
     <string name="plugin_error_builtin_add">Wbudowane wtyczki są już dołączone i nie można ich dodać ponownie.</string>
     <string name="plugin_error_builtin_remove">Nie można usunąć wbudowanych wtyczek.</string>
     <string name="plugin_error_api_version_invalid">%1$s deklaruje nieprawidłową wartość apiVersion (%2$s). Oczekiwano wersji semantycznej zgodnej z %3$s.</string>
-    <string name="plugin_error_app_api_version_invalid">Wersja API wtyczek Spotube %1$s jest nieprawidłowa.</string>
-    <string name="plugin_error_api_incompatible">%1$s jest przeznaczona dla API wtyczek %2$s, a Spotube obsługuje niezgodne wstecz API wtyczek %3$s. Zainstaluj wtyczkę zbudowaną dla tej samej głównej wersji API.</string>
+    <string name="plugin_error_app_api_version_invalid">Wersja API wtyczek Tubify %1$s jest nieprawidłowa.</string>
+    <string name="plugin_error_api_incompatible">%1$s jest przeznaczona dla API wtyczek %2$s, a Tubify obsługuje niezgodne wstecz API wtyczek %3$s. Zainstaluj wtyczkę zbudowaną dla tej samej głównej wersji API.</string>
 
     <!-- Plugin install prompts -->
     <string name="plugin_prompt_incompatible_title">Niezgodne API wtyczki</string>

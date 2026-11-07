@@ -122,7 +122,7 @@
     <string name="settings_option_name_and_code">%1$s (%2$s)</string>
 
     <string name="settings_theme_title">থিম</string>
-    <string name="settings_theme_subtitle_current">Spotube আপনার সিস্টেমের অ্যাপিয়ারেন্সের সাথে কীভাবে মিলবে তা বেছে নিন। বর্তমান: %1$s</string>
+    <string name="settings_theme_subtitle_current">Tubify আপনার সিস্টেমের অ্যাপিয়ারেন্সের সাথে কীভাবে মিলবে তা বেছে নিন। বর্তমান: %1$s</string>
     <string name="settings_theme_light">লাইট</string>
     <string name="settings_theme_dark">ডার্ক</string>
     <string name="settings_theme_system">সিস্টেম</string>
@@ -172,7 +172,7 @@
     <string name="settings_download_folder_title">ডাউনলোড ফোল্ডার পরিবর্তন</string>
     <string name="settings_download_folder_current">বর্তমান ফোল্ডার: %1$s</string>
     <string name="settings_download_folder_description">ডিফল্ট মিউজিক ফোল্ডার ব্যবহার করতে এটি ফাঁকা রাখুন।</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Spotube</string>
+    <string name="settings_download_folder_placeholder">C:\Music\Tubify</string>
     <string name="settings_local_media_folders_title">লোকাল মিডিয়া ফোল্ডার</string>
     <string name="settings_local_media_folders_subtitle_current">ডেস্কটপে স্ক্যান করার জন্য কাস্টম ফোল্ডার। যোগ করা হয়েছে: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">এখনো কোনো কাস্টম ফোল্ডার যোগ করা হয়নি</string>
@@ -217,8 +217,8 @@
     <string name="settings_allow_remote_control_subtitle">একই নেটওয়ার্কের অন্য ডিভাইস কানেক্ট হলে প্লেব্যাক নিয়ন্ত্রণ করতে দিন।</string>
     <string name="settings_remote_device_name_title">রিমোট কন্ট্রোল ডিভাইসের নাম</string>
     <string name="settings_remote_device_name_subtitle">অন্য ডিভাইস এই ডিভাইসটি খুঁজে পেলে যে নাম দেখবে। বর্তমান: %1$s</string>
-    <string name="settings_remote_device_name_description">আপনার নেটওয়ার্কের অন্য ডিভাইস এই Spotube খুঁজে পেলে দেখানোর জন্য একটি সহজ নাম বেছে নিন।</string>
-    <string name="settings_remote_device_name_placeholder">যেমন: বসার ঘরের Spotube</string>
+    <string name="settings_remote_device_name_description">আপনার নেটওয়ার্কের অন্য ডিভাইস এই Tubify খুঁজে পেলে দেখানোর জন্য একটি সহজ নাম বেছে নিন।</string>
+    <string name="settings_remote_device_name_placeholder">যেমন: বসার ঘরের Tubify</string>
     <string name="settings_remote_device_name_default">ডিভাইসের হোস্টনেম</string>
     <string name="settings_playback_port_subtitle_current">প্লেব্যাক প্রক্সি সার্ভারের ব্যবহৃত পোর্ট। বর্তমান: %1$d</string>
     <string name="settings_playback_port_description">1 থেকে 65535-এর মধ্যে একটি পোর্ট বেছে নিন।</string>
@@ -230,12 +230,12 @@
     <string name="settings_blacklist_subtitle">ব্ল্যাকলিস্ট করা ট্র্যাক ও শিল্পী ম্যানেজ করুন</string>
 
     <string name="settings_desktop_minimize_title">ট্রেতে মিনিমাইজ করুন</string>
-    <string name="settings_desktop_minimize_subtitle">উইন্ডো মিনিমাইজ করলে Spotube সিস্টেম ট্রেতে চালু রাখুন।</string>
+    <string name="settings_desktop_minimize_subtitle">উইন্ডো মিনিমাইজ করলে Tubify সিস্টেম ট্রেতে চালু রাখুন।</string>
     <string name="settings_desktop_discord_title">Discord রিচ প্রেজেন্স</string>
     <string name="settings_desktop_discord_subtitle">ডেস্কটপে Discord-এ আপনার বর্তমান প্লেব্যাক স্ট্যাটাস দেখান।</string>
 
     <string name="settings_updates_auto_check_title">স্বয়ংক্রিয়ভাবে আপডেট চেক করুন</string>
-    <string name="settings_updates_auto_check_subtitle">ব্যাকগ্রাউন্ডে Spotube-এর নতুন রিলিজ খুঁজুন।</string>
+    <string name="settings_updates_auto_check_subtitle">ব্যাকগ্রাউন্ডে Tubify-এর নতুন রিলিজ খুঁজুন।</string>
 
     <string name="settings_plugins_manage_title">প্লাগইন ম্যানেজ করুন</string>
     <string name="settings_plugins_manage_subtitle">আপনার প্লাগইনগুলো ম্যানেজ করুন</string>
@@ -300,7 +300,7 @@
     <string name="settings_jam_broker_username">ইউজারনেম (ঐচ্ছিক)</string>
     <string name="settings_jam_broker_password">পাসওয়ার্ড (ঐচ্ছিক)</string>
     <string name="settings_jam_broker_client_id">ক্লায়েন্ট ID প্রিফিক্স</string>
-    <string name="settings_jam_broker_client_id_subtitle">এই Spotube শনাক্ত করতে ব্যবহৃত হয়</string>
+    <string name="settings_jam_broker_client_id_subtitle">এই Tubify শনাক্ত করতে ব্যবহৃত হয়</string>
     <string name="settings_jam_broker_tls_subtitle">ব্রোকার কানেকশন এনক্রিপ্ট করুন</string>
     <string name="settings_jam_broker_diagnostics_subtitle">রুম শুরু করার আগে বর্তমান ব্রোকার সেটিংস যাচাই করুন।</string>
     <string name="settings_jam_broker_test">কানেকশন পরীক্ষা করুন</string>
@@ -344,7 +344,7 @@
     <string name="jam_error_create">জ্যাম সেশন তৈরি করা যায়নি</string>
     <string name="jam_error_join">জ্যাম সেশনে যোগ দেওয়া যায়নি</string>
     <string name="jam_error_invalid_code">অক্ষর ও সংখ্যা দিয়ে ছয় অক্ষরের একটি রুম কোড দিন।</string>
-    <string name="jam_share_message">এই কোড দিয়ে আমার Spotube জ্যামে যোগ দিন: %1$s</string>
+    <string name="jam_share_message">এই কোড দিয়ে আমার Tubify জ্যামে যোগ দিন: %1$s</string>
 
     <string name="player_go_to_album">অ্যালবামে যান</string>
     <string name="player_sleep_timer">স্লিপ টাইমার</string>
@@ -356,8 +356,8 @@
 
     <string name="update_action_ignore">উপেক্ষা করুন</string>
     <string name="update_action_update">আপডেট করুন</string>
-    <string name="app_update_dialog_title">Spotube %1$s উপলব্ধ</string>
-    <string name="app_update_dialog_no_notes">এই রিলিজে নতুন কী আছে তা Spotube ডাউনলোড পেজে দেখুন।</string>
+    <string name="app_update_dialog_title">Tubify %1$s উপলব্ধ</string>
+    <string name="app_update_dialog_no_notes">এই রিলিজে নতুন কী আছে তা Tubify ডাউনলোড পেজে দেখুন।</string>
     <string name="plugin_update_dialog_title">%1$s %2$s উপলব্ধ</string>
     <string name="plugin_update_dialog_current_version">বর্তমানে ইনস্টল করা: %1$s</string>
     <string name="plugin_update_dialog_no_notes">এই আপডেটে নতুন কী আছে তা প্লাগইনের পেজে দেখুন।</string>
@@ -366,7 +366,7 @@
     <string name="welcome_next">পরবর্তী</string>
     <string name="welcome_back">পেছনে</string>
     <string name="welcome_get_started">শুরু করুন</string>
-    <string name="welcome_app_name">Spotube</string>
+    <string name="welcome_app_name">Tubify</string>
     <string name="welcome_brand_freedom">মিউজিক, কোনো বাঁধন ছাড়াই।</string>
     <string name="welcome_brand_quiet_description">মিউজিকের জগতের জন্য একটি ওপেন-সোর্স প্লেয়ার।\nআপনার মতো করে ঘুরে দেখুন। নিজের মতো করে সাজিয়ে নিন।</string>
     <string name="welcome_donate_quiet_title">এই প্রজেক্টটি বাঁচিয়ে রাখুন।</string>
@@ -383,7 +383,7 @@
     <string name="welcome_step_plugins">প্লাগইন</string>
     <string name="welcome_step_guide">গাইড</string>
 
-    <string name="welcome_guide_title">Spotube যেভাবে ব্যবহার করবেন</string>
+    <string name="welcome_guide_title">Tubify যেভাবে ব্যবহার করবেন</string>
     <string name="welcome_guide_subtitle">চারটি সহজ ধাপ, তারপরই গান শুনুন।</string>
     <string name="welcome_guide_signin_title">সাইন ইন</string>
     <string name="welcome_guide_signin_desc">আপনার অ্যাকাউন্ট কানেক্ট করুন, অথবা নিজের পছন্দের ক্যাটালগ প্লাগইন বেছে নিন।</string>
@@ -433,7 +433,7 @@
     <!-- Page 3: plugins -->
     <string name="welcome_plugins_eyebrow">মডুলার আর্কিটেকচার</string>
     <string name="welcome_plugins_title">আপনার মিউজিক কোথা থেকে আসবে তা বেছে নিন।</string>
-    <string name="welcome_plugins_subtitle">Spotube ক্যাটালগ খোঁজা, অডিও স্ট্রিমিং ও সিঙ্ক করা লিরিক্স আলাদা রাখে। নিচে আপনার ইঞ্জিনগুলো কনফিগার করুন বা যেকোনো সময় বদলে নিন।</string>
+    <string name="welcome_plugins_subtitle">Tubify ক্যাটালগ খোঁজা, অডিও স্ট্রিমিং ও সিঙ্ক করা লিরিক্স আলাদা রাখে। নিচে আপনার ইঞ্জিনগুলো কনফিগার করুন বা যেকোনো সময় বদলে নিন।</string>
     <string name="welcome_plugins_metadata_title">মেটাডেটা ইঞ্জিন</string>
     <string name="welcome_plugins_metadata_description">মিউজিক খোঁজা, সার্চ, ট্র্যাক তালিকা ও প্লেলিস্ট চালায়।</string>
     <string name="welcome_plugins_audio_title">অডিও ইঞ্জিন</string>
@@ -455,13 +455,13 @@
     <!-- Page 4: how it works -->
     <string name="welcome_how_eyebrow">রেট্রো-মডার্ন আর্কিটেকচার</string>
     <string name="welcome_how_title">খাঁটি Hi-Fi, কোনো মধ্যস্থতাকারী নেই</string>
-    <string name="welcome_how_subtitle">Spotube কীভাবে সরাসরি আপনার মেশিনে বিকেন্দ্রীভূত প্লেব্যাক পরিচালনা করে, দেখুন।</string>
+    <string name="welcome_how_subtitle">Tubify কীভাবে সরাসরি আপনার মেশিনে বিকেন্দ্রীভূত প্লেব্যাক পরিচালনা করে, দেখুন।</string>
     <string name="welcome_how_status_badge">সরাসরি পিয়ার-টু-পিয়ার • 256 KBPS OPUS</string>
     <string name="welcome_how_mockup_title">নীল প্রহর</string>
-    <string name="welcome_how_mockup_artist">Spotube · প্লেয়ার ডেমো</string>
+    <string name="welcome_how_mockup_artist">Tubify · প্লেয়ার ডেমো</string>
     <string name="welcome_how_mockup_lyric">মাঝের মুহূর্তগুলোর জন্য একটু মিউজিক।</string>
     <string name="welcome_how_step_search_title">১. বিকেন্দ্রীভূত খোঁজ</string>
-    <string name="welcome_how_step_search_desc">সার্চ সরাসরি আপনার বেছে নেওয়া ক্যাটালগ প্লাগইনে যায়। Spotube কখনো আপনার রুচির প্রোফাইল তৈরি করে না।</string>
+    <string name="welcome_how_step_search_desc">সার্চ সরাসরি আপনার বেছে নেওয়া ক্যাটালগ প্লাগইনে যায়। Tubify কখনো আপনার রুচির প্রোফাইল তৈরি করে না।</string>
     <string name="welcome_how_step_stream_title">২. সরাসরি স্ট্রিম রেজোলিউশন</string>
     <string name="welcome_how_step_stream_desc">অডিও কনটেন্ট সার্ভার থেকে সরাসরি আপনার মেশিনে স্ট্রিম হয়। কোনো প্রক্সি বা রিমোট ডেটা সংগ্রহ নেই।</string>
     <string name="welcome_how_step_playback_title">৩. লোকাল DSP ও প্লেব্যাক</string>
@@ -839,8 +839,8 @@
     <string name="plugin_error_builtin_add">বিল্ট-ইন প্লাগইনগুলো আগে থেকেই অন্তর্ভুক্ত, আবার যোগ করা যাবে না।</string>
     <string name="plugin_error_builtin_remove">বিল্ট-ইন প্লাগইন সরানো যাবে না।</string>
     <string name="plugin_error_api_version_invalid">%1$s একটি অবৈধ apiVersion (%2$s) ঘোষণা করেছে। %3$s-এর সাথে সামঞ্জস্যপূর্ণ সিমান্টিক ভার্সনিং প্রত্যাশিত।</string>
-    <string name="plugin_error_app_api_version_invalid">Spotube প্লাগইন API ভার্সন %1$s অবৈধ।</string>
-    <string name="plugin_error_api_incompatible">%1$s প্লাগইন API %2$s-এর জন্য তৈরি, কিন্তু Spotube ব্রেকিং প্লাগইন API %3$s সাপোর্ট করে। একই ব্রেকিং API ভার্সনের জন্য তৈরি প্লাগইন ইনস্টল করুন।</string>
+    <string name="plugin_error_app_api_version_invalid">Tubify প্লাগইন API ভার্সন %1$s অবৈধ।</string>
+    <string name="plugin_error_api_incompatible">%1$s প্লাগইন API %2$s-এর জন্য তৈরি, কিন্তু Tubify ব্রেকিং প্লাগইন API %3$s সাপোর্ট করে। একই ব্রেকিং API ভার্সনের জন্য তৈরি প্লাগইন ইনস্টল করুন।</string>
 
     <!-- Plugin install prompts -->
     <string name="plugin_prompt_incompatible_title">প্লাগইন API সামঞ্জস্যপূর্ণ নয়</string>

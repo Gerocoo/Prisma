@@ -84,6 +84,7 @@ import org.spotube.millennium.composables.MillenniumSidebarItem
 import org.spotube.millennium.composables.MillenniumSidebarMenu
 import org.spotube.millennium.composables.MillenniumSidebarTrigger
 import spotube.composeapp.generated.resources.Res
+import spotube.composeapp.generated.resources.welcome_app_name
 import spotube.composeapp.generated.resources.cookie_regular
 import spotube.composeapp.generated.resources.settings_screen_title
 import spotube.composeapp.generated.resources.support_button_label
@@ -119,12 +120,8 @@ fun AppSidebar(
             ) {
                 AnimatedVisibility(visible = expanded, enter = fadeIn(), exit = fadeOut()) {
                     Text(
-                        text = "Spotube",
-                        style = AppTheme.typography.headlineLarge.copy(
-                            fontFamily = FontFamily(
-                                listOf(Font(Res.font.cookie_regular, weight = FontWeight.Normal))
-                            )
-                        ),
+                        text = stringResource(Res.string.welcome_app_name),
+                        style = AppTheme.typography.headlineMedium,
                         color = AppTheme.colors.onSurface
                     )
                 }

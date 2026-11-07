@@ -120,7 +120,7 @@
     <string name="settings_option_name_and_code">%1$s (%2$s)</string>
 
     <string name="settings_theme_title">主题</string>
-    <string name="settings_theme_subtitle_current">选择 Spotube 如何匹配系统外观。当前：%1$s</string>
+    <string name="settings_theme_subtitle_current">选择 Tubify 如何匹配系统外观。当前：%1$s</string>
     <string name="settings_theme_light">浅色</string>
     <string name="settings_theme_dark">深色</string>
     <string name="settings_theme_system">跟随系统</string>
@@ -170,7 +170,7 @@
     <string name="settings_download_folder_title">自定义下载文件夹</string>
     <string name="settings_download_folder_current">当前文件夹：%1$s</string>
     <string name="settings_download_folder_description">留空则使用默认音乐文件夹。</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Spotube</string>
+    <string name="settings_download_folder_placeholder">C:\Music\Tubify</string>
     <string name="settings_local_media_folders_title">本地媒体文件夹</string>
     <string name="settings_local_media_folders_subtitle_current">桌面端要扫描的自定义文件夹。已添加：%1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">尚未添加自定义文件夹</string>
@@ -214,8 +214,8 @@
     <string name="settings_allow_remote_control_subtitle">允许同一网络中的其他设备在连接后控制播放。</string>
     <string name="settings_remote_device_name_title">远程控制设备名称</string>
     <string name="settings_remote_device_name_subtitle">其他设备发现本设备时看到的名称。当前：%1$s</string>
-    <string name="settings_remote_device_name_description">设置一个易于识别的名称，网络中的其他设备发现此 Spotube 实例时会显示该名称。</string>
-    <string name="settings_remote_device_name_placeholder">例如：客厅的 Spotube</string>
+    <string name="settings_remote_device_name_description">设置一个易于识别的名称，网络中的其他设备发现此 Tubify 实例时会显示该名称。</string>
+    <string name="settings_remote_device_name_placeholder">例如：客厅的 Tubify</string>
     <string name="settings_remote_device_name_default">设备主机名</string>
     <string name="settings_playback_port_subtitle_current">播放代理服务器使用的端口。当前：%1$d</string>
     <string name="settings_playback_port_description">请选择 1 到 65535 之间的端口。</string>
@@ -227,12 +227,12 @@
     <string name="settings_blacklist_subtitle">管理已拉黑的歌曲和艺人</string>
 
     <string name="settings_desktop_minimize_title">最小化到托盘</string>
-    <string name="settings_desktop_minimize_subtitle">窗口最小化时，让 Spotube 在系统托盘中继续运行。</string>
+    <string name="settings_desktop_minimize_subtitle">窗口最小化时，让 Tubify 在系统托盘中继续运行。</string>
     <string name="settings_desktop_discord_title">Discord 动态状态</string>
     <string name="settings_desktop_discord_subtitle">在桌面端的 Discord 中显示当前播放状态。</string>
 
     <string name="settings_updates_auto_check_title">自动检查更新</string>
-    <string name="settings_updates_auto_check_subtitle">在后台检查 Spotube 新版本。</string>
+    <string name="settings_updates_auto_check_subtitle">在后台检查 Tubify 新版本。</string>
 
     <string name="settings_plugins_manage_title">管理插件</string>
     <string name="settings_plugins_manage_subtitle">管理你的插件</string>
@@ -296,7 +296,7 @@
     <string name="settings_jam_broker_username">用户名（可选）</string>
     <string name="settings_jam_broker_password">密码（可选）</string>
     <string name="settings_jam_broker_client_id">客户端 ID 前缀</string>
-    <string name="settings_jam_broker_client_id_subtitle">用于识别此 Spotube 实例</string>
+    <string name="settings_jam_broker_client_id_subtitle">用于识别此 Tubify 实例</string>
     <string name="settings_jam_broker_tls_subtitle">加密与代理服务器的连接</string>
     <string name="settings_jam_broker_diagnostics_subtitle">创建房间前，检查当前的代理服务器设置。</string>
     <string name="settings_jam_broker_test">测试连接</string>
@@ -340,7 +340,7 @@
     <string name="jam_error_create">创建一起听会话失败</string>
     <string name="jam_error_join">加入一起听会话失败</string>
     <string name="jam_error_invalid_code">请输入由字母和数字组成的六位房间码。</string>
-    <string name="jam_share_message">用房间码加入我的 Spotube 一起听：%1$s</string>
+    <string name="jam_share_message">用房间码加入我的 Tubify 一起听：%1$s</string>
 
     <string name="player_go_to_album">转到专辑</string>
     <string name="player_sleep_timer">睡眠定时器</string>
@@ -352,8 +352,8 @@
 
     <string name="update_action_ignore">忽略</string>
     <string name="update_action_update">更新</string>
-    <string name="app_update_dialog_title">Spotube %1$s 现已推出</string>
-    <string name="app_update_dialog_no_notes">前往 Spotube 下载页面查看此版本的新功能。</string>
+    <string name="app_update_dialog_title">Tubify %1$s 现已推出</string>
+    <string name="app_update_dialog_no_notes">前往 Tubify 下载页面查看此版本的新功能。</string>
     <string name="plugin_update_dialog_title">%1$s %2$s 现已推出</string>
     <string name="plugin_update_dialog_current_version">当前已安装：%1$s</string>
     <string name="plugin_update_dialog_no_notes">前往插件页面查看此更新的新功能。</string>
@@ -362,7 +362,7 @@
     <string name="welcome_next">下一步</string>
     <string name="welcome_back">返回</string>
     <string name="welcome_get_started">开始使用</string>
-    <string name="welcome_app_name">Spotube</string>
+    <string name="welcome_app_name">Tubify</string>
     <string name="welcome_brand_freedom">音乐，无拘无束。</string>
     <string name="welcome_brand_quiet_description">一款开源播放器，带你探索音乐世界。\n由你探索，由你定义。</string>
     <string name="welcome_donate_quiet_title">让这个项目延续下去。</string>
@@ -379,7 +379,7 @@
     <string name="welcome_step_plugins">插件</string>
     <string name="welcome_step_guide">指南</string>
 
-    <string name="welcome_guide_title">如何使用 Spotube</string>
+    <string name="welcome_guide_title">如何使用 Tubify</string>
     <string name="welcome_guide_subtitle">只需四个简单步骤，即可开始聆听。</string>
     <string name="welcome_guide_signin_title">登录</string>
     <string name="welcome_guide_signin_desc">连接你的帐号，或选择你自己的曲库插件。</string>
@@ -429,7 +429,7 @@
     <!-- Page 3: plugins -->
     <string name="welcome_plugins_eyebrow">模块化架构</string>
     <string name="welcome_plugins_title">选择你的音乐来源。</string>
-    <string name="welcome_plugins_subtitle">Spotube 将曲库发现、音频流和同步歌词分开处理。在下方配置各个引擎，或随时切换。</string>
+    <string name="welcome_plugins_subtitle">Tubify 将曲库发现、音频流和同步歌词分开处理。在下方配置各个引擎，或随时切换。</string>
     <string name="welcome_plugins_metadata_title">元数据引擎</string>
     <string name="welcome_plugins_metadata_description">为音乐发现、搜索、歌曲列表和歌单提供支持。</string>
     <string name="welcome_plugins_audio_title">音频引擎</string>
@@ -451,13 +451,13 @@
     <!-- Page 4: how it works -->
     <string name="welcome_how_eyebrow">复古与现代融合的架构</string>
     <string name="welcome_how_title">纯粹高保真，零中间商</string>
-    <string name="welcome_how_subtitle">看看 Spotube 如何直接在你的设备上协调去中心化播放。</string>
+    <string name="welcome_how_subtitle">看看 Tubify 如何直接在你的设备上协调去中心化播放。</string>
     <string name="welcome_how_status_badge">直接点对点 • 256 KBPS OPUS</string>
     <string name="welcome_how_mockup_title">蓝调时刻</string>
-    <string name="welcome_how_mockup_artist">Spotube · 播放器演示</string>
+    <string name="welcome_how_mockup_artist">Tubify · 播放器演示</string>
     <string name="welcome_how_mockup_lyric">一点音乐，献给那些间隙时光。</string>
     <string name="welcome_how_step_search_title">1. 去中心化发现</string>
-    <string name="welcome_how_step_search_desc">查询直接发送到你选择的曲库插件。Spotube 绝不分析你的喜好。</string>
+    <string name="welcome_how_step_search_desc">查询直接发送到你选择的曲库插件。Tubify 绝不分析你的喜好。</string>
     <string name="welcome_how_step_stream_title">2. 直接解析音频流</string>
     <string name="welcome_how_step_stream_desc">音频直接从内容服务器传输到你的设备。没有代理中转，也没有远程数据收集。</string>
     <string name="welcome_how_step_playback_title">3. 本地 DSP 与播放</string>
@@ -833,8 +833,8 @@
     <string name="plugin_error_builtin_add">内置插件已包含在应用中，无法再次添加。</string>
     <string name="plugin_error_builtin_remove">内置插件无法移除。</string>
     <string name="plugin_error_api_version_invalid">%1$s 声明了无效的 apiVersion（%2$s）。应为与 %3$s 兼容的语义化版本。</string>
-    <string name="plugin_error_app_api_version_invalid">Spotube 插件 API 版本 %1$s 无效。</string>
-    <string name="plugin_error_api_incompatible">%1$s 面向插件 API %2$s，但 Spotube 支持的是存在破坏性变更的插件 API %3$s。请安装针对相同主版本 API 构建的插件。</string>
+    <string name="plugin_error_app_api_version_invalid">Tubify 插件 API 版本 %1$s 无效。</string>
+    <string name="plugin_error_api_incompatible">%1$s 面向插件 API %2$s，但 Tubify 支持的是存在破坏性变更的插件 API %3$s。请安装针对相同主版本 API 构建的插件。</string>
 
     <!-- Plugin install prompts -->
     <string name="plugin_prompt_incompatible_title">插件 API 不兼容</string>

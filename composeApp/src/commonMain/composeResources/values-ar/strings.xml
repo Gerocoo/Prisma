@@ -130,7 +130,7 @@
     <string name="settings_option_name_and_code">%1$s (%2$s)</string>
 
     <string name="settings_theme_title">السمة</string>
-    <string name="settings_theme_subtitle_current">اختر كيف يتوافق Spotube مع مظهر نظامك. الحالية: %1$s</string>
+    <string name="settings_theme_subtitle_current">اختر كيف يتوافق Tubify مع مظهر نظامك. الحالية: %1$s</string>
     <string name="settings_theme_light">فاتح</string>
     <string name="settings_theme_dark">داكن</string>
     <string name="settings_theme_system">النظام</string>
@@ -180,7 +180,7 @@
     <string name="settings_download_folder_title">تخصيص مجلد التنزيل</string>
     <string name="settings_download_folder_current">المجلد الحالي: %1$s</string>
     <string name="settings_download_folder_description">اتركه فارغًا لاستخدام مجلد الموسيقى الافتراضي.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Spotube</string>
+    <string name="settings_download_folder_placeholder">C:\Music\Tubify</string>
     <string name="settings_local_media_folders_title">مجلدات الوسائط المحلية</string>
     <string name="settings_local_media_folders_subtitle_current">مجلدات مخصصة للفحص على سطح المكتب. المضافة: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">لم تتم إضافة أي مجلد مخصص بعد</string>
@@ -229,8 +229,8 @@
     <string name="settings_allow_remote_control_subtitle">اسمح للأجهزة الأخرى على الشبكة نفسها بالتحكم في التشغيل عند اتصالها.</string>
     <string name="settings_remote_device_name_title">اسم الجهاز للتحكم عن بُعد</string>
     <string name="settings_remote_device_name_subtitle">الاسم الذي تراه الأجهزة الأخرى عند اكتشاف هذا الجهاز. الحالي: %1$s</string>
-    <string name="settings_remote_device_name_description">اختر اسمًا مألوفًا يظهر للأجهزة الأخرى على شبكتك عند اكتشافها لنسخة Spotube هذه.</string>
-    <string name="settings_remote_device_name_placeholder">مثال: Spotube غرفة المعيشة</string>
+    <string name="settings_remote_device_name_description">اختر اسمًا مألوفًا يظهر للأجهزة الأخرى على شبكتك عند اكتشافها لنسخة Tubify هذه.</string>
+    <string name="settings_remote_device_name_placeholder">مثال: Tubify غرفة المعيشة</string>
     <string name="settings_remote_device_name_default">اسم مضيف الجهاز</string>
     <string name="settings_playback_port_subtitle_current">المنفذ الذي يستخدمه خادم وكيل التشغيل. الحالي: %1$d</string>
     <string name="settings_playback_port_description">اختر منفذًا بين 1 و65535.</string>
@@ -242,12 +242,12 @@
     <string name="settings_blacklist_subtitle">إدارة المقاطع والفنانين المحظورين</string>
 
     <string name="settings_desktop_minimize_title">التصغير إلى شريط النظام</string>
-    <string name="settings_desktop_minimize_subtitle">إبقاء Spotube قيد التشغيل في شريط النظام عند تصغير النافذة.</string>
+    <string name="settings_desktop_minimize_subtitle">إبقاء Tubify قيد التشغيل في شريط النظام عند تصغير النافذة.</string>
     <string name="settings_desktop_discord_title">حالة Discord التفاعلية</string>
     <string name="settings_desktop_discord_subtitle">اعرض حالة التشغيل الحالية في Discord على سطح المكتب.</string>
 
     <string name="settings_updates_auto_check_title">التحقق من التحديثات تلقائيًا</string>
-    <string name="settings_updates_auto_check_subtitle">البحث عن إصدارات Spotube الجديدة في الخلفية.</string>
+    <string name="settings_updates_auto_check_subtitle">البحث عن إصدارات Tubify الجديدة في الخلفية.</string>
 
     <string name="settings_plugins_manage_title">إدارة الإضافات</string>
     <string name="settings_plugins_manage_subtitle">أدِر إضافاتك</string>
@@ -316,7 +316,7 @@
     <string name="settings_jam_broker_username">اسم المستخدم (اختياري)</string>
     <string name="settings_jam_broker_password">كلمة المرور (اختياري)</string>
     <string name="settings_jam_broker_client_id">بادئة معرّف العميل</string>
-    <string name="settings_jam_broker_client_id_subtitle">تُستخدم لتعريف نسخة Spotube هذه</string>
+    <string name="settings_jam_broker_client_id_subtitle">تُستخدم لتعريف نسخة Tubify هذه</string>
     <string name="settings_jam_broker_tls_subtitle">تشفير الاتصال بالوسيط</string>
     <string name="settings_jam_broker_diagnostics_subtitle">تحقق من إعدادات الوسيط الحالية قبل بدء غرفة.</string>
     <string name="settings_jam_broker_test">اختبار الاتصال</string>
@@ -360,7 +360,7 @@
     <string name="jam_error_create">تعذّر إنشاء جلسة الجام</string>
     <string name="jam_error_join">تعذّر الانضمام إلى جلسة الجام</string>
     <string name="jam_error_invalid_code">أدخل رمز غرفة مكوّنًا من ستة أحرف وأرقام.</string>
-    <string name="jam_share_message">انضم إلى جام Spotube الخاص بي باستخدام الرمز: %1$s</string>
+    <string name="jam_share_message">انضم إلى جام Tubify الخاص بي باستخدام الرمز: %1$s</string>
 
     <string name="player_go_to_album">الانتقال إلى الألبوم</string>
     <string name="player_sleep_timer">مؤقت النوم</string>
@@ -372,8 +372,8 @@
 
     <string name="update_action_ignore">تجاهل</string>
     <string name="update_action_update">تحديث</string>
-    <string name="app_update_dialog_title">يتوفر Spotube %1$s</string>
-    <string name="app_update_dialog_no_notes">اطّلع على الجديد في هذا الإصدار في صفحة تنزيلات Spotube.</string>
+    <string name="app_update_dialog_title">يتوفر Tubify %1$s</string>
+    <string name="app_update_dialog_no_notes">اطّلع على الجديد في هذا الإصدار في صفحة تنزيلات Tubify.</string>
     <string name="plugin_update_dialog_title">يتوفر %1$s %2$s</string>
     <string name="plugin_update_dialog_current_version">المثبت حاليًا: %1$s</string>
     <string name="plugin_update_dialog_no_notes">اطّلع على الجديد في هذا التحديث في صفحة الإضافة.</string>
@@ -382,7 +382,7 @@
     <string name="welcome_next">التالي</string>
     <string name="welcome_back">رجوع</string>
     <string name="welcome_get_started">البدء</string>
-    <string name="welcome_app_name">Spotube</string>
+    <string name="welcome_app_name">Tubify</string>
     <string name="welcome_brand_freedom">موسيقى بلا قيود.</string>
     <string name="welcome_brand_quiet_description">مشغّل مفتوح المصدر لعالم من الموسيقى.\nلك أن تستكشفه. ولك أن تجعله على طريقتك.</string>
     <string name="welcome_donate_quiet_title">ساعد في استمرار هذا المشروع.</string>
@@ -399,7 +399,7 @@
     <string name="welcome_step_plugins">الإضافات</string>
     <string name="welcome_step_guide">الدليل</string>
 
-    <string name="welcome_guide_title">كيفية استخدام Spotube</string>
+    <string name="welcome_guide_title">كيفية استخدام Tubify</string>
     <string name="welcome_guide_subtitle">أربع خطوات سريعة وتبدأ الاستماع.</string>
     <string name="welcome_guide_signin_title">تسجيل الدخول</string>
     <string name="welcome_guide_signin_desc">اربط حسابك، أو اختر إضافة الكتالوج الخاصة بك.</string>
@@ -449,7 +449,7 @@
     <!-- Page 3: plugins -->
     <string name="welcome_plugins_eyebrow">بنية معيارية</string>
     <string name="welcome_plugins_title">اختر مصدر موسيقاك.</string>
-    <string name="welcome_plugins_subtitle">يفصل Spotube بين اكتشاف الكتالوج وبث الصوت وكلمات الأغاني المتزامنة. اضبط محركاتك أدناه أو بدّلها في أي وقت.</string>
+    <string name="welcome_plugins_subtitle">يفصل Tubify بين اكتشاف الكتالوج وبث الصوت وكلمات الأغاني المتزامنة. اضبط محركاتك أدناه أو بدّلها في أي وقت.</string>
     <string name="welcome_plugins_metadata_title">محرك البيانات الوصفية</string>
     <string name="welcome_plugins_metadata_description">يشغّل اكتشاف الموسيقى والبحث وقوائم المقاطع وقوائم التشغيل.</string>
     <string name="welcome_plugins_audio_title">محرك الصوت</string>
@@ -471,13 +471,13 @@
     <!-- Page 4: how it works -->
     <string name="welcome_how_eyebrow">بنية عصرية بروح كلاسيكية</string>
     <string name="welcome_how_title">صوت Hi-Fi نقي، بلا وسطاء</string>
-    <string name="welcome_how_subtitle">إليك كيف ينسّق Spotube التشغيل اللامركزي مباشرةً على جهازك.</string>
+    <string name="welcome_how_subtitle">إليك كيف ينسّق Tubify التشغيل اللامركزي مباشرةً على جهازك.</string>
     <string name="welcome_how_status_badge">اتصال مباشر من نظير إلى نظير • 256 kbps Opus</string>
     <string name="welcome_how_mockup_title">الساعة الزرقاء</string>
-    <string name="welcome_how_mockup_artist">Spotube · عرض توضيحي للمشغّل</string>
+    <string name="welcome_how_mockup_artist">Tubify · عرض توضيحي للمشغّل</string>
     <string name="welcome_how_mockup_lyric">قليل من الموسيقى للحظات العابرة.</string>
     <string name="welcome_how_step_search_title">1. اكتشاف لامركزي</string>
-    <string name="welcome_how_step_search_desc">تذهب الاستعلامات مباشرةً إلى إضافة الكتالوج التي اخترتها. لا ينشئ Spotube أبدًا ملفًا تعريفيًا لذوقك.</string>
+    <string name="welcome_how_step_search_desc">تذهب الاستعلامات مباشرةً إلى إضافة الكتالوج التي اخترتها. لا ينشئ Tubify أبدًا ملفًا تعريفيًا لذوقك.</string>
     <string name="welcome_how_step_stream_title">2. تحديد البث المباشر</string>
     <string name="welcome_how_step_stream_desc">يُبث الصوت مباشرةً من خوادم المحتوى إلى جهازك. بلا قفزات عبر وكلاء ولا جمع للبيانات عن بُعد.</string>
     <string name="welcome_how_step_playback_title">3. معالجة صوتية وتشغيل محليان</string>
@@ -863,8 +863,8 @@
     <string name="plugin_error_builtin_add">الإضافات المدمجة مضمّنة بالفعل ولا يمكن إضافتها مرة أخرى.</string>
     <string name="plugin_error_builtin_remove">لا يمكن إزالة الإضافات المدمجة.</string>
     <string name="plugin_error_api_version_invalid">تعلن %1$s عن قيمة apiVersion غير صالحة (%2$s). المتوقع إصدار دلالي متوافق مع %3$s.</string>
-    <string name="plugin_error_app_api_version_invalid">إصدار API الإضافات في Spotube %1$s غير صالح.</string>
-    <string name="plugin_error_api_incompatible">تستهدف %1$s إصدار API الإضافات %2$s، لكن Spotube يدعم إصدار API الإضافات الرئيسي %3$s. ثبّت إضافة مبنية لنفس الإصدار الرئيسي من API.</string>
+    <string name="plugin_error_app_api_version_invalid">إصدار API الإضافات في Tubify %1$s غير صالح.</string>
+    <string name="plugin_error_api_incompatible">تستهدف %1$s إصدار API الإضافات %2$s، لكن Tubify يدعم إصدار API الإضافات الرئيسي %3$s. ثبّت إضافة مبنية لنفس الإصدار الرئيسي من API.</string>
 
     <!-- Plugin install prompts -->
     <string name="plugin_prompt_incompatible_title">API الإضافة غير متوافق</string>

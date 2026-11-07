@@ -126,7 +126,7 @@
     <string name="settings_option_name_and_code">%1$s (%2$s)</string>
 
     <string name="settings_theme_title">Тема</string>
-    <string name="settings_theme_subtitle_current">Как Spotube подстраивается под тему системы. Сейчас: %1$s</string>
+    <string name="settings_theme_subtitle_current">Как Tubify подстраивается под тему системы. Сейчас: %1$s</string>
     <string name="settings_theme_light">Светлая</string>
     <string name="settings_theme_dark">Тёмная</string>
     <string name="settings_theme_system">Системная</string>
@@ -176,7 +176,7 @@
     <string name="settings_download_folder_title">Своя папка для загрузок</string>
     <string name="settings_download_folder_current">Текущая папка: %1$s</string>
     <string name="settings_download_folder_description">Оставьте пустым, чтобы использовать стандартную папку «Музыка».</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Spotube</string>
+    <string name="settings_download_folder_placeholder">C:\Music\Tubify</string>
     <string name="settings_local_media_folders_title">Папки с локальной музыкой</string>
     <string name="settings_local_media_folders_subtitle_current">Дополнительные папки для сканирования на компьютере. Добавлено: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">Дополнительные папки ещё не добавлены</string>
@@ -223,8 +223,8 @@
     <string name="settings_allow_remote_control_subtitle">Разрешить другим устройствам в той же сети управлять воспроизведением после подключения.</string>
     <string name="settings_remote_device_name_title">Имя устройства для удалённого управления</string>
     <string name="settings_remote_device_name_subtitle">Имя, которое видят другие устройства при поиске. Сейчас: %1$s</string>
-    <string name="settings_remote_device_name_description">Задайте понятное имя, которое будут видеть другие устройства в вашей сети при обнаружении этого Spotube.</string>
-    <string name="settings_remote_device_name_placeholder">например, Spotube в гостиной</string>
+    <string name="settings_remote_device_name_description">Задайте понятное имя, которое будут видеть другие устройства в вашей сети при обнаружении этого Tubify.</string>
+    <string name="settings_remote_device_name_placeholder">например, Tubify в гостиной</string>
     <string name="settings_remote_device_name_default">имя хоста устройства</string>
     <string name="settings_playback_port_subtitle_current">Порт прокси-сервера воспроизведения. Сейчас: %1$d</string>
     <string name="settings_playback_port_description">Укажите порт от 1 до 65535.</string>
@@ -236,12 +236,12 @@
     <string name="settings_blacklist_subtitle">Управление заблокированными треками и исполнителями</string>
 
     <string name="settings_desktop_minimize_title">Сворачивать в трей</string>
-    <string name="settings_desktop_minimize_subtitle">Оставлять Spotube в системном трее при сворачивании окна.</string>
+    <string name="settings_desktop_minimize_subtitle">Оставлять Tubify в системном трее при сворачивании окна.</string>
     <string name="settings_desktop_discord_title">Статус в Discord</string>
     <string name="settings_desktop_discord_subtitle">Показывать в Discord, что сейчас играет (на компьютере).</string>
 
     <string name="settings_updates_auto_check_title">Автоматически проверять обновления</string>
-    <string name="settings_updates_auto_check_subtitle">Искать новые версии Spotube в фоновом режиме.</string>
+    <string name="settings_updates_auto_check_subtitle">Искать новые версии Tubify в фоновом режиме.</string>
 
     <string name="settings_plugins_manage_title">Управление плагинами</string>
     <string name="settings_plugins_manage_subtitle">Управляйте своими плагинами</string>
@@ -308,7 +308,7 @@
     <string name="settings_jam_broker_username">Имя пользователя (необязательно)</string>
     <string name="settings_jam_broker_password">Пароль (необязательно)</string>
     <string name="settings_jam_broker_client_id">Префикс ID клиента</string>
-    <string name="settings_jam_broker_client_id_subtitle">Используется для идентификации этого экземпляра Spotube</string>
+    <string name="settings_jam_broker_client_id_subtitle">Используется для идентификации этого экземпляра Tubify</string>
     <string name="settings_jam_broker_tls_subtitle">Шифровать подключение к брокеру</string>
     <string name="settings_jam_broker_diagnostics_subtitle">Проверьте текущие настройки брокера перед созданием комнаты.</string>
     <string name="settings_jam_broker_test">Проверить подключение</string>
@@ -352,7 +352,7 @@
     <string name="jam_error_create">Не удалось создать джем</string>
     <string name="jam_error_join">Не удалось присоединиться к джему</string>
     <string name="jam_error_invalid_code">Введите код комнаты из шести букв и цифр.</string>
-    <string name="jam_share_message">Присоединяйся к моему джему в Spotube по коду: %1$s</string>
+    <string name="jam_share_message">Присоединяйся к моему джему в Tubify по коду: %1$s</string>
 
     <string name="player_go_to_album">Перейти к альбому</string>
     <string name="player_sleep_timer">Таймер сна</string>
@@ -364,8 +364,8 @@
 
     <string name="update_action_ignore">Пропустить</string>
     <string name="update_action_update">Обновить</string>
-    <string name="app_update_dialog_title">Доступен Spotube %1$s</string>
-    <string name="app_update_dialog_no_notes">Узнайте, что нового в этой версии, на странице загрузок Spotube.</string>
+    <string name="app_update_dialog_title">Доступен Tubify %1$s</string>
+    <string name="app_update_dialog_no_notes">Узнайте, что нового в этой версии, на странице загрузок Tubify.</string>
     <string name="plugin_update_dialog_title">Доступен %1$s %2$s</string>
     <string name="plugin_update_dialog_current_version">Установлена версия: %1$s</string>
     <string name="plugin_update_dialog_no_notes">Узнайте, что нового в этом обновлении, на странице плагина.</string>
@@ -374,7 +374,7 @@
     <string name="welcome_next">Далее</string>
     <string name="welcome_back">Назад</string>
     <string name="welcome_get_started">Начать</string>
-    <string name="welcome_app_name">Spotube</string>
+    <string name="welcome_app_name">Tubify</string>
     <string name="welcome_brand_freedom">Музыка без лишних условий.</string>
     <string name="welcome_brand_quiet_description">Плеер с открытым исходным кодом для целого мира музыки.\nИсследуйте его. Сделайте его своим.</string>
     <string name="welcome_donate_quiet_title">Помогите проекту жить.</string>
@@ -391,7 +391,7 @@
     <string name="welcome_step_plugins">Плагины</string>
     <string name="welcome_step_guide">Руководство</string>
 
-    <string name="welcome_guide_title">Как пользоваться Spotube</string>
+    <string name="welcome_guide_title">Как пользоваться Tubify</string>
     <string name="welcome_guide_subtitle">Четыре простых шага — и музыка уже играет.</string>
     <string name="welcome_guide_signin_title">Вход</string>
     <string name="welcome_guide_signin_desc">Подключите аккаунт или выберите свой плагин каталога.</string>
@@ -441,7 +441,7 @@
     <!-- Page 3: plugins -->
     <string name="welcome_plugins_eyebrow">Модульная архитектура</string>
     <string name="welcome_plugins_title">Выберите, откуда брать музыку.</string>
-    <string name="welcome_plugins_subtitle">В Spotube каталог, стриминг аудио и синхронизированные тексты работают отдельно. Настройте движки ниже или меняйте их в любой момент.</string>
+    <string name="welcome_plugins_subtitle">В Tubify каталог, стриминг аудио и синхронизированные тексты работают отдельно. Настройте движки ниже или меняйте их в любой момент.</string>
     <string name="welcome_plugins_metadata_title">Движок метаданных</string>
     <string name="welcome_plugins_metadata_description">Отвечает за поиск музыки, списки треков и плейлисты.</string>
     <string name="welcome_plugins_audio_title">Аудиодвижок</string>
@@ -463,13 +463,13 @@
     <!-- Page 4: how it works -->
     <string name="welcome_how_eyebrow">Ретромодерн-архитектура</string>
     <string name="welcome_how_title">Чистый Hi-Fi без посредников</string>
-    <string name="welcome_how_subtitle">Вот как Spotube организует децентрализованное воспроизведение прямо на вашем устройстве.</string>
+    <string name="welcome_how_subtitle">Вот как Tubify организует децентрализованное воспроизведение прямо на вашем устройстве.</string>
     <string name="welcome_how_status_badge">НАПРЯМУЮ, P2P • 256 KBPS OPUS</string>
     <string name="welcome_how_mockup_title">Синий час</string>
-    <string name="welcome_how_mockup_artist">Spotube · демонстрация плеера</string>
+    <string name="welcome_how_mockup_artist">Tubify · демонстрация плеера</string>
     <string name="welcome_how_mockup_lyric">Немного музыки для мгновений между делами.</string>
     <string name="welcome_how_step_search_title">1. Децентрализованный поиск</string>
-    <string name="welcome_how_step_search_desc">Запросы идут напрямую в выбранный плагин каталога. Spotube никогда не анализирует ваши вкусы.</string>
+    <string name="welcome_how_step_search_desc">Запросы идут напрямую в выбранный плагин каталога. Tubify никогда не анализирует ваши вкусы.</string>
     <string name="welcome_how_step_stream_title">2. Прямое получение потока</string>
     <string name="welcome_how_step_stream_desc">Аудио поступает напрямую с серверов контента на ваше устройство. Никаких прокси и удалённого сбора данных.</string>
     <string name="welcome_how_step_playback_title">3. Локальная обработка и воспроизведение</string>
@@ -851,8 +851,8 @@
     <string name="plugin_error_builtin_add">Встроенные плагины уже включены, их нельзя добавить повторно.</string>
     <string name="plugin_error_builtin_remove">Встроенные плагины нельзя удалить.</string>
     <string name="plugin_error_api_version_invalid">%1$s указывает недопустимую apiVersion (%2$s). Ожидается семантическая версия, совместимая с %3$s.</string>
-    <string name="plugin_error_app_api_version_invalid">Недопустимая версия API плагинов Spotube: %1$s.</string>
-    <string name="plugin_error_api_incompatible">%1$s рассчитан на API плагинов %2$s, а Spotube поддерживает несовместимую версию API %3$s. Установите плагин, собранный для той же основной версии API.</string>
+    <string name="plugin_error_app_api_version_invalid">Недопустимая версия API плагинов Tubify: %1$s.</string>
+    <string name="plugin_error_api_incompatible">%1$s рассчитан на API плагинов %2$s, а Tubify поддерживает несовместимую версию API %3$s. Установите плагин, собранный для той же основной версии API.</string>
 
     <!-- Plugin install prompts -->
     <string name="plugin_prompt_incompatible_title">Несовместимый API плагина</string>

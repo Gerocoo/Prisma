@@ -120,7 +120,7 @@
     <string name="settings_option_name_and_code">%1$s (%2$s)</string>
 
     <string name="settings_theme_title">テーマ</string>
-    <string name="settings_theme_subtitle_current">Spotubeをシステムの外観にどう合わせるかを選択します。現在: %1$s</string>
+    <string name="settings_theme_subtitle_current">Tubifyをシステムの外観にどう合わせるかを選択します。現在: %1$s</string>
     <string name="settings_theme_light">ライト</string>
     <string name="settings_theme_dark">ダーク</string>
     <string name="settings_theme_system">システム</string>
@@ -170,7 +170,7 @@
     <string name="settings_download_folder_title">ダウンロードフォルダの変更</string>
     <string name="settings_download_folder_current">現在のフォルダ: %1$s</string>
     <string name="settings_download_folder_description">空欄にするとデフォルトの音楽フォルダを使用します。</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Spotube</string>
+    <string name="settings_download_folder_placeholder">C:\Music\Tubify</string>
     <string name="settings_local_media_folders_title">ローカルメディアフォルダ</string>
     <string name="settings_local_media_folders_subtitle_current">デスクトップでスキャンするカスタムフォルダ。追加済み: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">カスタムフォルダはまだ追加されていません</string>
@@ -214,8 +214,8 @@
     <string name="settings_allow_remote_control_subtitle">同じネットワーク上の他のデバイスが接続したときに再生を操作できるようにします。</string>
     <string name="settings_remote_device_name_title">リモート操作用のデバイス名</string>
     <string name="settings_remote_device_name_subtitle">他のデバイスがこのデバイスを検出したときに表示される名前。現在: %1$s</string>
-    <string name="settings_remote_device_name_description">ネットワーク上の他のデバイスがこのSpotubeを検出したときに表示される、わかりやすい名前を付けてください。</string>
-    <string name="settings_remote_device_name_placeholder">例: リビングのSpotube</string>
+    <string name="settings_remote_device_name_description">ネットワーク上の他のデバイスがこのTubifyを検出したときに表示される、わかりやすい名前を付けてください。</string>
+    <string name="settings_remote_device_name_placeholder">例: リビングのTubify</string>
     <string name="settings_remote_device_name_default">デバイスのホスト名</string>
     <string name="settings_playback_port_subtitle_current">再生プロキシサーバーが使用するポート。現在: %1$d</string>
     <string name="settings_playback_port_description">1〜65535のポートを選択してください。</string>
@@ -227,12 +227,12 @@
     <string name="settings_blacklist_subtitle">ブラックリストに登録した曲とアーティストを管理</string>
 
     <string name="settings_desktop_minimize_title">トレイに最小化</string>
-    <string name="settings_desktop_minimize_subtitle">ウィンドウを最小化したとき、Spotubeをシステムトレイで実行し続けます。</string>
+    <string name="settings_desktop_minimize_subtitle">ウィンドウを最小化したとき、Tubifyをシステムトレイで実行し続けます。</string>
     <string name="settings_desktop_discord_title">Discordリッチプレゼンス</string>
     <string name="settings_desktop_discord_subtitle">デスクトップで現在の再生状況をDiscordに表示します。</string>
 
     <string name="settings_updates_auto_check_title">アップデートを自動確認</string>
-    <string name="settings_updates_auto_check_subtitle">Spotubeの新しいリリースをバックグラウンドで確認します。</string>
+    <string name="settings_updates_auto_check_subtitle">Tubifyの新しいリリースをバックグラウンドで確認します。</string>
 
     <string name="settings_plugins_manage_title">プラグインを管理</string>
     <string name="settings_plugins_manage_subtitle">プラグインを管理します</string>
@@ -296,7 +296,7 @@
     <string name="settings_jam_broker_username">ユーザー名 (任意)</string>
     <string name="settings_jam_broker_password">パスワード (任意)</string>
     <string name="settings_jam_broker_client_id">クライアントIDのプレフィックス</string>
-    <string name="settings_jam_broker_client_id_subtitle">このSpotubeを識別するために使用されます</string>
+    <string name="settings_jam_broker_client_id_subtitle">このTubifyを識別するために使用されます</string>
     <string name="settings_jam_broker_tls_subtitle">ブローカーとの接続を暗号化します</string>
     <string name="settings_jam_broker_diagnostics_subtitle">ルームを開始する前に、現在のブローカー設定を確認します。</string>
     <string name="settings_jam_broker_test">接続をテスト</string>
@@ -340,7 +340,7 @@
     <string name="jam_error_create">ジャムセッションを作成できませんでした</string>
     <string name="jam_error_join">ジャムセッションに参加できませんでした</string>
     <string name="jam_error_invalid_code">英数字6文字のルームコードを入力してください。</string>
-    <string name="jam_share_message">コード %1$s で私のSpotubeジャムに参加しよう</string>
+    <string name="jam_share_message">コード %1$s で私のTubifyジャムに参加しよう</string>
 
     <string name="player_go_to_album">アルバムへ移動</string>
     <string name="player_sleep_timer">スリープタイマー</string>
@@ -352,8 +352,8 @@
 
     <string name="update_action_ignore">無視</string>
     <string name="update_action_update">アップデート</string>
-    <string name="app_update_dialog_title">Spotube %1$s が利用可能です</string>
-    <string name="app_update_dialog_no_notes">このリリースの新機能はSpotubeのダウンロードページでご確認ください。</string>
+    <string name="app_update_dialog_title">Tubify %1$s が利用可能です</string>
+    <string name="app_update_dialog_no_notes">このリリースの新機能はTubifyのダウンロードページでご確認ください。</string>
     <string name="plugin_update_dialog_title">%1$s %2$s が利用可能です</string>
     <string name="plugin_update_dialog_current_version">インストール済み: %1$s</string>
     <string name="plugin_update_dialog_no_notes">このアップデートの新機能はプラグインのページでご確認ください。</string>
@@ -362,7 +362,7 @@
     <string name="welcome_next">次へ</string>
     <string name="welcome_back">戻る</string>
     <string name="welcome_get_started">はじめる</string>
-    <string name="welcome_app_name">Spotube</string>
+    <string name="welcome_app_name">Tubify</string>
     <string name="welcome_brand_freedom">音楽を、しがらみなく。</string>
     <string name="welcome_brand_quiet_description">音楽の世界へ広がる、オープンソースのプレーヤー。\n自由に探して、自分らしく楽しもう。</string>
     <string name="welcome_donate_quiet_title">このプロジェクトを支えてください。</string>
@@ -379,7 +379,7 @@
     <string name="welcome_step_plugins">プラグイン</string>
     <string name="welcome_step_guide">ガイド</string>
 
-    <string name="welcome_guide_title">Spotubeの使い方</string>
+    <string name="welcome_guide_title">Tubifyの使い方</string>
     <string name="welcome_guide_subtitle">簡単な4ステップで、すぐに聴けます。</string>
     <string name="welcome_guide_signin_title">サインイン</string>
     <string name="welcome_guide_signin_desc">アカウントを連携するか、お好みのカタログプラグインを選んでください。</string>
@@ -429,7 +429,7 @@
     <!-- Page 3: plugins -->
     <string name="welcome_plugins_eyebrow">モジュール式アーキテクチャ</string>
     <string name="welcome_plugins_title">音楽をどこから届けるか、選びましょう。</string>
-    <string name="welcome_plugins_subtitle">Spotubeはカタログの検索、オーディオのストリーミング、同期歌詞をそれぞれ分離しています。下でエンジンを設定でき、いつでも切り替えられます。</string>
+    <string name="welcome_plugins_subtitle">Tubifyはカタログの検索、オーディオのストリーミング、同期歌詞をそれぞれ分離しています。下でエンジンを設定でき、いつでも切り替えられます。</string>
     <string name="welcome_plugins_metadata_title">メタデータエンジン</string>
     <string name="welcome_plugins_metadata_description">音楽の発見、検索、曲リスト、プレイリストを担います。</string>
     <string name="welcome_plugins_audio_title">オーディオエンジン</string>
@@ -451,13 +451,13 @@
     <!-- Page 4: how it works -->
     <string name="welcome_how_eyebrow">レトロモダンなアーキテクチャ</string>
     <string name="welcome_how_title">純粋なHi-Fi、仲介者ゼロ</string>
-    <string name="welcome_how_subtitle">Spotubeがあなたのマシン上で分散型の再生を直接制御する仕組みをご紹介します。</string>
+    <string name="welcome_how_subtitle">Tubifyがあなたのマシン上で分散型の再生を直接制御する仕組みをご紹介します。</string>
     <string name="welcome_how_status_badge">ダイレクトP2P • 256 KBPS OPUS</string>
     <string name="welcome_how_mockup_title">ブルーアワー</string>
-    <string name="welcome_how_mockup_artist">Spotube · プレーヤーのデモ</string>
+    <string name="welcome_how_mockup_artist">Tubify · プレーヤーのデモ</string>
     <string name="welcome_how_mockup_lyric">合間のひとときに、少しの音楽を。</string>
     <string name="welcome_how_step_search_title">1. 分散型の検索</string>
-    <string name="welcome_how_step_search_desc">検索クエリは選択したカタログプラグインに直接送られます。Spotubeがあなたの好みをプロファイリングすることはありません。</string>
+    <string name="welcome_how_step_search_desc">検索クエリは選択したカタログプラグインに直接送られます。Tubifyがあなたの好みをプロファイリングすることはありません。</string>
     <string name="welcome_how_step_stream_title">2. ストリームを直接解決</string>
     <string name="welcome_how_step_stream_desc">オーディオはコンテンツサーバーからあなたのマシンへ直接ストリーミングされます。プロキシの経由やリモートでのデータ収集はありません。</string>
     <string name="welcome_how_step_playback_title">3. ローカルDSPと再生</string>
@@ -833,8 +833,8 @@
     <string name="plugin_error_builtin_add">内蔵プラグインはすでに含まれているため、再度追加することはできません。</string>
     <string name="plugin_error_builtin_remove">内蔵プラグインは削除できません。</string>
     <string name="plugin_error_api_version_invalid">%1$sで宣言されたapiVersion (%2$s) が無効です。%3$sと互換性のあるセマンティックバージョニングが必要です。</string>
-    <string name="plugin_error_app_api_version_invalid">SpotubeのプラグインAPIバージョン %1$s が無効です。</string>
-    <string name="plugin_error_api_incompatible">%1$sはプラグインAPI %2$s を対象としていますが、SpotubeがサポートするのはプラグインAPI %3$s (破壊的変更を含むバージョン) です。同じメジャーAPIバージョン向けにビルドされたプラグインをインストールしてください。</string>
+    <string name="plugin_error_app_api_version_invalid">TubifyのプラグインAPIバージョン %1$s が無効です。</string>
+    <string name="plugin_error_api_incompatible">%1$sはプラグインAPI %2$s を対象としていますが、TubifyがサポートするのはプラグインAPI %3$s (破壊的変更を含むバージョン) です。同じメジャーAPIバージョン向けにビルドされたプラグインをインストールしてください。</string>
 
     <!-- Plugin install prompts -->
     <string name="plugin_prompt_incompatible_title">プラグインAPIに互換性がありません</string>

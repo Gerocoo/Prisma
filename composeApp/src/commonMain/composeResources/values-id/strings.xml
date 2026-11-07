@@ -120,7 +120,7 @@
     <string name="settings_option_name_and_code">%1$s (%2$s)</string>
 
     <string name="settings_theme_title">Tema</string>
-    <string name="settings_theme_subtitle_current">Pilih cara Spotube menyesuaikan dengan tampilan sistem. Saat ini: %1$s</string>
+    <string name="settings_theme_subtitle_current">Pilih cara Tubify menyesuaikan dengan tampilan sistem. Saat ini: %1$s</string>
     <string name="settings_theme_light">Terang</string>
     <string name="settings_theme_dark">Gelap</string>
     <string name="settings_theme_system">Sistem</string>
@@ -170,7 +170,7 @@
     <string name="settings_download_folder_title">Ganti folder unduhan</string>
     <string name="settings_download_folder_current">Folder saat ini: %1$s</string>
     <string name="settings_download_folder_description">Biarkan kosong untuk memakai folder musik bawaan.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Spotube</string>
+    <string name="settings_download_folder_placeholder">C:\Music\Tubify</string>
     <string name="settings_local_media_folders_title">Folder media lokal</string>
     <string name="settings_local_media_folders_subtitle_current">Folder kustom untuk dipindai di desktop. Ditambahkan: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">Belum ada folder kustom</string>
@@ -214,8 +214,8 @@
     <string name="settings_allow_remote_control_subtitle">Izinkan perangkat lain di jaringan yang sama mengontrol pemutaran saat terhubung.</string>
     <string name="settings_remote_device_name_title">Nama perangkat kontrol jarak jauh</string>
     <string name="settings_remote_device_name_subtitle">Nama yang dilihat perangkat lain saat menemukan perangkat ini. Saat ini: %1$s</string>
-    <string name="settings_remote_device_name_description">Pilih nama yang mudah dikenali untuk ditampilkan ke perangkat lain di jaringanmu saat mereka menemukan Spotube ini.</string>
-    <string name="settings_remote_device_name_placeholder">mis. Spotube Ruang Tamu</string>
+    <string name="settings_remote_device_name_description">Pilih nama yang mudah dikenali untuk ditampilkan ke perangkat lain di jaringanmu saat mereka menemukan Tubify ini.</string>
+    <string name="settings_remote_device_name_placeholder">mis. Tubify Ruang Tamu</string>
     <string name="settings_remote_device_name_default">nama host perangkat</string>
     <string name="settings_playback_port_subtitle_current">Port yang dipakai server proxy pemutaran. Saat ini: %1$d</string>
     <string name="settings_playback_port_description">Pilih port antara 1 dan 65535.</string>
@@ -227,12 +227,12 @@
     <string name="settings_blacklist_subtitle">Kelola lagu dan artis yang diblokir</string>
 
     <string name="settings_desktop_minimize_title">Minimalkan ke tray</string>
-    <string name="settings_desktop_minimize_subtitle">Biarkan Spotube tetap berjalan di system tray saat jendela diminimalkan.</string>
+    <string name="settings_desktop_minimize_subtitle">Biarkan Tubify tetap berjalan di system tray saat jendela diminimalkan.</string>
     <string name="settings_desktop_discord_title">Discord Rich Presence</string>
     <string name="settings_desktop_discord_subtitle">Tampilkan status pemutaran saat ini di Discord pada desktop.</string>
 
     <string name="settings_updates_auto_check_title">Periksa pembaruan otomatis</string>
-    <string name="settings_updates_auto_check_subtitle">Cari rilis Spotube baru di latar belakang.</string>
+    <string name="settings_updates_auto_check_subtitle">Cari rilis Tubify baru di latar belakang.</string>
 
     <string name="settings_plugins_manage_title">Kelola Plugin</string>
     <string name="settings_plugins_manage_subtitle">Kelola plugin kamu</string>
@@ -296,7 +296,7 @@
     <string name="settings_jam_broker_username">Nama pengguna (opsional)</string>
     <string name="settings_jam_broker_password">Kata sandi (opsional)</string>
     <string name="settings_jam_broker_client_id">Prefiks ID klien</string>
-    <string name="settings_jam_broker_client_id_subtitle">Dipakai untuk mengidentifikasi Spotube ini</string>
+    <string name="settings_jam_broker_client_id_subtitle">Dipakai untuk mengidentifikasi Tubify ini</string>
     <string name="settings_jam_broker_tls_subtitle">Enkripsi koneksi broker</string>
     <string name="settings_jam_broker_diagnostics_subtitle">Periksa pengaturan broker saat ini sebelum memulai ruang.</string>
     <string name="settings_jam_broker_test">Uji koneksi</string>
@@ -340,7 +340,7 @@
     <string name="jam_error_create">Gagal membuat sesi Jam</string>
     <string name="jam_error_join">Gagal bergabung ke sesi Jam</string>
     <string name="jam_error_invalid_code">Masukkan kode ruang enam karakter berisi huruf dan angka.</string>
-    <string name="jam_share_message">Gabung ke Jam Spotube-ku dengan kode: %1$s</string>
+    <string name="jam_share_message">Gabung ke Jam Tubify-ku dengan kode: %1$s</string>
 
     <string name="player_go_to_album">Buka album</string>
     <string name="player_sleep_timer">Timer tidur</string>
@@ -352,8 +352,8 @@
 
     <string name="update_action_ignore">Abaikan</string>
     <string name="update_action_update">Perbarui</string>
-    <string name="app_update_dialog_title">Spotube %1$s telah tersedia</string>
-    <string name="app_update_dialog_no_notes">Lihat yang baru di rilis ini pada halaman unduhan Spotube.</string>
+    <string name="app_update_dialog_title">Tubify %1$s telah tersedia</string>
+    <string name="app_update_dialog_no_notes">Lihat yang baru di rilis ini pada halaman unduhan Tubify.</string>
     <string name="plugin_update_dialog_title">%1$s %2$s telah tersedia</string>
     <string name="plugin_update_dialog_current_version">Terpasang saat ini: %1$s</string>
     <string name="plugin_update_dialog_no_notes">Lihat yang baru di pembaruan ini pada halaman plugin.</string>
@@ -362,7 +362,7 @@
     <string name="welcome_next">Berikutnya</string>
     <string name="welcome_back">Kembali</string>
     <string name="welcome_get_started">Mulai</string>
-    <string name="welcome_app_name">Spotube</string>
+    <string name="welcome_app_name">Tubify</string>
     <string name="welcome_brand_freedom">Musik, tanpa ikatan.</string>
     <string name="welcome_brand_quiet_description">Pemutar open source untuk dunia musik.\nBebas kamu jelajahi. Bebas kamu jadikan milikmu.</string>
     <string name="welcome_donate_quiet_title">Bantu proyek ini tetap hidup.</string>
@@ -379,7 +379,7 @@
     <string name="welcome_step_plugins">Plugin</string>
     <string name="welcome_step_guide">Panduan</string>
 
-    <string name="welcome_guide_title">Cara menggunakan Spotube</string>
+    <string name="welcome_guide_title">Cara menggunakan Tubify</string>
     <string name="welcome_guide_subtitle">Empat langkah singkat dan kamu siap mendengarkan.</string>
     <string name="welcome_guide_signin_title">Masuk</string>
     <string name="welcome_guide_signin_desc">Hubungkan akunmu, atau pilih plugin katalogmu sendiri.</string>
@@ -429,7 +429,7 @@
     <!-- Page 3: plugins -->
     <string name="welcome_plugins_eyebrow">Arsitektur Modular</string>
     <string name="welcome_plugins_title">Pilih dari mana musikmu berasal.</string>
-    <string name="welcome_plugins_subtitle">Spotube memisahkan penemuan katalog, streaming audio, dan lirik tersinkron. Atur mesinmu di bawah atau ganti kapan saja.</string>
+    <string name="welcome_plugins_subtitle">Tubify memisahkan penemuan katalog, streaming audio, dan lirik tersinkron. Atur mesinmu di bawah atau ganti kapan saja.</string>
     <string name="welcome_plugins_metadata_title">Mesin Metadata</string>
     <string name="welcome_plugins_metadata_description">Mendukung penemuan musik, pencarian, daftar lagu, dan playlist.</string>
     <string name="welcome_plugins_audio_title">Mesin Audio</string>
@@ -451,13 +451,13 @@
     <!-- Page 4: how it works -->
     <string name="welcome_how_eyebrow">Arsitektur Retro-Modern</string>
     <string name="welcome_how_title">Hi-Fi murni, tanpa perantara</string>
-    <string name="welcome_how_subtitle">Begini cara Spotube mengatur pemutaran terdesentralisasi langsung di perangkatmu.</string>
+    <string name="welcome_how_subtitle">Begini cara Tubify mengatur pemutaran terdesentralisasi langsung di perangkatmu.</string>
     <string name="welcome_how_status_badge">PEER-TO-PEER LANGSUNG • 256 KBPS OPUS</string>
     <string name="welcome_how_mockup_title">Blue hour</string>
-    <string name="welcome_how_mockup_artist">Spotube · demonstrasi pemutar</string>
+    <string name="welcome_how_mockup_artist">Tubify · demonstrasi pemutar</string>
     <string name="welcome_how_mockup_lyric">Sedikit musik untuk momen-momen di antaranya.</string>
     <string name="welcome_how_step_search_title">1. Penemuan Terdesentralisasi</string>
-    <string name="welcome_how_step_search_desc">Pencarian langsung dikirim ke plugin katalog pilihanmu. Spotube tidak pernah memprofilkan selera musikmu.</string>
+    <string name="welcome_how_step_search_desc">Pencarian langsung dikirim ke plugin katalog pilihanmu. Tubify tidak pernah memprofilkan selera musikmu.</string>
     <string name="welcome_how_step_stream_title">2. Resolusi Stream Langsung</string>
     <string name="welcome_how_step_stream_desc">Audio di-streaming langsung dari server konten ke perangkatmu. Tanpa lompatan proxy atau pengumpulan data jarak jauh.</string>
     <string name="welcome_how_step_playback_title">3. DSP &amp; Pemutaran Lokal</string>
@@ -833,8 +833,8 @@
     <string name="plugin_error_builtin_add">Plugin bawaan sudah disertakan dan tidak dapat ditambahkan lagi.</string>
     <string name="plugin_error_builtin_remove">Plugin bawaan tidak dapat dihapus.</string>
     <string name="plugin_error_api_version_invalid">%1$s mendeklarasikan apiVersion yang tidak valid (%2$s). Diharapkan semantic versioning yang kompatibel dengan %3$s.</string>
-    <string name="plugin_error_app_api_version_invalid">Versi API plugin Spotube %1$s tidak valid.</string>
-    <string name="plugin_error_api_incompatible">%1$s menargetkan API plugin %2$s, tetapi Spotube mendukung API plugin breaking %3$s. Pasang plugin yang dibuat untuk versi API breaking yang sama.</string>
+    <string name="plugin_error_app_api_version_invalid">Versi API plugin Tubify %1$s tidak valid.</string>
+    <string name="plugin_error_api_incompatible">%1$s menargetkan API plugin %2$s, tetapi Tubify mendukung API plugin breaking %3$s. Pasang plugin yang dibuat untuk versi API breaking yang sama.</string>
 
     <!-- Plugin install prompts -->
     <string name="plugin_prompt_incompatible_title">API plugin tidak kompatibel</string>

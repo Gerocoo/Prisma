@@ -120,7 +120,7 @@
     <string name="settings_option_name_and_code">%1$s (%2$s)</string>
 
     <string name="settings_theme_title">ธีม</string>
-    <string name="settings_theme_subtitle_current">เลือกว่าจะให้ Spotube แสดงผลตามระบบอย่างไร ปัจจุบัน: %1$s</string>
+    <string name="settings_theme_subtitle_current">เลือกว่าจะให้ Tubify แสดงผลตามระบบอย่างไร ปัจจุบัน: %1$s</string>
     <string name="settings_theme_light">สว่าง</string>
     <string name="settings_theme_dark">มืด</string>
     <string name="settings_theme_system">ตามระบบ</string>
@@ -170,7 +170,7 @@
     <string name="settings_download_folder_title">กำหนดโฟลเดอร์ดาวน์โหลดเอง</string>
     <string name="settings_download_folder_current">โฟลเดอร์ปัจจุบัน: %1$s</string>
     <string name="settings_download_folder_description">เว้นว่างไว้เพื่อใช้โฟลเดอร์เพลงเริ่มต้น</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Spotube</string>
+    <string name="settings_download_folder_placeholder">C:\Music\Tubify</string>
     <string name="settings_local_media_folders_title">โฟลเดอร์สื่อในเครื่อง</string>
     <string name="settings_local_media_folders_subtitle_current">โฟลเดอร์ที่กำหนดเองเพื่อสแกนบนเดสก์ท็อป เพิ่มแล้ว: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">ยังไม่ได้เพิ่มโฟลเดอร์ที่กำหนดเอง</string>
@@ -214,8 +214,8 @@
     <string name="settings_allow_remote_control_subtitle">ให้อุปกรณ์อื่นในเครือข่ายเดียวกันควบคุมการเล่นได้เมื่อเชื่อมต่อ</string>
     <string name="settings_remote_device_name_title">ชื่ออุปกรณ์สำหรับควบคุมระยะไกล</string>
     <string name="settings_remote_device_name_subtitle">ชื่อที่อุปกรณ์อื่นจะเห็นเมื่อค้นหาอุปกรณ์นี้ ปัจจุบัน: %1$s</string>
-    <string name="settings_remote_device_name_description">เลือกชื่อที่จำง่ายเพื่อแสดงให้อุปกรณ์อื่นในเครือข่ายของคุณเห็นเมื่อค้นพบ Spotube เครื่องนี้</string>
-    <string name="settings_remote_device_name_placeholder">เช่น Spotube ห้องนั่งเล่น</string>
+    <string name="settings_remote_device_name_description">เลือกชื่อที่จำง่ายเพื่อแสดงให้อุปกรณ์อื่นในเครือข่ายของคุณเห็นเมื่อค้นพบ Tubify เครื่องนี้</string>
+    <string name="settings_remote_device_name_placeholder">เช่น Tubify ห้องนั่งเล่น</string>
     <string name="settings_remote_device_name_default">ชื่อโฮสต์ของอุปกรณ์</string>
     <string name="settings_playback_port_subtitle_current">พอร์ตที่เซิร์ฟเวอร์พร็อกซีการเล่นใช้ ปัจจุบัน: %1$d</string>
     <string name="settings_playback_port_description">เลือกพอร์ตระหว่าง 1 ถึง 65535</string>
@@ -227,12 +227,12 @@
     <string name="settings_blacklist_subtitle">จัดการเพลงและศิลปินในบัญชีดำ</string>
 
     <string name="settings_desktop_minimize_title">ย่อไปที่ถาดระบบ</string>
-    <string name="settings_desktop_minimize_subtitle">ให้ Spotube ทำงานต่อในถาดระบบเมื่อย่อหน้าต่าง</string>
+    <string name="settings_desktop_minimize_subtitle">ให้ Tubify ทำงานต่อในถาดระบบเมื่อย่อหน้าต่าง</string>
     <string name="settings_desktop_discord_title">Discord Rich Presence</string>
     <string name="settings_desktop_discord_subtitle">แสดงสถานะการเล่นปัจจุบันของคุณใน Discord บนเดสก์ท็อป</string>
 
     <string name="settings_updates_auto_check_title">ตรวจหาอัปเดตโดยอัตโนมัติ</string>
-    <string name="settings_updates_auto_check_subtitle">ค้นหา Spotube เวอร์ชันใหม่ในเบื้องหลัง</string>
+    <string name="settings_updates_auto_check_subtitle">ค้นหา Tubify เวอร์ชันใหม่ในเบื้องหลัง</string>
 
     <string name="settings_plugins_manage_title">จัดการปลั๊กอิน</string>
     <string name="settings_plugins_manage_subtitle">จัดการปลั๊กอินของคุณ</string>
@@ -296,7 +296,7 @@
     <string name="settings_jam_broker_username">ชื่อผู้ใช้ (ไม่บังคับ)</string>
     <string name="settings_jam_broker_password">รหัสผ่าน (ไม่บังคับ)</string>
     <string name="settings_jam_broker_client_id">คำนำหน้า Client ID</string>
-    <string name="settings_jam_broker_client_id_subtitle">ใช้เพื่อระบุ Spotube เครื่องนี้</string>
+    <string name="settings_jam_broker_client_id_subtitle">ใช้เพื่อระบุ Tubify เครื่องนี้</string>
     <string name="settings_jam_broker_tls_subtitle">เข้ารหัสการเชื่อมต่อกับ Broker</string>
     <string name="settings_jam_broker_diagnostics_subtitle">ตรวจสอบการตั้งค่า Broker ปัจจุบันก่อนเริ่มห้อง</string>
     <string name="settings_jam_broker_test">ทดสอบการเชื่อมต่อ</string>
@@ -340,7 +340,7 @@
     <string name="jam_error_create">สร้างเซสชันแจมไม่สำเร็จ</string>
     <string name="jam_error_join">เข้าร่วมเซสชันแจมไม่สำเร็จ</string>
     <string name="jam_error_invalid_code">ใส่รหัสห้อง 6 ตัวอักษร ที่ประกอบด้วยตัวอักษรและตัวเลข</string>
-    <string name="jam_share_message">มาร่วมแจมกับฉันบน Spotube ด้วยรหัส: %1$s</string>
+    <string name="jam_share_message">มาร่วมแจมกับฉันบน Tubify ด้วยรหัส: %1$s</string>
 
     <string name="player_go_to_album">ไปที่อัลบั้ม</string>
     <string name="player_sleep_timer">ตั้งเวลาปิด</string>
@@ -352,8 +352,8 @@
 
     <string name="update_action_ignore">ละเว้น</string>
     <string name="update_action_update">อัปเดต</string>
-    <string name="app_update_dialog_title">Spotube %1$s พร้อมให้ใช้งานแล้ว</string>
-    <string name="app_update_dialog_no_notes">ดูว่ามีอะไรใหม่ในเวอร์ชันนี้ได้ที่หน้าดาวน์โหลดของ Spotube</string>
+    <string name="app_update_dialog_title">Tubify %1$s พร้อมให้ใช้งานแล้ว</string>
+    <string name="app_update_dialog_no_notes">ดูว่ามีอะไรใหม่ในเวอร์ชันนี้ได้ที่หน้าดาวน์โหลดของ Tubify</string>
     <string name="plugin_update_dialog_title">%1$s %2$s พร้อมให้ใช้งานแล้ว</string>
     <string name="plugin_update_dialog_current_version">ติดตั้งอยู่ในปัจจุบัน: %1$s</string>
     <string name="plugin_update_dialog_no_notes">ดูว่ามีอะไรใหม่ในอัปเดตนี้ได้จากหน้าของปลั๊กอิน</string>
@@ -362,7 +362,7 @@
     <string name="welcome_next">ถัดไป</string>
     <string name="welcome_back">ย้อนกลับ</string>
     <string name="welcome_get_started">เริ่มต้นใช้งาน</string>
-    <string name="welcome_app_name">Spotube</string>
+    <string name="welcome_app_name">Tubify</string>
     <string name="welcome_brand_freedom">ดนตรีที่ไร้พันธนาการ</string>
     <string name="welcome_brand_quiet_description">เครื่องเล่นโอเพนซอร์สสำหรับโลกแห่งดนตรี\nให้คุณสำรวจ ให้คุณสร้างในแบบของคุณเอง</string>
     <string name="welcome_donate_quiet_title">ช่วยให้โปรเจกต์นี้อยู่ต่อไป</string>
@@ -379,7 +379,7 @@
     <string name="welcome_step_plugins">ปลั๊กอิน</string>
     <string name="welcome_step_guide">คู่มือ</string>
 
-    <string name="welcome_guide_title">วิธีใช้ Spotube</string>
+    <string name="welcome_guide_title">วิธีใช้ Tubify</string>
     <string name="welcome_guide_subtitle">แค่ 4 ขั้นตอนง่าย ๆ ก็เริ่มฟังได้เลย</string>
     <string name="welcome_guide_signin_title">เข้าสู่ระบบ</string>
     <string name="welcome_guide_signin_desc">เชื่อมต่อบัญชีของคุณ หรือเลือกปลั๊กอินแคตตาล็อกของคุณเอง</string>
@@ -429,7 +429,7 @@
     <!-- Page 3: plugins -->
     <string name="welcome_plugins_eyebrow">สถาปัตยกรรมแบบโมดูล</string>
     <string name="welcome_plugins_title">เลือกได้ว่าเพลงของคุณมาจากไหน</string>
-    <string name="welcome_plugins_subtitle">Spotube แยกการค้นหาแคตตาล็อก การสตรีมเสียง และเนื้อเพลงแบบซิงค์ออกจากกัน กำหนดค่าเอนจินของคุณด้านล่างหรือเปลี่ยนได้ทุกเมื่อ</string>
+    <string name="welcome_plugins_subtitle">Tubify แยกการค้นหาแคตตาล็อก การสตรีมเสียง และเนื้อเพลงแบบซิงค์ออกจากกัน กำหนดค่าเอนจินของคุณด้านล่างหรือเปลี่ยนได้ทุกเมื่อ</string>
     <string name="welcome_plugins_metadata_title">เอนจินเมทาดาทา</string>
     <string name="welcome_plugins_metadata_description">ขับเคลื่อนการค้นพบเพลง การค้นหา รายชื่อเพลง และเพลย์ลิสต์</string>
     <string name="welcome_plugins_audio_title">เอนจินเสียง</string>
@@ -451,13 +451,13 @@
     <!-- Page 4: how it works -->
     <string name="welcome_how_eyebrow">สถาปัตยกรรมย้อนยุคผสมสมัยใหม่</string>
     <string name="welcome_how_title">Hi-Fi บริสุทธิ์ ไม่มีคนกลาง</string>
-    <string name="welcome_how_subtitle">นี่คือวิธีที่ Spotube จัดการการเล่นแบบกระจายศูนย์บนเครื่องของคุณโดยตรง</string>
+    <string name="welcome_how_subtitle">นี่คือวิธีที่ Tubify จัดการการเล่นแบบกระจายศูนย์บนเครื่องของคุณโดยตรง</string>
     <string name="welcome_how_status_badge">เพียร์ทูเพียร์โดยตรง • 256 KBPS OPUS</string>
     <string name="welcome_how_mockup_title">Blue hour</string>
-    <string name="welcome_how_mockup_artist">Spotube · ตัวอย่างเครื่องเล่น</string>
+    <string name="welcome_how_mockup_artist">Tubify · ตัวอย่างเครื่องเล่น</string>
     <string name="welcome_how_mockup_lyric">ดนตรีเล็ก ๆ สำหรับช่วงเวลาระหว่างทาง</string>
     <string name="welcome_how_step_search_title">1. การค้นพบแบบกระจายศูนย์</string>
-    <string name="welcome_how_step_search_desc">คำค้นหาส่งตรงไปยังปลั๊กอินแคตตาล็อกที่คุณเลือก Spotube ไม่เคยเก็บข้อมูลรสนิยมของคุณ</string>
+    <string name="welcome_how_step_search_desc">คำค้นหาส่งตรงไปยังปลั๊กอินแคตตาล็อกที่คุณเลือก Tubify ไม่เคยเก็บข้อมูลรสนิยมของคุณ</string>
     <string name="welcome_how_step_stream_title">2. ระบุสตรีมโดยตรง</string>
     <string name="welcome_how_step_stream_desc">เสียงสตรีมตรงจากเซิร์ฟเวอร์เนื้อหามายังเครื่องของคุณ ไม่ผ่านพร็อกซีหรือการเก็บข้อมูลจากระยะไกล</string>
     <string name="welcome_how_step_playback_title">3. DSP และการเล่นในเครื่อง</string>
@@ -833,8 +833,8 @@
     <string name="plugin_error_builtin_add">ปลั๊กอินในตัวรวมอยู่แล้วและไม่สามารถเพิ่มซ้ำได้</string>
     <string name="plugin_error_builtin_remove">ไม่สามารถลบปลั๊กอินในตัวได้</string>
     <string name="plugin_error_api_version_invalid">%1$s ระบุ apiVersion ไม่ถูกต้อง (%2$s) ต้องเป็น semantic versioning ที่เข้ากันได้กับ %3$s</string>
-    <string name="plugin_error_app_api_version_invalid">เวอร์ชัน API ปลั๊กอินของ Spotube %1$s ไม่ถูกต้อง</string>
-    <string name="plugin_error_api_incompatible">%1$s ใช้ API ปลั๊กอิน %2$s แต่ Spotube รองรับ API ปลั๊กอินแบบ breaking %3$s โปรดติดตั้งปลั๊กอินที่สร้างสำหรับ API เวอร์ชัน breaking เดียวกัน</string>
+    <string name="plugin_error_app_api_version_invalid">เวอร์ชัน API ปลั๊กอินของ Tubify %1$s ไม่ถูกต้อง</string>
+    <string name="plugin_error_api_incompatible">%1$s ใช้ API ปลั๊กอิน %2$s แต่ Tubify รองรับ API ปลั๊กอินแบบ breaking %3$s โปรดติดตั้งปลั๊กอินที่สร้างสำหรับ API เวอร์ชัน breaking เดียวกัน</string>
 
     <!-- Plugin install prompts -->
     <string name="plugin_prompt_incompatible_title">API ปลั๊กอินเข้ากันไม่ได้</string>

@@ -124,7 +124,7 @@
     <string name="settings_option_name_and_code">%1$s (%2$s)</string>
 
     <string name="settings_theme_title">Tema</string>
-    <string name="settings_theme_subtitle_current">Scegli come Spotube si adatta all\'aspetto del sistema. Attuale: %1$s</string>
+    <string name="settings_theme_subtitle_current">Scegli come Tubify si adatta all\'aspetto del sistema. Attuale: %1$s</string>
     <string name="settings_theme_light">Chiaro</string>
     <string name="settings_theme_dark">Scuro</string>
     <string name="settings_theme_system">Sistema</string>
@@ -161,11 +161,11 @@
     <string name="settings_appearance_accent_label">Accento</string>
     <string name="settings_preview_secondary">Secondario</string>
 
-    <string name="settings_palette_title">Palette</string>
+    <string name="settings_palette_title">Tavolozza</string>
     <string name="settings_palette_subtitle_current">Palette di accento Millennium. Attuale: %1$s</string>
-    <string name="settings_palette_dialog_title">Palette</string>
+    <string name="settings_palette_dialog_title">Tavolozza</string>
     <string name="settings_palette_dialog_description">Scegli una palette di accento Millennium e visualizzane l\'anteprima in chiaro e scuro.</string>
-    <string name="settings_palette_label">Palette</string>
+    <string name="settings_palette_label">Tavolozza</string>
     <string name="settings_appearance_subtitle_palette">Palette e accento Millennium. Attuale: %1$s</string>
     <string name="settings_palette_blue">Blu</string>
     <string name="settings_palette_orange">Ambra</string>
@@ -174,7 +174,7 @@
     <string name="settings_download_folder_title">Cartella di download personalizzata</string>
     <string name="settings_download_folder_current">Cartella attuale: %1$s</string>
     <string name="settings_download_folder_description">Lascia vuoto per usare la cartella Musica predefinita.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Spotube</string>
+    <string name="settings_download_folder_placeholder">C:\Music\Tubify</string>
     <string name="settings_local_media_folders_title">Cartelle multimediali locali</string>
     <string name="settings_local_media_folders_subtitle_current">Cartelle personalizzate da analizzare sul desktop. Aggiunte: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">Nessuna cartella personalizzata aggiunta</string>
@@ -220,8 +220,8 @@
     <string name="settings_allow_remote_control_subtitle">Consenti agli altri dispositivi sulla stessa rete di controllare la riproduzione quando si connettono.</string>
     <string name="settings_remote_device_name_title">Nome del dispositivo per il controllo remoto</string>
     <string name="settings_remote_device_name_subtitle">Il nome che gli altri dispositivi vedono quando trovano questo. Attuale: %1$s</string>
-    <string name="settings_remote_device_name_description">Scegli un nome riconoscibile da mostrare agli altri dispositivi della tua rete quando trovano questa istanza di Spotube.</string>
-    <string name="settings_remote_device_name_placeholder">es. Spotube del soggiorno</string>
+    <string name="settings_remote_device_name_description">Scegli un nome riconoscibile da mostrare agli altri dispositivi della tua rete quando trovano questa istanza di Tubify.</string>
+    <string name="settings_remote_device_name_placeholder">es. Tubify del soggiorno</string>
     <string name="settings_remote_device_name_default">nome host del dispositivo</string>
     <string name="settings_playback_port_subtitle_current">Porta usata dal server proxy di riproduzione. Attuale: %1$d</string>
     <string name="settings_playback_port_description">Scegli una porta tra 1 e 65535.</string>
@@ -229,16 +229,16 @@
     <string name="settings_error_whole_number">Inserisci un numero intero valido.</string>
     <string name="settings_error_port_range">La porta deve essere compresa tra 1 e 65535.</string>
 
-    <string name="settings_blacklist_title">Blacklist</string>
+    <string name="settings_blacklist_title">Lista nera</string>
     <string name="settings_blacklist_subtitle">Gestisci brani e artisti in blacklist</string>
 
     <string name="settings_desktop_minimize_title">Riduci nell\'area di notifica</string>
-    <string name="settings_desktop_minimize_subtitle">Mantieni Spotube in esecuzione nell\'area di notifica quando la finestra è ridotta a icona.</string>
+    <string name="settings_desktop_minimize_subtitle">Mantieni Tubify in esecuzione nell\'area di notifica quando la finestra è ridotta a icona.</string>
     <string name="settings_desktop_discord_title">Rich Presence di Discord</string>
     <string name="settings_desktop_discord_subtitle">Mostra lo stato di riproduzione attuale su Discord dal desktop.</string>
 
     <string name="settings_updates_auto_check_title">Controlla automaticamente gli aggiornamenti</string>
-    <string name="settings_updates_auto_check_subtitle">Cerca nuove versioni di Spotube in background.</string>
+    <string name="settings_updates_auto_check_subtitle">Cerca nuove versioni di Tubify in background.</string>
 
     <string name="settings_plugins_manage_title">Gestisci plugin</string>
     <string name="settings_plugins_manage_subtitle">Gestisci i tuoi plugin</string>
@@ -304,7 +304,7 @@
     <string name="settings_jam_broker_username">Nome utente (facoltativo)</string>
     <string name="settings_jam_broker_password">Password (facoltativa)</string>
     <string name="settings_jam_broker_client_id">Prefisso ID client</string>
-    <string name="settings_jam_broker_client_id_subtitle">Usato per identificare questa istanza di Spotube</string>
+    <string name="settings_jam_broker_client_id_subtitle">Usato per identificare questa istanza di Tubify</string>
     <string name="settings_jam_broker_tls_subtitle">Crittografa la connessione al broker</string>
     <string name="settings_jam_broker_diagnostics_subtitle">Verifica le impostazioni attuali del broker prima di avviare una stanza.</string>
     <string name="settings_jam_broker_test">Verifica connessione</string>
@@ -348,7 +348,7 @@
     <string name="jam_error_create">Impossibile creare la sessione Jam</string>
     <string name="jam_error_join">Impossibile partecipare alla sessione Jam</string>
     <string name="jam_error_invalid_code">Inserisci un codice stanza di sei caratteri composto da lettere e cifre.</string>
-    <string name="jam_share_message">Unisciti alla mia Jam su Spotube con il codice: %1$s</string>
+    <string name="jam_share_message">Unisciti alla mia Jam su Tubify con il codice: %1$s</string>
 
     <string name="player_go_to_album">Vai all\'album</string>
     <string name="player_sleep_timer">Timer di spegnimento</string>
@@ -360,8 +360,8 @@
 
     <string name="update_action_ignore">Ignora</string>
     <string name="update_action_update">Aggiorna</string>
-    <string name="app_update_dialog_title">Spotube %1$s è disponibile</string>
-    <string name="app_update_dialog_no_notes">Scopri le novità di questa versione nella pagina dei download di Spotube.</string>
+    <string name="app_update_dialog_title">Tubify %1$s è disponibile</string>
+    <string name="app_update_dialog_no_notes">Scopri le novità di questa versione nella pagina dei download di Tubify.</string>
     <string name="plugin_update_dialog_title">%1$s %2$s è disponibile</string>
     <string name="plugin_update_dialog_current_version">Attualmente installata: %1$s</string>
     <string name="plugin_update_dialog_no_notes">Scopri le novità di questo aggiornamento nella pagina del plugin.</string>
@@ -370,7 +370,7 @@
     <string name="welcome_next">Avanti</string>
     <string name="welcome_back">Indietro</string>
     <string name="welcome_get_started">Inizia</string>
-    <string name="welcome_app_name">Spotube</string>
+    <string name="welcome_app_name">Tubify</string>
     <string name="welcome_brand_freedom">Musica, senza vincoli.</string>
     <string name="welcome_brand_quiet_description">Un player open source per un mondo di musica.\nTutto da esplorare. Tutto da rendere tuo.</string>
     <string name="welcome_donate_quiet_title">Aiutaci a mantenere vivo questo progetto.</string>
@@ -387,7 +387,7 @@
     <string name="welcome_step_plugins">Plugin</string>
     <string name="welcome_step_guide">Guida</string>
 
-    <string name="welcome_guide_title">Come usare Spotube</string>
+    <string name="welcome_guide_title">Come usare Tubify</string>
     <string name="welcome_guide_subtitle">Quattro rapidi passaggi e sei pronto ad ascoltare.</string>
     <string name="welcome_guide_signin_title">Accedi</string>
     <string name="welcome_guide_signin_desc">Collega il tuo account o scegli il tuo plugin di catalogo.</string>
@@ -437,7 +437,7 @@
     <!-- Page 3: plugins -->
     <string name="welcome_plugins_eyebrow">Architettura modulare</string>
     <string name="welcome_plugins_title">Scegli da dove arriva la tua musica.</string>
-    <string name="welcome_plugins_subtitle">Spotube separa la ricerca nel catalogo, lo streaming audio e i testi sincronizzati. Configura i tuoi motori qui sotto o cambiali in qualsiasi momento.</string>
+    <string name="welcome_plugins_subtitle">Tubify separa la ricerca nel catalogo, lo streaming audio e i testi sincronizzati. Configura i tuoi motori qui sotto o cambiali in qualsiasi momento.</string>
     <string name="welcome_plugins_metadata_title">Motore metadati</string>
     <string name="welcome_plugins_metadata_description">Gestisce scoperta musicale, ricerca, elenchi di brani e playlist.</string>
     <string name="welcome_plugins_audio_title">Motore audio</string>
@@ -459,13 +459,13 @@
     <!-- Page 4: how it works -->
     <string name="welcome_how_eyebrow">Architettura retro-moderna</string>
     <string name="welcome_how_title">Puro Hi-Fi, zero intermediari</string>
-    <string name="welcome_how_subtitle">Ecco come Spotube gestisce la riproduzione decentralizzata direttamente sul tuo dispositivo.</string>
+    <string name="welcome_how_subtitle">Ecco come Tubify gestisce la riproduzione decentralizzata direttamente sul tuo dispositivo.</string>
     <string name="welcome_how_status_badge">PEER-TO-PEER DIRETTO • OPUS 256 KBPS</string>
     <string name="welcome_how_mockup_title">Ora blu</string>
-    <string name="welcome_how_mockup_artist">Spotube · dimostrazione del player</string>
+    <string name="welcome_how_mockup_artist">Tubify · dimostrazione del player</string>
     <string name="welcome_how_mockup_lyric">Un po\' di musica per i momenti di mezzo.</string>
     <string name="welcome_how_step_search_title">1. Ricerca decentralizzata</string>
-    <string name="welcome_how_step_search_desc">Le ricerche vanno direttamente al plugin di catalogo scelto. Spotube non profila mai i tuoi gusti.</string>
+    <string name="welcome_how_step_search_desc">Le ricerche vanno direttamente al plugin di catalogo scelto. Tubify non profila mai i tuoi gusti.</string>
     <string name="welcome_how_step_stream_title">2. Risoluzione diretta degli stream</string>
     <string name="welcome_how_step_stream_desc">L\'audio arriva direttamente dai server dei contenuti al tuo dispositivo. Nessun proxy intermedio né raccolta remota di dati.</string>
     <string name="welcome_how_step_playback_title">3. DSP e riproduzione in locale</string>
@@ -848,8 +848,8 @@
     <string name="plugin_error_builtin_add">I plugin integrati sono già inclusi e non possono essere aggiunti di nuovo.</string>
     <string name="plugin_error_builtin_remove">I plugin integrati non possono essere rimossi.</string>
     <string name="plugin_error_api_version_invalid">%1$s dichiara un apiVersion non valido (%2$s). È previsto un versionamento semantico compatibile con %3$s.</string>
-    <string name="plugin_error_app_api_version_invalid">La versione API dei plugin di Spotube %1$s non è valida.</string>
-    <string name="plugin_error_api_incompatible">%1$s è destinato all\'API plugin %2$s, ma Spotube supporta l\'API plugin %3$s con modifiche incompatibili. Installa un plugin creato per la stessa versione principale dell\'API.</string>
+    <string name="plugin_error_app_api_version_invalid">La versione API dei plugin di Tubify %1$s non è valida.</string>
+    <string name="plugin_error_api_incompatible">%1$s è destinato all\'API plugin %2$s, ma Tubify supporta l\'API plugin %3$s con modifiche incompatibili. Installa un plugin creato per la stessa versione principale dell\'API.</string>
 
     <!-- Plugin install prompts -->
     <string name="plugin_prompt_incompatible_title">API del plugin non compatibile</string>
@@ -887,14 +887,14 @@
     <string name="plugin_install_no_releases">Nessuna versione trovata</string>
     <string name="plugin_install_select_release_label">Seleziona versione</string>
     <string name="plugin_install_select_release_placeholder">Seleziona una versione</string>
-    <string name="plugin_install_prerelease">Pre-release</string>
+    <string name="plugin_install_prerelease">Versione di anteprima</string>
     <string name="plugin_install_release_notes">Note di rilascio</string>
 
     <!-- App navigation -->
     <string name="nav_home">Home</string>
     <string name="nav_search">Cerca</string>
     <string name="nav_group_on_device">Sul dispositivo</string>
-    <string name="nav_group_connect">Connect</string>
+    <string name="nav_group_connect">Connetti</string>
     <string name="nav_devices">Dispositivi</string>
 
     <!-- System tray (desktop) -->
@@ -932,4 +932,55 @@
     <string name="media_browser_featured">In evidenza</string>
     <string name="media_browser_saved_tracks">Brani salvati</string>
     <string name="media_browser_top_tracks">Brani più popolari</string>
+    <!-- Tubify: traduzioni mancanti -->
+    <string name="library_local_empty_folders_description">Aggiungi una cartella con la tua musica per ascoltarla qui. Non serve nessun plugin.</string>
+    <string name="library_local_add_folder">Aggiungi cartella</string>
+    <string name="downloads_saved_to">Salvato in %1$s</string>
+    <string name="settings_download_folder_default_path">Cartella attuale: %1$s (predefinita)</string>
+    <string name="no_metadata_plugin_title">Nessun plugin dei metadati selezionato</string>
+    <string name="no_metadata_plugin_description_install">Tubify ha bisogno di un plugin dei metadati per sfogliare, cercare e mostrare la tua musica. Installane uno per iniziare.</string>
+    <string name="no_metadata_plugin_description_select">Hai già dei plugin installati, ma nessuno è impostato come fonte dei metadati. Scegline uno per iniziare a sfogliare.</string>
+    <string name="no_metadata_plugin_step_discover">Trova un plugin dei metadati</string>
+    <string name="no_metadata_plugin_step_install">Controlla i permessi e installalo</string>
+    <string name="no_metadata_plugin_step_select">Selezionalo come fonte dei metadati</string>
+    <string name="no_metadata_plugin_action_install">Installa un plugin</string>
+    <string name="no_metadata_plugin_action_select">Scegli un plugin</string>
+    <string name="no_metadata_plugin_action_local">Ascolta la musica locale</string>
+    <string name="no_metadata_plugin_local_hint">I brani locali e i download funzionano anche senza plugin.</string>
+    <string name="plugin_install_sheet_subtitle">Aggiungi un plugin da un link o da un file sul dispositivo.</string>
+    <string name="plugin_install_file_hint">Scegli un file .smplug dal dispositivo</string>
+    <string name="plugin_install_or">oppure</string>
+    <string name="plugin_info_dialog_title">Dettagli del plugin</string>
+    <string name="devices_error_connection_denied">L\'altro dispositivo ha rifiutato la richiesta oppure ha il controllo remoto disattivato.</string>
+    <string name="devices_section_connected">Connesso</string>
+    <string name="devices_section_available">Dispositivi disponibili</string>
+    <string name="devices_section_this_device">Questo dispositivo</string>
+    <string name="devices_status_connected">Connesso</string>
+    <string name="devices_open_remote">Apri telecomando</string>
+    <string name="devices_search_again">Cerca di nuovo</string>
+    <string name="devices_searching_more">Sto cercando altri dispositivi…</string>
+    <string name="devices_remote_playing_on">In riproduzione su %1$s</string>
+    <string name="devices_remote_connecting_hint">Se richiesto, autorizza prima questo dispositivo sull\'altro Tubify.</string>
+    <string name="devices_remote_disconnected_hint">Non stai più controllando l\'altro dispositivo. Selezionalo di nuovo per riconnetterti.</string>
+    <string name="devices_remote_back_to_devices">Torna ai dispositivi</string>
+    <string name="devices_remote_nothing_playing">Niente in riproduzione</string>
+    <string name="devices_remote_nothing_playing_hint">Avvia qualcosa sull\'altro dispositivo oppure scegli un brano dalla sua coda.</string>
+    <string name="jam_error_broker_unreachable">Impossibile raggiungere %1$s:%2$d. Controlla la rete o scegli un altro broker in Impostazioni → Jam.</string>
+    <string name="common_no_results">Nessun risultato</string>
+    <string name="login_required_title">Accedi per continuare</string>
+    <string name="login_required_description">Questa sezione di Tubify richiede l\'accesso al tuo servizio musicale. Accedi una volta e qui comparirà tutto.</string>
+    <string name="login_required_description_plugin">%1$s richiede l\'accesso prima di mostrare questi contenuti. Accedi una volta e qui comparirà tutto.</string>
+    <string name="login_required_action">Accedi</string>
+    <string name="downloads_error_http">Il server ha rifiutato il download (HTTP %1$d)</string>
+    <string name="downloads_error_range_ignored">Il server ha inviato un download incompleto. Riprova.</string>
+    <string name="downloads_error_video_only">Per questo brano è disponibile solo un video, quindi non è stato scaricato</string>
+    <string name="plugin_discover_repository_host">github.com</string>
+    <plurals name="connect_jam_hosting">
+        <item quantity="one">In hosting · %1$d ascoltatore</item>
+        <item quantity="other">In hosting · %1$d ascoltatori</item>
+    </plurals>
+    <plurals name="connect_jam_joined">
+        <item quantity="one">In una Jam · %1$d ascoltatore</item>
+        <item quantity="other">In una Jam · %1$d ascoltatori</item>
+    </plurals>
 </resources>

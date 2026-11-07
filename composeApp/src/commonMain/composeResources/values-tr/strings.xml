@@ -122,7 +122,7 @@
     <string name="settings_option_name_and_code">%1$s (%2$s)</string>
 
     <string name="settings_theme_title">Tema</string>
-    <string name="settings_theme_subtitle_current">Spotube\'un sistem görünümüne nasıl uyacağını seç. Geçerli: %1$s</string>
+    <string name="settings_theme_subtitle_current">Tubify\'un sistem görünümüne nasıl uyacağını seç. Geçerli: %1$s</string>
     <string name="settings_theme_light">Açık</string>
     <string name="settings_theme_dark">Koyu</string>
     <string name="settings_theme_system">Sistem</string>
@@ -172,7 +172,7 @@
     <string name="settings_download_folder_title">Özel indirme klasörü</string>
     <string name="settings_download_folder_current">Geçerli klasör: %1$s</string>
     <string name="settings_download_folder_description">Varsayılan müzik klasörünü kullanmak için boş bırak.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Spotube</string>
+    <string name="settings_download_folder_placeholder">C:\Music\Tubify</string>
     <string name="settings_local_media_folders_title">Yerel medya klasörleri</string>
     <string name="settings_local_media_folders_subtitle_current">Masaüstünde taranacak özel klasörler. Eklenen: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">Henüz özel klasör eklenmedi</string>
@@ -217,8 +217,8 @@
     <string name="settings_allow_remote_control_subtitle">Aynı ağdaki diğer cihazlar bağlandığında çalmayı kontrol edebilsin.</string>
     <string name="settings_remote_device_name_title">Uzaktan kontrol cihaz adı</string>
     <string name="settings_remote_device_name_subtitle">Diğer cihazların bu cihazı bulurken gördüğü ad. Geçerli: %1$s</string>
-    <string name="settings_remote_device_name_description">Ağındaki diğer cihazlar bu Spotube\'u bulduğunda görünecek kolay bir ad seç.</string>
-    <string name="settings_remote_device_name_placeholder">örn. Salon Spotube</string>
+    <string name="settings_remote_device_name_description">Ağındaki diğer cihazlar bu Tubify\'u bulduğunda görünecek kolay bir ad seç.</string>
+    <string name="settings_remote_device_name_placeholder">örn. Salon Tubify</string>
     <string name="settings_remote_device_name_default">cihaz ana bilgisayar adı</string>
     <string name="settings_playback_port_subtitle_current">Çalma proxy sunucusunun kullandığı port. Geçerli: %1$d</string>
     <string name="settings_playback_port_description">1 ile 65535 arasında bir port seç.</string>
@@ -230,12 +230,12 @@
     <string name="settings_blacklist_subtitle">Kara listedeki parçaları ve sanatçıları yönet</string>
 
     <string name="settings_desktop_minimize_title">Sistem tepsisine küçült</string>
-    <string name="settings_desktop_minimize_subtitle">Pencere küçültüldüğünde Spotube sistem tepsisinde çalışmaya devam etsin.</string>
+    <string name="settings_desktop_minimize_subtitle">Pencere küçültüldüğünde Tubify sistem tepsisinde çalışmaya devam etsin.</string>
     <string name="settings_desktop_discord_title">Discord Rich Presence</string>
     <string name="settings_desktop_discord_subtitle">Masaüstünde şu an çalanı Discord\'da göster.</string>
 
     <string name="settings_updates_auto_check_title">Güncellemeleri otomatik denetle</string>
-    <string name="settings_updates_auto_check_subtitle">Yeni Spotube sürümlerini arka planda ara.</string>
+    <string name="settings_updates_auto_check_subtitle">Yeni Tubify sürümlerini arka planda ara.</string>
 
     <string name="settings_plugins_manage_title">Eklentileri Yönet</string>
     <string name="settings_plugins_manage_subtitle">Eklentilerini yönet</string>
@@ -300,7 +300,7 @@
     <string name="settings_jam_broker_username">Kullanıcı adı (isteğe bağlı)</string>
     <string name="settings_jam_broker_password">Şifre (isteğe bağlı)</string>
     <string name="settings_jam_broker_client_id">İstemci kimliği ön eki</string>
-    <string name="settings_jam_broker_client_id_subtitle">Bu Spotube örneğini tanımlamak için kullanılır</string>
+    <string name="settings_jam_broker_client_id_subtitle">Bu Tubify örneğini tanımlamak için kullanılır</string>
     <string name="settings_jam_broker_tls_subtitle">Aracı bağlantısını şifrele</string>
     <string name="settings_jam_broker_diagnostics_subtitle">Oda başlatmadan önce geçerli aracı ayarlarını kontrol et.</string>
     <string name="settings_jam_broker_test">Bağlantıyı test et</string>
@@ -344,7 +344,7 @@
     <string name="jam_error_create">Jam oturumu oluşturulamadı</string>
     <string name="jam_error_join">Jam oturumuna katılınamadı</string>
     <string name="jam_error_invalid_code">Harf ve rakamlardan oluşan altı karakterli bir oda kodu gir.</string>
-    <string name="jam_share_message">Spotube Jam\'ime şu kodla katıl: %1$s</string>
+    <string name="jam_share_message">Tubify Jam\'ime şu kodla katıl: %1$s</string>
 
     <string name="player_go_to_album">Albüme git</string>
     <string name="player_sleep_timer">Uyku zamanlayıcısı</string>
@@ -356,8 +356,8 @@
 
     <string name="update_action_ignore">Yok say</string>
     <string name="update_action_update">Güncelle</string>
-    <string name="app_update_dialog_title">Spotube %1$s kullanıma sunuldu</string>
-    <string name="app_update_dialog_no_notes">Bu sürümdeki yenilikleri Spotube indirme sayfasında gör.</string>
+    <string name="app_update_dialog_title">Tubify %1$s kullanıma sunuldu</string>
+    <string name="app_update_dialog_no_notes">Bu sürümdeki yenilikleri Tubify indirme sayfasında gör.</string>
     <string name="plugin_update_dialog_title">%1$s %2$s kullanıma sunuldu</string>
     <string name="plugin_update_dialog_current_version">Şu an yüklü: %1$s</string>
     <string name="plugin_update_dialog_no_notes">Bu güncellemedeki yenilikleri eklentinin sayfasında gör.</string>
@@ -366,7 +366,7 @@
     <string name="welcome_next">İleri</string>
     <string name="welcome_back">Geri</string>
     <string name="welcome_get_started">Başla</string>
-    <string name="welcome_app_name">Spotube</string>
+    <string name="welcome_app_name">Tubify</string>
     <string name="welcome_brand_freedom">Müzik, hiçbir kısıtlama olmadan.</string>
     <string name="welcome_brand_quiet_description">Koca bir müzik dünyası için açık kaynaklı bir oynatıcı.\nKeşfetmesi sana kalmış. Kendine göre şekillendirmesi de.</string>
     <string name="welcome_donate_quiet_title">Bu projeyi yaşat.</string>
@@ -383,7 +383,7 @@
     <string name="welcome_step_plugins">Eklentiler</string>
     <string name="welcome_step_guide">Rehber</string>
 
-    <string name="welcome_guide_title">Spotube nasıl kullanılır</string>
+    <string name="welcome_guide_title">Tubify nasıl kullanılır</string>
     <string name="welcome_guide_subtitle">Dört hızlı adım ve dinlemeye başlıyorsun.</string>
     <string name="welcome_guide_signin_title">Giriş yap</string>
     <string name="welcome_guide_signin_desc">hesabını bağla veya kendi katalog eklentini seç.</string>
@@ -433,7 +433,7 @@
     <!-- Page 3: plugins -->
     <string name="welcome_plugins_eyebrow">Modüler Mimari</string>
     <string name="welcome_plugins_title">Müziğinin nereden geleceğini seç.</string>
-    <string name="welcome_plugins_subtitle">Spotube katalog keşfini, ses akışını ve senkronize sözleri birbirinden ayırır. Motorlarını aşağıdan yapılandır veya istediğin zaman değiştir.</string>
+    <string name="welcome_plugins_subtitle">Tubify katalog keşfini, ses akışını ve senkronize sözleri birbirinden ayırır. Motorlarını aşağıdan yapılandır veya istediğin zaman değiştir.</string>
     <string name="welcome_plugins_metadata_title">Meta Veri Motoru</string>
     <string name="welcome_plugins_metadata_description">Müzik keşfini, aramayı, parça listelerini ve çalma listelerini sağlar.</string>
     <string name="welcome_plugins_audio_title">Ses Motoru</string>
@@ -455,13 +455,13 @@
     <!-- Page 4: how it works -->
     <string name="welcome_how_eyebrow">Retro-Modern Mimari</string>
     <string name="welcome_how_title">Saf Hi-Fi, sıfır aracı</string>
-    <string name="welcome_how_subtitle">Spotube\'un merkeziyetsiz çalmayı doğrudan cihazında nasıl yönettiğini gör.</string>
+    <string name="welcome_how_subtitle">Tubify\'un merkeziyetsiz çalmayı doğrudan cihazında nasıl yönettiğini gör.</string>
     <string name="welcome_how_status_badge">DOĞRUDAN EŞLER ARASI • 256 KBPS OPUS</string>
     <string name="welcome_how_mockup_title">Mavi saat</string>
-    <string name="welcome_how_mockup_artist">Spotube · oynatıcı tanıtımı</string>
+    <string name="welcome_how_mockup_artist">Tubify · oynatıcı tanıtımı</string>
     <string name="welcome_how_mockup_lyric">Aradaki anlar için biraz müzik.</string>
     <string name="welcome_how_step_search_title">1. Merkeziyetsiz Keşif</string>
-    <string name="welcome_how_step_search_desc">Sorgular doğrudan seçtiğin katalog eklentisine gider. Spotube zevkinin profilini asla çıkarmaz.</string>
+    <string name="welcome_how_step_search_desc">Sorgular doğrudan seçtiğin katalog eklentisine gider. Tubify zevkinin profilini asla çıkarmaz.</string>
     <string name="welcome_how_step_stream_title">2. Doğrudan Akış Çözümleme</string>
     <string name="welcome_how_step_stream_desc">Ses, içerik sunucularından doğrudan cihazına akar. Proxy aktarması veya uzaktan veri toplama yok.</string>
     <string name="welcome_how_step_playback_title">3. Yerel DSP ve Çalma</string>
@@ -839,8 +839,8 @@
     <string name="plugin_error_builtin_add">Yerleşik eklentiler zaten dahil ve tekrar eklenemez.</string>
     <string name="plugin_error_builtin_remove">Yerleşik eklentiler kaldırılamaz.</string>
     <string name="plugin_error_api_version_invalid">%1$s geçersiz bir apiVersion (%2$s) bildiriyor. %3$s ile uyumlu anlamsal sürümleme bekleniyor.</string>
-    <string name="plugin_error_app_api_version_invalid">Spotube eklenti API sürümü %1$s geçersiz.</string>
-    <string name="plugin_error_api_incompatible">%1$s, eklenti API\'si %2$s hedefliyor ancak Spotube uyumsuz eklenti API\'si %3$s destekliyor. Aynı ana API sürümü için derlenmiş bir eklenti yükle.</string>
+    <string name="plugin_error_app_api_version_invalid">Tubify eklenti API sürümü %1$s geçersiz.</string>
+    <string name="plugin_error_api_incompatible">%1$s, eklenti API\'si %2$s hedefliyor ancak Tubify uyumsuz eklenti API\'si %3$s destekliyor. Aynı ana API sürümü için derlenmiş bir eklenti yükle.</string>
 
     <!-- Plugin install prompts -->
     <string name="plugin_prompt_incompatible_title">Eklenti API\'si uyumlu değil</string>
