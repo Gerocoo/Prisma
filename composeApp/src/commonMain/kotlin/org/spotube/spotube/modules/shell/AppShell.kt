@@ -76,6 +76,7 @@ import org.spotube.spotube.modules.shell.player_queue.PlayerQueueContent
 import org.spotube.spotube.modules.shell.player_queue.PlayerQueueContentViewModel
 import org.spotube.spotube.modules.shell.player_queue.QueueSheet
 import kotlinx.coroutines.launch
+import org.spotube.spotube.core.ui.component.PlatformBackHandler
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.spotube.millennium.composables.MillenniumSeparator
@@ -374,6 +375,11 @@ internal fun CompactPlayerOverlay(
     // art) on the first drag frame of every gesture is the hitch the user feels as lag.
     var expandedPlayerComposed by remember { mutableStateOf(false) }
     if (expandedPlayerVisible) expandedPlayerComposed = true
+
+    // Back closes the full-screen player (back to the page underneath) instead of leaving the app.
+    PlatformBackHandler(enabled = sheetState.currentDetent == SheetDetent.FullyExpanded) {
+        scope.launch { sheetState.animateTo(partialDetent) }
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         content()

@@ -54,8 +54,11 @@ fun PlayerHeartButton(
     val savedTrackIds by savedTracksViewModel.savedTrackIdsFlow.collectAsStateWithLifecycle()
     val pendingSavedTrackIds by savedTracksViewModel.pendingSavedTrackIds.collectAsStateWithLifecycle()
 
+    val savedOverrides by savedTracksViewModel.savedOverrides.collectAsStateWithLifecycle()
+
     val isInSavedIds = if (currentTrackId != null) currentTrackId in savedTrackIds else false
-    val isLiked = if (isSavedTrackState is SavedState.Success) {
+    // A like/unlike made in this session wins; otherwise use the check done on open.
+    val isLiked = currentTrackId?.let { savedOverrides[it] } ?: if (isSavedTrackState is SavedState.Success) {
         isSavedTrackState.data.firstOrNull() == true || isInSavedIds
     } else {
         isInSavedIds

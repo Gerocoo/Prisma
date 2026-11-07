@@ -117,6 +117,13 @@ class SavedTracksViewModel(
     private val _pendingSavedTrackIds = MutableStateFlow<Set<String>>(emptySet())
     val pendingSavedTrackIds: StateFlow<Set<String>> = _pendingSavedTrackIds.asStateFlow()
 
+    /**
+     * Like/unlike results from this session, by track id. They win over the one-off saved check
+     * done when the player opens, so the heart follows the user's tap immediately.
+     */
+    private val _savedOverrides = MutableStateFlow<Map<String, Boolean>>(emptyMap())
+    val savedOverrides: StateFlow<Map<String, Boolean>> = _savedOverrides.asStateFlow()
+
     private val _currentUserId = MutableStateFlow<String?>(null)
     val currentUserId: StateFlow<String?> = _currentUserId.asStateFlow()
 
@@ -354,6 +361,8 @@ class SavedTracksViewModel(
     fun toggleSavedTrack(trackId: String, isSaved: Boolean) {
         if (trackId in _pendingSavedTrackIds.value) return
         _pendingSavedTrackIds.update { it + trackId }
+        // Optimistic: flip the heart right away, revert if the request fails.
+        _savedOverrides.update { it + (trackId to !isSaved) }
         viewModelScope.launch {
             runCatching {
                 if (isSaved) {
@@ -363,6 +372,7 @@ class SavedTracksViewModel(
                 }
             }.onFailure { e ->
                 logger.e(e) { "Failed to toggle saved track" }
+                _savedOverrides.update { it + (trackId to isSaved) }
             }
             _pendingSavedTrackIds.update { it - trackId }
         }
