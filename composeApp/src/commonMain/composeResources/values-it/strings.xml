@@ -169,6 +169,8 @@
     <string name="settings_appearance_subtitle_palette">Palette e accento Millennium. Attuale: %1$s</string>
     <string name="settings_palette_blue">Blu</string>
     <string name="settings_palette_orange">Ambra</string>
+    <string name="settings_system_colors_title">Colori di sistema</string>
+    <string name="settings_system_colors_subtitle">Usa la palette Material You ricavata dallo sfondo</string>
     <string name="settings_palette_lime">Lime</string>
 
     <string name="settings_download_folder_title">Cartella di download personalizzata</string>

@@ -322,24 +322,36 @@ fun SpotubeTheme(
         Theme.SYSTEM -> isSystemDarkTheme()
     }
     val palette: MillenniumPalette = settings.palette
+    // Material You: when enabled and available, the system palette replaces every accent family.
+    val systemDark = if (settings.useSystemColors) systemDynamicColors(dark = true) else null
+    val systemLight = if (settings.useSystemColors) systemDynamicColors(dark = false) else null
+    val colorSchemes = remember(systemDark, systemLight) {
+        if (systemDark != null && systemLight != null) {
+            MillenniumColorSchemes(
+                light = systemLight, dark = systemDark,
+                orangeLight = systemLight, orangeDark = systemDark,
+                limeLight = systemLight, limeDark = systemDark
+            )
+        } else AppColorSchemes
+    }
     val fontFamily = rememberAppFontFamily()
     val typography = remember(fontFamily) { appTypography(fontFamily) }
 
-    val darkTheme = remember(fontFamily, palette) {
+    val darkTheme = remember(fontFamily, palette, colorSchemes) {
         MillenniumDarkThemeComponents.withFont(fontFamily).copy(
-            bottomNavigationBarTheme = flatBottomNavigationTheme(AppColorSchemes.resolve(palette, dark = true))
+            bottomNavigationBarTheme = flatBottomNavigationTheme(colorSchemes.resolve(palette, dark = true))
         )
     }
-    val lightTheme = remember(fontFamily, palette) {
+    val lightTheme = remember(fontFamily, palette, colorSchemes) {
         MillenniumLightThemeComponents.withFont(fontFamily).copy(
-            bottomNavigationBarTheme = flatBottomNavigationTheme(AppColorSchemes.resolve(palette, dark = false))
+            bottomNavigationBarTheme = flatBottomNavigationTheme(colorSchemes.resolve(palette, dark = false))
         )
     }
 
     MillenniumTheme(
         dark = isDarkTheme,
         config = MillenniumThemeConfig(
-            colorSchemes = AppColorSchemes,
+            colorSchemes = colorSchemes,
             palette = palette,
             dark = darkTheme.copy(
                 topAppBarTheme = MillenniumTopAppBarTheme(

@@ -53,6 +53,8 @@ import org.spotube.spotube.modules.settings.SettingsViewModel
 import org.spotube.spotube.modules.settings.Theme
 import org.spotube.spotube.modules.settings.UserSettings
 import org.spotube.spotube.modules.settings.components.SelectionSettingCard
+import org.spotube.spotube.modules.settings.components.SwitchSettingCard
+import org.spotube.spotube.core.ui.theming.supportsSystemDynamicColors
 import org.spotube.spotube.modules.settings.components.SettingCardItem
 import org.spotube.spotube.resources.iconsax.Iconsax
 import org.spotube.spotube.resources.iconsax.IconsaxColorSwatch
@@ -77,9 +79,10 @@ internal fun LazyListScope.appearanceSection(
     if (includeHeader) {
         settingsSectionHeader(Res.string.settings_section_appearance)
     }
+    val showSystemColors = supportsSystemDynamicColors()
     settingsSectionCard(
-        items = listOf(
-            {
+        items = buildList<@Composable () -> Unit> {
+            add {
                 SelectionSettingCard(
                     title = stringResource(Res.string.settings_theme_title),
                     subtitle = stringResource(
@@ -98,8 +101,26 @@ internal fun LazyListScope.appearanceSection(
                         }
                     }
                 )
-            },
-            {
+            }
+            if (showSystemColors) add {
+                SwitchSettingCard(
+                    title = stringResource(Res.string.settings_system_colors_title),
+                    subtitle = stringResource(Res.string.settings_system_colors_subtitle),
+                    icon = {
+                        SettingsItemIcon(
+                            Iconsax.IconsaxColorSwatch,
+                            stringResource(Res.string.settings_system_colors_title)
+                        )
+                    },
+                    checked = settings.useSystemColors,
+                    onCheckedChange = { enabled ->
+                        settingsViewModel.updateSettings {
+                            copy(useSystemColors = enabled)
+                        }
+                    }
+                )
+            }
+            if (!(showSystemColors && settings.useSystemColors)) add {
                 AppearanceSettingCard(
                     selectedPalette = settings.palette,
                     icon = {
@@ -113,7 +134,8 @@ internal fun LazyListScope.appearanceSection(
                             copy(palette = palette)
                         }
                     })
-            })
+            }
+        }
     )
 }
 

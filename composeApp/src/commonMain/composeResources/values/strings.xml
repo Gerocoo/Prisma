@@ -170,6 +170,8 @@
     <string name="settings_appearance_subtitle_palette">Millennium palette and accent. Current: %1$s</string>
     <string name="settings_palette_blue">Blue</string>
     <string name="settings_palette_orange">Amber</string>
+    <string name="settings_system_colors_title">System colors</string>
+    <string name="settings_system_colors_subtitle">Use the Material You palette from your wallpaper</string>
     <string name="settings_palette_lime">Lime</string>
 
     <string name="settings_download_folder_title">Download folder override</string>

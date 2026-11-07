@@ -43,6 +43,8 @@ data class UserSettings(
     // Appearance
     val theme: Theme = Theme.DARK,
     val palette: MillenniumPalette = MillenniumPalette.Orange,
+    /** Follow the wallpaper-based system palette (Android 12+ Material You) instead of [palette]. */
+    val useSystemColors: Boolean = true,
 
     // Playback
     val streamingMusicFormat: AudioFormat = defaultStreamingMusicFormat(),
