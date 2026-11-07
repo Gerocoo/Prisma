@@ -24,3 +24,6 @@
 
 # QUIC transport excluded on Android in build.gradle.kts (not 16 KB page aligned).
 -dontwarn com.ditchoom.socket.quic.**
+
+# Rhino (NewPipe JS engine) optionally links JDK dynalink, absent on Android.
+-dontwarn jdk.dynalink.**
