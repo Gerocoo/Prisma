@@ -21,6 +21,7 @@ import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.semantics.Role
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -402,6 +403,11 @@ internal fun CompactPlayerOverlay(
                                 .zeroSizeUnless(floatingPlayerVisible)
                                 .graphicsLayer {
                                     alpha = viewModel.floatingPlayerAlpha(progress)
+                                }
+                                // A tap opens the full player too, not only an upward swipe;
+                                // the play/next/like buttons inside keep their own clicks.
+                                .clickable(role = Role.Button) {
+                                    scope.launch { sheetState.animateTo(SheetDetent.FullyExpanded) }
                                 })
                     }
                 }
