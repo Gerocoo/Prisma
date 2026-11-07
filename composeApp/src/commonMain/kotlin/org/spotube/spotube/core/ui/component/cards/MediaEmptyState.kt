@@ -21,7 +21,6 @@ import com.composeunstyled.Text
 import org.spotube.spotube.core.ui.theming.AppTheme
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.theme.MillenniumTheme
-import org.spotube.millennium.theme.millenniumBevelBrush
 import org.spotube.spotube.core.ui.theming.materialSurface
 
 @Composable
@@ -39,7 +38,7 @@ internal fun MediaEmptyState(
         ) {
             Box(
                 Modifier.size(64.dp).materialSurface(
-                    background = millenniumBevelBrush(MillenniumTheme.colors),
+                    background = androidx.compose.ui.graphics.SolidColor(MillenniumTheme.colors.raised),
                     shape = RoundedCornerShape(14.dp),
                     borderColor = MillenniumTheme.colors.border,
                     borderWidth = 1.dp

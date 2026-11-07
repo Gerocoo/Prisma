@@ -51,7 +51,7 @@ internal fun MediaCardSurface(
         tween(140)
     )
     val scale by animateFloatAsState(if (pressed) 0.985f else 1f, tween(100))
-    val shape = RoundedCornerShape(8.dp)
+    val shape = RoundedCornerShape(26.dp)
     // Flat lift on hover/focus, no gloss: the artwork carries the card.
     val base = if (isBlacklisted) colors.danger.copy(alpha = 0.12f + highlight * 0.12f)
     else colors.raised.copy(alpha = highlight * 0.7f)

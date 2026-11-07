@@ -3,6 +3,7 @@
  */
 package org.spotube.spotube.core.ui.component.cards
 
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,7 +40,6 @@ import org.spotube.millennium.composables.MillenniumIconButton
 import org.spotube.millennium.composables.MillenniumIconButtonStyle
 import org.spotube.millennium.composables.MillenniumListTile
 import org.spotube.millennium.theme.MillenniumTheme
-import org.spotube.millennium.theme.millenniumBevelBrush
 import org.spotube.spotube.core.ui.theming.materialPanelBrush
 import org.spotube.spotube.core.ui.theming.materialSurface
 import spotube.composeapp.generated.resources.*
@@ -152,16 +152,15 @@ internal fun MediaArtwork(
     model: Any?,
     title: String,
     modifier: Modifier,
-    shape: Shape = RoundedCornerShape(6.dp),
+    shape: Shape = RoundedCornerShape(14.dp),
     placeholderIcon: ImageVector = Iconsax.IconsaxMusic,
     artwork: (@Composable () -> Unit)? = null
 ) {
     Box(
+        // Flat tonal placeholder behind the cover, fully rounded, no outline.
         modifier.materialSurface(
-            background = millenniumBevelBrush(MillenniumTheme.colors),
-            shape = shape,
-            borderColor = MillenniumTheme.colors.border,
-            borderWidth = 1.dp
+            background = SolidColor(MillenniumTheme.colors.raised),
+            shape = shape
         ).clip(shape).shimmerApply(),
         contentAlignment = Alignment.Center
     ) {
