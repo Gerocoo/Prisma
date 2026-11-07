@@ -1,7 +1,7 @@
 name: Build APK
 
-# Builds an installable Android debug APK of Tubify on every push to the tubify branches,
-# or on demand from the Actions tab.
+# Builds Tubify for Android (APKs) and iPhone (unsigned IPA) on every push to the tubify
+# branches, or on demand from the Actions tab; builds of master are published as a Release.
 on:
   push:
     branches: [master, tubify]
@@ -111,22 +111,115 @@ jobs:
           path: out/Tubify-*.apk
           retention-days: 30
 
-      # Every successful build on master becomes a GitHub Release, so the APKs are a direct
-      # download from the repository's "Releases" section (no zip, no Actions page).
+  ios:
+    name: iPhone IPA (unsigned, for sideloading)
+    runs-on: macos-latest
+    timeout-minutes: 150
+    steps:
+      - name: Checkout Tubify
+        uses: actions/checkout@v7
+        with:
+          path: app
+
+      - name: Checkout ComposeNativeWebview
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ env.COMPOSE_WEBVIEW_REPO }}
+          ref: ${{ env.COMPOSE_WEBVIEW_COMMIT }}
+          path: compose-webview
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Publish compose-webview to mavenLocal
+        working-directory: compose-webview
+        run: |
+          chmod +x gradlew
+          ./gradlew publishToMavenLocal --no-configuration-cache
+
+      # Unsigned on purpose (no Apple developer account): SideStore / AltStore / Sideloadly
+      # re-sign the IPA with the user's own Apple ID when installing it.
+      - name: Build unsigned app
+        working-directory: app
+        env:
+          ORG_GRADLE_PROJECT_buildNumber: ${{ github.run_number }}
+        run: |
+          chmod +x gradlew
+          xcodebuild \
+            -project iosApp/iosApp.xcodeproj \
+            -scheme iosApp \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build/ios \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            DEVELOPMENT_TEAM="" \
+            build
+
+      - name: Package IPA
+        working-directory: app
+        run: |
+          APP=$(find build/ios/Build/Products/Release-iphoneos -maxdepth 1 -name "*.app" -type d | head -1)
+          test -n "$APP" || { echo "::error::No .app produced"; exit 1; }
+          mkdir Payload
+          cp -R "$APP" Payload/
+          zip -qry "$GITHUB_WORKSPACE/Tubify-ios.ipa" Payload
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v7
+        with:
+          name: tubify-ios-ipa
+          path: Tubify-ios.ipa
+          retention-days: 30
+
+  # Every successful build on master becomes a GitHub Release, so the files are a direct
+  # download from the repository's "Releases" section (no zip, no Actions page). The Android
+  # build is required; the iPhone file is attached when its build succeeded.
+  release:
+    name: Publish release
+    needs: [android, ios]
+    if: ${{ always() && github.ref == 'refs/heads/master' && needs.android.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download APKs
+        uses: actions/download-artifact@v8
+        with:
+          name: tubify-android-apk
+          path: out
+
+      - name: Download IPA
+        if: ${{ needs.ios.result == 'success' }}
+        uses: actions/download-artifact@v8
+        with:
+          name: tubify-ios-ipa
+          path: out
+
       - name: Publish release
-        if: github.ref == 'refs/heads/master'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ github.run_number }}
           name: Tubify build ${{ github.run_number }}
           target_commitish: ${{ github.sha }}
           make_latest: true
+          fail_on_unmatched_files: false
           body: |
-            Installa **Tubify-arm64-v8a.apk** (quasi tutti i telefoni recenti) oppure **Tubify-universal.apk** se il primo non si installa.
+            **Android:** installa **Tubify-arm64-v8a.apk** (quasi tutti i telefoni recenti) oppure **Tubify-universal.apk** se il primo non si installa.
+            **iPhone:** **Tubify-ios.ipa** non è firmato: installalo con SideStore o AltStore, che lo firmano con il tuo Apple ID (con un Apple ID gratuito va rinnovato ogni 7 giorni).
             Commit: ${{ github.sha }}
           files: |
             out/Tubify-arm64-v8a.apk
             out/Tubify-armeabi-v7a.apk
             out/Tubify-x86_64.apk
             out/Tubify-universal.apk
-
+            out/Tubify-ios.ipa
