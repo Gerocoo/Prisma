@@ -21,3 +21,6 @@
 -dontwarn org.slf4j.**
 -dontwarn org.jetbrains.skiko.**
 -dontwarn javafx.**
+
+# QUIC transport excluded on Android in build.gradle.kts (not 16 KB page aligned).
+-dontwarn com.ditchoom.socket.quic.**
