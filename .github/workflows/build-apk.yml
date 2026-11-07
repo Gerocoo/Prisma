@@ -27,31 +27,31 @@ jobs:
     timeout-minutes: 150
     steps:
       - name: Checkout Tubify
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           path: app
 
       - name: Checkout ComposeNativeWebview
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: ${{ env.COMPOSE_WEBVIEW_REPO }}
           ref: ${{ env.COMPOSE_WEBVIEW_COMMIT }}
           path: compose-webview
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: 21
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
 
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
 
       # The desktop WebView natives are not needed for Android; the jars only have to resolve.
       - name: Publish compose-webview to mavenLocal
@@ -74,7 +74,7 @@ jobs:
           cp "$APK_FILE" "$GITHUB_WORKSPACE/Tubify-debug.apk"
 
       - name: Upload APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: tubify-android-apk
           path: Tubify-debug.apk
