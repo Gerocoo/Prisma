@@ -57,6 +57,8 @@ data class UserSettings(
 
     // Remote Control (LAN)
     val allowRemoteControl: Boolean = false,
+    /** Let Chromecast/Cast devices on the local network fetch the streams this device plays. */
+    val allowCasting: Boolean = true,
     val allowedRemoteDevices: List<String> = emptyList(),
     val remoteControlDeviceName: String = "",
     val remoteControlDeviceId: String = "",

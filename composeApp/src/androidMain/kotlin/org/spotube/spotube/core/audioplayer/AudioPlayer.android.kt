@@ -26,6 +26,11 @@ import androidx.media3.common.MediaMetadata
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.annotation.OptIn
+import androidx.media3.cast.CastPlayer
+import androidx.media3.cast.RemoteCastPlayer
+import androidx.media3.common.util.UnstableApi
+import org.spotube.spotube.core.cast.LanMediaItemConverter
 import org.spotube.spotube.media.PlaybackService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -75,6 +80,26 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
         .setHandleAudioBecomingNoisy(true)
         .build()
 
+    /**
+     * Local ExoPlayer wrapped in Media3's CastPlayer: playback moves to a Chromecast when one is
+     * picked (cast button, notification or system output switcher) and back to the phone after.
+     * Without Google Play services it falls back to plain local playback.
+     */
+    @OptIn(UnstableApi::class)
+    private val activePlayer: Player = try {
+        CastPlayer.Builder(appContext)
+            .setLocalPlayer(exoPlayer)
+            .setRemotePlayer(
+                RemoteCastPlayer.Builder(appContext)
+                    .setMediaItemConverter(LanMediaItemConverter())
+                    .build()
+            )
+            .build()
+    } catch (e: Exception) {
+        Log.w("AudioPlayer", "Google Cast unavailable, local playback only", e)
+        exoPlayer
+    }
+
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     private var disposed = false
@@ -113,7 +138,7 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
     private var lastPlaybackState = Player.STATE_IDLE
 
     init {
-        exoPlayer.addListener(object : Player.Listener {
+        activePlayer.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
                 syncPlaybackState(playbackState)
             }
@@ -148,11 +173,11 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
 
         scope.launch {
             while (isActive && !disposed) {
-                _position.tryEmit(exoPlayer.currentPosition.milliseconds)
+                _position.tryEmit(activePlayer.currentPosition.milliseconds)
                 _duration.tryEmit(
-                    if (exoPlayer.duration > 0) exoPlayer.duration.milliseconds else Duration.ZERO
+                    if (activePlayer.duration > 0) activePlayer.duration.milliseconds else Duration.ZERO
                 )
-                _bufferingPosition.tryEmit(exoPlayer.bufferedPosition.milliseconds)
+                _bufferingPosition.tryEmit(activePlayer.bufferedPosition.milliseconds)
                 delay(250)
             }
         }
@@ -165,14 +190,14 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
         }
         lastPlaybackState = playbackState
         if (playbackState != Player.STATE_ENDED) {
-            syncPlayWhenReady(exoPlayer.playWhenReady)
+            syncPlayWhenReady(activePlayer.playWhenReady)
         }
     }
 
     private fun syncPlayWhenReady(playWhenReady: Boolean) {
         val state = when {
-            exoPlayer.playbackState == Player.STATE_IDLE -> PlayerState.IDLE
-            exoPlayer.playbackState == Player.STATE_BUFFERING -> PlayerState.BUFFERING
+            activePlayer.playbackState == Player.STATE_IDLE -> PlayerState.IDLE
+            activePlayer.playbackState == Player.STATE_BUFFERING -> PlayerState.BUFFERING
             playWhenReady -> PlayerState.PLAYING
             else -> PlayerState.PAUSED
         }
@@ -180,13 +205,13 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
     }
 
     private fun syncCurrentItem() {
-        val index = exoPlayer.currentMediaItemIndex
+        val index = activePlayer.currentMediaItemIndex
         _currentMediaItem.tryEmit(
             if (index in currentPlaylist.indices) currentPlaylist[index] else null
         )
     }
 
-    internal val player: ExoPlayer get() = exoPlayer
+    internal val player: Player get() = activePlayer
 
     private fun MediaItem.toExoMediaItem(): androidx.media3.common.MediaItem {
         return androidx.media3.common.MediaItem.Builder()
@@ -212,33 +237,33 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
     actual override suspend fun play() {
         withContext(Dispatchers.Main) {
             ensureServiceStarted()
-            exoPlayer.play()
+            activePlayer.play()
         }
     }
 
     actual override suspend fun pause() {
         withContext(Dispatchers.Main) {
-            exoPlayer.pause()
+            activePlayer.pause()
         }
     }
 
     actual override suspend fun stop() {
         withContext(Dispatchers.Main) {
-            exoPlayer.stop()
+            activePlayer.stop()
             _playerState.tryEmit(PlayerState.IDLE)
         }
     }
 
     actual override suspend fun seekTo(position: Duration) {
         withContext(Dispatchers.Main) {
-            val duration = exoPlayer.duration
+            val duration = activePlayer.duration
             val targetMs = if (duration > 0) {
                 position.inWholeMilliseconds.coerceIn(0, duration)
             } else {
                 position.inWholeMilliseconds.coerceAtLeast(0)
             }
-            exoPlayer.seekTo(targetMs)
-            _position.tryEmit(exoPlayer.currentPosition.milliseconds)
+            activePlayer.seekTo(targetMs)
+            _position.tryEmit(activePlayer.currentPosition.milliseconds)
         }
     }
 
@@ -249,7 +274,7 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
                 LoopState.ONE -> Player.REPEAT_MODE_ONE
                 LoopState.ALL -> Player.REPEAT_MODE_ALL
             }
-            exoPlayer.repeatMode = repeatMode
+            activePlayer.repeatMode = repeatMode
             _loopState.tryEmit(state)
         }
     }
@@ -258,7 +283,7 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
         withContext(Dispatchers.Main) {
             if (disposed || currentPlaylist.isEmpty() || shuffleEnabled == enabled) return@withContext
 
-            val currentIndex = exoPlayer.currentMediaItemIndex
+            val currentIndex = activePlayer.currentMediaItemIndex
             val current = currentPlaylist.getOrNull(currentIndex) ?: return@withContext
 
             val rest = if (enabled) {
@@ -271,12 +296,12 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
             val after = if (enabled) rest else originalPlaylist.dropWhile { it.url != current.url }.drop(1)
 
             // Reorder in place around the playing item so playback is not interrupted.
-            if (currentIndex < exoPlayer.mediaItemCount - 1) {
-                exoPlayer.removeMediaItems(currentIndex + 1, exoPlayer.mediaItemCount)
+            if (currentIndex < activePlayer.mediaItemCount - 1) {
+                activePlayer.removeMediaItems(currentIndex + 1, activePlayer.mediaItemCount)
             }
-            if (currentIndex > 0) exoPlayer.removeMediaItems(0, currentIndex)
-            exoPlayer.addMediaItems(0, before.map { it.toExoMediaItem() })
-            exoPlayer.addMediaItems(after.map { it.toExoMediaItem() })
+            if (currentIndex > 0) activePlayer.removeMediaItems(0, currentIndex)
+            activePlayer.addMediaItems(0, before.map { it.toExoMediaItem() })
+            activePlayer.addMediaItems(after.map { it.toExoMediaItem() })
 
             currentPlaylist.clear()
             currentPlaylist.addAll(before + current + after)
@@ -319,12 +344,12 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
             val exoItems = playlist.map { it.toExoMediaItem() }
             val safeIndex = startPosition.coerceIn(0, exoItems.lastIndex)
 
-            exoPlayer.setMediaItems(exoItems, safeIndex, 0L)
-            exoPlayer.prepare()
+            activePlayer.setMediaItems(exoItems, safeIndex, 0L)
+            activePlayer.prepare()
 
             if (autoPlay) {
                 ensureServiceStarted()
-                exoPlayer.playWhenReady = true
+                activePlayer.playWhenReady = true
             }
 
             _currentMediaItem.tryEmit(playlist[safeIndex])
@@ -337,13 +362,13 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
             originalPlaylist.add(mediaItem)
             urlIndexMap[mediaItem.url] = currentPlaylist.lastIndex
             _playlist.tryEmit(currentPlaylist.toList())
-            exoPlayer.addMediaItem(mediaItem.toExoMediaItem())
+            activePlayer.addMediaItem(mediaItem.toExoMediaItem())
         }
     }
 
     actual override suspend fun insertMediaItemAtNextIndex(mediaItem: MediaItem) {
         withContext(Dispatchers.Main) {
-            val currentIndex = exoPlayer.currentMediaItemIndex
+            val currentIndex = activePlayer.currentMediaItemIndex
             val insertIndex = (currentIndex + 1).coerceAtMost(currentPlaylist.size)
 
             currentPlaylist.add(insertIndex, mediaItem)
@@ -355,7 +380,7 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
             }
             _playlist.tryEmit(currentPlaylist.toList())
 
-            exoPlayer.addMediaItem(insertIndex, mediaItem.toExoMediaItem())
+            activePlayer.addMediaItem(insertIndex, mediaItem.toExoMediaItem())
         }
     }
 
@@ -369,7 +394,7 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
                 urlIndexMap[item.url] = i
             }
             _playlist.tryEmit(currentPlaylist.toList())
-            exoPlayer.removeMediaItem(index)
+            activePlayer.removeMediaItem(index)
         }
     }
 
@@ -388,26 +413,26 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
             }
             _playlist.tryEmit(currentPlaylist.toList())
 
-            exoPlayer.moveMediaItem(fromIndex, toIndex)
+            activePlayer.moveMediaItem(fromIndex, toIndex)
         }
     }
 
     actual override suspend fun skipToNext() {
         withContext(Dispatchers.Main) {
-            exoPlayer.seekToNextMediaItem()
+            activePlayer.seekToNextMediaItem()
         }
     }
 
     actual override suspend fun skipToPrevious() {
         withContext(Dispatchers.Main) {
-            exoPlayer.seekToPreviousMediaItem()
+            activePlayer.seekToPreviousMediaItem()
         }
     }
 
     actual override suspend fun jumpTo(index: Int) {
         withContext(Dispatchers.Main) {
             if (index in currentPlaylist.indices) {
-                exoPlayer.seekToDefaultPosition(index)
+                activePlayer.seekToDefaultPosition(index)
             }
         }
     }
@@ -415,7 +440,7 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
     actual override suspend fun setVolume(volume: Float) {
         withContext(Dispatchers.Main) {
             val clamped = volume.coerceIn(0f, 1f)
-            exoPlayer.setVolume(clamped)
+            activePlayer.setVolume(clamped)
             _volume.tryEmit(clamped)
         }
     }
@@ -423,7 +448,7 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
     actual override suspend fun setPlaybackSpeed(speed: Float) {
         withContext(Dispatchers.Main) {
             val clamped = speed.coerceIn(0.25f, 4f)
-            exoPlayer.setPlaybackSpeed(clamped)
+            activePlayer.setPlaybackSpeed(clamped)
             _playbackSpeed.tryEmit(clamped)
         }
     }
@@ -432,7 +457,7 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
 
     actual override fun dispose() {
         disposed = true
-        exoPlayer.release()
+        activePlayer.release()
         currentPlaylist.clear()
         originalPlaylist.clear()
         urlIndexMap.clear()

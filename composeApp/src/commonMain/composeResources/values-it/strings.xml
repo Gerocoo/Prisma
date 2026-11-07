@@ -217,6 +217,8 @@
     <string name="settings_error_cache_size_range">La dimensione deve essere 0 o un numero positivo.</string>
     <string name="settings_enable_endless_playback_title">Attiva riproduzione continua</string>
     <string name="settings_enable_endless_playback_subtitle">Continua la riproduzione con brani consigliati quando la coda finisce.</string>
+    <string name="settings_allow_casting_title">Trasmetti a TV e altoparlanti</string>
+    <string name="settings_allow_casting_subtitle">Permette ai dispositivi Chromecast e Google Cast della tua rete Wi-Fi di riprodurre ciò che trasmetti da qui</string>
     <string name="settings_playback_port_title">Porta del server proxy di riproduzione</string>
     <string name="settings_allow_remote_control_title">Consenti controllo remoto</string>
     <string name="settings_allow_remote_control_subtitle">Consenti agli altri dispositivi sulla stessa rete di controllare la riproduzione quando si connettono.</string>

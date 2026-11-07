@@ -32,6 +32,13 @@ class MyApplication : Application(), KoinComponent {
 
     override fun onCreate() {
         super.onCreate()
+        // Google Cast must be initialized before the player or any cast button is created.
+        // Devices without Google Play services simply keep local playback.
+        try {
+            androidx.media3.cast.Cast.getSingletonInstance(this).initialize()
+        } catch (e: Exception) {
+            android.util.Log.w("MyApplication", "Google Cast unavailable", e)
+        }
         Paths.init(this)
         initKoin {
             androidContext(this@MyApplication)

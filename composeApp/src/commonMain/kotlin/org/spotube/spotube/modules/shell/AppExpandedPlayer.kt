@@ -46,6 +46,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.semantics.Role
+import org.spotube.spotube.core.cast.CastButton
 import androidx.compose.foundation.verticalScroll
 
 import org.spotube.spotube.core.ui.theming.AppTheme
@@ -667,8 +668,10 @@ fun AppExpandedPlayer(
 
             Row(
                 modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
-                horizontalArrangement = Arrangement.End
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
+                CastButton()
                 MillenniumIconButton(
                     onClick = onQueue,
                     style = MillenniumIconButtonStyle.Quiet

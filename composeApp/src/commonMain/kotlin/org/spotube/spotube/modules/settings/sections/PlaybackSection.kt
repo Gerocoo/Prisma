@@ -38,6 +38,7 @@ import org.spotube.spotube.modules.settings.UserSettings
 import org.spotube.spotube.modules.settings.components.SelectionSettingCard
 import org.spotube.spotube.modules.settings.components.SettingCardItem
 import org.spotube.spotube.modules.settings.components.SwitchSettingCard
+import org.spotube.spotube.core.cast.supportsCasting
 import org.spotube.spotube.modules.settings.components.TextInputSettingCard
 import org.spotube.spotube.resources.iconsax.CustomServer
 import org.spotube.spotube.resources.iconsax.Iconsax
@@ -116,6 +117,24 @@ internal fun LazyListScope.playbackSection(
                 onCheckedChange = { enabled ->
                     settingsViewModel.updateSettings {
                         copy(enableEndlessPlayback = enabled)
+                    }
+                }
+            )
+        }
+        if (supportsCasting()) add {
+            SwitchSettingCard(
+                title = stringResource(Res.string.settings_allow_casting_title),
+                subtitle = stringResource(Res.string.settings_allow_casting_subtitle),
+                icon = {
+                    SettingsItemIcon(
+                        Iconsax.IconsaxMusicPlay,
+                        stringResource(Res.string.settings_allow_casting_title)
+                    )
+                },
+                checked = settings.allowCasting,
+                onCheckedChange = { enabled ->
+                    settingsViewModel.updateSettings {
+                        copy(allowCasting = enabled)
                     }
                 }
             )

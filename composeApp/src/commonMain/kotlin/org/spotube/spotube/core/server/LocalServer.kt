@@ -110,11 +110,13 @@ class LocalServer(
         logger.d { "Starting playback proxy port watcher" }
         portWatcher = scope.launch {
             settingsViewModel.settingsState
-                .mapNotNull { it?.let { s -> s.playbackProxyServerPort to s.allowRemoteControl } }
+                // Listen on the LAN when another device needs to reach this one: remote control
+                // clients, or a Cast receiver fetching the streams being cast.
+                .mapNotNull { it?.let { s -> s.playbackProxyServerPort to (s.allowRemoteControl || s.allowCasting) } }
                 .distinctUntilChanged()
-                .collectLatest { (port, allowRemoteControl) ->
-                    logger.d { "Observed server config change: port=$port, allowRemoteControl=$allowRemoteControl" }
-                    restartServer(port, allowRemoteControl)
+                .collectLatest { (port, listenOnLan) ->
+                    logger.d { "Observed server config change: port=$port, listenOnLan=$listenOnLan" }
+                    restartServer(port, listenOnLan)
                 }
         }
         scope.launch {

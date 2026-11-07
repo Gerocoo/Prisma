@@ -218,6 +218,8 @@
     <string name="settings_error_cache_size_range">Size must be 0 or a positive number.</string>
     <string name="settings_enable_endless_playback_title">Enable endless playback</string>
     <string name="settings_enable_endless_playback_subtitle">Keep playback going with recommended tracks when your queue ends.</string>
+    <string name="settings_allow_casting_title">Cast to TVs and speakers</string>
+    <string name="settings_allow_casting_subtitle">Lets Chromecast and Google Cast devices on your Wi-Fi play what you cast from here</string>
     <string name="settings_playback_port_title">Playback proxy server port</string>
     <string name="settings_allow_remote_control_title">Allow remote control</string>
     <string name="settings_allow_remote_control_subtitle">Let other devices on the same network control playback when they connect.</string>

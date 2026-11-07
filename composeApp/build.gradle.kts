@@ -330,6 +330,8 @@ kotlin {
                 implementation(libs.media3.common)
                 implementation(libs.media3.exoplayer)
                 implementation(libs.media3.session)
+                implementation(libs.media3.cast)
+                implementation(libs.androidx.compose.material3)
             }
         }
         val iosMain by creating {
