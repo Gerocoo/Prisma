@@ -26,6 +26,7 @@ import androidx.media3.common.MediaMetadata
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.annotation.OptIn
 import androidx.media3.cast.CastPlayer
 import androidx.media3.cast.RemoteCastPlayer
@@ -78,6 +79,18 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
             true
         )
         .setHandleAudioBecomingNoisy(true)
+        // Start as soon as half a second of audio is buffered (default 2.5s), and resume after a
+        // stall with 1.5s instead of 5s: playback begins noticeably faster on every track.
+        .setLoadControl(
+            DefaultLoadControl.Builder()
+                .setBufferDurationsMs(
+                    /* minBufferMs = */ 15_000,
+                    /* maxBufferMs = */ 50_000,
+                    /* bufferForPlaybackMs = */ 500,
+                    /* bufferForPlaybackAfterRebufferMs = */ 1_500
+                )
+                .build()
+        )
         .build()
 
     /**

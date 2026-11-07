@@ -35,6 +35,7 @@ import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -220,15 +221,19 @@ fun TrackList(
     val useDropdownForOptions = isDesktop && !isCompact
 
     val trackCardContent: @Composable () -> Unit = {
-        // Plain list on the page: no card, no dividers, rows separated by spacing only.
+        // Each track is its own rounded tonal card, separated by a small gap (Expressive lists).
         Box(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 4.dp, bottom = 12.dp)
+                    .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 visibleTracks.forEachIndexed { displayedIndex, track ->
                     TrackListRow(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(AppTheme.colors.surfaceContainer),
                         index = displayedIndex + 1,
                         track = track,
                         showIndex = showIndex,

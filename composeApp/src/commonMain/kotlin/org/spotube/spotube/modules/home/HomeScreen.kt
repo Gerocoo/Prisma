@@ -154,7 +154,8 @@ fun HomeScreen(viewModel: HomeScreenViewModel) {
                     val dayPart = remember { currentDayPart() }
                     Text(
                         stringResource(dayPart.greeting),
-                        style = AppTheme.typography.headlineMedium,
+                        // Big expressive heading, like a magazine cover title.
+                        style = AppTheme.typography.displaySmall.copy(fontSize = 40.sp, lineHeight = 44.sp),
                         color = AppTheme.colors.onSurface
                     )
                 } else {

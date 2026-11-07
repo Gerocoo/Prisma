@@ -159,6 +159,37 @@ internal class StreamProxy(
         doStreamFromUpstream(call, trackId, requestMethod)
     }
 
+    private val prefetchMutex = Mutex()
+    private val prefetchedTrackIds = mutableSetOf<String>()
+
+    /**
+     * Resolves the next queued track's stream in the background while this one plays, so the
+     * slow part (plugin search and link extraction) is already done when the next song starts.
+     */
+    private fun prefetchNextStream(currentTrackId: String) {
+        val queue = audioPlayerQueue.queueFlow.value
+        val index = queue.indexOfFirst { it is QueueEntry.StreamingTrack && it.track.id == currentTrackId }
+        if (index < 0) return
+        val next = queue.drop(index + 1).firstOrNull { it is QueueEntry.StreamingTrack } as? QueueEntry.StreamingTrack
+            ?: return
+        val nextId = next.track.id
+        scope.launch {
+            val isNew = prefetchMutex.withLock {
+                if (prefetchedTrackIds.size > 50) prefetchedTrackIds.clear()
+                prefetchedTrackIds.add(nextId)
+            }
+            if (!isNew) return@launch
+            try {
+                streamingUrlRepository.resolveStreamInfo(next.track)
+                logger.d { "[Prefetch] next stream ready for $nextId" }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                logger.w(e) { "[Prefetch] failed for $nextId" }
+            }
+        }
+    }
+
     private suspend fun doStreamFromUpstream(call: ApplicationCall, trackId: String, requestMethod: HttpMethod) {
         val resolveStart = TimeSource.Monotonic.markNow()
         val streamInfo = streamingUrlRepository.resolveStreamInfo(trackId)
@@ -172,6 +203,8 @@ internal class StreamProxy(
             call.respond(HttpStatusCode.NotFound, "Unable to resolve stream for track $trackId")
             return
         }
+
+        prefetchNextStream(trackId)
 
         if (streamInfo.protocol != StreamProtocol.PROGRESSIVE) {
             val port = activePort() ?: 8080

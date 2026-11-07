@@ -19,6 +19,9 @@ package org.spotube.spotube.core.ui.theming
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
+import org.spotube.millennium.composables.MillenniumButtonThemeProperties
+import org.spotube.millennium.composables.MillenniumIconButtonThemeProperties
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
@@ -227,15 +230,16 @@ private fun flatBottomNavigationTheme(colors: MillenniumColors): MillenniumBotto
     val base = defaultMillenniumBottomNavigationBarTheme()
     val clear = SolidColor(Color.Transparent)
     val bar = base.states.default.copy(
-        background = SolidColor(colors.background),
-        shape = RectangleShape,
+        background = SolidColor(colors.raised),
+        shape = RoundedCornerShape(28.dp),
         borderColor = Color.Transparent,
         borderWidth = 0.dp,
         shadowElevation = 0.dp,
         innerGlowColor = Color.Transparent
     )
     fun MillenniumBottomNavigationItemThemeProperties.flat(selected: Boolean, focused: Boolean = false) = copy(
-        background = clear,
+        background = if (selected) SolidColor(colors.accent.copy(alpha = 0.22f)) else clear,
+        shape = RoundedCornerShape(50),
         foreground = if (selected) colors.text else colors.muted,
         borderColor = if (focused) null else Color.Transparent,
         shadowElevation = 0.dp,
@@ -252,6 +256,73 @@ private fun flatBottomNavigationTheme(colors: MillenniumColors): MillenniumBotto
             disabled = item.disabled.flat(selected = false),
             selected = item.selected.flat(selected = true)
         )
+    )
+}
+
+private fun <T> MillenniumControlStateProperty<T>.mapAll(f: (T) -> T) = MillenniumControlStateProperty(
+    default = f(default), hovered = f(hovered), focused = f(focused), pressed = f(pressed),
+    disabled = f(disabled), selected = f(selected), error = f(error)
+)
+
+/**
+ * Material 3 Expressive look for every shared component, so all menus, dialogs, sheets and
+ * settings match the player: pill buttons, large rounded surfaces, flat fills, no gloss,
+ * no hairline borders and no inner glows.
+ */
+private fun MillenniumThemeComponents.expressive(colors: MillenniumColors): MillenniumThemeComponents {
+    val clear = Color.Transparent
+    val pill = RoundedCornerShape(50)
+    val flatButton = { p: MillenniumButtonThemeProperties ->
+        p.copy(shape = pill, borderWidth = 0.dp, innerGlowColor = clear, shadows = emptyList(),
+            shadowElevation = 0.dp, bottomRimColor = clear)
+    }
+    val flatIconButton = { p: MillenniumIconButtonThemeProperties ->
+        p.copy(shape = CircleShape, borderWidth = 0.dp, innerGlowColor = clear, shadows = emptyList(),
+            shadowElevation = 0.dp, bottomRimColor = clear, orb = false)
+    }
+    val tonal = SolidColor(colors.raised)
+    return copy(
+        buttonTheme = buttonTheme.copy(
+            primary = buttonTheme.primary.mapAll(flatButton),
+            secondary = buttonTheme.secondary.mapAll { flatButton(it).copy(background = tonal) },
+            quiet = buttonTheme.quiet.mapAll(flatButton),
+            danger = buttonTheme.danger.mapAll(flatButton)
+        ),
+        iconButtonTheme = iconButtonTheme.copy(
+            primary = iconButtonTheme.primary.mapAll(flatIconButton),
+            secondary = iconButtonTheme.secondary.mapAll { flatIconButton(it).copy(background = tonal) },
+            quiet = iconButtonTheme.quiet.mapAll(flatIconButton),
+            danger = iconButtonTheme.danger.mapAll(flatIconButton)
+        ),
+        cardTheme = cardTheme.copy(states = cardTheme.states.mapAll {
+            it.copy(shape = RoundedCornerShape(24.dp), background = SolidColor(colors.surface),
+                borderWidth = 0.dp, innerGlowColor = clear, shadowElevation = 0.dp, bottomRimColor = clear)
+        }),
+        listTileTheme = listTileTheme.copy(states = listTileTheme.states.mapAll {
+            it.copy(shape = RoundedCornerShape(20.dp), selectedBackground = SolidColor(colors.accent.copy(alpha = 0.16f)),
+                selectedGelStrength = 0f, borderWidth = 0.dp, innerGlowColor = clear)
+        }),
+        dialogTheme = dialogTheme.copy(states = dialogTheme.states.mapAll {
+            it.copy(shape = RoundedCornerShape(28.dp), panelBackground = SolidColor(colors.surface),
+                panelBorderWidth = 0.dp, panelGlowColor = clear, titleBarBorderColor = clear,
+                footerBorderColor = clear)
+        }),
+        dropdownMenuTheme = dropdownMenuTheme.copy(states = dropdownMenuTheme.states.mapAll {
+            it.copy(panelShape = RoundedCornerShape(20.dp), panelBackground = SolidColor(colors.raised),
+                panelBorderWidth = 0.dp, panelGlowColor = clear, itemShape = RoundedCornerShape(12.dp),
+                itemBorderWidth = 0.dp, itemGlowColor = clear)
+        }),
+        textFieldTheme = textFieldTheme.copy(states = textFieldTheme.states.mapAll {
+            it.copy(shape = RoundedCornerShape(16.dp), background = SolidColor(colors.raised),
+                innerGlowColor = clear, insetShadeColor = clear, bottomRimColor = clear)
+        }),
+        modalBottomSheetTheme = modalBottomSheetTheme.copy(states = modalBottomSheetTheme.states.mapAll {
+            // Compact padding: the library default (24dp + 16dp spacing) is far too roomy on phones.
+            it.copy(shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp), background = SolidColor(colors.surface),
+                borderWidth = 0.dp, innerGlowColor = clear, shadowElevation = 0.dp,
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 10.dp, bottom = 8.dp),
+                contentSpacing = 8.dp)
+        })
     )
 }
 
@@ -353,21 +424,19 @@ fun SpotubeTheme(
         config = MillenniumThemeConfig(
             colorSchemes = colorSchemes,
             palette = palette,
-            dark = darkTheme.copy(
+            dark = darkTheme.expressive(colorSchemes.resolve(palette, dark = true)).copy(
                 topAppBarTheme = MillenniumTopAppBarTheme(
                     properties = darkTheme.topAppBarTheme.properties.copy(
                         separatorColor = Color.Transparent
                     )
-                ),
-                modalBottomSheetTheme = compactModalBottomSheetTheme()
+                )
             ),
-            light = lightTheme.copy(
+            light = lightTheme.expressive(colorSchemes.resolve(palette, dark = false)).copy(
                 topAppBarTheme = MillenniumTopAppBarTheme(
                     properties = lightTheme.topAppBarTheme.properties.copy(
                         separatorColor = Color.Transparent
                     )
-                ),
-                modalBottomSheetTheme = compactModalBottomSheetTheme()
+                )
             )
         )
     ) {
@@ -381,23 +450,6 @@ fun SpotubeTheme(
             )
         }
     }
-}
-
-/** Library default is 24dp padding + 16dp spacing, which is far too roomy on phones. */
-private fun compactModalBottomSheetTheme(): MillenniumModalBottomSheetTheme {
-    val padding = PaddingValues(start = 16.dp, end = 16.dp, top = 10.dp, bottom = 8.dp)
-    fun org.spotube.millennium.composables.MillenniumModalBottomSheetThemeProperties.compact() =
-        copy(contentPadding = padding, contentSpacing = 8.dp)
-    val states = defaultMillenniumModalBottomSheetTheme().states
-    return MillenniumModalBottomSheetTheme(
-        states = org.spotube.millennium.theme.MillenniumControlStateProperty(
-            default = states.default.compact(),
-            hovered = states.hovered.compact(),
-            focused = states.focused.compact(),
-            pressed = states.pressed.compact(),
-            disabled = states.disabled.compact(),
-            selected = states.selected.compact(),
-            error = states.error.compact()))
 }
 
 /** Whether the active Millennium appearance is light. */

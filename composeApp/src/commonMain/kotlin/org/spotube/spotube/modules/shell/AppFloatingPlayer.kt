@@ -19,9 +19,6 @@ package org.spotube.spotube.modules.shell
 
 
 import org.spotube.millennium.composables.MillenniumIcon
-import org.spotube.millennium.composables.MillenniumIconButton
-import org.spotube.millennium.composables.MillenniumIconButtonStyle
-import org.spotube.millennium.theme.millenniumSurface
 import org.spotube.millennium.theme.MillenniumTheme
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -37,6 +34,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.semantics.Role
+import org.spotube.spotube.core.ui.theming.rememberArtworkColors
+import org.spotube.spotube.core.ui.theming.animated
+import org.spotube.spotube.core.ui.theming.themeArtworkColors
+import org.spotube.spotube.resources.iconsax.IconsaxNext
+import spotube.composeapp.generated.resources.player_next_content_description
 
 import org.spotube.spotube.core.ui.theming.AppTheme
 import com.composeunstyled.Text
@@ -48,8 +53,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.lerp
 import coil3.compose.AsyncImage
 import org.spotube.spotube.core.audioplayer.AudioPlayerQueue
 import org.spotube.spotube.modules.saved_tracks.SavedTracksViewModel
@@ -113,6 +116,7 @@ fun AppFloatingPlayer(
         modifier = modifier,
         albumArtModifier = albumArtModifier,
         onPlayPause = ::onPlayPause,
+        onNext = { scope.launch { audioPlayer.skipToNext() } },
         heartButton = {
             PlayerHeartButton(
                 audioPlayerQueue = audioPlayerQueue,
@@ -128,106 +132,97 @@ internal fun FloatingPlayerContent(
     modifier: Modifier = Modifier,
     albumArtModifier: Modifier = Modifier,
     onPlayPause: () -> Unit,
+    onNext: () -> Unit = {},
     heartButton: @Composable () -> Unit
 ) {
     val coverModel = playerUiState.coverModel
-
-    val colors = MillenniumTheme.colors
-    // Dark card lightly tinted with the accent, floating above the bottom bar.
-    val cardColor = lerp(colors.raised, colors.accent, 0.16f)
-    val cardShape = RoundedCornerShape(8.dp)
+    val hasQueue = playerUiState.queue.isNotEmpty()
+    // Tonal pill tinted with the current cover's colors, like the full player.
+    val colors = rememberArtworkColors(coverModel).animated(themeArtworkColors())
+    val cardShape = RoundedCornerShape(20.dp)
 
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(FloatingPlayerContentHeight + FloatingPlayerBottomBleed)
-            .padding(start = 8.dp, end = 8.dp, top = 3.dp, bottom = FloatingPlayerBottomBleed + 3.dp)
-            .millenniumSurface(
-                background = SolidColor(cardColor),
-                shape = cardShape,
-                shadowElevation = 6.dp
-            )
+            .padding(start = 12.dp, end = 12.dp, top = 2.dp, bottom = FloatingPlayerBottomBleed + 4.dp)
             .clip(cardShape)
+            .background(colors.containerHigh)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 8.dp, end = 4.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+                .padding(start = 8.dp, end = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
-        ) {
-            Row(
-                modifier = Modifier.weight(1f),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(42.dp)
-                        .then(albumArtModifier)
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(AppTheme.colors.onSurface.copy(alpha = 0.12f)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    if (coverModel != null) AsyncImage(
-                        model = coverModel,
-                        contentDescription = playerUiState.title,
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    )
-                    else MillenniumIcon(
-                        Iconsax.IconsaxMusic, contentDescription = null,
-                        tint = AppTheme.colors.onSurfaceVariant, modifier = Modifier.size(22.dp)
-                    )
-                }
-                Column(modifier = Modifier.padding(start = 10.dp)) {
-                    Text(
-                        text = if (playerUiState.queue.isEmpty()) stringResource(Res.string.player_nothing_playing) else playerUiState.title,
-                        style = AppTheme.typography.titleSmall,
-                        color = AppTheme.colors.onSurface,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    if (playerUiState.queue.isNotEmpty()) Text(
-                        text = playerUiState.artists,
-                        style = AppTheme.typography.bodySmall,
-                        color = AppTheme.colors.onSurfaceVariant,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-            }
-
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                heartButton()
-                MillenniumIconButton(
-                    onClick = onPlayPause,
-                    enabled = playerUiState.queue.isNotEmpty(),
-                    style = MillenniumIconButtonStyle.Quiet
-                ) {
-                    MillenniumIcon(
-                        if (playerUiState.isPlaying) Iconsax.IconsaxPause else Iconsax.IconsaxPlay,
-                        contentDescription = stringResource(if (playerUiState.isPlaying) Res.string.player_pause_content_description else Res.string.player_play_content_description),
-                        tint = AppTheme.colors.onSurface
-                    )
-                }
-            }
-        }
-
-        // Thin progress line along the bottom edge of the card.
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(horizontal = 8.dp)
-                .fillMaxWidth()
-                .height(2.dp)
-                .background(AppTheme.colors.onSurface.copy(alpha = 0.18f))
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth(playerUiState.progress.coerceIn(0f, 1f))
-                    .height(2.dp)
-                    .background(AppTheme.colors.onSurface)
-            )
+                    .size(42.dp)
+                    .then(albumArtModifier)
+                    .clip(CircleShape)
+                    .background(colors.tonal),
+                contentAlignment = Alignment.Center
+            ) {
+                if (coverModel != null) AsyncImage(
+                    model = coverModel,
+                    contentDescription = playerUiState.title,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+                else MillenniumIcon(
+                    Iconsax.IconsaxMusic, contentDescription = null,
+                    tint = colors.onContainerMuted, modifier = Modifier.size(22.dp)
+                )
+            }
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = if (!hasQueue) stringResource(Res.string.player_nothing_playing) else playerUiState.title,
+                    style = AppTheme.typography.titleSmall,
+                    color = colors.onContainer,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                if (hasQueue) Text(
+                    text = playerUiState.artists,
+                    style = AppTheme.typography.bodySmall,
+                    color = colors.onContainerMuted,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            heartButton()
+            // Round play/pause on the light accent, round next on the tonal color.
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(colors.accent)
+                    .clickable(enabled = hasQueue, role = Role.Button, onClick = onPlayPause),
+                contentAlignment = Alignment.Center
+            ) {
+                MillenniumIcon(
+                    if (playerUiState.isPlaying) Iconsax.IconsaxPause else Iconsax.IconsaxPlay,
+                    contentDescription = stringResource(if (playerUiState.isPlaying) Res.string.player_pause_content_description else Res.string.player_play_content_description),
+                    tint = colors.onAccent,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(colors.tonal)
+                    .clickable(enabled = hasQueue, role = Role.Button, onClick = onNext),
+                contentAlignment = Alignment.Center
+            ) {
+                MillenniumIcon(
+                    Iconsax.IconsaxNext,
+                    contentDescription = stringResource(Res.string.player_next_content_description),
+                    tint = colors.onContainer,
+                    modifier = Modifier.size(18.dp)
+                )
+            }
         }
     }
 }

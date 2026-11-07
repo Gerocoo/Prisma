@@ -18,6 +18,7 @@
 package org.spotube.spotube.modules.shell
 
 
+import androidx.compose.ui.graphics.Color
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumIconButton
 import org.spotube.millennium.composables.MillenniumIconButtonStyle
@@ -43,7 +44,9 @@ import spotube.composeapp.generated.resources.player_unlike_content_description
 @Composable
 fun PlayerHeartButton(
     audioPlayerQueue: AudioPlayerQueue,
-    savedTracksViewModel: SavedTracksViewModel) {
+    savedTracksViewModel: SavedTracksViewModel,
+    likedTint: Color? = null,
+    tint: Color? = null) {
     val currentQueueEntry by audioPlayerQueue.currentQueueEntryFlow.collectAsStateWithLifecycle()
     val currentTrackId = (currentQueueEntry as? QueueEntry.StreamingTrack)?.track?.id
     val isSavedTrackState =
@@ -62,10 +65,10 @@ fun PlayerHeartButton(
         onClick = { currentTrackId?.let { savedTracksViewModel.toggleSavedTrack(it, isLiked) } },
         enabled = isSavedTrackState is SavedState.Success,
         loading = currentTrackId != null && currentTrackId in pendingSavedTrackIds,
-        style = MillenniumIconButtonStyle.Secondary) {
+        style = if (tint != null) MillenniumIconButtonStyle.Quiet else MillenniumIconButtonStyle.Secondary) {
         MillenniumIcon(
             imageVector = if (isLiked) Iconsax.IconsaxHeart2 else Iconsax.IconsaxHeart,
             contentDescription = stringResource(if (isLiked) Res.string.player_unlike_content_description else Res.string.player_like_content_description),
-            tint = if (isLiked) AppTheme.colors.primary else AppTheme.colors.onSurfaceVariant)
+            tint = if (isLiked) likedTint ?: AppTheme.colors.primary else tint ?: AppTheme.colors.onSurfaceVariant)
     }
 }

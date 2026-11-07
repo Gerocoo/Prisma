@@ -345,7 +345,7 @@ internal fun CompactPlayerOverlay(
             // glides to the nearest detent instead of stalling and then easing like a tween.
             animationSpec = spring(
                 dampingRatio = Spring.DampingRatioNoBouncy,
-                stiffness = Spring.StiffnessMediumLow)
+                stiffness = Spring.StiffnessMedium)
         )
     }
 
