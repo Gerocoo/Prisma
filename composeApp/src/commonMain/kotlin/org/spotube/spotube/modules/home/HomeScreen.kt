@@ -84,6 +84,10 @@ import org.spotube.spotube.resources.iconsax.IconsaxMirroringScreen
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import spotube.composeapp.generated.resources.Res
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import spotube.composeapp.generated.resources.recap_title
+import spotube.composeapp.generated.resources.recap_entry_subtitle
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -351,6 +355,7 @@ private fun HomeContent(
                 if (compact) {
                     item { QuickAccessGrid(playlists = quickAccess) }
                 }
+                item { RecapBanner() }
                 if (state.featuredItems.isNotEmpty()) {
                     item {
                         FeaturedCarousel(items = state.featuredItems)
@@ -685,6 +690,32 @@ private fun QuickAccessTile(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(horizontal = 10.dp)
+        )
+    }
+}
+
+/** Entry to the yearly listening recap ("Your <year> in music"). */
+@Composable
+private fun RecapBanner(navigationCommands: NavigationCommands = koinInject()) {
+    val year = remember { Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).year }
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .clip(RoundedCornerShape(28.dp))
+            .background(Brush.linearGradient(listOf(Color(0xFFFFB224), Color(0xFFFF5A36), Color(0xFF6C5CE7))))
+            .clickable(role = Role.Button) { navigationCommands.navigateTo(Routes.Recap) }
+            .padding(horizontal = 22.dp, vertical = 20.dp)
+    ) {
+        Text(
+            text = stringResource(Res.string.recap_title, year),
+            style = AppTheme.typography.headlineSmall,
+            color = Color.White
+        )
+        Text(
+            text = stringResource(Res.string.recap_entry_subtitle),
+            style = AppTheme.typography.bodyMedium,
+            color = Color.White.copy(alpha = 0.9f)
         )
     }
 }

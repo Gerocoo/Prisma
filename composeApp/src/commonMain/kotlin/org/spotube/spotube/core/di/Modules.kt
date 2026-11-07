@@ -17,6 +17,8 @@
 
 package org.spotube.spotube.core.di
 
+import org.spotube.spotube.modules.recap.ListeningHistoryRepository
+import org.spotube.spotube.modules.recap.RecapViewModel
 import org.koin.core.module.dsl.onClose
 import org.spotube.spotube.core.network.HttpClientFactory
 import co.touchlab.kermit.Logger
@@ -275,6 +277,11 @@ val sharedModules = module {
     singleOf(::LocalServer) withOptions {
         createdAtStart()
     }
+    // Local listening log for the yearly recap; started with the app so every play is counted.
+    single { ListeningHistoryRepository(get(), get(), get()) } withOptions {
+        createdAtStart()
+    }
+    viewModel { RecapViewModel(get()) }
     single { RemoteControlHandler(get(), get(), get(), get()) }
     single { RemoteControlClient(get()) }
     singleOf(::DeviceDiscoveryService)

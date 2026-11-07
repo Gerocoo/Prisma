@@ -17,6 +17,7 @@
 
 package org.spotube.spotube.core.navigation
 
+import org.spotube.spotube.modules.recap.RecapScreen
 import androidx.navigation3.runtime.NavKey
 import org.spotube.spotube.modules.album.AlbumScreen
 import org.spotube.spotube.modules.artist.ArtistScreen
@@ -82,6 +83,9 @@ sealed interface Routes : NavKey {
     data object SavedTracks : Routes
 
     @Serializable
+    data object Recap : Routes
+
+    @Serializable
     data object Blacklist : Routes
 
     @Serializable
@@ -127,6 +131,9 @@ val navigationModule = module {
                 parameters = { parametersOf(it.folderPath) }
             ),
             onBack = { get<NavigationCommands>().pop() })
+    }
+    navigation<Routes.Recap> {
+        RecapScreen(viewModel = koinViewModel(), onBack = { get<NavigationCommands>().pop() })
     }
     navigation<Routes.Settings> {
         SettingsScreen(settingsViewModel = koinViewModel())

@@ -989,4 +989,38 @@
         <item quantity="one">In una Jam · %1$d ascoltatore</item>
         <item quantity="other">In una Jam · %1$d ascoltatori</item>
     </plurals>
+    <!-- Tubify: yearly recap -->
+    <string name="recap_title">Il tuo %1$d in musica</string>
+    <string name="recap_entry_subtitle">Scopri cosa hai ascoltato quest'anno</string>
+    <string name="recap_intro_label">Il tuo anno</string>
+    <string name="recap_swipe_hint">Scorri per scoprire com'è andata.</string>
+    <string name="recap_minutes_intro">Quest'anno hai ascoltato</string>
+    <string name="recap_minutes_label">minuti di musica</string>
+    <string name="recap_minutes_caption">%1$d brani diversi di %2$d artisti.</string>
+    <string name="recap_top_artist_label">Il tuo artista dell'anno</string>
+    <string name="recap_top_artists">I tuoi artisti più ascoltati</string>
+    <string name="recap_top_track_label">La tua canzone dell'anno</string>
+    <string name="recap_top_tracks">I tuoi brani più ascoltati</string>
+    <string name="recap_minutes_short">%1$d min</string>
+    <string name="recap_top_month_label">Il tuo mese più musicale</string>
+    <string name="recap_summary">In sintesi</string>
+    <string name="recap_empty_title">Il riepilogo si costruisce mentre ascolti.</string>
+    <string name="recap_empty_body">Tubify tiene sul telefono un registro dei brani ascoltati per almeno 30 secondi. Torna qui dopo qualche ascolto.</string>
+    <string name="recap_close">Chiudi</string>
+    <string name="recap_month_1">Gennaio</string>
+    <string name="recap_month_2">Febbraio</string>
+    <string name="recap_month_3">Marzo</string>
+    <string name="recap_month_4">Aprile</string>
+    <string name="recap_month_5">Maggio</string>
+    <string name="recap_month_6">Giugno</string>
+    <string name="recap_month_7">Luglio</string>
+    <string name="recap_month_8">Agosto</string>
+    <string name="recap_month_9">Settembre</string>
+    <string name="recap_month_10">Ottobre</string>
+    <string name="recap_month_11">Novembre</string>
+    <string name="recap_month_12">Dicembre</string>
+    <plurals name="recap_plays">
+        <item quantity="one">%1$d ascolto</item>
+        <item quantity="other">%1$d ascolti</item>
+    </plurals>
 </resources>
