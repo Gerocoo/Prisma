@@ -377,7 +377,8 @@ android {
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = bundleId
+        // Tubify's own id, so it installs next to the official Spotube app.
+        applicationId = "io.github.gerocoo.tubify"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = appBuildNumber
@@ -399,6 +400,16 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+    // One APK per CPU architecture (each carries only its own native libraries), plus a
+    // universal one for devices of unknown type.
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("arm64-v8a", "armeabi-v7a", "x86_64")
+            isUniversalApk = true
         }
     }
 
@@ -423,7 +434,16 @@ android {
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            // R8: drops unused code and resources and optimizes the rest (smaller, faster APK).
+            // Names are kept (-dontobfuscate in proguard-rules.pro) because plugins and
+            // serialization look classes up by name.
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+                "proguard-android-tubify.pro"
+            )
             signingConfig = signingConfigs.getByName("release")
         }
         getByName("debug") {

@@ -60,22 +60,52 @@ jobs:
           chmod +x gradlew
           ./gradlew publishToMavenLocal --no-configuration-cache
 
-      - name: Assemble debug APK
+      # Fixed signing key, so every new build installs as an update over the previous one.
+      # The key lives in the repository; for a private key, move it and the password into
+      # repository secrets (KEYSTORE / KEYSTORE_PASSWORD) and they take precedence.
+      - name: Configure signing
+        working-directory: app/composeApp
+        env:
+          KEYSTORE: ${{ secrets.KEYSTORE }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: |
+          if [ -n "$KEYSTORE" ]; then
+            echo "$KEYSTORE" | base64 --decode > release.jks
+            PASS="$KEYSTORE_PASSWORD"
+          else
+            cp ../keystore/tubify-release.jks release.jks
+            PASS="cUUjpcoWjMxV6lF4q6eOAVud"
+          fi
+          cat >> local.properties <<PROPS
+          release.signing.storeFile=$PWD/release.jks
+          release.signing.storePassword=$PASS
+          release.signing.keyAlias=tubify
+          release.signing.keyPassword=$PASS
+          PROPS
+
+      - name: Assemble optimized release and debug fallback
         working-directory: app
         run: |
           chmod +x gradlew
-          ./gradlew :composeApp:assembleStableDebug --stacktrace
+          ./gradlew :composeApp:assembleStableRelease :composeApp:assembleStableDebug -PbuildNumber=${{ github.run_number }} --stacktrace
 
-      - name: Collect APK
-        working-directory: app
+      - name: Collect APKs
+        working-directory: app/composeApp/build/outputs/apk
         run: |
-          APK_FILE=$(find composeApp/build/outputs/apk -name "*.apk" -type f | head -1)
-          test -n "$APK_FILE" || { echo "::error::No APK produced"; exit 1; }
-          cp "$APK_FILE" "$GITHUB_WORKSPACE/Tubify-debug.apk"
+          mkdir -p "$GITHUB_WORKSPACE/out"
+          for f in $(find stable/release -name "*.apk"); do
+            abi=$(basename "$f" .apk | sed -E 's/^composeApp-stable-//; s/-release.*$//')
+            cp "$f" "$GITHUB_WORKSPACE/out/Tubify-$abi.apk"
+          done
+          debug=$(find stable/debug -name "*universal*.apk" | head -1)
+          [ -n "$debug" ] || debug=$(find stable/debug -name "*.apk" | head -1)
+          cp "$debug" "$GITHUB_WORKSPACE/out/Tubify-debug-fallback.apk"
+          ls -la "$GITHUB_WORKSPACE/out"
+          test -n "$(ls $GITHUB_WORKSPACE/out/Tubify-arm64-v8a.apk 2>/dev/null)" || { echo "::error::Missing arm64 APK"; exit 1; }
 
-      - name: Upload APK
+      - name: Upload optimized APKs
         uses: actions/upload-artifact@v7
         with:
           name: tubify-android-apk
-          path: Tubify-debug.apk
+          path: out/Tubify-*.apk
           retention-days: 30
