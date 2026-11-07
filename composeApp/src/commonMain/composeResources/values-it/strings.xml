@@ -168,7 +168,7 @@
     <string name="settings_palette_label">Palette</string>
     <string name="settings_appearance_subtitle_palette">Palette e accento Millennium. Attuale: %1$s</string>
     <string name="settings_palette_blue">Blu</string>
-    <string name="settings_palette_orange">Arancione</string>
+    <string name="settings_palette_orange">Ambra</string>
     <string name="settings_palette_lime">Lime</string>
 
     <string name="settings_download_folder_title">Cartella di download personalizzata</string>
@@ -582,6 +582,9 @@
 
     <!-- Home -->
     <string name="home_title_browse">Sfoglia</string>
+    <string name="home_greeting_morning">Buongiorno</string>
+    <string name="home_greeting_afternoon">Buon pomeriggio</string>
+    <string name="home_greeting_evening">Buonasera</string>
 
     <!-- Lyrics -->
     <string name="lyrics_mode_synced">Sincronizzati</string>

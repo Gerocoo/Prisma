@@ -31,7 +31,26 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.resources.Font
+import org.spotube.millennium.composables.MillenniumTextTheme
+import org.spotube.millennium.composables.MillenniumBottomNavigationBarTheme
+import org.spotube.millennium.composables.MillenniumBottomNavigationItemThemeProperties
+import org.spotube.millennium.composables.defaultMillenniumBottomNavigationBarTheme
+import org.spotube.millennium.theme.resolve
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.SolidColor
+import org.spotube.millennium.theme.MillenniumColorSchemes
+import org.spotube.millennium.theme.MillenniumControlStateProperty
+import org.spotube.millennium.theme.MillenniumOrangeLightColors
+import org.spotube.millennium.theme.MillenniumThemeComponents
+import spotube.composeapp.generated.resources.Res
+import spotube.composeapp.generated.resources.figtree_bold
+import spotube.composeapp.generated.resources.figtree_extrabold
+import spotube.composeapp.generated.resources.figtree_medium
+import spotube.composeapp.generated.resources.figtree_regular
+import spotube.composeapp.generated.resources.figtree_semibold
 
 import org.spotube.spotube.modules.settings.Theme
 import org.spotube.spotube.modules.settings.UserSettings
@@ -137,30 +156,126 @@ data class AppTypography(
 )
 
 private fun style(
+    family: FontFamily,
     size: Int,
     lineHeight: Int,
-    weight: FontWeight = FontWeight.Normal
+    weight: FontWeight = FontWeight.Normal,
+    letterSpacing: Float = 0f
 ): TextStyle = TextStyle(
-    fontFamily = FontFamily.SansSerif,
+    fontFamily = family,
     fontSize = size.sp,
     lineHeight = lineHeight.sp,
-    fontWeight = weight
+    fontWeight = weight,
+    letterSpacing = letterSpacing.em
 )
 
-val AppDefaultTypography = AppTypography(
-    displaySmall = style(36, 44),
-    headlineLarge = style(32, 40),
-    headlineMedium = style(28, 36),
-    headlineSmall = style(24, 32),
-    titleLarge = style(22, 28, FontWeight.Medium),
-    titleMedium = style(16, 24, FontWeight.Medium),
-    titleSmall = style(14, 20, FontWeight.Medium),
-    bodyLarge = style(16, 24),
-    bodyMedium = style(14, 20),
-    bodySmall = style(12, 16),
-    labelLarge = style(14, 20, FontWeight.Medium),
-    labelMedium = style(12, 16, FontWeight.Medium),
-    labelSmall = style(11, 16, FontWeight.Medium)
+/**
+ * Typography scale. Headings are heavy and slightly tightened, body text is regular: the
+ * hierarchy comes from weight more than from size.
+ */
+fun appTypography(family: FontFamily) = AppTypography(
+    displaySmall = style(family, 34, 40, FontWeight.ExtraBold, -0.02f),
+    headlineLarge = style(family, 30, 36, FontWeight.ExtraBold, -0.02f),
+    headlineMedium = style(family, 26, 32, FontWeight.ExtraBold, -0.02f),
+    headlineSmall = style(family, 22, 28, FontWeight.ExtraBold, -0.01f),
+    titleLarge = style(family, 20, 26, FontWeight.Bold, -0.01f),
+    titleMedium = style(family, 16, 22, FontWeight.SemiBold),
+    titleSmall = style(family, 14, 20, FontWeight.SemiBold),
+    bodyLarge = style(family, 16, 24),
+    bodyMedium = style(family, 14, 20),
+    bodySmall = style(family, 12, 16),
+    labelLarge = style(family, 14, 20, FontWeight.SemiBold),
+    labelMedium = style(family, 12, 16, FontWeight.Medium),
+    labelSmall = style(family, 11, 16, FontWeight.Medium)
+)
+
+val AppDefaultTypography = appTypography(FontFamily.SansSerif)
+
+/** Figtree (SIL Open Font License, see assets/licenses/Figtree-OFL.txt), bundled as static weights. */
+@Composable
+fun rememberAppFontFamily(): FontFamily {
+    val regular = Font(Res.font.figtree_regular, FontWeight.Normal)
+    val medium = Font(Res.font.figtree_medium, FontWeight.Medium)
+    val semiBold = Font(Res.font.figtree_semibold, FontWeight.SemiBold)
+    val bold = Font(Res.font.figtree_bold, FontWeight.Bold)
+    val extraBold = Font(Res.font.figtree_extrabold, FontWeight.ExtraBold)
+    return remember(regular, medium, semiBold, bold, extraBold) {
+        FontFamily(regular, medium, semiBold, bold, extraBold)
+    }
+}
+
+/** Millennium's text roles on the app font, so library components match the rest of the UI. */
+private fun MillenniumThemeComponents.withFont(family: FontFamily): MillenniumThemeComponents {
+    val base = textTheme.states.default
+    val themed = base.copy(
+        body = base.body.copy(fontFamily = family),
+        label = base.label.copy(fontFamily = family),
+        button = base.button.copy(fontFamily = family, fontWeight = FontWeight.Bold),
+        title = base.title.copy(fontFamily = family, fontWeight = FontWeight.ExtraBold),
+        headline = base.headline.copy(fontFamily = family, fontWeight = FontWeight.ExtraBold),
+        caption = base.caption.copy(fontFamily = family),
+        avatar = base.avatar.copy(fontFamily = family)
+    )
+    return copy(textTheme = MillenniumTextTheme(MillenniumControlStateProperty.all(themed)))
+}
+
+/**
+ * Flat bottom navigation: solid background, no gel on the selected item; the selected tab is
+ * bright text, the others muted. A focus ring is still drawn for keyboard users.
+ */
+private fun flatBottomNavigationTheme(colors: MillenniumColors): MillenniumBottomNavigationBarTheme {
+    val base = defaultMillenniumBottomNavigationBarTheme()
+    val clear = SolidColor(Color.Transparent)
+    val bar = base.states.default.copy(
+        background = SolidColor(colors.background),
+        shape = RectangleShape,
+        borderColor = Color.Transparent,
+        borderWidth = 0.dp,
+        shadowElevation = 0.dp,
+        innerGlowColor = Color.Transparent
+    )
+    fun MillenniumBottomNavigationItemThemeProperties.flat(selected: Boolean, focused: Boolean = false) = copy(
+        background = clear,
+        foreground = if (selected) colors.text else colors.muted,
+        borderColor = if (focused) null else Color.Transparent,
+        shadowElevation = 0.dp,
+        innerGlowColor = Color.Transparent
+    )
+    val item = base.item
+    return base.copy(
+        states = MillenniumControlStateProperty.all(bar),
+        item = item.copy(
+            default = item.default.flat(selected = false),
+            hovered = item.hovered.flat(selected = false).copy(foreground = colors.text),
+            focused = item.focused.flat(selected = false, focused = true),
+            pressed = item.pressed.flat(selected = false),
+            disabled = item.disabled.flat(selected = false),
+            selected = item.selected.flat(selected = true)
+        )
+    )
+}
+
+/**
+ * Dark surfaces shared by every accent family: near-black ground, softly lifted cards, no
+ * tinted chrome. Accents are flat (top = bottom) instead of Millennium's glossy gel.
+ */
+private fun darkSurface(accent: Color, onAccent: Color) = MillenniumColors(
+    background = Color(0xFF0F0F10), surface = Color(0xFF18181B), raised = Color(0xFF26262A),
+    inset = Color(0xFF141416), text = Color(0xFFF4F4F5), muted = Color(0xFFA1A1AA),
+    border = Color(0xFF2E2E33), highlight = Color(0xFF3A3A40), accent = accent,
+    accentTop = accent, accentBottom = accent, onAccent = onAccent,
+    success = Color(0xFF86EFAC), danger = Color(0xFFFF8A80), scrim = Color(0xCC050505)
+)
+
+/** Amber is the default (the "Orange" family slot); blue and lime keep their own accents. */
+val AppColorSchemes = MillenniumColorSchemes(
+    dark = darkSurface(accent = Color(0xFF7C8CFF), onAccent = Color(0xFF0B0B1A)),
+    orangeDark = darkSurface(accent = Color(0xFFF5A524), onAccent = Color(0xFF111111)),
+    orangeLight = MillenniumOrangeLightColors.copy(
+        accent = Color(0xFF9A5B00), accentTop = Color(0xFFF5A524), accentBottom = Color(0xFFF5A524),
+        onAccent = Color(0xFF111111)
+    ),
+    limeDark = darkSurface(accent = Color(0xFF2DD4BF), onAccent = Color(0xFF04201C))
 )
 
 /** Corner shapes used by the app. */
@@ -172,9 +287,9 @@ data class AppShapes(
 )
 
 val AppDefaultShapes = AppShapes(
-    small = RoundedCornerShape(8.dp),
-    medium = RoundedCornerShape(12.dp),
-    large = RoundedCornerShape(16.dp)
+    small = RoundedCornerShape(4.dp),
+    medium = RoundedCornerShape(8.dp),
+    large = RoundedCornerShape(12.dp)
 )
 
 val LocalAppColors =
@@ -207,13 +322,24 @@ fun SpotubeTheme(
         Theme.SYSTEM -> isSystemDarkTheme()
     }
     val palette: MillenniumPalette = settings.palette
+    val fontFamily = rememberAppFontFamily()
+    val typography = remember(fontFamily) { appTypography(fontFamily) }
 
-    val darkTheme = MillenniumDarkThemeComponents
-    val lightTheme = MillenniumLightThemeComponents
+    val darkTheme = remember(fontFamily, palette) {
+        MillenniumDarkThemeComponents.withFont(fontFamily).copy(
+            bottomNavigationBarTheme = flatBottomNavigationTheme(AppColorSchemes.resolve(palette, dark = true))
+        )
+    }
+    val lightTheme = remember(fontFamily, palette) {
+        MillenniumLightThemeComponents.withFont(fontFamily).copy(
+            bottomNavigationBarTheme = flatBottomNavigationTheme(AppColorSchemes.resolve(palette, dark = false))
+        )
+    }
 
     MillenniumTheme(
         dark = isDarkTheme,
         config = MillenniumThemeConfig(
+            colorSchemes = AppColorSchemes,
             palette = palette,
             dark = darkTheme.copy(
                 topAppBarTheme = MillenniumTopAppBarTheme(
@@ -237,7 +363,7 @@ fun SpotubeTheme(
         MillenniumTooltipHost {
             CompositionLocalProvider(
                 LocalAppColors provides colors,
-                LocalAppTypography provides AppDefaultTypography,
+                LocalAppTypography provides typography,
                 LocalAppShapes provides AppDefaultShapes,
                 content = content
             )

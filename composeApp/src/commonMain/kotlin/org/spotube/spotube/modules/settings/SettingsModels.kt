@@ -41,8 +41,8 @@ data class UserSettings(
     val country: CountryCode = CountryCode.BD,
 
     // Appearance
-    val theme: Theme = Theme.SYSTEM,
-    val palette: MillenniumPalette = MillenniumPalette.Blue,
+    val theme: Theme = Theme.DARK,
+    val palette: MillenniumPalette = MillenniumPalette.Orange,
 
     // Playback
     val streamingMusicFormat: AudioFormat = defaultStreamingMusicFormat(),

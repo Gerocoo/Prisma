@@ -44,6 +44,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.semantics.Role
 import androidx.compose.foundation.verticalScroll
 
 import org.spotube.spotube.core.ui.theming.AppTheme
@@ -61,7 +63,6 @@ import com.composeunstyled.SheetDetent
 import com.composeunstyled.rememberModalBottomSheetState
 
 import com.composeunstyled.Text
-import com.composeunstyled.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -281,7 +282,9 @@ fun AppExpandedPlayer(
         }
     }
 
-    Box(modifier = modifier.fillMaxSize().background(AppTheme.colors.background)) {
+    // Warm wash of the accent over the ground instead of a flat page.
+    val playerBackground = lerp(AppTheme.colors.background, AppTheme.colors.primary, 0.10f)
+    Box(modifier = modifier.fillMaxSize().background(playerBackground)) {
         if (playerOptionsUiState.isMoreOptionsSheetOpen) {
             MillenniumModalBottomSheet(
                 state = moreOptionsSheetState,
@@ -474,7 +477,7 @@ fun AppExpandedPlayer(
                 }
                 Text(
                     text = stringResource(Res.string.player_now_playing),
-                    style = AppTheme.typography.titleMedium,
+                    style = AppTheme.typography.labelLarge,
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.Center,
                     maxLines = 1
@@ -490,15 +493,15 @@ fun AppExpandedPlayer(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 20.dp, bottom = 24.dp),
+                    .padding(start = 8.dp, end = 8.dp, top = 28.dp, bottom = 32.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(0.84f)
+                        .fillMaxWidth()
                         .aspectRatio(1f)
                         .then(albumArtModifier)
-                        .clip(RoundedCornerShape(22.dp))
+                        .clip(RoundedCornerShape(8.dp))
                         .background(AppTheme.colors.surfaceContainerHighest)
                 ) {
                     AsyncImage(
@@ -513,24 +516,19 @@ fun AppExpandedPlayer(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 2.dp),
+                    .padding(horizontal = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                PlayerHeartButton(
-                    audioPlayerQueue = audioPlayerQueue,
-                    savedTracksViewModel = savedTracksViewModel
-                )
                 Column(
                     modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.Start
                 ) {
                     Text(
                         text = playerUiState.title,
                         style = AppTheme.typography.headlineSmall,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        textAlign = TextAlign.Center
+                        overflow = TextOverflow.Ellipsis
                     )
                     PlayerArtistsText(
                         artists = playerUiState.artistList,
@@ -541,18 +539,16 @@ fun AppExpandedPlayer(
                         },
                         style = AppTheme.typography.bodyLarge,
                         color = AppTheme.colors.onSurfaceVariant,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Start
                     )
                 }
-                MillenniumIconButton(
-                    onClick = onQueue,
-                    style = MillenniumIconButtonStyle.Secondary
-                ) {
-                    MillenniumIcon(Iconsax.IconsaxMusicFilter, contentDescription = stringResource(Res.string.queue_title))
-                }
+                PlayerHeartButton(
+                    audioPlayerQueue = audioPlayerQueue,
+                    savedTracksViewModel = savedTracksViewModel
+                )
             }
 
-            Column(modifier = Modifier.padding(top = 20.dp)) {
+            Column(modifier = Modifier.padding(top = 20.dp, start = 8.dp, end = 8.dp)) {
                 MillenniumSlider(
                     value = seekProgress,
                     onValueChange = {
@@ -612,17 +608,27 @@ fun AppExpandedPlayer(
                         enabled = !isJamGuest,
                         style = MillenniumIconButtonStyle.Quiet
                     ) {
-                        MillenniumIcon(Iconsax.IconsaxPrevious, contentDescription = stringResource(Res.string.player_previous_content_description))
+                        MillenniumIcon(
+                        Iconsax.IconsaxPrevious,
+                        contentDescription = stringResource(Res.string.player_previous_content_description),
+                        modifier = Modifier.size(32.dp),
+                        tint = AppTheme.colors.onSurface
+                    )
                     }
-                    MillenniumIconButton(
-                        onClick = ::onPlayPause,
-                        style = MillenniumIconButtonStyle.Primary
+                    // Large bright play/pause disc, the one high-contrast control on the screen.
+                    Box(
+                        modifier = Modifier
+                            .size(68.dp)
+                            .clip(CircleShape)
+                            .background(AppTheme.colors.onSurface)
+                            .clickable(role = Role.Button, onClick = ::onPlayPause),
+                        contentAlignment = Alignment.Center
                     ) {
                         MillenniumIcon(
                             if (playerUiState.isPlaying) Iconsax.IconsaxPause else Iconsax.IconsaxPlay,
                             contentDescription = stringResource(if (playerUiState.isPlaying) Res.string.player_pause_content_description else Res.string.player_play_content_description),
                             modifier = Modifier.size(30.dp),
-                            tint = LocalTextStyle.current.color
+                            tint = AppTheme.colors.background
                         )
                     }
                     MillenniumIconButton(
@@ -630,7 +636,12 @@ fun AppExpandedPlayer(
                         enabled = !isJamGuest,
                         style = MillenniumIconButtonStyle.Quiet
                     ) {
-                        MillenniumIcon(Iconsax.IconsaxNext, contentDescription = stringResource(Res.string.player_next_content_description))
+                        MillenniumIcon(
+                        Iconsax.IconsaxNext,
+                        contentDescription = stringResource(Res.string.player_next_content_description),
+                        modifier = Modifier.size(32.dp),
+                        tint = AppTheme.colors.onSurface
+                    )
                     }
                     MillenniumIconButton(
                         onClick = ::onLoopToggle,
@@ -651,6 +662,22 @@ fun AppExpandedPlayer(
                             }
                         )
                     }
+                }
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
+                horizontalArrangement = Arrangement.End
+            ) {
+                MillenniumIconButton(
+                    onClick = onQueue,
+                    style = MillenniumIconButtonStyle.Quiet
+                ) {
+                    MillenniumIcon(
+                        Iconsax.IconsaxMusicFilter,
+                        contentDescription = stringResource(Res.string.queue_title),
+                        tint = AppTheme.colors.onSurfaceVariant
+                    )
                 }
             }
 

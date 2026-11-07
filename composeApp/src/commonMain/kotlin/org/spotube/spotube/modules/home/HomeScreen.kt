@@ -21,8 +21,6 @@ package org.spotube.spotube.modules.home
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumIconButton
 import org.spotube.millennium.composables.MillenniumIconButtonStyle
-import org.spotube.millennium.composables.MillenniumButton
-import org.spotube.millennium.composables.MillenniumButtonStyle
 import org.spotube.millennium.theme.MillenniumTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -96,6 +94,17 @@ import org.jetbrains.compose.resources.Font
 import org.spotube.millennium.adaptive.WindowBreakpoints
 import org.spotube.spotube.resources.iconsax.IconsaxMirrorScreenRegular
 import spotube.composeapp.generated.resources.cookie_regular
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.Role
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
+import org.jetbrains.compose.resources.StringResource
+import spotube.composeapp.generated.resources.home_greeting_afternoon
+import spotube.composeapp.generated.resources.home_greeting_evening
+import spotube.composeapp.generated.resources.home_greeting_morning
 
 @Composable
 fun HomeScreen(viewModel: HomeScreenViewModel) {
@@ -142,13 +151,10 @@ fun HomeScreen(viewModel: HomeScreenViewModel) {
             backButton = false,
             title = {
                 if (isSmallScreen) {
+                    val dayPart = remember { currentDayPart() }
                     Text(
-                        "Spotube",
-                        style = AppTheme.typography.headlineLarge.copy(
-                            fontFamily = FontFamily(
-                                listOf(Font(Res.font.cookie_regular, weight = FontWeight.Normal))
-                            )
-                        ),
+                        stringResource(dayPart.greeting),
+                        style = AppTheme.typography.headlineMedium,
                         color = AppTheme.colors.onSurface
                     )
                 } else {
@@ -402,17 +408,14 @@ private fun HomeSection(
     ) {
         if (!subtitle.isNullOrEmpty()) Text(
             text = subtitle,
-            style = AppTheme.typography.labelMedium.copy(
-                color = AppTheme.colors.secondary,
-                fontWeight = FontWeight.Medium
-            ),
-            modifier = Modifier.padding(horizontal = 16.dp)
+            style = AppTheme.typography.labelMedium.copy(color = AppTheme.colors.onSurfaceVariant),
+            modifier = Modifier.padding(horizontal = 16.dp).offset(y = 8.dp)
         )
         Text(
             text = title,
-            style = AppTheme.typography.titleLarge,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(horizontal = 16.dp).offset(y = (-12).dp)
+            style = AppTheme.typography.headlineSmall,
+            color = AppTheme.colors.onSurface,
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
 
         LazyRow(
@@ -447,19 +450,49 @@ private fun GenreTabs(
         state = rowState,
         modifier = Modifier.dragScrollable(rowState),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
-        horizontalArrangement = Arrangement.spacedBy(6.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(genres) { genre ->
-            MillenniumButton(
-                onClick = { onGenreSelected(genre.id) },
-                style = if (selectedGenreId == genre.id) {
-                    MillenniumButtonStyle.Primary
-                } else {
-                    MillenniumButtonStyle.Secondary
-                }
-            ) {
-                Text(genre.name)
-            }
+            GenreChip(
+                label = genre.name,
+                selected = selectedGenreId == genre.id,
+                onClick = { onGenreSelected(genre.id) }
+            )
         }
+    }
+}
+
+/** Pill-shaped filter chip: accent fill when selected, raised neutral otherwise. */
+@Composable
+private fun GenreChip(label: String, selected: Boolean, onClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .height(34.dp)
+            .clip(RoundedCornerShape(50))
+            .background(if (selected) AppTheme.colors.primary else AppTheme.colors.surfaceContainerHigh)
+            .selectable(selected = selected, role = Role.Tab, onClick = onClick)
+            .padding(horizontal = 16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = label,
+            style = AppTheme.typography.labelLarge,
+            color = if (selected) AppTheme.colors.onPrimary else AppTheme.colors.onSurface
+        )
+    }
+}
+
+private enum class DayPart(val greeting: StringResource) {
+    Morning(Res.string.home_greeting_morning),
+    Afternoon(Res.string.home_greeting_afternoon),
+    Evening(Res.string.home_greeting_evening)
+}
+
+private fun currentDayPart(): DayPart {
+    val hour = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).hour
+    return when (hour) {
+        in 5..11 -> DayPart.Morning
+        in 12..17 -> DayPart.Afternoon
+        else -> DayPart.Evening
     }
 }

@@ -35,6 +35,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 
 import org.spotube.spotube.core.ui.theming.AppTheme
@@ -101,7 +102,7 @@ fun PlayableCard(
     val animatedVisibilityScope = LocalAnimatedVisibilityScope.current
 
     MediaCardSurface(
-        modifier = modifier.width(160.dp),
+        modifier = modifier.width(148.dp),
         onClick = onClick ?: onPlay,
         interactive = onClick != null || onPlay != null || onAddToQueue != null
     ) { highlighted ->
@@ -113,13 +114,13 @@ fun PlayableCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(1f)
-                        .clip(RoundedCornerShape(8.dp))
+                        .clip(RoundedCornerShape(6.dp))
                         .sharedElementOrNone(
                             key = sharedElementKey,
                             sharedTransitionScope = sharedTransitionScope,
                             animatedVisibilityScope = animatedVisibilityScope
                         ),
-                    shape = RoundedCornerShape(8.dp)
+                    shape = RoundedCornerShape(6.dp)
                 )
 
                 if (onPlay != null || onAddToQueue != null)
@@ -159,7 +160,7 @@ fun PlayableCard(
                                     MillenniumIconButton(
                                         onClick = onPlay,
                                         loading = playLoading,
-                                        modifier = Modifier.size(34.dp),
+                                        modifier = Modifier.size(44.dp).clip(CircleShape),
                                         style = MillenniumIconButtonStyle.Primary
 
                                     ) {
@@ -183,7 +184,7 @@ fun PlayableCard(
                     }
             }
             Column(
-                modifier = Modifier.fillMaxWidth().padding(12.dp)
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 10.dp)
             ) {
                 TextWithShimmer(
                     text = title,
@@ -191,7 +192,7 @@ fun PlayableCard(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(2.dp))
                 subtitle?.let {
                     TextWithShimmer(
                         text = subtitle,

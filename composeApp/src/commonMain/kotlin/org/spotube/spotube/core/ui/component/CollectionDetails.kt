@@ -22,7 +22,6 @@ import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.layout.height
 import org.spotube.millennium.composables.MillenniumButton
 import org.spotube.millennium.composables.MillenniumButtonStyle
-import org.spotube.millennium.composables.MillenniumCard
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumIconButton
 import org.spotube.millennium.composables.MillenniumIconButtonStyle
@@ -42,6 +41,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.shadow
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
+import org.spotube.spotube.resources.iconsax.IconsaxPlay
+import org.spotube.spotube.resources.iconsax.IconsaxPause
 
 import org.spotube.spotube.core.ui.theming.AppTheme
 import com.composeunstyled.Text
@@ -206,7 +210,7 @@ fun CollectionDetails(
                         model = ownerImageURL,
                         contentDescription = ownerName,
                         modifier = Modifier
-                            .size(16.dp)
+                            .size(24.dp)
                             .clip(CircleShape)
                             .shimmerApply(),
                         contentScale = ContentScale.Crop)
@@ -215,7 +219,7 @@ fun CollectionDetails(
                         imageVector = Iconsax.User,
                         contentDescription = ownerName,
                         modifier = Modifier
-                            .size(16.dp)
+                            .size(24.dp)
                             .background(
                                 AppTheme.colors.primaryContainer,
                                 CircleShape
@@ -225,16 +229,46 @@ fun CollectionDetails(
                 }
                 TextWithShimmer(
                     text = stringResource(Res.string.collection_details_by_owner, ownerName),
-                    style = AppTheme.typography.labelSmall,
-                    color = AppTheme.colors.onSurfaceVariant)
+                    style = AppTheme.typography.titleSmall,
+                    color = AppTheme.colors.onSurface)
+            }
+        }
+
+        // Shuffle + large round play, aligned to the end of the actions row.
+        val roundPlayControls = @Composable {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                MillenniumIconButton(
+                    onClick = onShufflePlay,
+                    loading = isShuffleLoading,
+                    style = MillenniumIconButtonStyle.Quiet) {
+                    MillenniumIcon(
+                        imageVector = Iconsax.IconsaxShuffle,
+                        contentDescription = stringResource(Res.string.collection_details_shuffle_play),
+                        modifier = Modifier.size(26.dp),
+                        tint = AppTheme.colors.onSurfaceVariant)
+                }
+                MillenniumIconButton(
+                    onClick = onPlay,
+                    loading = isPlayLoading,
+                    modifier = Modifier.size(56.dp).clip(CircleShape),
+                    style = MillenniumIconButtonStyle.Primary) {
+                    MillenniumIcon(
+                        imageVector = if (isPlaying) Iconsax.IconsaxPause else Iconsax.IconsaxPlay,
+                        contentDescription = if (isPlaying) stringResource(Res.string.player_pause_content_description) else stringResource(Res.string.player_play_content_description),
+                        modifier = Modifier.size(26.dp),
+                        tint = AppTheme.colors.onPrimary)
+                }
             }
         }
 
         val artwork = @Composable {
             Box(
                 modifier = Modifier
-                    .size(if (isCompact) 100.dp else 200.dp)
-                    .clip(RoundedCornerShape(12.dp))
+                    .size(if (isCompact) 232.dp else 220.dp)
+                    .shadow(16.dp, RoundedCornerShape(6.dp))
+                    .clip(RoundedCornerShape(6.dp))
                     .sharedElementOrNone(
                         key = sharedElementKey,
                         sharedTransitionScope = sharedTransitionScope,
@@ -266,63 +300,60 @@ fun CollectionDetails(
             Column {
                 TextWithShimmer(
                     text = title,
-                    style = if (isCompact) AppTheme.typography.bodyLarge else AppTheme.typography.headlineLarge,
-                    maxLines = 1,
+                    style = if (isCompact) AppTheme.typography.headlineMedium else AppTheme.typography.displaySmall,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis)
 
                 if (description.isNotBlank()) {
                     TextWithShimmer(
                         text = description,
-                        style = if (isCompact) AppTheme.typography.labelSmall else AppTheme.typography.bodyMedium,
+                        style = AppTheme.typography.bodyMedium,
                         color = AppTheme.colors.onSurfaceVariant,
-                        maxLines = 1,
+                        maxLines = 2,
                         overflow = TextOverflow.Ellipsis)
                 }
             }
         }
 
-        MillenniumCard(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            contentPadding = PaddingValues(0.dp)) {
-            if (isCompact) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(14.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        verticalAlignment = Alignment.CenterVertically) {
-                        artwork()
-                        Column(
-                            modifier = Modifier.weight(1f),
-                            verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                            metadata()
-                            ownerInfo()
-                            actions()
-                        }
-                    }
-                    playPauseButton()
-                }
-            } else {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    verticalAlignment = Alignment.Top) {
+        // Flat header straight on the page, no card chrome.
+        if (isCompact) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Box(modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp), contentAlignment = Alignment.Center) {
                     artwork()
+                }
+                metadata()
+                ownerInfo()
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    actions()
+                    Spacer(modifier = Modifier.weight(1f))
+                    if (!isJamGuest) roundPlayControls()
+                }
+                if (isJamGuest) playPauseButton()
+            }
+        } else {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp, vertical = 20.dp),
+                horizontalArrangement = Arrangement.spacedBy(24.dp),
+                verticalAlignment = Alignment.Bottom) {
+                artwork()
 
-                    Column(
-                        modifier = Modifier.weight(1f),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        metadata()
-                        ownerInfo()
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    metadata()
+                    ownerInfo()
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        if (isJamGuest) playPauseButton() else roundPlayControls()
+                        Spacer(modifier = Modifier.width(8.dp))
                         actions()
-                        playPauseButton()
                     }
                 }
             }

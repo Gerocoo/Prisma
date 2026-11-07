@@ -35,6 +35,7 @@ import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -51,7 +52,6 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.ui.state.ToggleableState
-import org.spotube.millennium.composables.MillenniumCard
 import org.spotube.millennium.composables.MillenniumCheckbox
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumIconButton
@@ -220,20 +220,14 @@ fun TrackList(
     val useDropdownForOptions = isDesktop && !isCompact
 
     val trackCardContent: @Composable () -> Unit = {
-        MillenniumCard(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            contentPadding = PaddingValues(0.dp)) {
+        // Plain list on the page: no card, no dividers, rows separated by spacing only.
+        Box(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 12.dp, bottom = 12.dp)
+                    .padding(top = 4.dp, bottom = 12.dp)
             ) {
                 visibleTracks.forEachIndexed { displayedIndex, track ->
-                    if (displayedIndex > 0) {
-                        MillenniumSeparator()
-                    }
                     TrackListRow(
                         index = displayedIndex + 1,
                         track = track,
@@ -559,20 +553,20 @@ private fun TrackListRow(
     val isRowHovered by rowInteractionSource.collectIsHoveredAsState()
     val rowBackgroundColor = when {
         isSelected -> AppTheme.colors.secondary.copy(alpha = 0.12f)
-        isCurrentTrack && isCurrentTrackPlaying -> AppTheme.colors.primaryContainer
-        isCurrentTrack -> AppTheme.colors.surfaceVariant
+        // The current track is marked by its accent title, not by a filled row.
         trackOptionsState.isBlacklisted -> AppTheme.colors.error.copy(alpha = 0.1f)
         else -> Color.Transparent
     }
 
     MillenniumListTile(
         modifier = modifier,
-        selected = isSelected || isCurrentTrack,
+        selected = isSelected,
         onClick = onTrackClick,
         title = {
             TextWithShimmer(
                 text = track.title,
-                style = AppTheme.typography.bodyLarge,
+                style = AppTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Medium),
+                color = if (isCurrentTrack) AppTheme.colors.primary else AppTheme.colors.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis)
         },

@@ -51,22 +51,19 @@ internal fun MediaCardSurface(
         tween(140)
     )
     val scale by animateFloatAsState(if (pressed) 0.985f else 1f, tween(100))
-    val shape = RoundedCornerShape(10.dp)
+    val shape = RoundedCornerShape(8.dp)
+    // Flat lift on hover/focus, no gloss: the artwork carries the card.
+    val base = if (isBlacklisted) colors.danger.copy(alpha = 0.12f + highlight * 0.12f)
+    else colors.raised.copy(alpha = highlight * 0.7f)
     Box(
         modifier.graphicsLayer { scaleX = scale; scaleY = scale }
             .millenniumSurface(
-                background = Brush.verticalGradient(
-                    listOf(
-                        colors.raised.copy(alpha = highlight),
-                        if (isBlacklisted) colors.danger.copy(alpha = 0.12f + highlight * 0.12f)
-                        else colors.surface.copy(alpha = highlight)
-                    )
-                ),
+                background = Brush.verticalGradient(listOf(base, base)),
                 shape = shape,
-                borderColor = (if (focused) colors.accent else colors.border).copy(alpha = highlight),
-                borderWidth = if (focused) 2.dp else 1.dp,
-                innerGlowColor = colors.highlight.copy(alpha = highlight * 0.4f),
-                shadowElevation = (highlight * 4f).dp
+                borderColor = colors.accent.copy(alpha = if (focused) 1f else 0f),
+                borderWidth = if (focused) 2.dp else 0.dp,
+                innerGlowColor = colors.highlight.copy(alpha = 0f),
+                shadowElevation = 0.dp
             )
             .clip(shape)
             .onFocusChanged { groupFocused = it.hasFocus }
