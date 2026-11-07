@@ -84,6 +84,7 @@ import org.spotube.spotube.resources.iconsax.IconsaxMirroringScreen
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import spotube.composeapp.generated.resources.Res
+import org.spotube.spotube.modules.recap.RecapSchedule
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import spotube.composeapp.generated.resources.recap_title
@@ -355,7 +356,8 @@ private fun HomeContent(
                 if (compact) {
                     item { QuickAccessGrid(playlists = quickAccess) }
                 }
-                item { RecapBanner() }
+                // Shown only during the recap season (from early December to the end of January).
+                RecapSchedule.activeYear()?.let { year -> item { RecapBanner(year) } }
                 if (state.featuredItems.isNotEmpty()) {
                     item {
                         FeaturedCarousel(items = state.featuredItems)
@@ -696,8 +698,7 @@ private fun QuickAccessTile(
 
 /** Entry to the yearly listening recap ("Your <year> in music"). */
 @Composable
-private fun RecapBanner(navigationCommands: NavigationCommands = koinInject()) {
-    val year = remember { Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).year }
+private fun RecapBanner(year: Int, navigationCommands: NavigationCommands = koinInject()) {
     Column(
         modifier = Modifier
             .fillMaxWidth()

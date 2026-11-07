@@ -59,7 +59,7 @@ class RecapViewModel(private val history: ListeningHistoryRepository) : ViewMode
 
     private suspend fun compute(): RecapUiState = withContext(Dispatchers.Default) {
         val zone = TimeZone.currentSystemDefault()
-        val year = Clock.System.now().toLocalDateTime(zone).year
+        val year = RecapSchedule.activeYear() ?: Clock.System.now().toLocalDateTime(zone).year
         val events = history.events().filter {
             Instant.fromEpochMilliseconds(it.at).toLocalDateTime(zone).year == year
         }
