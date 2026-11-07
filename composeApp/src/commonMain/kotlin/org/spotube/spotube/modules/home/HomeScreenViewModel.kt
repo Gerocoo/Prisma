@@ -35,6 +35,9 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import org.spotube.spotube.modules.library.LibraryRepository
+import org.spotube.plugin_interfaces.plugin_apis.metadata.playlist.MetadataPlaylist
 import org.jetbrains.compose.resources.getString
 import spotube.composeapp.generated.resources.Res
 import spotube.composeapp.generated.resources.common_unknown_error
@@ -83,6 +86,20 @@ class HomeScreenViewModel(
     private val state = MutableStateFlow<HomeScreenState>(HomeScreenState.Loading)
     val uiState = state.asStateFlow()
 
+    private val libraryRepository: LibraryRepository by inject()
+
+    /** The user's own playlists for the shortcut grid at the top of Home (empty if logged out). */
+    private val _quickAccess = MutableStateFlow<List<MetadataPlaylist>>(emptyList())
+    val quickAccess: StateFlow<List<MetadataPlaylist>> = _quickAccess.asStateFlow()
+
+    private fun loadQuickAccess() {
+        viewModelScope.launch {
+            _quickAccess.value = runCatching {
+                libraryRepository.savedPlaylists()?.items?.take(7)
+            }.getOrNull() ?: emptyList()
+        }
+    }
+
     init {
         viewModelScope.launch {
             pluginManager.selectedMetadataPlugin
@@ -96,6 +113,7 @@ class HomeScreenViewModel(
 
     private suspend fun loadInitialData() = runCatching {
         state.value = HomeScreenState.Loading
+        loadQuickAccess()
         val featuredItems = repository.featuredItems() ?: emptyList()
         val genres = repository.genres() ?: emptyList()
         val firstGenreId = genres.firstOrNull()?.id

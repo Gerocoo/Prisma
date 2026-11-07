@@ -84,6 +84,23 @@ import org.spotube.spotube.resources.iconsax.IconsaxMirroringScreen
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import spotube.composeapp.generated.resources.Res
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
+import coil3.compose.AsyncImage
+import org.spotube.plugin_interfaces.plugin_apis.metadata.playlist.MetadataPlaylist
+import org.spotube.spotube.resources.iconsax.User
+import org.spotube.spotube.resources.iconsax.IconsaxMusic
+import spotube.composeapp.generated.resources.saved_tracks_title
+import spotube.composeapp.generated.resources.settings_screen_title
+import org.spotube.spotube.resources.iconsax.IconsaxSetting2
 import spotube.composeapp.generated.resources.support_button_label
 import spotube.composeapp.generated.resources.devices_title
 import spotube.composeapp.generated.resources.home_title_browse
@@ -147,54 +164,76 @@ fun HomeScreen(viewModel: HomeScreenViewModel) {
             .fillMaxSize()
             .background(MillenniumTheme.colors.background)
     ) {
-        ApplicationMainBar(
-            backButton = false,
-            title = {
-                if (isSmallScreen) {
-                    val dayPart = remember { currentDayPart() }
-                    Text(
-                        stringResource(dayPart.greeting),
-                        // Big expressive heading, like a magazine cover title.
-                        style = AppTheme.typography.displaySmall.copy(fontSize = 40.sp, lineHeight = 44.sp),
-                        color = AppTheme.colors.onSurface
-                    )
-                } else {
-                    Text(stringResource(Res.string.home_title_browse))
-                }
+        val quickAccess by viewModel.quickAccess.collectAsStateWithLifecycle()
+        val data = state as? HomeScreenState.Data
+        if (isSmallScreen) {
+            // Phone header: round profile button (opens Settings) followed by the genre chips.
+            CompactHomeHeader(
+                genres = data?.genres.orEmpty(),
+                selectedGenreId = data?.selectedGenreId,
+                onGenreSelected = { viewModel.selectGenre(it) },
+                onProfileClick = { navigationCommands.navigateTo(Routes.Settings) }
+            )
+        } else {
+            ApplicationMainBar(
+                backButton = false,
+                title = {
+                    if (isSmallScreen) {
+                        val dayPart = remember { currentDayPart() }
+                        Text(
+                            stringResource(dayPart.greeting),
+                            // Big expressive heading, like a magazine cover title.
+                            style = AppTheme.typography.displaySmall.copy(fontSize = 40.sp, lineHeight = 44.sp),
+                            color = AppTheme.colors.onSurface
+                        )
+                    } else {
+                        Text(stringResource(Res.string.home_title_browse))
+                    }
 
-            },
-            actions = {
-                if (isSmallScreen) {
-                    MillenniumIconButton(
-                        onClick = { navigationCommands.navigateTo(Routes.Devices) },
-                        style = MillenniumIconButtonStyle.Quiet
-                    ) {
-                        MillenniumIcon(
-                            imageVector = Iconsax.IconsaxMirrorScreenRegular,
-                            contentDescription = stringResource(Res.string.devices_title)
-                        )
+                },
+                actions = {
+                    if (isSmallScreen) {
+                        // Settings left the bottom bar: reach them from the Home header.
+                        MillenniumIconButton(
+                            onClick = { navigationCommands.navigateTo(Routes.Settings) },
+                            style = MillenniumIconButtonStyle.Quiet
+                        ) {
+                            MillenniumIcon(
+                                imageVector = Iconsax.IconsaxSetting2,
+                                contentDescription = stringResource(Res.string.settings_screen_title)
+                            )
+                        }
+                        MillenniumIconButton(
+                            onClick = { navigationCommands.navigateTo(Routes.Devices) },
+                            style = MillenniumIconButtonStyle.Quiet
+                        ) {
+                            MillenniumIcon(
+                                imageVector = Iconsax.IconsaxMirrorScreenRegular,
+                                contentDescription = stringResource(Res.string.devices_title)
+                            )
+                        }
+                        MillenniumIconButton(
+                            onClick = { navigationCommands.navigateTo(Routes.Jam) },
+                            style = MillenniumIconButtonStyle.Quiet
+                        ) {
+                            MillenniumIcon(
+                                imageVector = Iconsax.IconsaxSoundTwotone,
+                                contentDescription = stringResource(Res.string.jam_screen_title)
+                            )
+                        }
+                        val supportLabel = stringResource(Res.string.support_button_label)
+                        MillenniumIconButton(
+                            onClick = openSupport,
+                            style = MillenniumIconButtonStyle.Quiet
+                        ) {
+                            MillenniumIcon(
+                                imageVector = Iconsax.IconsaxHeart2,
+                                contentDescription = supportLabel
+                            )
+                        }
                     }
-                    MillenniumIconButton(
-                        onClick = { navigationCommands.navigateTo(Routes.Jam) },
-                        style = MillenniumIconButtonStyle.Quiet
-                    ) {
-                        MillenniumIcon(
-                            imageVector = Iconsax.IconsaxSoundTwotone,
-                            contentDescription = stringResource(Res.string.jam_screen_title)
-                        )
-                    }
-                    val supportLabel = stringResource(Res.string.support_button_label)
-                    MillenniumIconButton(
-                        onClick = openSupport,
-                        style = MillenniumIconButtonStyle.Quiet
-                    ) {
-                        MillenniumIcon(
-                            imageVector = Iconsax.IconsaxHeart2,
-                            contentDescription = supportLabel
-                        )
-                    }
-                }
-            })
+                })
+        }
         if (isSmallScreen) {
             ConnectStatusBanner(
                 onOpenRemote = { navigationCommands.navigateTo(Routes.RemoteControl) },
@@ -210,6 +249,8 @@ fun HomeScreen(viewModel: HomeScreenViewModel) {
                 HomeContent(
                     listState = listState,
                     state = state,
+                    quickAccess = quickAccess,
+                    compact = isSmallScreen,
                     onRetry = { viewModel.refresh() },
                     onGenreSelected = { viewModel.selectGenre(it) })
             } else {
@@ -223,6 +264,8 @@ fun HomeScreen(viewModel: HomeScreenViewModel) {
                     HomeContent(
                         listState = listState,
                         state = state,
+                        quickAccess = quickAccess,
+                        compact = isSmallScreen,
                         onRetry = { viewModel.refresh() },
                         onGenreSelected = { viewModel.selectGenre(it) })
                 }
@@ -241,6 +284,8 @@ fun HomeScreen(viewModel: HomeScreenViewModel) {
 private fun HomeContent(
     listState: androidx.compose.foundation.lazy.LazyListState,
     state: HomeScreenState,
+    quickAccess: List<MetadataPlaylist> = emptyList(),
+    compact: Boolean = false,
     onRetry: () -> Unit,
     onGenreSelected: (String) -> Unit
 ) {
@@ -303,13 +348,16 @@ private fun HomeContent(
             }
 
             is HomeScreenState.Data -> {
+                if (compact) {
+                    item { QuickAccessGrid(playlists = quickAccess) }
+                }
                 if (state.featuredItems.isNotEmpty()) {
                     item {
                         FeaturedCarousel(items = state.featuredItems)
                     }
                 }
 
-                if (state.genres.isNotEmpty()) {
+                if (!compact && state.genres.isNotEmpty()) {
                     item {
                         GenreTabs(
                             genres = state.genres,
@@ -497,3 +545,147 @@ private fun currentDayPart(): DayPart {
         else -> DayPart.Evening
     }
 }
+
+/** Phone Home header: profile circle (Settings) + scrolling genre chips on one row. */
+@Composable
+private fun CompactHomeHeader(
+    genres: List<MetadataBrowseGenre>,
+    selectedGenreId: String?,
+    onGenreSelected: (String) -> Unit,
+    onProfileClick: () -> Unit
+) {
+    val rowState = rememberLazyListState()
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .windowInsetsPadding(WindowInsets.statusBars)
+            .padding(top = 10.dp, bottom = 6.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        val settingsLabel = stringResource(Res.string.settings_screen_title)
+        Box(
+            modifier = Modifier
+                .padding(start = 16.dp, end = 8.dp)
+                .size(36.dp)
+                .clip(CircleShape)
+                .background(AppTheme.colors.primary)
+                .clickable(role = Role.Button, onClickLabel = settingsLabel, onClick = onProfileClick),
+            contentAlignment = Alignment.Center
+        ) {
+            MillenniumIcon(
+                imageVector = Iconsax.User,
+                contentDescription = settingsLabel,
+                tint = AppTheme.colors.onPrimary,
+                modifier = Modifier.size(20.dp)
+            )
+        }
+        LazyRow(
+            state = rowState,
+            modifier = Modifier.weight(1f).dragScrollable(rowState),
+            contentPadding = PaddingValues(end = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(genres) { genre ->
+                GenreChip(
+                    label = genre.name,
+                    selected = selectedGenreId == genre.id,
+                    onClick = { onGenreSelected(genre.id) }
+                )
+            }
+        }
+    }
+}
+
+/**
+ * Two-column grid of shortcuts to the user's own music: "Liked songs" first, then up to seven
+ * of their playlists. Each tile is cover + title on a rounded tonal surface.
+ */
+@Composable
+private fun QuickAccessGrid(
+    playlists: List<MetadataPlaylist>,
+    navigationCommands: NavigationCommands = koinInject()
+) {
+    val likedTitle = stringResource(Res.string.saved_tracks_title)
+    val tiles: List<@Composable (Modifier) -> Unit> = buildList {
+        add { m ->
+            QuickAccessTile(
+                title = likedTitle,
+                imageUrl = null,
+                onClick = { navigationCommands.navigateTo(Routes.SavedTracks) },
+                modifier = m,
+                placeholder = {
+                    MillenniumIcon(
+                        imageVector = Iconsax.IconsaxHeart2,
+                        contentDescription = null,
+                        tint = AppTheme.colors.onPrimary,
+                        modifier = Modifier.size(22.dp)
+                    )
+                }
+            )
+        }
+        playlists.forEach { playlist ->
+            add { m ->
+                QuickAccessTile(
+                    title = playlist.title,
+                    imageUrl = playlist.thumbnails.firstOrNull()?.url,
+                    onClick = { navigationCommands.navigateTo(Routes.Playlist(playlist.id)) },
+                    modifier = m
+                )
+            }
+        }
+    }
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        tiles.chunked(2).forEach { row ->
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                row.forEach { tile -> tile(Modifier.weight(1f)) }
+                if (row.size == 1) Spacer(Modifier.weight(1f))
+            }
+        }
+    }
+}
+
+@Composable
+private fun QuickAccessTile(
+    title: String,
+    imageUrl: String?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    placeholder: @Composable () -> Unit = {
+        MillenniumIcon(Iconsax.IconsaxMusic, contentDescription = null, tint = AppTheme.colors.onSurfaceVariant)
+    }
+) {
+    Row(
+        modifier = modifier
+            .height(56.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(AppTheme.colors.surfaceContainerHigh)
+            .clickable(role = Role.Button, onClick = onClick),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(56.dp)
+                .background(if (imageUrl == null) AppTheme.colors.primary else AppTheme.colors.surfaceContainer),
+            contentAlignment = Alignment.Center
+        ) {
+            if (imageUrl != null) AsyncImage(
+                model = imageUrl,
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            ) else placeholder()
+        }
+        Text(
+            text = title,
+            style = AppTheme.typography.titleSmall,
+            color = AppTheme.colors.onSurface,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(horizontal = 10.dp)
+        )
+    }
+}
+

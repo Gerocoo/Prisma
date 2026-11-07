@@ -28,6 +28,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.text.TextStyle
@@ -231,16 +232,20 @@ private fun flatBottomNavigationTheme(colors: MillenniumColors): MillenniumBotto
     val base = defaultMillenniumBottomNavigationBarTheme()
     val clear = SolidColor(Color.Transparent)
     val bar = base.states.default.copy(
-        background = SolidColor(colors.raised),
-        shape = RoundedCornerShape(28.dp),
+        // Transparent at the top, solid page color at the bottom: content fades under the bar.
+        background = Brush.verticalGradient(
+            0f to colors.background.copy(alpha = 0f),
+            0.55f to colors.background.copy(alpha = 0.92f),
+            1f to colors.background
+        ),
+        shape = RectangleShape,
         borderColor = Color.Transparent,
         borderWidth = 0.dp,
         shadowElevation = 0.dp,
         innerGlowColor = Color.Transparent
     )
     fun MillenniumBottomNavigationItemThemeProperties.flat(selected: Boolean, focused: Boolean = false) = copy(
-        background = if (selected) SolidColor(colors.accent.copy(alpha = 0.22f)) else clear,
-        shape = RoundedCornerShape(50),
+        background = clear,
         foreground = if (selected) colors.text else colors.muted,
         borderColor = if (focused) null else Color.Transparent,
         shadowElevation = 0.dp,

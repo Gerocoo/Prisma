@@ -43,6 +43,7 @@ import org.spotube.spotube.core.navigation.Routes
 import org.spotube.spotube.core.ui.component.ApplicationMainBar
 import spotube.composeapp.generated.resources.*
 import org.spotube.spotube.modules.settings.sections.appearanceSection
+import org.spotube.spotube.modules.settings.sections.connectSection
 import org.spotube.spotube.modules.settings.sections.cacheSection
 import org.spotube.spotube.modules.settings.sections.desktopSection
 import org.spotube.spotube.modules.settings.sections.downloadsSection
@@ -141,6 +142,7 @@ private fun CompactSettingsContent(
                     settingsViewModel = settingsViewModel,
                     navigatorCommands = navigatorCommands,
                     requestLocalNetworkPermission = requestLocalNetworkPermission)
+                connectSection(navigationCommands = navigatorCommands)
                 jamSection(
                     settings = settings,
                     navigationCommands = navigatorCommands)

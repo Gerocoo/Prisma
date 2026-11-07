@@ -24,10 +24,6 @@ import org.spotube.millennium.composables.MillenniumBottomNavigationItem
 import org.spotube.millennium.composables.MillenniumIcon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.ui.unit.dp
 import org.spotube.spotube.NavigationItem
 import org.jetbrains.compose.resources.stringResource
 import org.spotube.spotube.bottombarTabs
@@ -35,6 +31,13 @@ import org.spotube.spotube.core.navigation.NavigationState
 import org.spotube.spotube.core.navigation.Navigator
 import org.spotube.spotube.core.navigation.Routes
 import org.spotube.spotube.modules.downloads.DownloadBadgeIndicator
+import org.spotube.spotube.modules.library.LibraryState
+import org.spotube.spotube.modules.library.LibraryTab
+import org.spotube.spotube.resources.iconsax.Iconsax
+import org.spotube.spotube.resources.iconsax.IconsaxAdd
+import org.koin.compose.koinInject
+import spotube.composeapp.generated.resources.Res
+import spotube.composeapp.generated.resources.nav_create
 
 @Composable
 fun AppBottombar(
@@ -43,13 +46,10 @@ fun AppBottombar(
     modifier: Modifier = Modifier,
     libraryBadge: @Composable () -> Unit = { DownloadBadgeIndicator() }
 ) {
-    // Floating pill above the system navigation bar (Material 3 Expressive).
-    MillenniumBottomNavigationBar(
-        modifier = modifier
-            .navigationBarsPadding()
-            .padding(start = 12.dp, end = 12.dp, bottom = 8.dp),
-        windowInsets = WindowInsets(0, 0, 0, 0)
-    ) {
+    val libraryState = koinInject<LibraryState>()
+    // Full-width bar fading into the page (no pill, no selection fill): the active tab is drawn
+    // in bright text, the others muted. "Create" opens the new-playlist form in the library.
+    MillenniumBottomNavigationBar(modifier = modifier) {
         bottombarTabs.filterIsInstance<NavigationItem.Tab<*>>()
             .forEach { tab ->
                 val selected = navigationState.topLevelRoute == tab.route
@@ -73,5 +73,23 @@ fun AppBottombar(
                     }
                 )
             }
+        val createLabel = stringResource(Res.string.nav_create)
+        MillenniumBottomNavigationItem(
+            selected = false,
+            onClick = {
+                navigator.navigate(Routes.Library)
+                libraryState.onTabSelected(LibraryTab.Playlists)
+                libraryState.showCreatePlaylist()
+            },
+            contentDescription = createLabel,
+            icon = {
+                MillenniumIcon(
+                    imageVector = Iconsax.IconsaxAdd,
+                    contentDescription = null,
+                    tint = LocalTextStyle.current.color
+                )
+            },
+            label = { Text(createLabel) }
+        )
     }
 }

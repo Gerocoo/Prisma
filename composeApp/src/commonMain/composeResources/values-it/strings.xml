@@ -896,6 +896,8 @@
 
     <!-- App navigation -->
     <string name="nav_home">Home</string>
+    <string name="nav_your_library">La tua libreria</string>
+    <string name="nav_create">Crea</string>
     <string name="nav_search">Cerca</string>
     <string name="nav_group_on_device">Sul dispositivo</string>
     <string name="nav_group_connect">Connetti</string>

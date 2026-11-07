@@ -76,6 +76,7 @@ import org.koin.compose.navigation3.koinEntryProvider
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.jetbrains.compose.resources.StringResource
 import spotube.composeapp.generated.resources.Res
+import spotube.composeapp.generated.resources.nav_your_library
 import spotube.composeapp.generated.resources.jam_screen_title
 import spotube.composeapp.generated.resources.library_tab_albums
 import spotube.composeapp.generated.resources.library_tab_artists
@@ -145,9 +146,10 @@ val sidebarTabs = tabs + listOf(
         )
     )
 )
+// Phone bottom bar: Home, Search, Your library (+ a "Create" action added by AppBottombar).
+// Settings live in the Home header instead of the bar.
 val bottombarTabs = tabs + listOf(
-    NavigationItem.Tab<Any>(Res.string.library_toolbar_compact_title, Iconsax.IconsaxMusicLibrary, Routes.Library),
-    NavigationItem.Tab(Res.string.settings_screen_title, Iconsax.IconsaxSetting2, Routes.Settings)
+    NavigationItem.Tab<Any>(Res.string.nav_your_library, Iconsax.IconsaxMusicLibrary, Routes.Library)
 )
 
 @OptIn(KoinExperimentalAPI::class)
