@@ -17,13 +17,6 @@
 
 package org.spotube.spotube.modules.settings.sections
 
-
-import org.spotube.millennium.composables.MillenniumIcon
-import androidx.compose.foundation.lazy.LazyListScope
-
-import org.spotube.spotube.core.ui.theming.AppTheme
-package org.spotube.spotube.modules.settings.sections
-
 import org.spotube.millennium.composables.MillenniumIcon
 import androidx.compose.foundation.lazy.LazyListScope
 import org.spotube.spotube.core.ui.theming.AppTheme
