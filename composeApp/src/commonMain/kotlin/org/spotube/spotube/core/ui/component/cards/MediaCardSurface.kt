@@ -29,7 +29,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import org.spotube.millennium.theme.MillenniumTheme
 import org.spotube.millennium.theme.millenniumActionPointer
-import org.spotube.millennium.theme.millenniumSurface
+import org.spotube.spotube.core.ui.theming.materialSurface
 
 /** Interaction state is presentation-only; all navigation/playback stays in event callbacks. */
 @Composable
@@ -57,7 +57,7 @@ internal fun MediaCardSurface(
     else colors.raised.copy(alpha = highlight * 0.7f)
     Box(
         modifier.graphicsLayer { scaleX = scale; scaleY = scale }
-            .millenniumSurface(
+            .materialSurface(
                 background = Brush.verticalGradient(listOf(base, base)),
                 shape = shape,
                 borderColor = colors.accent.copy(alpha = if (focused) 1f else 0f),

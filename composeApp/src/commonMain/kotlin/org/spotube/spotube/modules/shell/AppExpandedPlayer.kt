@@ -64,8 +64,8 @@ import org.spotube.millennium.composables.MillenniumModalBottomSheet
 import org.spotube.millennium.composables.MillenniumCard
 import org.spotube.millennium.composables.MillenniumSlider
 import org.spotube.millennium.theme.MillenniumTheme
-import org.spotube.millennium.theme.millenniumPanelBrush
-import org.spotube.millennium.theme.millenniumSurface
+import org.spotube.spotube.core.ui.theming.materialPanelBrush
+import org.spotube.spotube.core.ui.theming.materialSurface
 import com.composeunstyled.SheetDetent
 import com.composeunstyled.rememberModalBottomSheetState
 
@@ -336,8 +336,8 @@ fun AppExpandedPlayer(
                         Box(
                             modifier = Modifier
                                 .aspectRatio(1f)
-                                .millenniumSurface(
-                                    background = millenniumPanelBrush(MillenniumTheme.colors),
+                                .materialSurface(
+                                    background = materialPanelBrush(MillenniumTheme.colors),
                                     shape = RoundedCornerShape(14.dp),
                                     borderColor = MillenniumTheme.colors.border,
                                     borderWidth = 1.dp,

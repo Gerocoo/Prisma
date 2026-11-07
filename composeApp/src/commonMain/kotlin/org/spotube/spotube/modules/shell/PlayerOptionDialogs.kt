@@ -29,7 +29,7 @@ import org.spotube.millennium.composables.MillenniumButton
 import org.spotube.millennium.composables.MillenniumButtonStyle
 import org.spotube.millennium.composables.MillenniumDialog
 import org.spotube.millennium.composables.MillenniumTextField
-import org.spotube.millennium.theme.millenniumSurface
+import org.spotube.spotube.core.ui.theming.materialSurface
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.foundation.layout.Box
@@ -206,7 +206,7 @@ private fun TrackDetailsDialog(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .millenniumSurface(
+                        .materialSurface(
                             background = SolidColor(AppTheme.colors.tertiaryContainer),
                             shape = RoundedCornerShape(12.dp))) {
                     Text(
@@ -265,7 +265,7 @@ private fun TrackDetailsDialog(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .millenniumSurface(
+                            .materialSurface(
                                 background = SolidColor(
                                     if (isSelected) {
                                         AppTheme.colors.primaryContainer
@@ -334,7 +334,7 @@ private fun LocalCacheBanner(entry: CacheEntry) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .millenniumSurface(
+            .materialSurface(
                 background = SolidColor(AppTheme.colors.secondaryContainer),
                 shape = RoundedCornerShape(12.dp))) {
         Row(

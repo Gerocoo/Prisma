@@ -40,8 +40,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import coil3.compose.AsyncImage
-import org.spotube.millennium.theme.millenniumPanelBrush
-import org.spotube.millennium.theme.millenniumSurface
+import org.spotube.spotube.core.ui.theming.materialPanelBrush
+import org.spotube.spotube.core.ui.theming.materialSurface
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.widthIn
@@ -205,8 +205,8 @@ private fun CoverArt(url: String, size: Dp, radius: Dp, elevation: Dp, modifier:
     Box(
         modifier = modifier
             .size(size)
-            .millenniumSurface(
-                background = millenniumPanelBrush(colors),
+            .materialSurface(
+                background = materialPanelBrush(colors),
                 shape = RoundedCornerShape(radius),
                 borderColor = colors.border,
                 borderWidth = 1.dp,

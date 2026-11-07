@@ -79,9 +79,8 @@ import org.spotube.millennium.composables.MillenniumSeparator
 import org.spotube.millennium.composables.MillenniumTextField
 import org.spotube.millennium.composables.MillenniumTooltip
 import org.spotube.millennium.theme.MillenniumTheme
-import org.spotube.millennium.theme.millenniumBevelBrush
-import org.spotube.millennium.theme.millenniumPanelBrush
-import org.spotube.millennium.theme.millenniumSurface
+import org.spotube.spotube.core.ui.theming.materialPanelBrush
+import org.spotube.spotube.core.ui.theming.materialSurface
 import spotube.composeapp.generated.resources.*
 
 @Composable
@@ -148,8 +147,8 @@ fun JamScreen(navigationCommands: NavigationCommands) {
 @Composable
 private fun JamPanel(content: @Composable ColumnScope.() -> Unit) {
     Column(
-        Modifier.fillMaxWidth().millenniumSurface(
-            background = millenniumPanelBrush(MillenniumTheme.colors),
+        Modifier.fillMaxWidth().materialSurface(
+            background = materialPanelBrush(MillenniumTheme.colors),
             shape = RoundedCornerShape(10.dp),
             borderColor = MillenniumTheme.colors.border,
             borderWidth = 1.dp,
@@ -334,7 +333,7 @@ internal fun SessionPanel(
             )
         }
         Column(
-            Modifier.fillMaxWidth().millenniumSurface(
+            Modifier.fillMaxWidth().materialSurface(
                 background = SolidColor(MillenniumTheme.colors.background),
                 shape = RoundedCornerShape(5.dp),
                 borderColor = MillenniumTheme.colors.border,
@@ -382,7 +381,7 @@ internal fun SessionPanel(
             style = AppTheme.typography.titleSmall
         )
         Column(
-            Modifier.fillMaxWidth().millenniumSurface(
+            Modifier.fillMaxWidth().materialSurface(
                 background = SolidColor(MillenniumTheme.colors.background),
                 shape = RoundedCornerShape(5.dp),
                 borderColor = MillenniumTheme.colors.border,
@@ -401,8 +400,8 @@ internal fun SessionPanel(
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Box(
-                        Modifier.size(32.dp).millenniumSurface(
-                            background = millenniumBevelBrush(MillenniumTheme.colors),
+                        Modifier.size(32.dp).materialSurface(
+                            background = androidx.compose.ui.graphics.SolidColor(MillenniumTheme.colors.raised),
                             shape = CircleShape,
                             borderColor = MillenniumTheme.colors.border,
                             borderWidth = 1.dp

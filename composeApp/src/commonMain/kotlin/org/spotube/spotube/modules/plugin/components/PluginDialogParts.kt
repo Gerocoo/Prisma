@@ -53,8 +53,8 @@ import org.spotube.millennium.composables.MillenniumButton
 import org.spotube.millennium.composables.MillenniumButtonStyle
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.theme.MillenniumTheme
-import org.spotube.millennium.theme.millenniumPanelBrush
-import org.spotube.millennium.theme.millenniumSurface
+import org.spotube.spotube.core.ui.theming.materialPanelBrush
+import org.spotube.spotube.core.ui.theming.materialSurface
 
 // Shared building blocks for the plugin dialogs/sheets so they all read as one family and
 // match the panel/tile language used by the plugin cards and the rest of the app.
@@ -95,8 +95,8 @@ internal fun PluginPanel(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .millenniumSurface(
-                background = millenniumPanelBrush(MillenniumTheme.colors),
+            .materialSurface(
+                background = materialPanelBrush(MillenniumTheme.colors),
                 shape = RoundedCornerShape(14.dp),
                 borderColor = AppTheme.colors.outlineVariant,
                 borderWidth = 1.dp),

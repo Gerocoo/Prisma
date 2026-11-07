@@ -25,8 +25,8 @@ import org.spotube.millennium.composables.MillenniumIconButtonStyle
 import org.spotube.millennium.composables.MillenniumSeparator
 import org.spotube.millennium.composables.MillenniumSidebarItem
 import org.spotube.millennium.theme.MillenniumTheme
-import org.spotube.millennium.theme.millenniumPanelBrush
-import org.spotube.millennium.theme.millenniumSurface
+import org.spotube.spotube.core.ui.theming.materialPanelBrush
+import org.spotube.spotube.core.ui.theming.materialSurface
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -183,8 +183,8 @@ private fun SettingsPane(
                 .heightIn(max = 860.dp)
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .millenniumSurface(
-                    background = millenniumPanelBrush(MillenniumTheme.colors),
+                .materialSurface(
+                    background = materialPanelBrush(MillenniumTheme.colors),
                     shape = AppTheme.shapes.large,
                     borderColor = MillenniumTheme.colors.border,
                     borderWidth = 1.dp,

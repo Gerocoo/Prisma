@@ -40,8 +40,8 @@ import org.spotube.millennium.composables.MillenniumIconButtonStyle
 import org.spotube.millennium.composables.MillenniumListTile
 import org.spotube.millennium.theme.MillenniumTheme
 import org.spotube.millennium.theme.millenniumBevelBrush
-import org.spotube.millennium.theme.millenniumPanelBrush
-import org.spotube.millennium.theme.millenniumSurface
+import org.spotube.spotube.core.ui.theming.materialPanelBrush
+import org.spotube.spotube.core.ui.theming.materialSurface
 import spotube.composeapp.generated.resources.*
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -71,7 +71,7 @@ fun PlayableListTile(
         modifier = modifier,
         onClick = onClick ?: onPlay,
         selected = isPlaying,
-        background = if (isPlaying) null else millenniumPanelBrush(colors),
+        background = if (isPlaying) null else materialPanelBrush(colors),
         shape = RoundedCornerShape(8.dp),
         borderColor = if (isBlacklisted) colors.danger.copy(alpha = 0.5f) else if (isPlaying) null else colors.border,
         titleForeground = if (isBlacklisted) colors.danger else null,
@@ -157,7 +157,7 @@ internal fun MediaArtwork(
     artwork: (@Composable () -> Unit)? = null
 ) {
     Box(
-        modifier.millenniumSurface(
+        modifier.materialSurface(
             background = millenniumBevelBrush(MillenniumTheme.colors),
             shape = shape,
             borderColor = MillenniumTheme.colors.border,

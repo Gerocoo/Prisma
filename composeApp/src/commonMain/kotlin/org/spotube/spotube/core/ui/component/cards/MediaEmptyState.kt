@@ -22,7 +22,7 @@ import org.spotube.spotube.core.ui.theming.AppTheme
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.theme.MillenniumTheme
 import org.spotube.millennium.theme.millenniumBevelBrush
-import org.spotube.millennium.theme.millenniumSurface
+import org.spotube.spotube.core.ui.theming.materialSurface
 
 @Composable
 internal fun MediaEmptyState(
@@ -38,7 +38,7 @@ internal fun MediaEmptyState(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Box(
-                Modifier.size(64.dp).millenniumSurface(
+                Modifier.size(64.dp).materialSurface(
                     background = millenniumBevelBrush(MillenniumTheme.colors),
                     shape = RoundedCornerShape(14.dp),
                     borderColor = MillenniumTheme.colors.border,

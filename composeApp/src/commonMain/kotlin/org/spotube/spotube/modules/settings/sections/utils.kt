@@ -18,13 +18,17 @@
 package org.spotube.spotube.modules.settings.sections
 
 
+import androidx.compose.ui.Alignment
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import org.spotube.spotube.core.server.isContainerPlayableOn
 import org.spotube.spotube.core.server.currentPlatform
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumSeparator
 import org.spotube.millennium.theme.MillenniumTheme
-import org.spotube.millennium.theme.millenniumPanelBrush
-import org.spotube.millennium.theme.millenniumSurface
+import org.spotube.spotube.core.ui.theming.materialPanelBrush
+import org.spotube.spotube.core.ui.theming.materialSurface
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -96,13 +100,14 @@ internal val downloadFormatPresets = listOf(
 
 internal fun LazyListScope.settingsSectionHeader(title: StringResource) {
     item {
+        // Material 3: section titles in the accent color, aligned with the cards' content.
         Text(
             text = stringResource(title),
-            style = AppTheme.typography.labelMedium,
-            color = Color.Gray,
+            style = AppTheme.typography.titleSmall,
+            color = AppTheme.colors.primary,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding(start = 28.dp, end = 16.dp, top = 20.dp, bottom = 8.dp)
         )
     }
 }
@@ -129,16 +134,18 @@ internal fun SettingsItemIcon(
     imageVector: ImageVector,
     contentDescription: String,
     tint: Color = AppTheme.colors.primary) {
+    // Icon in a tonal circle, as in Material 3 settings lists.
     Box(
         modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(tint.copy(alpha = 0.12f))) {
-        Box(modifier = Modifier.padding(8.dp)) {
-            MillenniumIcon(
-                imageVector = imageVector,
-                contentDescription = contentDescription,
-                tint = tint)
-        }
+            .size(40.dp)
+            .clip(CircleShape)
+            .background(tint.copy(alpha = 0.16f)),
+        contentAlignment = Alignment.Center) {
+        MillenniumIcon(
+            imageVector = imageVector,
+            contentDescription = contentDescription,
+            tint = tint,
+            modifier = Modifier.size(20.dp))
     }
 }
 
@@ -199,23 +206,29 @@ internal fun normalizePath(path: String): String {
 internal fun LazyListScope.settingsSectionCard(
     items: List<@Composable () -> Unit>) {
     item {
+        // Material 3 Expressive grouped list: each setting is its own tonal tile, separated by
+        // a small gap; the group's outer corners are large, the inner ones small.
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 4.dp)
-                .millenniumSurface(
-                    background = millenniumPanelBrush(MillenniumTheme.colors),
-                    shape = AppTheme.shapes.medium,
-                    borderColor = MillenniumTheme.colors.border,
-                    borderWidth = 1.dp,
-                    shadowElevation = 6.dp)
-                .padding(top = 4.dp, bottom = 4.dp)
+                .padding(horizontal = 12.dp, vertical = 2.dp),
+            verticalArrangement = Arrangement.spacedBy(3.dp)
         ) {
             items.forEachIndexed { index, content ->
-                if (index > 0) {
-                    MillenniumSeparator()
-                }
-                content()
+                val large = 24.dp
+                val small = 6.dp
+                val shape = RoundedCornerShape(
+                    topStart = if (index == 0) large else small,
+                    topEnd = if (index == 0) large else small,
+                    bottomStart = if (index == items.lastIndex) large else small,
+                    bottomEnd = if (index == items.lastIndex) large else small
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(shape)
+                        .background(AppTheme.colors.surfaceContainer)
+                ) { content() }
             }
         }
     }

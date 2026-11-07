@@ -52,8 +52,7 @@ import org.spotube.millennium.composables.MillenniumIconButtonStyle
 import org.spotube.millennium.composables.MillenniumSeparator
 import org.spotube.millennium.composables.MillenniumTooltip
 import org.spotube.millennium.theme.MillenniumTheme
-import org.spotube.millennium.theme.millenniumBevelBrush
-import org.spotube.millennium.theme.millenniumSurface
+import org.spotube.spotube.core.ui.theming.materialSurface
 import spotube.composeapp.generated.resources.*
 
 @Composable
@@ -105,7 +104,7 @@ internal fun LocalMediaFoldersEditorContent(
         Box(
             Modifier.fillMaxWidth()
                 .heightIn(min = if (state.folders.isEmpty()) 104.dp else 76.dp, max = 240.dp)
-                .millenniumSurface(
+                .materialSurface(
                     background = SolidColor(MillenniumTheme.colors.background),
                     shape = RoundedCornerShape(8.dp),
                     borderColor = MillenniumTheme.colors.border,
@@ -207,8 +206,8 @@ private fun LocalMediaFolderEditorRow(
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         Box(
-            Modifier.size(36.dp).millenniumSurface(
-                background = millenniumBevelBrush(MillenniumTheme.colors),
+            Modifier.size(36.dp).materialSurface(
+                background = androidx.compose.ui.graphics.SolidColor(MillenniumTheme.colors.raised),
                 shape = RoundedCornerShape(6.dp),
                 borderColor = MillenniumTheme.colors.border,
                 borderWidth = 1.dp

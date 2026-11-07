@@ -34,6 +34,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.Font
@@ -315,6 +316,13 @@ private fun MillenniumThemeComponents.expressive(colors: MillenniumColors): Mill
         textFieldTheme = textFieldTheme.copy(states = textFieldTheme.states.mapAll {
             it.copy(shape = RoundedCornerShape(16.dp), background = SolidColor(colors.raised),
                 innerGlowColor = clear, insetShadeColor = clear, bottomRimColor = clear)
+        }),
+        // Material 3 switch: pill track filled with the accent when on, flat thumb, no gloss.
+        toggleSwitchTheme = toggleSwitchTheme.copy(states = toggleSwitchTheme.states.mapAll {
+            it.copy(trackBackground = SolidColor(colors.inset), selectedTrackBackground = SolidColor(colors.accent),
+                trackSize = DpSize(52.dp, 32.dp), trackBorderColor = colors.border, trackBorderWidth = 2.dp,
+                trackGlowColor = clear, thumbBackground = SolidColor(colors.text), thumbSize = 22.dp,
+                thumbInset = 5.dp, thumbElevation = 0.dp, thumbBorderWidth = 0.dp, thumbGlowColor = clear)
         }),
         modalBottomSheetTheme = modalBottomSheetTheme.copy(states = modalBottomSheetTheme.states.mapAll {
             // Compact padding: the library default (24dp + 16dp spacing) is far too roomy on phones.

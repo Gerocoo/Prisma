@@ -33,8 +33,8 @@ import org.spotube.millennium.composables.MillenniumSegmentedButtonDefaults
 import org.spotube.millennium.composables.MillenniumSegmentedButtonRow
 import org.spotube.millennium.composables.MillenniumTextField
 import org.spotube.millennium.theme.MillenniumTheme
-import org.spotube.millennium.theme.millenniumPanelBrush
-import org.spotube.millennium.theme.millenniumSurface
+import org.spotube.spotube.core.ui.theming.materialPanelBrush
+import org.spotube.spotube.core.ui.theming.materialSurface
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -442,8 +442,8 @@ internal fun PluginScreenContent(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .padding(vertical = 4.dp)
-                                            .millenniumSurface(
-                                                background = millenniumPanelBrush(MillenniumTheme.colors),
+                                            .materialSurface(
+                                                background = materialPanelBrush(MillenniumTheme.colors),
                                                 shape = RoundedCornerShape(12.dp),
                                                 borderColor = AppTheme.colors.outlineVariant,
                                                 borderWidth = 1.dp,
@@ -869,8 +869,8 @@ private fun DiscoverRepoCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp)
-            .millenniumSurface(
-                background = millenniumPanelBrush(MillenniumTheme.colors),
+            .materialSurface(
+                background = materialPanelBrush(MillenniumTheme.colors),
                 shape = RoundedCornerShape(12.dp),
                 borderColor = AppTheme.colors.outlineVariant,
                 borderWidth = 1.dp,

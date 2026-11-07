@@ -58,8 +58,8 @@ import org.spotube.millennium.composables.MillenniumIconButton
 import org.spotube.millennium.composables.MillenniumIconButtonStyle
 import org.spotube.millennium.composables.MillenniumListTile
 import org.spotube.millennium.theme.MillenniumTheme
-import org.spotube.millennium.theme.millenniumPanelBrush
-import org.spotube.millennium.theme.millenniumSurface
+import org.spotube.spotube.core.ui.theming.materialPanelBrush
+import org.spotube.spotube.core.ui.theming.materialSurface
 import spotube.composeapp.generated.resources.*
 
 @Composable
@@ -300,7 +300,7 @@ internal fun LocalTracksBreadcrumb(
 internal fun LocalFolderRow(folder: LocalFolderUi, onClick: () -> Unit) {
     MillenniumListTile(
         onClick = onClick,
-        background = millenniumPanelBrush(MillenniumTheme.colors),
+        background = materialPanelBrush(MillenniumTheme.colors),
         shape = RoundedCornerShape(8.dp),
         borderColor = MillenniumTheme.colors.border,
         borderWidth = 1.dp,

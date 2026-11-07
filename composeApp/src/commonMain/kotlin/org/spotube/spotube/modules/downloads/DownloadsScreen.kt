@@ -44,8 +44,8 @@ import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumIconButton
 import org.spotube.millennium.composables.MillenniumIconButtonStyle
 import org.spotube.millennium.theme.MillenniumTheme
-import org.spotube.millennium.theme.millenniumPanelBrush
-import org.spotube.millennium.theme.millenniumSurface
+import org.spotube.spotube.core.ui.theming.materialPanelBrush
+import org.spotube.spotube.core.ui.theming.materialSurface
 import spotube.composeapp.generated.resources.*
 
 @Composable
@@ -185,8 +185,8 @@ internal fun DownloadListRow(
 ) {
     val colors = MillenniumTheme.colors
     Row(
-        Modifier.fillMaxWidth().millenniumSurface(
-            background = millenniumPanelBrush(colors),
+        Modifier.fillMaxWidth().materialSurface(
+            background = materialPanelBrush(colors),
             shape = RoundedCornerShape(8.dp),
             borderColor = colors.border,
             borderWidth = 1.dp,
