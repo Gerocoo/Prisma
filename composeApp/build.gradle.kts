@@ -439,8 +439,10 @@ android {
             // R8: drops unused code and resources and optimizes the rest (smaller, faster APK).
             // Names are kept (-dontobfuscate in proguard-rules.pro) because plugins and
             // serialization look classes up by name.
-            isMinifyEnabled = true
-            isShrinkResources = true
+            // R8 is off: it broke playback (plugins and the audio source engine load classes
+            // reflectively). The release build is still non-debuggable and split per ABI.
+            isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
