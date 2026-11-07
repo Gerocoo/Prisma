@@ -8,7 +8,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  # write: needed to publish the GitHub Release with the APKs
+  contents: write
 
 concurrency:
   group: build-apk-${{ github.ref }}
@@ -109,3 +110,23 @@ jobs:
           name: tubify-android-apk
           path: out/Tubify-*.apk
           retention-days: 30
+
+      # Every successful build on master becomes a GitHub Release, so the APKs are a direct
+      # download from the repository's "Releases" section (no zip, no Actions page).
+      - name: Publish release
+        if: github.ref == 'refs/heads/master'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Tubify build ${{ github.run_number }}
+          target_commitish: ${{ github.sha }}
+          make_latest: true
+          body: |
+            Installa **Tubify-arm64-v8a.apk** (quasi tutti i telefoni recenti) oppure **Tubify-universal.apk** se il primo non si installa.
+            Commit: ${{ github.sha }}
+          files: |
+            out/Tubify-arm64-v8a.apk
+            out/Tubify-armeabi-v7a.apk
+            out/Tubify-x86_64.apk
+            out/Tubify-universal.apk
+
