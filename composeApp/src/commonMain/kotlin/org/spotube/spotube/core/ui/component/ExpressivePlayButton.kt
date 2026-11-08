@@ -16,6 +16,7 @@
  */
 package org.spotube.spotube.core.ui.component
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
@@ -125,13 +126,18 @@ fun MorphingPlayButton(
             },
         contentAlignment = Alignment.Center
     ) {
-        MillenniumIcon(
-            if (isPlaying) Iconsax.IconsaxPause else Iconsax.IconsaxPlay,
-            contentDescription = contentDescription,
-            tint = content,
-            modifier = Modifier.size(size * 0.46f).graphicsLayer {
-                if (busy) rotationZ = -18f * (wave - 0.5f)
+        // While waiting for the stream the icon becomes the Expressive loading shape.
+        Crossfade(targetState = busy, label = "playButtonGlyph") { loadingNow ->
+            if (loadingNow) {
+                ExpressiveLoadingIndicator(size = size * 0.5f, color = content)
+            } else {
+                MillenniumIcon(
+                    if (isPlaying) Iconsax.IconsaxPause else Iconsax.IconsaxPlay,
+                    contentDescription = contentDescription,
+                    tint = content,
+                    modifier = Modifier.size(size * 0.46f)
+                )
             }
-        )
+        }
     }
 }

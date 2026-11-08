@@ -139,6 +139,7 @@ internal fun FloatingPlayerContent(
     onNext: () -> Unit = {},
     heartButton: @Composable () -> Unit
 ) {
+    val playTap = rememberPlayTapState(playerUiState.isPlaying)
     val coverModel = playerUiState.coverModel
     val hasQueue = playerUiState.queue.isNotEmpty()
     // Tonal pill tinted with the current cover's colors, like the full player.
@@ -217,14 +218,17 @@ internal fun FloatingPlayerContent(
                     .size(40.dp)
                     .clip(CircleShape)
                     .background(colors.accent)
-                    .clickable(enabled = hasQueue, role = Role.Button, onClick = onPlayPause),
+                    .clickable(enabled = hasQueue, role = Role.Button) {
+                        playTap.pending = true
+                        onPlayPause()
+                    },
                 contentAlignment = Alignment.Center
             ) {
-                MillenniumIcon(
-                    if (playerUiState.isPlaying) Iconsax.IconsaxPause else Iconsax.IconsaxPlay,
-                    contentDescription = stringResource(if (playerUiState.isPlaying) Res.string.player_pause_content_description else Res.string.player_play_content_description),
+                PlayPauseGlyph(
+                    isPlaying = playerUiState.isPlaying,
+                    busy = playIsBusy(playTap, playerUiState),
                     tint = colors.onAccent,
-                    modifier = Modifier.size(20.dp)
+                    size = 20.dp
                 )
             }
             Box(

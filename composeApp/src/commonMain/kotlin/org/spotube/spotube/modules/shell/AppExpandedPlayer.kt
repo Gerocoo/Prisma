@@ -264,8 +264,12 @@ fun AppExpandedPlayer(
         }
     }
 
+    val playTap = rememberPlayTapState(playerUiState.isPlaying)
+    val playBusy = playIsBusy(playTap, playerUiState)
+
     fun onPlayPause() {
         pulsingControl = 1
+        playTap.pending = true
         scope.launch {
             if (playerUiState.isPlaying) {
                 audioPlayer.pause()
@@ -694,11 +698,11 @@ fun AppExpandedPlayer(
                         modifier = Modifier.weight(controlWeight(1, 1.25f, pulsingControl)),
                         onPress = { pulsingControl = 1 }
                     ) {
-                        MillenniumIcon(
-                            if (playerUiState.isPlaying) Iconsax.IconsaxPause else Iconsax.IconsaxPlay,
-                            contentDescription = stringResource(if (playerUiState.isPlaying) Res.string.player_pause_content_description else Res.string.player_play_content_description),
-                            modifier = Modifier.size(34.dp),
-                            tint = art.onAccent
+                        PlayPauseGlyph(
+                            isPlaying = playerUiState.isPlaying,
+                            busy = playBusy,
+                            tint = art.onAccent,
+                            size = 34.dp
                         )
                     }
                     PlayerControlButton(
