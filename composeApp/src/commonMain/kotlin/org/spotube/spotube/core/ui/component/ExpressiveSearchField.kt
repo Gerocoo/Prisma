@@ -57,10 +57,14 @@ fun expressiveSearchFieldTheme(): MillenniumTextFieldTheme {
     val fill = SolidColor(AppTheme.colors.surfaceContainerHigh)
     val f = { p: MillenniumTextFieldThemeProperties ->
         p.copy(
+            // Flat Material 3 search bar: transparent (not null) effects, since null falls back
+            // to Millennium's glossy defaults — the bevel and shine seen when focused.
             shape = RoundedCornerShape(50), background = fill, borderWidth = 0.dp,
+            borderColor = Color.Transparent,
             minimumHeight = 52.dp,
             contentPadding = PaddingValues(start = 48.dp, end = 44.dp, top = 14.dp, bottom = 14.dp),
-            insetShadeColor = null, innerGlowColor = null, bottomRimColor = null
+            insetShadeColor = Color.Transparent, innerGlowColor = Color.Transparent,
+            bottomRimColor = Color.Transparent
         )
     }
     val s = base.states
