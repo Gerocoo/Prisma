@@ -725,7 +725,8 @@ private fun TrackListRow(
                 } else {
                     // Playing marker: animated bars next to a filled options button.
                     AnimatedVisibility(
-                        visible = isCurrentTrack,
+                        // Only while actually playing: on pause the marker goes away.
+                        visible = isCurrentTrack && isCurrentTrackPlaying,
                         enter = fadeIn() + scaleIn(initialScale = 0.6f),
                         exit = fadeOut() + scaleOut(targetScale = 0.6f)
                     ) {
