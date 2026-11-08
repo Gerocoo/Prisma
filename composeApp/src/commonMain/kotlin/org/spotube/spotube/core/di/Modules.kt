@@ -17,6 +17,7 @@
 
 package org.spotube.spotube.core.di
 
+import org.spotube.spotube.modules.shell.spotify_connect.SpotifyConnectViewModel
 import org.spotube.spotube.modules.recap.ListeningHistoryRepository
 import org.spotube.spotube.modules.recap.RecapViewModel
 import org.koin.core.module.dsl.onClose
@@ -113,13 +114,16 @@ val sharedModules = module {
     includes(navigationModule)
     singleOf(::Database)
     single { HttpClientFactory() } withOptions { onClose { it?.close() } }
+    single { org.spotube.spotube.core.spotify.SpotifyPluginAuth(get()) }
     single { org.spotube.spotube.core.spotify.SpotifyCanvasRepository(get(), get()) }
+    single { org.spotube.spotube.core.spotify.SpotifyConnectApi(get(), get()) }
 
     singleOf(::WebViewController)
 
     // Shell
     viewModelOf(::AppShellViewModel)
     viewModelOf(::PlayerOptionsViewModel)
+    viewModelOf(::SpotifyConnectViewModel)
     viewModelOf(::PlayerQueueContentViewModel)
     viewModelOf(::AlternativeTrackContentViewModel)
 

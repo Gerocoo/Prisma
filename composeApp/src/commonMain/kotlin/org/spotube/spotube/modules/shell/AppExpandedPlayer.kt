@@ -20,6 +20,10 @@
 package org.spotube.spotube.modules.shell
 
 
+import spotube.composeapp.generated.resources.spotify_connect_button
+import org.spotube.spotube.resources.iconsax.IconsaxMirroringScreen
+import org.spotube.spotube.modules.shell.spotify_connect.SpotifyConnectSheet
+import org.spotube.spotube.modules.shell.spotify_connect.SpotifyConnectViewModel
 import androidx.compose.animation.core.tween
 import org.spotube.spotube.modules.settings.UserSettings
 import org.spotube.spotube.modules.settings.SettingsRepository
@@ -216,6 +220,7 @@ fun AppExpandedPlayer(
     audioPlayer: AudioPlayerInterface = koinInject(),
     audioPlayerQueue: AudioPlayerQueue = koinInject(),
     playerOptionsViewModel: PlayerOptionsViewModel = koinViewModel(),
+    spotifyConnectViewModel: SpotifyConnectViewModel = koinViewModel(),
     savedTracksViewModel: SavedTracksViewModel = koinViewModel<SavedTracksViewModel>(
         key = SAVED_TRACKS_COLLECTION_ID,
         parameters = { parametersOf() }
@@ -535,6 +540,18 @@ fun AppExpandedPlayer(
                     maxLines = 1
                 )
                 CastButton(background = art.containerHigh, tint = art.onContainer)
+                // Spotify Connect: hand the track to the Spotify desktop app (or any Spotify device).
+                val connectState by spotifyConnectViewModel.uiState.collectAsStateWithLifecycle()
+                PlayerRoundButton(
+                    onClick = spotifyConnectViewModel::open,
+                    background = if (connectState.isRemoteActive) art.accent else art.containerHigh
+                ) {
+                    MillenniumIcon(
+                        Iconsax.IconsaxMirroringScreen,
+                        contentDescription = stringResource(Res.string.spotify_connect_button),
+                        tint = if (connectState.isRemoteActive) art.onAccent else art.onContainer
+                    )
+                }
                 PlayerRoundButton(onClick = onQueue, background = art.containerHigh) {
                     MillenniumIcon(
                         Iconsax.IconsaxMusicFilter,
@@ -808,6 +825,8 @@ fun AppExpandedPlayer(
                 onExpand = onExpandLyrics
             )
         }
+
+        SpotifyConnectSheet(spotifyConnectViewModel)
 
         MillenniumSnackbarHost(
             hostState = snackbarHostState,

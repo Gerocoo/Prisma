@@ -1038,4 +1038,14 @@
     <string name="app_update_whats_new">Novità</string>
     <string name="settings_spotify_canvas_title">Canvas di Spotify</string>
     <string name="settings_spotify_canvas_subtitle">Con il plugin Spotify, mostra nel player il breve video in loop del brano al posto della copertina.</string>
+    <string name="spotify_connect_title">Spotify Connect</string>
+    <string name="spotify_connect_devices">I tuoi dispositivi Spotify</string>
+    <string name="spotify_connect_active">Attivo</string>
+    <string name="spotify_connect_playing_on">In riproduzione su %1$s</string>
+    <string name="spotify_connect_bring_back">Continua su questo telefono</string>
+    <string name="spotify_connect_button">Spotify Connect</string>
+    <string name="spotify_connect_error_not_logged_in">Installa il plugin Spotify e accedi con il tuo account per comandare i tuoi dispositivi Spotify.</string>
+    <string name="spotify_connect_error_premium">Spotify permette di comandare la riproduzione su altri dispositivi solo agli account Premium.</string>
+    <string name="spotify_connect_error_no_devices">Nessun dispositivo Spotify è online. Apri Spotify sul computer (o su un altro dispositivo) e riprova.</string>
+    <string name="spotify_connect_error_failed">Spotify non ha risposto. Riprova tra poco.</string>
 </resources>

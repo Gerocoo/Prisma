@@ -51,7 +51,7 @@ import kotlin.time.Clock
  */
 class SpotifyCanvasRepository(
     httpClientFactory: HttpClientFactory,
-    private val database: Database,
+    private val auth: SpotifyPluginAuth,
 ) {
     private val logger = Logger.withTag("SpotifyCanvas")
     private val http = httpClientFactory.default
@@ -59,18 +59,7 @@ class SpotifyCanvasRepository(
     private val cache = mutableMapOf<String, String?>()
     private val mutex = Mutex()
 
-    @Serializable
-    private data class PluginCredentials(val accessToken: String, val expiration: Long = 0L)
-
-    private suspend fun accessToken(): String? {
-        val prefs = database.pluginsDataStore.data.first()
-        val now = Clock.System.now().toEpochMilliseconds()
-        return prefs.asMap().entries
-            .filter { it.key.name.endsWith(":credentials") }
-            .mapNotNull { runCatching { json.decodeFromString<PluginCredentials>(it.value.toString()) }.getOrNull() }
-            .firstOrNull { it.accessToken.isNotBlank() && (it.expiration == 0L || it.expiration > now) }
-            ?.accessToken
-    }
+    private suspend fun accessToken(): String? = auth.accessToken()
 
     /** Video URL of the canvas for a Spotify track id, or null when there is none. */
     suspend fun canvasUrl(trackId: String): String? {
