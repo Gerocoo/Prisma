@@ -582,17 +582,19 @@ fun AppExpandedPlayer(
                                 scope.launch { dragOffset.snapTo(dragOffset.value + amount) }
                             }
                         }
-                        .graphicsLayer { translationX = dragOffset.value }
+                        // The cover's rounded square is the mask: covers slide inside it.
+                        .clip(RoundedCornerShape(32.dp))
+                        .background(art.containerHigh)
                 ) {
                     AnimatedContent(
                         targetState = coverModel,
                         transitionSpec = {
                             val dir = skipDirection
                             val slide = spring<IntOffset>(dampingRatio = 0.86f, stiffness = 340f)
-                            (slideInHorizontally(slide) { w -> dir * (w + w / 16) }) togetherWith
-                                (slideOutHorizontally(slide) { w -> -dir * (w + w / 16) })
+                            (slideInHorizontally(slide) { w -> dir * (w + w / 20) }) togetherWith
+                                (slideOutHorizontally(slide) { w -> -dir * (w + w / 20) })
                         },
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxSize().graphicsLayer { translationX = dragOffset.value },
                         label = "coverCarousel"
                     ) { model ->
                         Box(
@@ -779,6 +781,7 @@ fun AppExpandedPlayer(
             }
 
             LyricsPreviewCard(
+                colors = art,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp),
@@ -811,6 +814,7 @@ private fun rememberSharedAlbumArtModifier(
 
 @Composable
 private fun LyricsPreviewCard(
+    colors: ArtworkColors,
     modifier: Modifier = Modifier,
     onExpand: () -> Unit,
     viewModel: LyricsViewModel = koinViewModel()
@@ -820,11 +824,14 @@ private fun LyricsPreviewCard(
     val isLoading = uiState.isLoading
     if (syncedLyrics.isEmpty() || isLoading) return
 
-    MillenniumCard(
-        modifier = modifier.clickable(onClick = onExpand),
-        contentPadding = PaddingValues(12.dp),
-        contentSpacing = 8.dp,
-        shadowElevation = 2.dp
+    // Same cover-tinted colors as the player and the full lyrics page.
+    Column(
+        modifier = modifier
+            .clip(RoundedCornerShape(28.dp))
+            .background(colors.containerHigh)
+            .clickable(onClick = onExpand)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -833,17 +840,22 @@ private fun LyricsPreviewCard(
         ) {
             Text(
                 text = stringResource(Res.string.player_lyrics),
-                style = AppTheme.typography.labelMedium,
-                color = MillenniumTheme.colors.muted
+                style = AppTheme.typography.titleSmall,
+                color = colors.onContainer
             )
-            MillenniumIconButton(
-                onClick = onExpand,
-                style = MillenniumIconButtonStyle.Quiet
+            Box(
+                modifier = Modifier
+                    .size(36.dp)
+                    .clip(CircleShape)
+                    .background(colors.tonal)
+                    .clickable(role = Role.Button, onClick = onExpand),
+                contentAlignment = Alignment.Center
             ) {
                 MillenniumIcon(
                     Iconsax.IconsaxArrowSquareUp,
                     contentDescription = stringResource(Res.string.player_expand_lyrics_content_description),
-                    tint = MillenniumTheme.colors.muted
+                    tint = colors.onContainer,
+                    modifier = Modifier.size(18.dp)
                 )
             }
         }
@@ -854,7 +866,9 @@ private fun LyricsPreviewCard(
             currentIndex = uiState.currentIndex,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(120.dp)
+                .height(120.dp),
+            textColor = colors.onContainerMuted,
+            activeColor = colors.onContainer
         )
     }
 }

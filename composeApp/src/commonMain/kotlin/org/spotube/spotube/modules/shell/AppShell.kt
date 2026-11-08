@@ -17,6 +17,8 @@
 
 package org.spotube.spotube.modules.shell
 
+import androidx.compose.ui.unit.Dp
+import org.spotube.spotube.core.ui.component.rememberDisplayCornerRadius
 import org.spotube.spotube.core.ui.component.PlatformPredictiveBackHandler
 import androidx.compose.runtime.mutableFloatStateOf
 import org.spotube.spotube.core.ui.theming.AppTheme
@@ -120,6 +122,7 @@ fun AppShell(
     alternativeViewModel: AlternativeTrackContentViewModel = koinViewModel<AlternativeTrackContentViewModel>(),
     content: @Composable () -> Unit
 ) {
+    val displayCorner = rememberDisplayCornerRadius()
     val navigatorCommands: NavigationCommands = koinInject()
     val remotePlaybackController: RemotePlaybackController = koinInject()
     val snackbarHostState = remember { MillenniumSnackbarHostState() }
@@ -321,7 +324,7 @@ fun AppShell(
                             slideOutVertically(tween(220)) { it / 12 }
                     ) {
                         LyricsScreen(
-                            modifier = Modifier.fillMaxSize().predictiveBackCard { lyricsBack },
+                            modifier = Modifier.fillMaxSize().predictiveBackCard({ lyricsBack }, displayCorner),
                             onClose = { viewModel.hideLyricsOverlay() })
                     }
                 }
@@ -365,6 +368,7 @@ internal fun CompactPlayerOverlay(
     },
     content: @Composable () -> Unit
 ) {
+    val displayCorner = rememberDisplayCornerRadius()
     val density = LocalDensity.current
     val scope = rememberCoroutineScope()
     val chromeUiState by viewModel.compactChromeUiState.collectAsState()
@@ -467,7 +471,7 @@ internal fun CompactPlayerOverlay(
                     Box(
                         Modifier
                             .fillMaxSize()
-                            .predictiveBackCard { playerBack }
+                            .predictiveBackCard({ playerBack }, displayCorner)
                             .graphicsLayer {
                                 val p = progress
                                 alpha = if (p > 0.001f) 1f else 0f
@@ -483,7 +487,7 @@ internal fun CompactPlayerOverlay(
                         expandedPlayer(
                             Modifier
                                 .fillMaxSize()
-                                .predictiveBackCard { playerBack }
+                                .predictiveBackCard({ playerBack }, displayCorner)
                                 .graphicsLayer {
                                     val p = progress
                                     alpha = ((p - 0.25f) / 0.55f).coerceIn(0f, 1f)
@@ -556,14 +560,17 @@ private class MorphingCardShape(private val inset: Float, private val radius: Fl
  * Material predictive-back look: while the back swipe progresses the content scales down to 90%,
  * gets rounded corners and drifts slightly, like a card about to be dismissed.
  */
-private fun Modifier.predictiveBackCard(progress: () -> Float): Modifier = graphicsLayer {
+private fun Modifier.predictiveBackCard(progress: () -> Float, cornerRadius: Dp): Modifier = graphicsLayer {
     val p = progress().coerceIn(0f, 1f)
     if (p > 0f) {
         val scale = 1f - 0.1f * p
         scaleX = scale
         scaleY = scale
         translationX = 8.dp.toPx() * p
-        shape = RoundedCornerShape(32.dp.toPx() * p)
+        // Corners grow to the screen's own rounding (divided by the scale, so the visible radius
+        // matches the display exactly).
+        val radius = cornerRadius.toPx() * (p * 5f).coerceAtMost(1f) / scale
+        shape = RoundedCornerShape(radius)
         clip = true
     }
 }

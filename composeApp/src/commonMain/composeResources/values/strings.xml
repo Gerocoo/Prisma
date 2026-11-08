@@ -1030,4 +1030,5 @@
     <string name="queue_tracks_count">%1$d tracks in queue.</string>
     <string name="queue_filter_chip">Filter</string>
     <string name="queue_find_current">Find current track</string>
+    <string name="app_update_whats_new">What's new</string>
 </resources>

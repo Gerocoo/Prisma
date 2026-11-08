@@ -17,6 +17,7 @@
 
 package org.spotube.spotube.modules.update
 
+import com.mikepenz.markdown.m3.markdownColor
 import org.spotube.millennium.composables.MillenniumAlertDialog
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -70,7 +71,7 @@ fun PluginUpdateDialog(
         content = {
             if (update.info.releaseNotes.isNotBlank()) {
                 SelectionContainer {
-                    Markdown(content = update.info.releaseNotes)
+                    Markdown(content = update.info.releaseNotes, colors = markdownColor(text = AppTheme.colors.onSurface))
                 }
             } else {
                 Text(stringResource(Res.string.plugin_update_dialog_no_notes))

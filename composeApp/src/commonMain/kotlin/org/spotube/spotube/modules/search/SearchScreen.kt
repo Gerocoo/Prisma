@@ -18,6 +18,13 @@
 package org.spotube.spotube.modules.search
 
 
+import org.spotube.spotube.core.ui.component.ExpressiveSearchField
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.AnimatedVisibility
 import org.spotube.spotube.core.ui.component.expressiveSearchFieldTheme
 import org.spotube.spotube.core.ui.component.ExpressiveSearchDecorations
 import org.spotube.spotube.core.ui.component.WavyLinearProgress
@@ -526,8 +533,8 @@ private fun SearchBar(
     onRecentSearchClick: (String) -> Unit,
     onClearAllRecentSearches: () -> Unit
 ) {
-    val hasRecentSearchSuggestions = recentSearchSuggestions.isNotEmpty()
     val searchState = rememberTextFieldState(query)
+    var focused by remember { mutableStateOf(false) }
 
     LaunchedEffect(searchState) {
         snapshotFlow { searchState.text.toString() }.collect { onQueryChange(it) }
@@ -538,54 +545,75 @@ private fun SearchBar(
         }
     }
 
-    Box(Modifier.fillMaxWidth().padding(horizontal = 16.dp).padding(bottom = 8.dp)) {
-    ExpressiveSearchDecorations(searchState) {
-    MillenniumAutocomplete(
-        state = searchState,
-        textFieldTheme = expressiveSearchFieldTheme(),
-        suggestions = recentSearchSuggestions,
-        onSuggestionSelected = onRecentSearchClick,
-        suggestionLabel = { it },
-        leadingContent = {
-            MillenniumIcon(
-                imageVector = Iconsax.InconsaxClock,
-                contentDescription = null,
-                modifier = Modifier.size(16.dp),
-                tint = AppTheme.colors.onSurfaceVariant
-            )
-        },
-        placeholder = stringResource(Res.string.search_placeholder),
-        modifier = Modifier.fillMaxWidth(),
-        menuHeader = if (hasRecentSearchSuggestions) {
-            {
-                MillenniumListTile(
-                    title = {
-                        MillenniumText(
-                            text = stringResource(Res.string.search_clear_history),
-                            color = AppTheme.colors.error,
-                            style = AppTheme.typography.bodyMedium
-                        )
-                    },
-                    leading = {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .padding(bottom = 8.dp)
+    ) {
+        ExpressiveSearchField(
+            state = searchState,
+            placeholder = stringResource(Res.string.search_placeholder),
+            modifier = Modifier.fillMaxWidth().onFocusChanged { focused = it.hasFocus }
+        )
+        // Recent searches: shown in the page flow (no popup over the results) while the field is
+        // focused and still empty; they go away as soon as you start typing.
+        AnimatedVisibility(
+            visible = focused && searchState.text.isEmpty() && recentSearchSuggestions.isNotEmpty(),
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                recentSearchSuggestions.take(8).forEach { search ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(50))
+                            .background(AppTheme.colors.surfaceContainerHigh)
+                            .clickable { onRecentSearchClick(search) }
+                            .padding(horizontal = 18.dp, vertical = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
                         MillenniumIcon(
-                            imageVector = Iconsax.IconsaxTrash,
+                            imageVector = Iconsax.InconsaxClock,
                             contentDescription = null,
-                            modifier = Modifier.size(16.dp),
-                            tint = AppTheme.colors.error
+                            modifier = Modifier.size(18.dp),
+                            tint = AppTheme.colors.onSurfaceVariant
                         )
-                    },
-                    onClick = onClearAllRecentSearches,
-                    minimumHeight = 36.dp,
-                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
-                    leadingSpacing = 8.dp,
-                    shape = AppTheme.shapes.small
-                )
+                        MillenniumText(
+                            text = search,
+                            color = AppTheme.colors.onSurface,
+                            style = AppTheme.typography.bodyLarge
+                        )
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(50))
+                        .background(AppTheme.colors.error.copy(alpha = 0.12f))
+                        .clickable(onClick = onClearAllRecentSearches)
+                        .padding(horizontal = 18.dp, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    MillenniumIcon(
+                        imageVector = Iconsax.IconsaxTrash,
+                        contentDescription = null,
+                        modifier = Modifier.size(16.dp),
+                        tint = AppTheme.colors.error
+                    )
+                    MillenniumText(
+                        text = stringResource(Res.string.search_clear_history),
+                        color = AppTheme.colors.error,
+                        style = AppTheme.typography.labelLarge
+                    )
+                }
             }
-        } else {
-            null
         }
-    )
-    }
     }
 }
 

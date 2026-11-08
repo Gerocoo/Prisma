@@ -106,9 +106,9 @@ fun SyncedLyricsList(
                 val text = line.text.ifBlank { LYRICS_BLANK_LINE }
                 val color by animateColorAsState(
                     when {
-                        isCurrent -> colors.accent
-                        index < currentIndex -> colors.muted.copy(alpha = 0.55f)
-                        else -> colors.muted
+                        isCurrent -> activeColor
+                        index < currentIndex -> textColor.copy(alpha = 0.45f)
+                        else -> textColor.copy(alpha = 0.7f)
                     }
                 )
                 if (onLineClick != null) {

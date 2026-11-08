@@ -17,6 +17,13 @@
 
 package org.spotube.spotube.core.navigation
 
+import org.spotube.spotube.core.ui.component.rememberDisplayCornerRadius
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.EnterExitState
+import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import org.spotube.spotube.core.ui.theming.AppTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.fillMaxSize
@@ -129,9 +136,20 @@ fun NavigationState.toEntries(
 ): SnapshotStateList<NavEntry<NavKey>> {
     // Every page gets the app background: during transitions and the predictive back gesture
     // two pages are on screen at once, and transparent pages would show through each other.
+    // While a page leaves (predictive back included) its corners round to the screen's own.
     val opaquePageDecorator = remember {
         NavEntryDecorator<NavKey> { entry ->
-            Box(Modifier.fillMaxSize().background(AppTheme.colors.background)) { entry.Content() }
+            val corner = rememberDisplayCornerRadius()
+            val transition = LocalNavAnimatedContentScope.current.transition
+            val radius by transition.animateDp(label = "pageCorner") { state ->
+                if (state == EnterExitState.PostExit) corner else 0.dp
+            }
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(radius))
+                    .background(AppTheme.colors.background)
+            ) { entry.Content() }
         }
     }
     val decoratedEntries = backStacks.mapValues { (_, stack) ->
