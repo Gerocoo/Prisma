@@ -17,6 +17,10 @@
 
 package org.spotube.spotube.modules.shell
 
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.graphics.BlurEffect
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -382,7 +386,23 @@ internal fun CompactPlayerOverlay(
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        content()
+        // Opening the player pushes the page back: it shrinks a little, blurs and dims, so the
+        // player reads as a card rising above it (and the reverse on the way down).
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .graphicsLayer {
+                    val p = progress
+                    val scale = 1f - 0.07f * p
+                    scaleX = scale
+                    scaleY = scale
+                    alpha = 1f - 0.35f * p
+                    val blur = 28.dp.toPx() * p
+                    renderEffect = if (blur > 0.5f) BlurEffect(blur, blur, TileMode.Decal) else null
+                }
+        ) {
+            content()
+        }
 
         UnstyledBottomSheet(
             state = sheetState,
@@ -395,7 +415,17 @@ internal fun CompactPlayerOverlay(
                             Modifier
                                 .fillMaxSize()
                                 .graphicsLayer {
-                                    alpha = viewModel.compactSheetUiState(progress).expandedPlayerAlpha
+                                    val p = progress
+                                    alpha = viewModel.compactSheetUiState(p).expandedPlayerAlpha
+                                    // The player card grows into the screen with rounded top
+                                    // corners that flatten as it reaches full height.
+                                    val scale = 0.94f + 0.06f * p
+                                    scaleX = scale
+                                    scaleY = scale
+                                    transformOrigin = TransformOrigin(0.5f, 0f)
+                                    val radius = 32.dp.toPx() * (1f - p)
+                                    shape = RoundedCornerShape(topStart = radius, topEnd = radius)
+                                    clip = true
                                 },
                             { scope.launch { sheetState.animateTo(partialDetent) } }
                         )
