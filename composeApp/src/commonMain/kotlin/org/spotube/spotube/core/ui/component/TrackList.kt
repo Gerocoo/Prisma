@@ -19,6 +19,20 @@ package org.spotube.spotube.core.ui.component
 
 
 
+import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.Canvas
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.AnimatedVisibility
 import com.composeunstyled.currentWindowWidthBreakpoint
 import org.spotube.millennium.adaptive.WindowBreakpoints
 import androidx.compose.animation.AnimatedContent
@@ -233,7 +247,7 @@ fun TrackList(
                     TrackListRow(
                         modifier = Modifier
                             .clip(RoundedCornerShape(20.dp))
-                            .background(AppTheme.colors.surfaceContainer),
+                            .background(playingRowColor(track.id == currentTrackId)),
                         index = displayedIndex + 1,
                         track = track,
                         showIndex = showIndex,
@@ -570,7 +584,7 @@ private fun TrackListRow(
             TextWithShimmer(
                 text = track.title,
                 style = AppTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Medium),
-                color = if (isCurrentTrack) AppTheme.colors.primary else AppTheme.colors.onSurface,
+                color = AppTheme.colors.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis)
         },
@@ -709,12 +723,37 @@ private fun TrackListRow(
                         isInJam = isInJam,
                         isJamGuest = isJamGuest)
                 } else {
-                    MillenniumIconButton(
-                        onClick = onShowOptionsClick,
-                        style = MillenniumIconButtonStyle.Quiet) {
+                    // Playing marker: animated bars next to a filled options button.
+                    AnimatedVisibility(
+                        visible = isCurrentTrack,
+                        enter = fadeIn() + scaleIn(initialScale = 0.6f),
+                        exit = fadeOut() + scaleOut(targetScale = 0.6f)
+                    ) {
+                        PlayingBars(
+                            playing = isCurrentTrackPlaying,
+                            color = AppTheme.colors.onSurface,
+                            modifier = Modifier.size(width = 18.dp, height = 16.dp)
+                        )
+                    }
+                    val optionsBg by animateColorAsState(
+                        if (isCurrentTrack) AppTheme.colors.onSurface else Color.Transparent, label = "optionsBg"
+                    )
+                    val optionsFg by animateColorAsState(
+                        if (isCurrentTrack) AppTheme.colors.surface else AppTheme.colors.onSurface, label = "optionsFg"
+                    )
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                            .background(optionsBg)
+                            .clickable(onClick = onShowOptionsClick),
+                        contentAlignment = Alignment.Center
+                    ) {
                         MillenniumIcon(
                             imageVector = Iconsax.Iconsax3DotsMore,
-                            contentDescription = stringResource(Res.string.track_options_title))
+                            contentDescription = stringResource(Res.string.track_options_title),
+                            tint = optionsFg,
+                            modifier = Modifier.size(20.dp))
                     }
                 }
             }
@@ -944,5 +983,48 @@ private fun TrackListPreview() {
             tracks = previewTracks(),
             hasMore = true,
             isLoadingNextPage = true)
+    }
+}
+
+/** Row fill: the playing track glows in the accent tint, the others stay on the tonal surface. */
+@Composable
+private fun playingRowColor(isCurrent: Boolean): Color {
+    val base = AppTheme.colors.surfaceContainer
+    val color by animateColorAsState(
+        if (isCurrent) lerp(base, AppTheme.colors.primary, 0.32f) else base,
+        tween(350),
+        label = "playingRow"
+    )
+    return color
+}
+
+/** Three equalizer bars bouncing while the track plays, resting low when paused. */
+@Composable
+internal fun PlayingBars(playing: Boolean, color: Color, modifier: Modifier = Modifier) {
+    val transition = rememberInfiniteTransition(label = "playingBars")
+    val phases = listOf(0, 180, 360).map { delay ->
+        transition.animateFloat(
+            initialValue = 0.25f,
+            targetValue = 1f,
+            animationSpec = infiniteRepeatable(
+                tween(520, delayMillis = delay, easing = FastOutSlowInEasing),
+                RepeatMode.Reverse
+            ),
+            label = "bar$delay"
+        )
+    }
+    Canvas(modifier) {
+        val barWidth = size.width / 5f
+        phases.forEachIndexed { i, phase ->
+            val h = size.height * (if (playing) phase.value else 0.3f)
+            val x = barWidth * (i * 2) + barWidth / 2f
+            drawLine(
+                color = color,
+                start = Offset(x, size.height),
+                end = Offset(x, size.height - h),
+                strokeWidth = barWidth,
+                cap = StrokeCap.Round
+            )
+        }
     }
 }
