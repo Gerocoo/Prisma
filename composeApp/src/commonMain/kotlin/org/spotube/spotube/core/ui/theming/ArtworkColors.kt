@@ -104,12 +104,24 @@ fun ArtworkColors?.animated(fallback: ArtworkColors): ArtworkColors {
 
 /** Palette from the app theme, for when there is no cover yet. */
 @Composable
-fun themeArtworkColors(): ArtworkColors = artworkColorsFrom(AppTheme.colors.primary)
+fun themeArtworkColors(): ArtworkColors = artworkColorsFrom(AppTheme.colors.primary, isAppThemeDark())
 
-/** Builds a dark tonal palette around [seed]'s hue, softening very loud or very grey seeds. */
-fun artworkColorsFrom(seed: Color): ArtworkColors {
+/**
+ * Builds a tonal palette around [seed]'s hue, softening very loud or very grey seeds: deep
+ * surfaces with light text in dark theme, pastel surfaces with dark text in light theme.
+ */
+fun artworkColorsFrom(seed: Color, dark: Boolean = true): ArtworkColors {
     val (h, s, _) = seed.toHsl()
     val sat = s.coerceIn(0f, 0.5f)
+    if (!dark) return ArtworkColors(
+        container = hsl(h, sat * 0.9f, 0.93f),
+        containerHigh = hsl(h, sat, 0.87f),
+        tonal = hsl(h, sat, 0.82f),
+        accent = hsl(h, min(s + 0.2f, 0.75f), 0.32f),
+        onAccent = Color.White,
+        onContainer = hsl(h, min(sat, 0.4f), 0.1f),
+        onContainerMuted = hsl(h, min(sat, 0.3f), 0.32f),
+    )
     return ArtworkColors(
         container = hsl(h, sat * 0.85f, 0.17f),
         containerHigh = hsl(h, sat, 0.27f),
