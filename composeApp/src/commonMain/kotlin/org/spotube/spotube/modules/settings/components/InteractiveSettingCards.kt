@@ -18,6 +18,7 @@
 package org.spotube.spotube.modules.settings.components
 
 
+import org.spotube.spotube.core.ui.component.ExpressiveSwitch
 import org.spotube.millennium.composables.MillenniumDialogHeader
 import org.spotube.millennium.composables.MillenniumDialogTitle
 import org.spotube.millennium.composables.MillenniumDialogBody
@@ -75,10 +76,9 @@ internal fun SwitchSettingCard(
         subtitle = subtitle,
         icon = icon,
         trailingContent = {
-            MillenniumSwitch(
+            ExpressiveSwitch(
                 checked = checked,
-                onCheckedChange = onCheckedChange,
-                contentSpacing = 0.dp
+                onCheckedChange = onCheckedChange
             )
         },
         onClick = {

@@ -17,6 +17,7 @@
 
 package org.spotube.spotube.modules.library.playlist
 
+import org.spotube.spotube.core.ui.component.ExpressiveSwitch
 import org.spotube.spotube.core.ui.component.AdaptiveDialogBottomSheet
 import androidx.compose.foundation.clickable
 import org.spotube.millennium.composables.MillenniumButton
@@ -238,7 +239,7 @@ private fun PlaylistFormFields(
                     color = AppTheme.colors.onSurfaceVariant
                 )
             }
-            MillenniumSwitch(checked = isPublic, onCheckedChange = onIsPublicChange)
+            ExpressiveSwitch(checked = isPublic, onCheckedChange = onIsPublicChange)
         }
 
         Row(
@@ -257,7 +258,7 @@ private fun PlaylistFormFields(
                     color = AppTheme.colors.onSurfaceVariant
                 )
             }
-            MillenniumSwitch(checked = isCollaborating, onCheckedChange = onIsCollaboratingChange)
+            ExpressiveSwitch(checked = isCollaborating, onCheckedChange = onIsCollaboratingChange)
         }
 
         Column(

@@ -212,11 +212,11 @@ internal fun LazyListScope.settingsSectionCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp, vertical = 2.dp),
-            verticalArrangement = Arrangement.spacedBy(3.dp)
+            verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             items.forEachIndexed { index, content ->
                 val large = 24.dp
-                val small = 6.dp
+                val small = 4.dp
                 val shape = RoundedCornerShape(
                     topStart = if (index == 0) large else small,
                     topEnd = if (index == 0) large else small,
