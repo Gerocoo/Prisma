@@ -271,13 +271,13 @@ private fun <T> MillenniumControlStateProperty<T>.mapAll(f: (T) -> T) = Millenni
 )
 
 /**
- * Like [mapAll], but the pressed state looks exactly like the resting one: no bevel, darkening
- * or gel flash on touch and long press. Hover stays on the resting look as well.
+ * Like [mapAll], but pressed, hovered and focused look exactly like the resting state: no bevel,
+ * darkening, gel flash or leftover glass highlight after a tap or long press.
  */
 private fun <T> MillenniumControlStateProperty<T>.mapNoPress(f: (T) -> T): MillenniumControlStateProperty<T> {
     val rest = f(default)
     return MillenniumControlStateProperty(
-        default = rest, hovered = rest, focused = f(focused), pressed = rest,
+        default = rest, hovered = rest, focused = rest, pressed = rest,
         disabled = f(disabled), selected = f(selected), error = f(error)
     )
 }

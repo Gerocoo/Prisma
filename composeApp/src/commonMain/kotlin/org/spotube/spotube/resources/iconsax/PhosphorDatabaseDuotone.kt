@@ -1,5 +1,7 @@
 package org.spotube.spotube.resources.iconsax
 
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -19,7 +21,10 @@ val Iconsax.PhosphorDatabaseDuotone: ImageVector
             viewportHeight = 256f
         ).apply {
             path(
-                fill = SolidColor(Color.Black),
+                stroke = SolidColor(Color.Black),
+                    strokeLineWidth = 1.5f,
+                    strokeLineCap = StrokeCap.Round,
+                    strokeLineJoin = StrokeJoin.Round,
                 fillAlpha = 1f,
                 strokeAlpha = 1f
             ) {

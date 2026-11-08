@@ -17,6 +17,7 @@
 
 package org.spotube.spotube
 
+import org.spotube.spotube.resources.iconsax.IconsaxMusicLibraryOutline
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.layout.Box
@@ -149,7 +150,7 @@ val sidebarTabs = tabs + listOf(
 // Phone bottom bar: Home, Search, Your library (+ a "Create" action added by AppBottombar).
 // Settings live in the Home header instead of the bar.
 val bottombarTabs = tabs + listOf(
-    NavigationItem.Tab<Any>(Res.string.nav_your_library, Iconsax.IconsaxMusicLibrary, Routes.Library)
+    NavigationItem.Tab<Any>(Res.string.nav_your_library, Iconsax.IconsaxMusicLibraryOutline, Routes.Library)
 )
 
 @OptIn(KoinExperimentalAPI::class)
