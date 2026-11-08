@@ -18,6 +18,7 @@
 package org.spotube.spotube.modules.blacklist
 
 
+import org.spotube.spotube.core.ui.component.ExpressiveSearchField
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumIconButton
 import org.spotube.millennium.composables.MillenniumIconButtonStyle
@@ -128,9 +129,8 @@ internal fun BlacklistContent(
             .fillMaxSize()
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        MillenniumTextField(
+        ExpressiveSearchField(
             state = filterState,
-            label = "",
             modifier = Modifier.fillMaxWidth(),
             placeholder = stringResource(Res.string.blacklist_filter_placeholder))
 

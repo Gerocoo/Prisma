@@ -48,8 +48,8 @@ val Iconsax.IconsaxShuffle: ImageVector
             ) {
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(21.75f, 17.98f)
                     curveTo(21.75f, 17.96f, 21.74f, 17.94f, 21.74f, 17.92f)
@@ -79,8 +79,8 @@ val Iconsax.IconsaxShuffle: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(8.42f, 6.69f)
                     curveTo(7.77f, 5.79f, 6.73f, 5.26f, 5.62f, 5.26f)

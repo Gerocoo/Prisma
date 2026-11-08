@@ -73,9 +73,9 @@ val Iconsax.IconsaxRepeateOne: ImageVector
                     curveTo(22.01f, 10.37f, 21.28f, 8.74f, 20.1f, 7.56f)
                 }
                 path(
-                    fillAlpha = 0.4f,
+                    fillAlpha = 1f,
                     stroke = SolidColor(Color.White),
-                    strokeAlpha = 0.4f,
+                    strokeAlpha = 1f,
                     strokeLineWidth = 1.5f,
                     strokeLineCap = StrokeCap.Round,
                     strokeLineJoin = StrokeJoin.Round

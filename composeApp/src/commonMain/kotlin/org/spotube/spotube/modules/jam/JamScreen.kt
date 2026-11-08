@@ -17,6 +17,7 @@
 
 package org.spotube.spotube.modules.jam
 
+import org.spotube.spotube.core.ui.component.ExpressiveToggle
 import org.spotube.millennium.composables.MillenniumDropdownMenuItem
 import org.spotube.spotube.resources.iconsax.IconsaxUserRemove
 import org.spotube.spotube.resources.iconsax.IconsaxForbidden
@@ -72,9 +73,6 @@ import org.spotube.millennium.composables.MillenniumButtonStyle
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumIconButton
 import org.spotube.millennium.composables.MillenniumIconButtonStyle
-import org.spotube.millennium.composables.MillenniumSegmentedButton
-import org.spotube.millennium.composables.MillenniumSegmentedButtonDefaults
-import org.spotube.millennium.composables.MillenniumSegmentedButtonRow
 import org.spotube.millennium.composables.MillenniumSeparator
 import org.spotube.millennium.composables.MillenniumTextField
 import org.spotube.millennium.composables.MillenniumTooltip
@@ -167,18 +165,15 @@ internal fun SetupPanel(
     onJoin: () -> Unit
 ) {
     JamPanel {
-        MillenniumSegmentedButtonRow(Modifier.fillMaxWidth()) {
-            MillenniumSegmentedButton(
-                selected = state.setupMode == JamSetupMode.Create,
-                onClick = { onMode(JamSetupMode.Create) },
-                shape = MillenniumSegmentedButtonDefaults.itemShape(0, 2)
-            ) { Text(stringResource(Res.string.jam_setup_create_tab)) }
-            MillenniumSegmentedButton(
-                selected = state.setupMode == JamSetupMode.Join,
-                onClick = { onMode(JamSetupMode.Join) },
-                shape = MillenniumSegmentedButtonDefaults.itemShape(1, 2)
-            ) { Text(stringResource(Res.string.jam_setup_join_tab)) }
-        }
+        ExpressiveToggle(
+            options = listOf(
+                stringResource(Res.string.jam_setup_create_tab),
+                stringResource(Res.string.jam_setup_join_tab)
+            ),
+            selectedIndex = if (state.setupMode == JamSetupMode.Create) 0 else 1,
+            onSelect = { onMode(if (it == 0) JamSetupMode.Create else JamSetupMode.Join) },
+            modifier = Modifier.fillMaxWidth()
+        )
         if (state.setupMode == JamSetupMode.Create) {
             SharedRoomIllustration(Modifier.fillMaxWidth().height(100.dp))
             Text(

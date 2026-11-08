@@ -47,9 +47,9 @@ val Iconsax.IconsaxMirrorScreenRegular: ImageVector
                     horizontalLineTo(16f)
                 }
                 path(
-                    fillAlpha = 0.4f,
+                    fillAlpha = 1f,
                     stroke = SolidColor(Color.White),
-                    strokeAlpha = 0.4f,
+                    strokeAlpha = 1f,
                     strokeLineWidth = 1.5f,
                     strokeLineCap = StrokeCap.Round,
                     strokeLineJoin = StrokeJoin.Round
@@ -58,9 +58,9 @@ val Iconsax.IconsaxMirrorScreenRegular: ImageVector
                     curveTo(8.31f, 12.301f, 11.7f, 15.701f, 12.3f, 20.321f)
                 }
                 path(
-                    fillAlpha = 0.4f,
+                    fillAlpha = 1f,
                     stroke = SolidColor(Color.White),
-                    strokeAlpha = 0.4f,
+                    strokeAlpha = 1f,
                     strokeLineWidth = 1.5f,
                     strokeLineCap = StrokeCap.Round,
                     strokeLineJoin = StrokeJoin.Round
@@ -69,9 +69,9 @@ val Iconsax.IconsaxMirrorScreenRegular: ImageVector
                     curveTo(6.01f, 15.5f, 8.5f, 18f, 8.94f, 21.39f)
                 }
                 path(
-                    fillAlpha = 0.4f,
+                    fillAlpha = 1f,
                     stroke = SolidColor(Color.White),
-                    strokeAlpha = 0.4f,
+                    strokeAlpha = 1f,
                     strokeLineWidth = 1.5f,
                     strokeLineCap = StrokeCap.Round,
                     strokeLineJoin = StrokeJoin.Round

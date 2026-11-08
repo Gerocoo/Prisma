@@ -18,6 +18,7 @@
 package org.spotube.spotube.modules.settings
 
 
+import org.spotube.spotube.core.ui.component.ExpressiveLoadingIndicator
 import org.spotube.millennium.composables.MillenniumCircularProgress
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumIconButton
@@ -288,7 +289,7 @@ private fun SettingsTabContent(
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center) {
-                    MillenniumCircularProgress(size = 40.dp)
+                    ExpressiveLoadingIndicator(size = 40.dp)
                 }
             } else {
                 Box(modifier = Modifier.fillMaxSize()) {

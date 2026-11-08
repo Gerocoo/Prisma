@@ -20,8 +20,8 @@ val Iconsax.IconsaxImportArrow2Bulk: ImageVector
         ).apply {
             path(
                 fill = SolidColor(Color.White),
-                fillAlpha = 0.4f,
-                strokeAlpha = 0.4f
+                fillAlpha = 1f,
+                strokeAlpha = 1f
             ) {
                 moveTo(16.8f, 9f)
                 horizontalLineTo(7.2f)

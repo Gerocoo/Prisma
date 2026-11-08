@@ -18,6 +18,7 @@
 package org.spotube.spotube.modules.library.playlist
 
 
+import org.spotube.spotube.core.ui.component.ExpressiveSearchField
 import org.spotube.spotube.core.ui.component.AdaptiveDialogBottomSheet
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumButton
@@ -138,9 +139,8 @@ fun AddToPlaylistPicker(
                 MillenniumIcon(
                     imageVector = Iconsax.IconsaxFilterSearch,
                     contentDescription = stringResource(Res.string.library_add_to_playlist_search_content_description))
-                MillenniumTextField(
+                ExpressiveSearchField(
                     state = searchState,
-                    
                     modifier = Modifier.weight(1f),
                     placeholder = stringResource(Res.string.library_add_to_playlist_search_placeholder))
             }

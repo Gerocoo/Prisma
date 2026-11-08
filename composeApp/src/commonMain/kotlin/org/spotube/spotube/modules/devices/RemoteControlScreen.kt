@@ -18,6 +18,7 @@
 package org.spotube.spotube.modules.devices
 
 
+import org.spotube.spotube.core.ui.component.ExpressiveLoadingIndicator
 import org.spotube.millennium.composables.MillenniumButton
 import org.spotube.millennium.composables.MillenniumButtonStyle
 import org.spotube.millennium.composables.MillenniumCard
@@ -28,7 +29,6 @@ import org.spotube.millennium.composables.MillenniumIconButton
 import org.spotube.millennium.composables.MillenniumIconButtonStyle
 import org.spotube.millennium.composables.MillenniumListTile
 import org.spotube.millennium.composables.MillenniumSlider
-import org.spotube.millennium.composables.MillenniumSpokeSpinner
 import org.spotube.millennium.theme.MillenniumTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -247,7 +247,7 @@ fun RemoteControlScreen(
                     is ConnectionState.Connecting -> ConnectionStatus(
                         title = stringResource(Res.string.devices_connecting),
                         message = stringResource(Res.string.devices_remote_connecting_hint),
-                        leading = { MillenniumSpokeSpinner(size = 40.dp) }
+                        leading = { ExpressiveLoadingIndicator(size = 40.dp) }
                     )
 
                     is ConnectionState.Disconnected -> ConnectionStatus(

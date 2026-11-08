@@ -16,6 +16,7 @@
  */
 package org.spotube.spotube.core.ui.theming
 
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
@@ -63,10 +64,11 @@ internal expect fun Image.samplePixels(maxSize: Int): IntArray?
 @Composable
 fun rememberArtworkColors(model: Any?): ArtworkColors? {
     val context = LocalPlatformContext.current
-    var colors by remember { mutableStateOf<ArtworkColors?>(null) }
+    var seedColor by remember { mutableStateOf<Color?>(null) }
+    val dark = isAppThemeDark()
     LaunchedEffect(model) {
         if (model == null) {
-            colors = null
+            seedColor = null
             return@LaunchedEffect
         }
         val seed = withContext(Dispatchers.Default) {
@@ -76,10 +78,14 @@ fun rememberArtworkColors(model: Any?): ArtworkColors? {
                 image?.samplePixels(48)?.let(::dominantColor)
             }.getOrNull()
         }
-        if (seed != null) colors = artworkColorsFrom(seed)
+        if (seed != null) seedColor = seed
     }
-    return colors
+    return remember(seedColor, dark) { seedColor?.let { artworkColorsFrom(it, dark) } }
 }
+
+/** True when the active app palette is dark (judged from the page background). */
+@Composable
+fun isAppThemeDark(): Boolean = AppTheme.colors.background.luminance() < 0.5f
 
 /** Animates between palettes when the track changes; [fallback] is used before the first cover. */
 @Composable

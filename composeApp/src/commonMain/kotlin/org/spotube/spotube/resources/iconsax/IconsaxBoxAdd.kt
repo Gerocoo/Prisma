@@ -87,8 +87,8 @@ val Iconsax.IconsaxBoxAdd: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(19.35f, 5.66f)
                     lineTo(13.06f, 2.27f)
@@ -106,8 +106,8 @@ val Iconsax.IconsaxBoxAdd: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(9.9f, 12.79f)
                     lineTo(4.05f, 9.86f)
@@ -125,8 +125,8 @@ val Iconsax.IconsaxBoxAdd: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(22.03f, 11.15f)
                     verticalLineTo(15.74f)

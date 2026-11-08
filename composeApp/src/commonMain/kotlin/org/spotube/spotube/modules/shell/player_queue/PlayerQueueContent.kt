@@ -18,6 +18,7 @@
 package org.spotube.spotube.modules.shell.player_queue
 
 
+import org.spotube.spotube.core.ui.component.ExpressiveSearchField
 import org.spotube.millennium.composables.MillenniumDropdownMenuItem
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -134,9 +135,8 @@ fun PlayerQueueContent(
                 LaunchedEffect(filterState.text) {
                     viewModel.setQueueFilter(filterState.text.toString())
                 }
-                MillenniumTextField(
+                ExpressiveSearchField(
                     state = filterState,
-                    label = "",
                     placeholder = stringResource(Res.string.queue_filter_queue),
                     modifier = Modifier.weight(1f)
                 )

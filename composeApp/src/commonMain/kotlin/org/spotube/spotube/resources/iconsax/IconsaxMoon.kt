@@ -60,8 +60,8 @@ val Iconsax.IconsaxMoon: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(21.21f, 17.72f)
                     curveTo(19.23f, 20.41f, 16.09f, 21.99f, 12.74f, 21.99f)

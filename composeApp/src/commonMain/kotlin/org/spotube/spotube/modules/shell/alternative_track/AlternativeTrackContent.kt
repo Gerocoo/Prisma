@@ -18,7 +18,7 @@
 package org.spotube.spotube.modules.shell.alternative_track
 
 
-import org.spotube.millennium.composables.MillenniumSpokeSpinner
+import org.spotube.spotube.core.ui.component.ExpressiveLoadingIndicator
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumListTile
 import androidx.compose.foundation.background
@@ -98,7 +98,7 @@ fun AlternativeTrackContent(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically) {
-                    MillenniumSpokeSpinner(size = 24.dp)
+                    ExpressiveLoadingIndicator(size = 24.dp)
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
                         text = stringResource(Res.string.alternative_track_searching),

@@ -18,6 +18,7 @@
 package org.spotube.spotube.modules.shell
 
 
+import org.spotube.spotube.core.ui.component.WavyLinearProgress
 import org.spotube.millennium.composables.MillenniumDialogHeader
 import org.spotube.millennium.composables.MillenniumDialogTitle
 import org.spotube.millennium.composables.MillenniumDialogClose
@@ -195,7 +196,7 @@ private fun TrackDetailsDialog(
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp),
                     horizontalArrangement = Arrangement.Center) {
-                    MillenniumMarqueeProgress(modifier = Modifier.fillMaxWidth())
+                    WavyLinearProgress(modifier = Modifier.fillMaxWidth())
                 }
             }
 

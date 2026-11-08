@@ -31,8 +31,8 @@ val Iconsax.IconsaxEdit: ImageVector
             ) {
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(15.48f, 3f)
                     horizontalLineTo(7.52f)

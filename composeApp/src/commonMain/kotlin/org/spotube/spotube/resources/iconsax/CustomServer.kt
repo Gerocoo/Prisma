@@ -54,8 +54,8 @@ val Iconsax.CustomServer: ImageVector
                 // Layer 2: Main Server Rack Chassis (Top & Bottom shells with 40% opacity)
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     // Outer border of the double-slot server rack structure
                     moveTo(20.5f, 8.5f)

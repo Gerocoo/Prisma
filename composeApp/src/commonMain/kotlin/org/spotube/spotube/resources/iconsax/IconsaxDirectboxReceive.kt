@@ -48,8 +48,8 @@ val Iconsax.IconsaxDirectboxReceive: ImageVector
             ) {
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(14.79f, 4f)
                     horizontalLineTo(9.21f)
@@ -122,8 +122,8 @@ val Iconsax.IconsaxDirectboxReceive: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(15.02f, 17.7f)
                     curveTo(15.02f, 18.09f, 14.71f, 18.4f, 14.33f, 18.4f)

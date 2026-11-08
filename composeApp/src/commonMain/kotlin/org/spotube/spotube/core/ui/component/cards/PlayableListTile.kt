@@ -3,6 +3,7 @@
  */
 package org.spotube.spotube.core.ui.component.cards
 
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.layout.Arrangement
@@ -40,7 +41,6 @@ import org.spotube.millennium.composables.MillenniumIconButton
 import org.spotube.millennium.composables.MillenniumIconButtonStyle
 import org.spotube.millennium.composables.MillenniumListTile
 import org.spotube.millennium.theme.MillenniumTheme
-import org.spotube.spotube.core.ui.theming.materialPanelBrush
 import org.spotube.spotube.core.ui.theming.materialSurface
 import spotube.composeapp.generated.resources.*
 
@@ -59,7 +59,7 @@ fun PlayableListTile(
     playLoading: Boolean = false,
     addToQueueLoading: Boolean = false,
     imageModel: Any? = imageURL,
-    imageShape: Shape = RoundedCornerShape(6.dp),
+    imageShape: Shape = RoundedCornerShape(14.dp),
     placeholderIcon: ImageVector = Iconsax.IconsaxMusic,
     artwork: (@Composable () -> Unit)? = null,
     trailingContent: (@Composable () -> Unit)? = null,
@@ -71,12 +71,15 @@ fun PlayableListTile(
         modifier = modifier,
         onClick = onClick ?: onPlay,
         selected = isPlaying,
-        background = if (isPlaying) null else materialPanelBrush(colors),
-        shape = RoundedCornerShape(8.dp),
-        borderColor = if (isBlacklisted) colors.danger.copy(alpha = 0.5f) else if (isPlaying) null else colors.border,
+        background = SolidColor(
+            if (isPlaying) AppTheme.colors.primary.copy(alpha = 0.16f)
+            else AppTheme.colors.surfaceContainer
+        ),
+        shape = RoundedCornerShape(20.dp),
+        borderColor = if (isBlacklisted) colors.danger.copy(alpha = 0.5f) else null,
         titleForeground = if (isBlacklisted) colors.danger else null,
-        borderWidth = 1.dp,
-        contentPadding = PaddingValues(if (compact) 8.dp else 12.dp),
+        borderWidth = if (isBlacklisted) 1.dp else 0.dp,
+        contentPadding = PaddingValues(horizontal = if (compact) 8.dp else 10.dp, vertical = if (compact) 6.dp else 8.dp),
         minimumHeight = if (compact) 52.dp else 76.dp,
         leading = {
             MediaArtwork(
@@ -118,7 +121,7 @@ fun PlayableListTile(
                         MillenniumIconButton(
                             onClick = onAddToQueue,
                             loading = addToQueueLoading,
-                            modifier = Modifier.size(if (compact) 32.dp else 40.dp),
+                            modifier = Modifier.size(if (compact) 32.dp else 40.dp).clip(CircleShape),
                             style = MillenniumIconButtonStyle.Secondary
                         ) {
                             MillenniumIcon(
@@ -130,8 +133,7 @@ fun PlayableListTile(
                     if (onPlay != null) {
                         MillenniumIconButton(
                             onClick = onPlay,
-                            loading = playLoading,
-                            modifier = Modifier.size(if (compact) 32.dp else 40.dp),
+                            modifier = Modifier.size(if (compact) 32.dp else 40.dp).clip(CircleShape),
                             style = MillenniumIconButtonStyle.Primary
                         ) {
                             MillenniumIcon(

@@ -20,8 +20,8 @@ val Iconsax.PhosphorDatabaseDuotone: ImageVector
         ).apply {
             path(
                 fill = SolidColor(Color.Black),
-                fillAlpha = 0.2f,
-                strokeAlpha = 0.2f
+                fillAlpha = 1f,
+                strokeAlpha = 1f
             ) {
                 moveTo(216f, 80f)
                 curveToRelative(0f, 26.51f, -39.4f, 48f, -88f, 48f)

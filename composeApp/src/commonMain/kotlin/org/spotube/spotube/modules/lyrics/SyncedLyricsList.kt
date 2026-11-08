@@ -17,6 +17,9 @@
 
 package org.spotube.spotube.modules.lyrics
 
+import androidx.compose.ui.unit.sp
+import androidx.compose.animation.core.spring
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Arrangement
@@ -70,7 +73,9 @@ fun SyncedLyricsList(
     lines: List<LyricsLine>,
     currentIndex: Int,
     modifier: Modifier = Modifier,
-    onLineClick: ((LyricsLine) -> Unit)? = null
+    onLineClick: ((LyricsLine) -> Unit)? = null,
+    textColor: Color = MillenniumTheme.colors.text,
+    activeColor: Color = MillenniumTheme.colors.accent,
 ) {
     val listState = rememberLazyListState()
     val colors = MillenniumTheme.colors
@@ -111,6 +116,8 @@ fun SyncedLyricsList(
                         text = text,
                         distance = kotlin.math.abs(index - currentIndex),
                         isCurrent = isCurrent,
+                        textColor = textColor,
+                        activeColor = activeColor,
                         onClick = { onLineClick(line) }
                     )
                 } else {
@@ -137,22 +144,25 @@ private fun ImmersiveLyricLine(
     text: String,
     distance: Int,
     isCurrent: Boolean,
+    textColor: Color,
+    activeColor: Color,
     onClick: () -> Unit
 ) {
-    val colors = MillenniumTheme.colors
     val interaction = remember { MutableInteractionSource() }
     val hovered by interaction.collectIsHoveredAsState()
     val targetAlpha = when (distance) {
         0 -> 1f
-        1 -> 0.7f
-        2 -> 0.5f
-        else -> 0.32f
+        1 -> 0.5f
+        2 -> 0.38f
+        else -> 0.28f
     }
-    val alpha by animateFloatAsState(targetAlpha, tween(300))
-    val scale by animateFloatAsState(if (isCurrent) 1f else 0.9f, tween(300))
-    val color by animateColorAsState(if (isCurrent) colors.accent else colors.text, tween(300))
+    // Expressive lyrics: big heavy left-aligned lines; the sung line is bright and full size,
+    // the others shrink slightly towards the left edge and dim with distance.
+    val alpha by animateFloatAsState(targetAlpha, tween(350))
+    val scale by animateFloatAsState(if (isCurrent) 1f else 0.94f, spring(dampingRatio = 0.7f, stiffness = 300f))
+    val color by animateColorAsState(if (isCurrent) activeColor else textColor, tween(350))
     val hoverBackground by animateColorAsState(
-        if (hovered && !isCurrent) colors.accent.copy(alpha = 0.10f) else Color.Transparent
+        if (hovered && !isCurrent) activeColor.copy(alpha = 0.10f) else Color.Transparent
     )
 
     Text(
@@ -160,6 +170,7 @@ private fun ImmersiveLyricLine(
         modifier = Modifier
             .fillMaxWidth()
             .graphicsLayer {
+                transformOrigin = TransformOrigin(0f, 0.5f)
                 scaleX = scale
                 scaleY = scale
                 this.alpha = if (hovered) maxOf(alpha, 0.85f) else alpha
@@ -170,11 +181,12 @@ private fun ImmersiveLyricLine(
             .pointerHoverIcon(PointerIcon.Hand)
             .clickable(interactionSource = interaction, indication = null, onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 10.dp),
-        style = AppTheme.typography.headlineSmall.copy(
-            fontWeight = FontWeight.Bold,
+        style = AppTheme.typography.headlineMedium.copy(
+            fontWeight = FontWeight.ExtraBold,
+            lineHeight = 36.sp,
             color = color
         ),
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Start
     )
 }
 

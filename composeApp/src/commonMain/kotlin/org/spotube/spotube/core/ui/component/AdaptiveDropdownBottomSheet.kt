@@ -18,6 +18,11 @@
 package org.spotube.spotube.core.ui.component
 
 
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -170,15 +175,20 @@ private fun AdaptiveBottomSheetContent(
         state = sheetState,
         contentPadding = PaddingValues(top = 10.dp, bottom = 8.dp),
         contentSpacing = 4.dp) {
+        // Keep the sheet clear of the status bar: never taller than the window minus the
+        // status bar and a visible strip of the page behind it.
+        val density = LocalDensity.current
+        val windowHeight = with(density) { LocalWindowInfo.current.containerSize.height.toDp() }
+        val statusBar = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
+        val maxSheetHeight = (windowHeight - statusBar - 72.dp).coerceAtLeast(240.dp)
         Column(
-            modifier = Modifier.fillMaxWidth()) {
+            modifier = Modifier.fillMaxWidth().heightIn(max = maxSheetHeight)) {
             header?.invoke()
 
             if (filter != null) {
                 Spacer(modifier = Modifier.height(8.dp))
-                MillenniumTextField(
+                ExpressiveSearchField(
                     state = queryState,
-                    label = "",
                     placeholder = stringResource(Res.string.search_filter_placeholder),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -187,6 +197,7 @@ private fun AdaptiveBottomSheetContent(
 
             LazyColumn(
                 modifier = Modifier
+                    .weight(1f, fill = false)
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(2.dp)) {

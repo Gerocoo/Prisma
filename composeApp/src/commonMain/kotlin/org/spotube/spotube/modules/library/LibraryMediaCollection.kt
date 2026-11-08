@@ -53,7 +53,7 @@ internal fun <T> LibraryMediaCollection(
     if (viewMode == LibraryViewMode.List) {
         LazyColumn(
             modifier.fillMaxSize(), state = listState, contentPadding = padding,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             if (loading) items(8) { SkeletonTree(true) { skeleton(true) } }
             else {

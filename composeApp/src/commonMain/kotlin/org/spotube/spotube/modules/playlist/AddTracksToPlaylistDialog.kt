@@ -18,6 +18,8 @@
 package org.spotube.spotube.modules.playlist
 
 
+import org.spotube.spotube.core.ui.component.ExpressiveSearchField
+import org.spotube.spotube.core.ui.component.ExpressiveLoadingIndicator
 import org.spotube.spotube.core.ui.component.AdaptiveDialogBottomSheet
 import org.spotube.millennium.composables.MillenniumCircularProgress
 import org.spotube.millennium.composables.MillenniumIcon
@@ -101,7 +103,7 @@ fun AddTracksToPlaylistDialog(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically) {
-                MillenniumTextField(
+                ExpressiveSearchField(
                     state = state.queryState,
                     modifier = Modifier.weight(1f),
                     placeholder = stringResource(Res.string.playlist_add_tracks_search_placeholder))
@@ -120,7 +122,7 @@ fun AddTracksToPlaylistDialog(
                             .fillMaxWidth()
                             .weight(1f),
                         contentAlignment = Alignment.Center) {
-                        MillenniumCircularProgress(size = 40.dp)
+                        ExpressiveLoadingIndicator(size = 40.dp)
                     }
                 }
                 state.hasSearched && state.results.isEmpty() -> {

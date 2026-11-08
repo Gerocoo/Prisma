@@ -591,8 +591,8 @@
     <string name="home_greeting_evening">Buonasera</string>
 
     <!-- Lyrics -->
-    <string name="lyrics_mode_synced">Sincronizzati</string>
-    <string name="lyrics_mode_plain">Semplici</string>
+    <string name="lyrics_mode_synced">Sincronizzato</string>
+    <string name="lyrics_mode_plain">Statico</string>
     <string name="lyrics_no_synced">Nessun testo sincronizzato disponibile</string>
     <string name="lyrics_no_plain">Nessun testo semplice disponibile</string>
 

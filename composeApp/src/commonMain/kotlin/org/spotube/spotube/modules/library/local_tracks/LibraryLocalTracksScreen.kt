@@ -3,8 +3,8 @@
  */
 package org.spotube.spotube.modules.library.local_tracks
 
+import org.spotube.spotube.core.ui.component.ExpressiveLoadingIndicator
 import org.spotube.millennium.composables.MillenniumCircularProgress
-import org.spotube.millennium.composables.MillenniumSpokeSpinner
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -120,7 +120,7 @@ internal fun LocalTracksContent(
                     Modifier.fillMaxSize().padding(bottom = inset),
                     contentAlignment = Alignment.Center
                 ) {
-                    MillenniumCircularProgress(size = 40.dp)
+                    ExpressiveLoadingIndicator(size = 40.dp)
                 }
 
                 state.currentFolderPath == null && state.visibleFolders.isNotEmpty() -> LazyColumn(
@@ -272,7 +272,7 @@ internal fun LocalTracksBreadcrumb(
             style = AppTheme.typography.labelSmall, color = AppTheme.colors.onSurfaceVariant,
             maxLines = 1
         )
-        if (state.isRefreshing) MillenniumSpokeSpinner(size = 14.dp)
+        if (state.isRefreshing) ExpressiveLoadingIndicator(size = 14.dp)
         if (state.currentFolderPath == null && onManageFolders != null) MillenniumIconButton(
             onClick = onManageFolders,
             modifier = Modifier.size(40.dp), style = MillenniumIconButtonStyle.Quiet
@@ -300,12 +300,12 @@ internal fun LocalTracksBreadcrumb(
 internal fun LocalFolderRow(folder: LocalFolderUi, onClick: () -> Unit) {
     MillenniumListTile(
         onClick = onClick,
-        background = materialPanelBrush(MillenniumTheme.colors),
-        shape = RoundedCornerShape(8.dp),
-        borderColor = MillenniumTheme.colors.border,
-        borderWidth = 1.dp,
-        contentPadding = PaddingValues(8.dp),
-        minimumHeight = 52.dp,
+        background = androidx.compose.ui.graphics.SolidColor(AppTheme.colors.surfaceContainer),
+        shape = RoundedCornerShape(20.dp),
+        borderColor = null,
+        borderWidth = 0.dp,
+        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 8.dp),
+        minimumHeight = 56.dp,
         leading = {
             MediaArtwork(
                 folder.artwork,

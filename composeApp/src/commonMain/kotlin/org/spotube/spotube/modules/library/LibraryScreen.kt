@@ -17,6 +17,7 @@
 
 package org.spotube.spotube.modules.library
 
+import org.spotube.spotube.core.ui.component.ExpressiveSearchField
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -255,11 +256,9 @@ private fun LibraryFilterField(
     LaunchedEffect(autoFocus) {
         if (autoFocus) focusRequester.requestFocus()
     }
-    MillenniumTextField(
+    ExpressiveSearchField(
         state = state,
         placeholder = stringResource(placeholder),
-        minimumHeight = 36.dp,
-        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 8.dp),
         modifier = modifier.padding(vertical = 4.dp).focusRequester(focusRequester)
     )
 }

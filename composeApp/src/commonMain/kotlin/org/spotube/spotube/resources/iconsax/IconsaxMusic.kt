@@ -70,8 +70,8 @@ val Iconsax.IconsaxMusic: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(20.89f, 5.18f)
                     verticalLineTo(7.32f)

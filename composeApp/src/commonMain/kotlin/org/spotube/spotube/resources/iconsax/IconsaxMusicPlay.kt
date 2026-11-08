@@ -55,8 +55,8 @@ val Iconsax.IconsaxMusicPlay: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(2.75f, 18.651f)
                     curveTo(2.34f, 18.651f, 2f, 18.311f, 2f, 17.901f)

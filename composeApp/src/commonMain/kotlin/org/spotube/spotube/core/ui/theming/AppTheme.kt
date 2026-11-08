@@ -271,6 +271,18 @@ private fun <T> MillenniumControlStateProperty<T>.mapAll(f: (T) -> T) = Millenni
 )
 
 /**
+ * Like [mapAll], but the pressed state looks exactly like the resting one: no bevel, darkening
+ * or gel flash on touch and long press. Hover stays on the resting look as well.
+ */
+private fun <T> MillenniumControlStateProperty<T>.mapNoPress(f: (T) -> T): MillenniumControlStateProperty<T> {
+    val rest = f(default)
+    return MillenniumControlStateProperty(
+        default = rest, hovered = rest, focused = f(focused), pressed = rest,
+        disabled = f(disabled), selected = f(selected), error = f(error)
+    )
+}
+
+/**
  * Material 3 Expressive look for every shared component, so all menus, dialogs, sheets and
  * settings match the player: pill buttons, large rounded surfaces, flat fills, no gloss,
  * no hairline borders and no inner glows.
@@ -289,22 +301,22 @@ private fun MillenniumThemeComponents.expressive(colors: MillenniumColors): Mill
     val tonal = SolidColor(colors.raised)
     return copy(
         buttonTheme = buttonTheme.copy(
-            primary = buttonTheme.primary.mapAll(flatButton),
-            secondary = buttonTheme.secondary.mapAll { flatButton(it).copy(background = tonal) },
-            quiet = buttonTheme.quiet.mapAll(flatButton),
-            danger = buttonTheme.danger.mapAll(flatButton)
+            primary = buttonTheme.primary.mapNoPress(flatButton),
+            secondary = buttonTheme.secondary.mapNoPress { flatButton(it).copy(background = tonal) },
+            quiet = buttonTheme.quiet.mapNoPress(flatButton),
+            danger = buttonTheme.danger.mapNoPress(flatButton)
         ),
         iconButtonTheme = iconButtonTheme.copy(
-            primary = iconButtonTheme.primary.mapAll(flatIconButton),
-            secondary = iconButtonTheme.secondary.mapAll { flatIconButton(it).copy(background = tonal) },
-            quiet = iconButtonTheme.quiet.mapAll(flatIconButton),
-            danger = iconButtonTheme.danger.mapAll(flatIconButton)
+            primary = iconButtonTheme.primary.mapNoPress(flatIconButton),
+            secondary = iconButtonTheme.secondary.mapNoPress { flatIconButton(it).copy(background = tonal) },
+            quiet = iconButtonTheme.quiet.mapNoPress(flatIconButton),
+            danger = iconButtonTheme.danger.mapNoPress(flatIconButton)
         ),
-        cardTheme = cardTheme.copy(states = cardTheme.states.mapAll {
+        cardTheme = cardTheme.copy(states = cardTheme.states.mapNoPress {
             it.copy(shape = RoundedCornerShape(24.dp), background = SolidColor(colors.surface),
                 borderWidth = 0.dp, innerGlowColor = clear, shadowElevation = 0.dp, bottomRimColor = clear)
         }),
-        listTileTheme = listTileTheme.copy(states = listTileTheme.states.mapAll {
+        listTileTheme = listTileTheme.copy(states = listTileTheme.states.mapNoPress {
             it.copy(shape = RoundedCornerShape(20.dp), selectedBackground = SolidColor(colors.accent.copy(alpha = 0.16f)),
                 selectedGelStrength = 0f, borderWidth = 0.dp, innerGlowColor = clear)
         }),
@@ -351,14 +363,25 @@ private fun darkSurface(accent: Color, onAccent: Color) = MillenniumColors(
     success = Color(0xFF86EFAC), danger = Color(0xFFFF8A80), scrim = Color(0xCC050505)
 )
 
+/**
+ * Light surfaces: soft off-white ground with clearly darker tonal cards, near-black text and a
+ * muted grey that still passes contrast on every surface.
+ */
+private fun lightSurface(accent: Color, onAccent: Color) = MillenniumColors(
+    background = Color(0xFFF7F7F8), surface = Color(0xFFECECEF), raised = Color(0xFFE1E1E6),
+    inset = Color(0xFFF1F1F3), text = Color(0xFF111114), muted = Color(0xFF52525B),
+    border = Color(0xFFD4D4D8), highlight = Color(0xFFD9D9DE), accent = accent,
+    accentTop = accent, accentBottom = accent, onAccent = onAccent,
+    success = Color(0xFF15803D), danger = Color(0xFFC62828), scrim = Color(0x99000000)
+)
+
 /** Amber is the default (the "Orange" family slot); blue and lime keep their own accents. */
 val AppColorSchemes = MillenniumColorSchemes(
     dark = darkSurface(accent = Color(0xFF7C8CFF), onAccent = Color(0xFF0B0B1A)),
     orangeDark = darkSurface(accent = Color(0xFFF5A524), onAccent = Color(0xFF111111)),
-    orangeLight = MillenniumOrangeLightColors.copy(
-        accent = Color(0xFF9A5B00), accentTop = Color(0xFFF5A524), accentBottom = Color(0xFFF5A524),
-        onAccent = Color(0xFF111111)
-    ),
+    light = lightSurface(accent = Color(0xFF3F51E0), onAccent = Color.White),
+    orangeLight = lightSurface(accent = Color(0xFFB45F00), onAccent = Color.White),
+    limeLight = lightSurface(accent = Color(0xFF00796B), onAccent = Color.White),
     limeDark = darkSurface(accent = Color(0xFF2DD4BF), onAccent = Color(0xFF04201C))
 )
 
@@ -432,6 +455,7 @@ fun SpotubeTheme(
         )
     }
 
+    SystemBarsAppearance(darkTheme = isDarkTheme)
     MillenniumTheme(
         dark = isDarkTheme,
         config = MillenniumThemeConfig(

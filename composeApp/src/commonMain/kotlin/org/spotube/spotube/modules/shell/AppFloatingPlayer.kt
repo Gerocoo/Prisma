@@ -18,6 +18,8 @@
 package org.spotube.spotube.modules.shell
 
 
+import spotube.composeapp.generated.resources.player_previous_content_description
+import org.spotube.spotube.resources.iconsax.IconsaxPrevious
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.theme.MillenniumTheme
 import androidx.compose.animation.AnimatedVisibilityScope
@@ -116,6 +118,7 @@ fun AppFloatingPlayer(
         modifier = modifier,
         albumArtModifier = albumArtModifier,
         onPlayPause = ::onPlayPause,
+        onPrevious = { scope.launch { audioPlayer.skipToPrevious() } },
         onNext = { scope.launch { audioPlayer.skipToNext() } },
         heartButton = {
             PlayerHeartButton(
@@ -132,6 +135,7 @@ internal fun FloatingPlayerContent(
     modifier: Modifier = Modifier,
     albumArtModifier: Modifier = Modifier,
     onPlayPause: () -> Unit,
+    onPrevious: () -> Unit = {},
     onNext: () -> Unit = {},
     heartButton: @Composable () -> Unit
 ) {
@@ -153,7 +157,7 @@ internal fun FloatingPlayerContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 8.dp, end = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
@@ -192,7 +196,22 @@ internal fun FloatingPlayerContent(
                 )
             }
             heartButton()
-            // Round play/pause on the light accent, round next on the tonal color.
+            // Round previous/next on the tonal color around a round play/pause on the accent.
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(colors.tonal)
+                    .clickable(enabled = hasQueue, role = Role.Button, onClick = onPrevious),
+                contentAlignment = Alignment.Center
+            ) {
+                MillenniumIcon(
+                    Iconsax.IconsaxPrevious,
+                    contentDescription = stringResource(Res.string.player_previous_content_description),
+                    tint = colors.onContainer,
+                    modifier = Modifier.size(18.dp)
+                )
+            }
             Box(
                 modifier = Modifier
                     .size(40.dp)

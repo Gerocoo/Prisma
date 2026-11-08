@@ -48,8 +48,8 @@ val Iconsax.InconsaxClock: ImageVector
             ) {
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(12f, 22f)
                     curveTo(17.523f, 22f, 22f, 17.523f, 22f, 12f)

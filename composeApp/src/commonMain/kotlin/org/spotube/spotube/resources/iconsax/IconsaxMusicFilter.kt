@@ -48,8 +48,8 @@ val Iconsax.IconsaxMusicFilter: ImageVector
             ) {
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(22f, 3.75f)
                     horizontalLineTo(2f)
@@ -62,8 +62,8 @@ val Iconsax.IconsaxMusicFilter: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(11f, 9.75f)
                     horizontalLineTo(2f)
@@ -76,8 +76,8 @@ val Iconsax.IconsaxMusicFilter: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(8f, 15.75f)
                     horizontalLineTo(2f)
@@ -90,8 +90,8 @@ val Iconsax.IconsaxMusicFilter: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(6f, 21.75f)
                     horizontalLineTo(2f)

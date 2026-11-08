@@ -18,9 +18,8 @@
 package org.spotube.spotube.modules.plugin
 
 
+import org.spotube.spotube.core.ui.component.ExpressiveLoadingIndicator
 import org.spotube.millennium.composables.MillenniumCircularProgress
-import org.spotube.millennium.composables.MillenniumDotsLoader
-import org.spotube.millennium.composables.MillenniumSpokeSpinner
 import org.spotube.millennium.composables.MillenniumButton
 import org.spotube.millennium.composables.MillenniumButtonStyle
 import org.spotube.millennium.composables.MillenniumDialog
@@ -290,7 +289,7 @@ internal fun PluginScreenContent(
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
-                ) { MillenniumCircularProgress(size = 40.dp) }
+                ) { ExpressiveLoadingIndicator(size = 40.dp) }
             }
 
             is PluginUiState.Data -> {
@@ -517,7 +516,7 @@ internal fun PluginScreenContent(
                                         Modifier.fillMaxWidth().padding(16.dp),
                                         contentAlignment = Alignment.Center
                                     ) {
-                                        MillenniumDotsLoader()
+                                        ExpressiveLoadingIndicator(size = 28.dp)
                                     }
                                 }
                             }
@@ -549,7 +548,7 @@ internal fun PluginScreenContent(
                                             .padding(vertical = 16.dp),
                                         contentAlignment = Alignment.Center
                                     ) {
-                                        MillenniumDotsLoader()
+                                        ExpressiveLoadingIndicator(size = 28.dp)
                                     }
                                 }
                             }
@@ -723,7 +722,7 @@ private fun InstallSheet(
                             color = AppTheme.colors.onSurfaceVariant)
                     }
                     if (isPreparingFile) {
-                        MillenniumSpokeSpinner(size = 18.dp)
+                        ExpressiveLoadingIndicator(size = 18.dp)
                     } else {
                         MillenniumIcon(
                             FeatherIcons.ChevronRight,
@@ -841,7 +840,7 @@ private fun SupportDialog(
                 Box(
                     modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp),
                     contentAlignment = Alignment.Center) {
-                    MillenniumCircularProgress(size = 36.dp)
+                    ExpressiveLoadingIndicator(size = 36.dp)
                 }
             } else {
                 PluginPanel {

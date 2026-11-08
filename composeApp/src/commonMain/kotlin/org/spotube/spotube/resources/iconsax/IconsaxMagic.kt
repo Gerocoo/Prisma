@@ -49,9 +49,9 @@ val Iconsax.IconsaxMagic: ImageVector
                 }
             ) {
                 path(
-                    fillAlpha = 0.4f,
+                    fillAlpha = 1f,
                     stroke = SolidColor(Color.White),
-                    strokeAlpha = 0.4f,
+                    strokeAlpha = 1f,
                     strokeLineWidth = 1.5f,
                     strokeLineCap = StrokeCap.Round,
                     strokeLineJoin = StrokeJoin.Round
@@ -81,9 +81,9 @@ val Iconsax.IconsaxMagic: ImageVector
                     close()
                 }
                 path(
-                    fillAlpha = 0.4f,
+                    fillAlpha = 1f,
                     stroke = SolidColor(Color.White),
-                    strokeAlpha = 0.4f,
+                    strokeAlpha = 1f,
                     strokeLineWidth = 1.5f,
                     strokeLineCap = StrokeCap.Round,
                     strokeLineJoin = StrokeJoin.Round

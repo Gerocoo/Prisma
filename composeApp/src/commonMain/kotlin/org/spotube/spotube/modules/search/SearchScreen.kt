@@ -18,6 +18,9 @@
 package org.spotube.spotube.modules.search
 
 
+import org.spotube.spotube.core.ui.component.expressiveSearchFieldTheme
+import org.spotube.spotube.core.ui.component.ExpressiveSearchDecorations
+import org.spotube.spotube.core.ui.component.WavyLinearProgress
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -535,8 +538,11 @@ private fun SearchBar(
         }
     }
 
+    Box(Modifier.fillMaxWidth().padding(horizontal = 16.dp).padding(bottom = 8.dp)) {
+    ExpressiveSearchDecorations(searchState) {
     MillenniumAutocomplete(
         state = searchState,
+        textFieldTheme = expressiveSearchFieldTheme(),
         suggestions = recentSearchSuggestions,
         onSuggestionSelected = onRecentSearchClick,
         suggestionLabel = { it },
@@ -549,10 +555,7 @@ private fun SearchBar(
             )
         },
         placeholder = stringResource(Res.string.search_placeholder),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .padding(bottom = 8.dp),
+        modifier = Modifier.fillMaxWidth(),
         menuHeader = if (hasRecentSearchSuggestions) {
             {
                 MillenniumListTile(
@@ -582,6 +585,8 @@ private fun SearchBar(
             null
         }
     )
+    }
+    }
 }
 
 @Composable
@@ -1147,7 +1152,7 @@ private fun SearchLoadingIndicator(
                         translationY = bounce
                     })
         }
-        MillenniumMarqueeProgress(
+        WavyLinearProgress(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp, vertical = 16.dp)

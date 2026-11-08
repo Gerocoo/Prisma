@@ -18,13 +18,13 @@
 package org.spotube.spotube.modules.devices
 
 
+import org.spotube.spotube.core.ui.component.ExpressiveLoadingIndicator
 import org.spotube.millennium.composables.MillenniumButton
 import org.spotube.millennium.composables.MillenniumButtonStyle
 import org.spotube.millennium.composables.MillenniumCard
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumIconButton
 import org.spotube.millennium.composables.MillenniumIconButtonStyle
-import org.spotube.millennium.composables.MillenniumSpokeSpinner
 import org.spotube.millennium.theme.MillenniumTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -236,7 +236,7 @@ private fun DeviceTile(
         icon = { SettingsItemIcon(Iconsax.IconsaxMirroringScreen, name) },
         trailingContent = {
             when {
-                device.isConnecting -> MillenniumSpokeSpinner(size = 20.dp)
+                device.isConnecting -> ExpressiveLoadingIndicator(size = 20.dp)
                 device.isConnected -> Text(
                     text = stringResource(Res.string.devices_status_connected),
                     style = AppTheme.typography.labelMedium,
@@ -376,7 +376,7 @@ private fun LazyItemScope.EmptyState(
                 contentAlignment = Alignment.Center
             ) {
                 if (isDiscovering) {
-                    MillenniumSpokeSpinner(size = 32.dp)
+                    ExpressiveLoadingIndicator(size = 32.dp)
                 } else {
                     MillenniumIcon(
                         imageVector = Iconsax.IconsaxWifiSquare,

@@ -31,8 +31,8 @@ val Iconsax.IconsaxStopCircle: ImageVector
             ) {
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(11.97f, 22f)
                     curveTo(17.493f, 22f, 21.97f, 17.523f, 21.97f, 12f)

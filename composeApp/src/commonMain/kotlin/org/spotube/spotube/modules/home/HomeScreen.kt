@@ -18,6 +18,7 @@
 package org.spotube.spotube.modules.home
 
 
+import org.spotube.spotube.core.ui.component.ExpressivePullToRefreshBox
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumIconButton
 import org.spotube.millennium.composables.MillenniumIconButtonStyle
@@ -259,7 +260,7 @@ fun HomeScreen(viewModel: HomeScreenViewModel) {
                     onRetry = { viewModel.refresh() },
                     onGenreSelected = { viewModel.selectGenre(it) })
             } else {
-                MillenniumPullToRefreshBox(
+                ExpressivePullToRefreshBox(
                     isRefreshing = state is HomeScreenState.Loading,
                     onRefresh = {
                         viewModel.refresh()

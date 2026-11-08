@@ -60,8 +60,8 @@ val Iconsax.IconsaxPause: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(21f, 19.11f)
                     verticalLineTo(4.89f)

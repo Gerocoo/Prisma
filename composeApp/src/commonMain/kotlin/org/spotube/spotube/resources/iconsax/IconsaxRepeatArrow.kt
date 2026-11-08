@@ -38,9 +38,9 @@ val Iconsax.IconsaxRepeatArrow: ImageVector
             viewportHeight = 24f
         ).apply {
             path(
-                fillAlpha = 0.4f,
+                fillAlpha = 1f,
                 stroke = SolidColor(Color.White),
-                strokeAlpha = 0.4f,
+                strokeAlpha = 1f,
                 strokeLineWidth = 1.5f,
                 strokeLineCap = StrokeCap.Round,
                 strokeLineJoin = StrokeJoin.Round
@@ -51,9 +51,9 @@ val Iconsax.IconsaxRepeatArrow: ImageVector
                 verticalLineTo(11.48f)
             }
             path(
-                fillAlpha = 0.4f,
+                fillAlpha = 1f,
                 stroke = SolidColor(Color.White),
-                strokeAlpha = 0.4f,
+                strokeAlpha = 1f,
                 strokeLineWidth = 1.5f,
                 strokeLineCap = StrokeCap.Round,
                 strokeLineJoin = StrokeJoin.Round

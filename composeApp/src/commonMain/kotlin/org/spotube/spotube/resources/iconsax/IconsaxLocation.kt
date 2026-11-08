@@ -48,8 +48,8 @@ val Iconsax.IconsaxLocation: ImageVector
             ) {
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(20.62f, 8.45f)
                     curveTo(19.57f, 3.83f, 15.54f, 1.75f, 12f, 1.75f)

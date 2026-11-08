@@ -159,7 +159,6 @@ fun PlayableCard(
                                 onPlay?.let {
                                     MillenniumIconButton(
                                         onClick = onPlay,
-                                        loading = playLoading,
                                         modifier = Modifier.size(44.dp).clip(CircleShape),
                                         style = MillenniumIconButtonStyle.Primary
 

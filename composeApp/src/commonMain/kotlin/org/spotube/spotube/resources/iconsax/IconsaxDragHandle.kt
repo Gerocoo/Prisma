@@ -48,8 +48,8 @@ val Iconsax.IconsaxDragHandle: ImageVector
             ) {
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(8f, 4f)
                     curveTo(6.9f, 4f, 6f, 4.9f, 6f, 6f)
@@ -60,8 +60,8 @@ val Iconsax.IconsaxDragHandle: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(16f, 4f)
                     curveTo(14.9f, 4f, 14f, 4.9f, 14f, 6f)
@@ -72,8 +72,8 @@ val Iconsax.IconsaxDragHandle: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(8f, 10f)
                     curveTo(6.9f, 10f, 6f, 10.9f, 6f, 12f)
@@ -84,8 +84,8 @@ val Iconsax.IconsaxDragHandle: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(16f, 10f)
                     curveTo(14.9f, 10f, 14f, 10.9f, 14f, 12f)
@@ -96,8 +96,8 @@ val Iconsax.IconsaxDragHandle: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(8f, 16f)
                     curveTo(6.9f, 16f, 6f, 16.9f, 6f, 18f)
@@ -108,8 +108,8 @@ val Iconsax.IconsaxDragHandle: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(16f, 16f)
                     curveTo(14.9f, 16f, 14f, 16.9f, 14f, 18f)

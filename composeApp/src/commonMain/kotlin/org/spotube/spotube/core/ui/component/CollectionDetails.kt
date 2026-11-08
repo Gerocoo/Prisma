@@ -135,7 +135,7 @@ fun CollectionDetails(
                     MillenniumButton(
                         modifier = modifier,
                         onClick = onPlay,
-                        loading = isPlayLoading) {
+                        ) {
                         MillenniumIcon(
                             imageVector = if (isPlaying) Iconsax.IconsaxPauseCircle else Iconsax.IconsaxPlayCircle2,
                             contentDescription = if (isPlaying) stringResource(Res.string.player_pause_content_description) else stringResource(Res.string.player_play_content_description))
@@ -251,7 +251,7 @@ fun CollectionDetails(
                 }
                 MillenniumIconButton(
                     onClick = onPlay,
-                    loading = isPlayLoading,
+
                     modifier = Modifier.size(56.dp).clip(CircleShape),
                     style = MillenniumIconButtonStyle.Primary) {
                     MillenniumIcon(

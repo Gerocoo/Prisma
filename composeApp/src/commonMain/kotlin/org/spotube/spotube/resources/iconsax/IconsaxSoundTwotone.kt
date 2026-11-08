@@ -41,8 +41,8 @@ val Iconsax.IconsaxSoundTwotone: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(7.5f, 19f)
                     curveTo(7.09f, 19f, 6.75f, 18.66f, 6.75f, 18.25f)
@@ -65,8 +65,8 @@ val Iconsax.IconsaxSoundTwotone: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(16.5f, 19f)
                     curveTo(16.09f, 19f, 15.75f, 18.66f, 15.75f, 18.25f)

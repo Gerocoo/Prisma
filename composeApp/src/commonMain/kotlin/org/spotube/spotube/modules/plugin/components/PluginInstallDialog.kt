@@ -17,6 +17,7 @@
 
 package org.spotube.spotube.modules.plugin.components
 
+import org.spotube.spotube.core.ui.component.ExpressiveLoadingIndicator
 import org.spotube.millennium.composables.MillenniumCircularProgress
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -138,7 +139,7 @@ fun PluginInstallDialog(
                 Box(
                     modifier = Modifier.fillMaxWidth().height(96.dp),
                     contentAlignment = Alignment.Center) {
-                    MillenniumCircularProgress(size = 36.dp)
+                    ExpressiveLoadingIndicator(size = 36.dp)
                 }
             } else if (releases.isEmpty()) {
                 PluginCallout(stringResource(Res.string.plugin_install_no_releases), isWarning = true)

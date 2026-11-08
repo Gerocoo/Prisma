@@ -48,8 +48,8 @@ val Iconsax.IconsaxShare: ImageVector
             ) {
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(20.36f, 12.73f)
                     curveTo(19.99f, 12.73f, 19.68f, 12.45f, 19.64f, 12.08f)
@@ -63,8 +63,8 @@ val Iconsax.IconsaxShare: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(3.74f, 12.779f)
                     curveTo(3.72f, 12.779f, 3.69f, 12.779f, 3.67f, 12.779f)
@@ -78,8 +78,8 @@ val Iconsax.IconsaxShare: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(15.99f, 21.1f)
                     curveTo(14.76f, 21.69f, 13.44f, 21.99f, 12.06f, 21.99f)

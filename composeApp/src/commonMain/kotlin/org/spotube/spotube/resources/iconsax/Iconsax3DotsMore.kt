@@ -69,9 +69,9 @@ val Iconsax.Iconsax3DotsMore: ImageVector
                     close()
                 }
                 path(
-                    fillAlpha = 0.4f,
+                    fillAlpha = 1f,
                     stroke = SolidColor(Color.White),
-                    strokeAlpha = 0.4f,
+                    strokeAlpha = 1f,
                     strokeLineWidth = 1.5f
                 ) {
                     moveTo(12f, 10f)

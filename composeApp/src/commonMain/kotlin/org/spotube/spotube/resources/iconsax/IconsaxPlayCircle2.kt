@@ -48,8 +48,8 @@ val Iconsax.IconsaxPlayCircle2: ImageVector
             ) {
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(19.07f, 19.82f)
                     curveTo(18.88f, 19.82f, 18.69f, 19.75f, 18.54f, 19.6f)
@@ -63,8 +63,8 @@ val Iconsax.IconsaxPlayCircle2: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(4.93f, 19.82f)
                     curveTo(4.74f, 19.82f, 4.55f, 19.75f, 4.4f, 19.6f)
@@ -78,8 +78,8 @@ val Iconsax.IconsaxPlayCircle2: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(12f, 22.71f)
                     curveTo(10.75f, 22.7f, 9.56f, 22.5f, 8.45f, 22.11f)
@@ -94,8 +94,8 @@ val Iconsax.IconsaxPlayCircle2: ImageVector
                 }
                 path(
                     fill = SolidColor(Color.White),
-                    fillAlpha = 0.4f,
-                    strokeAlpha = 0.4f
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f
                 ) {
                     moveTo(15.3f, 3.34f)
                     curveTo(15.22f, 3.34f, 15.13f, 3.33f, 15.05f, 3.3f)

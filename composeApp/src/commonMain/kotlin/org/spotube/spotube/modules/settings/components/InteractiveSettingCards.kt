@@ -20,7 +20,6 @@ package org.spotube.spotube.modules.settings.components
 
 import org.spotube.millennium.composables.MillenniumDialogHeader
 import org.spotube.millennium.composables.MillenniumDialogTitle
-import org.spotube.millennium.composables.MillenniumDialogClose
 import org.spotube.millennium.composables.MillenniumDialogBody
 import org.spotube.millennium.composables.MillenniumDialogFooter
 import org.spotube.millennium.composables.MillenniumDialogDescription
@@ -247,7 +246,6 @@ internal fun TextInputSettingCard(
             MillenniumDialog(visible = true, onDismissRequest = { isDialogOpen = false }) {
                 MillenniumDialogHeader {
                     MillenniumDialogTitle(dialogTitle)
-                    MillenniumDialogClose()
                 }
                 MillenniumDialogBody {
                     if (dialogDescription != null) {

@@ -364,9 +364,8 @@ fun TrackList(
                 modifier = Modifier
                     .weight(1f)
             ) {
-                MillenniumTextField(
+                ExpressiveSearchField(
                     state = filterState,
-                    label = "",
                     placeholder = stringResource(Res.string.track_list_filter_placeholder),
                     modifier = Modifier
                         .widthIn(max = 400.dp)

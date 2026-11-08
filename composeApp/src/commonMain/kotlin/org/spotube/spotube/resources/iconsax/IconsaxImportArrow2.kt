@@ -21,9 +21,9 @@ val Iconsax.IconsaxImportArrow2: ImageVector
             viewportHeight = 24f
         ).apply {
             path(
-                fillAlpha = 0.4f,
+                fillAlpha = 1f,
                 stroke = SolidColor(Color.White),
-                strokeAlpha = 0.4f,
+                strokeAlpha = 1f,
                 strokeLineWidth = 1.5f,
                 strokeLineCap = StrokeCap.Round,
                 strokeLineJoin = StrokeJoin.Round
@@ -32,9 +32,9 @@ val Iconsax.IconsaxImportArrow2: ImageVector
                 lineTo(13.801f, 10.2f)
             }
             path(
-                fillAlpha = 0.4f,
+                fillAlpha = 1f,
                 stroke = SolidColor(Color.White),
-                strokeAlpha = 0.4f,
+                strokeAlpha = 1f,
                 strokeLineWidth = 1.5f,
                 strokeLineCap = StrokeCap.Round,
                 strokeLineJoin = StrokeJoin.Round

@@ -3,6 +3,9 @@
  */
 package org.spotube.spotube.modules.settings.components
 
+import org.spotube.millennium.composables.MillenniumDialogBody
+import org.spotube.millennium.composables.MillenniumDialogTitle
+import org.spotube.millennium.composables.MillenniumDialogHeader
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -269,15 +272,20 @@ fun LocalMediaFoldersDialogHost(viewModel: LocalMediaFoldersViewModel) {
     val pickerLauncher =
         rememberDirectoryPickerLauncher { directory -> viewModel.addFolder(directory?.path) }
     if (state.isOpen) {
+        val title = stringResource(Res.string.settings_local_media_folders_title)
+        // Header without the close cap: the footer already has cancel/save, back and scrim dismiss.
         MillenniumDialog(
             visible = true,
             onDismissRequest = viewModel::dismiss,
-            title = stringResource(Res.string.settings_local_media_folders_title)
+            paneTitle = title
         ) {
-            LocalMediaFoldersEditorContent(
-                state, { pickerLauncher.launch() }, viewModel::removeFolder,
-                viewModel::save, viewModel::dismiss
-            )
+            MillenniumDialogHeader { MillenniumDialogTitle(title) }
+            MillenniumDialogBody {
+                LocalMediaFoldersEditorContent(
+                    state, { pickerLauncher.launch() }, viewModel::removeFolder,
+                    viewModel::save, viewModel::dismiss
+                )
+            }
         }
     }
 }
