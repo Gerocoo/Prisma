@@ -1026,4 +1026,8 @@
     <string name="settings_updates_up_to_date">You already have the latest version</string>
     <string name="donate_paypal_title">PayPal</string>
     <string name="donate_paypal_subtitle">A direct donation to the developer of Tubify</string>
+    <string name="queue_up_next">Up next</string>
+    <string name="queue_tracks_count">%1$d tracks in queue.</string>
+    <string name="queue_filter_chip">Filter</string>
+    <string name="queue_find_current">Find current track</string>
 </resources>

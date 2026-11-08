@@ -18,6 +18,44 @@
 package org.spotube.spotube.modules.shell.player_queue
 
 
+import androidx.compose.ui.graphics.lerp
+import spotube.composeapp.generated.resources.queue_find_current
+import spotube.composeapp.generated.resources.queue_filter_chip
+import spotube.composeapp.generated.resources.queue_tracks_count
+import spotube.composeapp.generated.resources.queue_up_next
+import org.spotube.spotube.resources.iconsax.InconsaxClock
+import org.spotube.spotube.resources.iconsax.IconsaxRepeateOne
+import org.spotube.spotube.resources.iconsax.IconsaxRepeateMusic
+import org.spotube.spotube.resources.iconsax.IconsaxShuffle
+import org.spotube.spotube.resources.iconsax.IconsaxLocation
+import org.spotube.spotube.resources.iconsax.IconsaxSearch
+import org.spotube.spotube.modules.shell.rememberPlayerUiState
+import org.spotube.spotube.modules.shell.PlayerOptionsViewModel
+import org.spotube.spotube.core.ui.component.PlayingBars
+import org.spotube.spotube.core.audioplayer.LoopState
+import org.spotube.spotube.core.audioplayer.AudioPlayerQueue
+import org.spotube.spotube.core.audioplayer.AudioPlayerInterface
+import org.koin.compose.koinInject
+import kotlinx.coroutines.launch
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.draw.shadow
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.AnimatedVisibility
 import org.spotube.spotube.core.ui.component.ExpressiveSearchField
 import org.spotube.millennium.composables.MillenniumDropdownMenuItem
 import androidx.compose.foundation.background
@@ -106,6 +144,13 @@ fun PlayerQueueContent(
     val isFiltered = state.isFiltered
     val isReadOnly = state.isReadOnly
     var selectedParticipant by remember { mutableStateOf<JamParticipant?>(null) }
+    var showFilter by remember { mutableStateOf(filterQuery.isNotEmpty()) }
+    val scope = rememberCoroutineScope()
+
+    val audioPlayer = koinInject<AudioPlayerInterface>()
+    val audioPlayerQueue = koinInject<AudioPlayerQueue>()
+    val playerUiState = rememberPlayerUiState(audioPlayer, audioPlayerQueue)
+    val playerOptionsViewModel: PlayerOptionsViewModel = koinViewModel()
 
     val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(
@@ -119,18 +164,42 @@ fun PlayerQueueContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 8.dp, vertical = 4.dp),
+                .padding(horizontal = 4.dp, vertical = 4.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Text(
-                text = stringResource(Res.string.queue_title),
-                style = AppTheme.typography.titleLarge
-            )
+            // Header: big "Up next" title, track count, and a chip that shows the filter field.
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.weight(1f)) {
+                    Text(
+                        text = stringResource(Res.string.queue_up_next),
+                        style = AppTheme.typography.headlineMedium,
+                        color = AppTheme.colors.onSurface
+                    )
+                    Text(
+                        text = stringResource(Res.string.queue_tracks_count, displayItems.size),
+                        style = AppTheme.typography.bodySmall,
+                        color = AppTheme.colors.onSurfaceVariant
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(50))
+                        .background(if (showFilter) AppTheme.colors.primary else AppTheme.colors.surfaceContainerHigh)
+                        .clickable(role = Role.Button) {
+                            showFilter = !showFilter
+                            if (!showFilter) viewModel.setQueueFilter("")
+                        }
+                        .padding(horizontal = 14.dp, vertical = 9.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    val chipColor = if (showFilter) AppTheme.colors.onPrimary else AppTheme.colors.onSurface
+                    MillenniumIcon(Iconsax.IconsaxSearch, null, modifier = Modifier.size(16.dp), tint = chipColor)
+                    Text(stringResource(Res.string.queue_filter_chip), style = AppTheme.typography.labelLarge, color = chipColor)
+                }
+            }
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(5.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            AnimatedVisibility(visible = showFilter) {
                 val filterState = rememberTextFieldState(filterQuery)
                 LaunchedEffect(filterState.text) {
                     viewModel.setQueueFilter(filterState.text.toString())
@@ -138,21 +207,8 @@ fun PlayerQueueContent(
                 ExpressiveSearchField(
                     state = filterState,
                     placeholder = stringResource(Res.string.queue_filter_queue),
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.fillMaxWidth()
                 )
-                if (!isReadOnly) {
-                    MillenniumTooltip(stringResource(Res.string.queue_clear_queue)) {
-                        MillenniumIconButton(
-                            onClick = viewModel::clearQueue,
-                            style = MillenniumIconButtonStyle.Quiet
-                        ) {
-                            MillenniumIcon(
-                                Iconsax.IconsaxTrash,
-                                contentDescription = stringResource(Res.string.queue_clear_queue)
-                            )
-                        }
-                    }
-                }
             }
 
             if (displayItems.isEmpty()) {
@@ -162,24 +218,44 @@ fun PlayerQueueContent(
                     color = AppTheme.colors.onSurfaceVariant
                 )
             } else {
-
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     state = lazyListState,
-                    contentPadding = PaddingValues(bottom = 8.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    // Room for the floating toolbar at the bottom.
+                    contentPadding = PaddingValues(bottom = 96.dp)
                 ) {
                     items(displayItems, key = { it.id }) { item ->
                         ReorderableItem(reorderableLazyListState, key = item.id) { isDragging ->
-                            QueueItemRow(
-                                item = item,
-                                reorderScope = if (isFiltered || isReadOnly) null else this,
-                                onPlayClick = { viewModel.playQueueItem(item.originalIndex) },
-                                onRemoveClick = { viewModel.removeQueueItem(item.originalIndex) },
-                                onDragStarted = { viewModel.onDragStart() },
-                                onDragStopped = { viewModel.onDragStop() },
-                                showOptions = !isReadOnly,
-                                enabled = !isReadOnly,
-                                onParticipantClick = { selectedParticipant = it })
+                            // The dragged row lifts: it grows a little and casts a shadow, while
+                            // the rows it passes slide out of the way.
+                            val lift by animateFloatAsState(
+                                if (isDragging) 1f else 0f,
+                                spring(dampingRatio = 0.6f, stiffness = 500f),
+                                label = "queueLift"
+                            )
+                            Box(
+                                Modifier
+                                    .graphicsLayer {
+                                        val scale = 1f + 0.04f * lift
+                                        scaleX = scale
+                                        scaleY = scale
+                                    }
+                                    .shadow((10 * lift).dp, RoundedCornerShape(28.dp), clip = false)
+                            ) {
+                                QueueItemRow(
+                                    item = item,
+                                    isPlaying = playerUiState.isPlaying,
+                                    dragging = isDragging,
+                                    reorderScope = if (isFiltered || isReadOnly) null else this@ReorderableItem,
+                                    onPlayClick = { viewModel.playQueueItem(item.originalIndex) },
+                                    onRemoveClick = { viewModel.removeQueueItem(item.originalIndex) },
+                                    onDragStarted = { viewModel.onDragStart() },
+                                    onDragStopped = { viewModel.onDragStop() },
+                                    showOptions = !isReadOnly,
+                                    enabled = !isReadOnly,
+                                    onParticipantClick = { selectedParticipant = it })
+                            }
                         }
                     }
                 }
@@ -195,6 +271,128 @@ fun PlayerQueueContent(
                     onRemoveSuggestions = { viewModel.removeParticipantTracks(participant.id) })
             }
         }
+
+        // Floating Expressive toolbar: shuffle / repeat / sleep timer in a pill, with a separate
+        // button that unfolds the queue actions above it.
+        QueueToolbar(
+            isShuffling = playerUiState.isShuffling,
+            loopState = playerUiState.loopState,
+            enabled = !isReadOnly,
+            onShuffle = { scope.launch { audioPlayer.shuffle(!playerUiState.isShuffling) } },
+            onLoop = { scope.launch { audioPlayer.loop(playerUiState.loopState.next()) } },
+            onSleepTimer = playerOptionsViewModel::showSleepTimerDialog,
+            onFindCurrent = {
+                val index = displayItems.indexOfFirst { it.isCurrent }
+                if (index >= 0) scope.launch { lazyListState.animateScrollToItem(index) }
+            },
+            onClear = viewModel::clearQueue,
+            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 12.dp)
+        )
+    }
+}
+
+@Composable
+private fun QueueToolbar(
+    isShuffling: Boolean,
+    loopState: LoopState,
+    enabled: Boolean,
+    onShuffle: () -> Unit,
+    onLoop: () -> Unit,
+    onSleepTimer: () -> Unit,
+    onFindCurrent: () -> Unit,
+    onClear: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var menuOpen by remember { mutableStateOf(false) }
+    Column(modifier, horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        // Actions unfold from the button as a stack of pills.
+        AnimatedVisibility(
+            visible = menuOpen,
+            enter = fadeIn() + expandVertically(expandFrom = Alignment.Bottom) +
+                scaleIn(initialScale = 0.8f, transformOrigin = TransformOrigin(1f, 1f)),
+            exit = fadeOut() + shrinkVertically(shrinkTowards = Alignment.Bottom) +
+                scaleOut(targetScale = 0.8f, transformOrigin = TransformOrigin(1f, 1f))
+        ) {
+            Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                QueueMenuPill(Iconsax.IconsaxLocation, stringResource(Res.string.queue_find_current)) {
+                    menuOpen = false; onFindCurrent()
+                }
+                if (enabled) QueueMenuPill(Iconsax.IconsaxTrash, stringResource(Res.string.queue_clear_queue), danger = true) {
+                    menuOpen = false; onClear()
+                }
+            }
+        }
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+            Row(
+                modifier = Modifier
+                    .shadow(6.dp, RoundedCornerShape(50), clip = false)
+                    .clip(RoundedCornerShape(50))
+                    .background(AppTheme.colors.surfaceContainerHigh)
+                    .padding(6.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                ToolbarToggle(Iconsax.IconsaxShuffle, isShuffling, enabled, onShuffle)
+                ToolbarToggle(
+                    if (loopState == LoopState.ONE) Iconsax.IconsaxRepeateOne else Iconsax.IconsaxRepeateMusic,
+                    loopState != LoopState.NONE, enabled, onLoop
+                )
+                ToolbarToggle(Iconsax.InconsaxClock, false, true, onSleepTimer)
+            }
+            val fabCorner by animateDpAsState(if (menuOpen) 28.dp else 18.dp, label = "fabCorner")
+            Box(
+                modifier = Modifier
+                    .size(width = 64.dp, height = 56.dp)
+                    .shadow(6.dp, RoundedCornerShape(fabCorner), clip = false)
+                    .clip(RoundedCornerShape(fabCorner))
+                    .background(if (menuOpen) AppTheme.colors.primary else accentTonal())
+                    .clickable(role = Role.Button) { menuOpen = !menuOpen },
+                contentAlignment = Alignment.Center
+            ) {
+                val rotation by animateFloatAsState(if (menuOpen) 90f else 0f, label = "fabRotation")
+                MillenniumIcon(
+                    Iconsax.Iconsax3DotsMore,
+                    contentDescription = stringResource(Res.string.player_more_options_content_description),
+                    tint = if (menuOpen) AppTheme.colors.onPrimary else AppTheme.colors.onSurface,
+                    modifier = Modifier.size(22.dp).graphicsLayer { rotationZ = rotation }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ToolbarToggle(icon: ImageVector, active: Boolean, enabled: Boolean, onClick: () -> Unit) {
+    val bg by animateColorAsState(if (active) AppTheme.colors.primary else Color.Transparent, label = "toggleBg")
+    val fg by animateColorAsState(if (active) AppTheme.colors.onPrimary else AppTheme.colors.onSurface, label = "toggleFg")
+    Box(
+        modifier = Modifier
+            .size(44.dp)
+            .clip(CircleShape)
+            .background(bg)
+            .clickable(enabled = enabled, role = Role.Switch, onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        MillenniumIcon(icon, null, modifier = Modifier.size(20.dp), tint = fg)
+    }
+}
+
+@Composable
+private fun QueueMenuPill(icon: ImageVector, label: String, danger: Boolean = false, onClick: () -> Unit) {
+    val bg = if (danger) AppTheme.colors.error.copy(alpha = 0.18f) else accentTonal()
+    val fg = if (danger) AppTheme.colors.error else AppTheme.colors.onSurface
+    Row(
+        modifier = Modifier
+            .shadow(4.dp, RoundedCornerShape(50), clip = false)
+            .clip(RoundedCornerShape(50))
+            .background(bg)
+            .clickable(role = Role.Button, onClick = onClick)
+            .padding(horizontal = 18.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        MillenniumIcon(icon, null, modifier = Modifier.size(18.dp), tint = fg)
+        Text(label, style = AppTheme.typography.labelLarge, color = fg)
     }
 }
 
@@ -303,6 +501,8 @@ private fun ParticipantAvatar(participant: JamParticipant, size: Int) {
 @Composable
 private fun QueueItemRow(
     item: QueueItemUi,
+    isPlaying: Boolean,
+    dragging: Boolean,
     reorderScope: sh.calvin.reorderable.ReorderableCollectionItemScope?,
     onPlayClick: () -> Unit,
     onRemoveClick: () -> Unit,
@@ -313,74 +513,76 @@ private fun QueueItemRow(
     onParticipantClick: (JamParticipant) -> Unit = {}
 ) {
     var showMenu by remember { mutableStateOf(false) }
-
-    MillenniumListTile(
-        onClick = onPlayClick,
-        enabled = enabled,
-        selected = item.isCurrent,
-        modifier = Modifier,
-        leading = {
-            Row(
-                modifier = Modifier
-                    .height(56.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                MillenniumIcon(
-                    Iconsax.IconsaxDragHandle,
-                    contentDescription = if (reorderScope != null) stringResource(Res.string.queue_reorder_content_description) else null,
-                    modifier = Modifier
-                        .size(24.dp)
-                        .then(
-                            if (reorderScope != null) {
-                                with(reorderScope) {
-                                    Modifier.draggableHandle(
-                                        onDragStarted = { onDragStarted() },
-                                        onDragStopped = onDragStopped
-                                    )
-                                }
-                            } else {
-                                Modifier
-                            }),
-                    tint = AppTheme.colors.onSurfaceVariant)
-
-                Box(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(AppTheme.shapes.small)
-                        .background(AppTheme.colors.surfaceVariant),
-                    contentAlignment = Alignment.Center
-                ) {
-                    if (item.artwork != null) {
-                        AsyncImage(
-                            model = item.artwork,
-                            contentDescription = null,
-                            modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop
-                        )
-                    } else {
-                        Text(
-                            text = "${item.originalIndex + 1}",
-                            style = AppTheme.typography.labelMedium,
-                            color = AppTheme.colors.onSurfaceVariant
-                        )
-                    }
-                }
-            }
+    val rowColor by animateColorAsState(
+        when {
+            dragging -> accentTonal()
+            else -> AppTheme.colors.surfaceContainerHigh
         },
-        title = {
+        label = "queueRow"
+    )
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(28.dp))
+            .background(rowColor)
+            .clickable(enabled = enabled, onClick = onPlayClick)
+            .padding(start = if (item.isCurrent) 10.dp else 4.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        // The current track has no handle and a round cover; queued ones a handle and a squircle.
+        if (!item.isCurrent) {
+            MillenniumIcon(
+                Iconsax.IconsaxDragHandle,
+                contentDescription = if (reorderScope != null) stringResource(Res.string.queue_reorder_content_description) else null,
+                modifier = Modifier
+                    .size(36.dp)
+                    .padding(6.dp)
+                    .then(
+                        if (reorderScope != null) {
+                            with(reorderScope) {
+                                Modifier.draggableHandle(
+                                    onDragStarted = { onDragStarted() },
+                                    onDragStopped = onDragStopped
+                                )
+                            }
+                        } else Modifier
+                    ),
+                tint = AppTheme.colors.onSurfaceVariant
+            )
+        }
+        Box(
+            modifier = Modifier
+                .size(48.dp)
+                .clip(if (item.isCurrent) CircleShape else RoundedCornerShape(12.dp))
+                .background(AppTheme.colors.surfaceContainer),
+            contentAlignment = Alignment.Center
+        ) {
+            if (item.artwork != null) {
+                AsyncImage(
+                    model = item.artwork,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Text(
+                    text = "${item.originalIndex + 1}",
+                    style = AppTheme.typography.labelMedium,
+                    color = AppTheme.colors.onSurfaceVariant
+                )
+            }
+        }
+        Column(Modifier.weight(1f)) {
             Text(
                 text = item.title,
-                style = AppTheme.typography.bodyLarge,
+                style = AppTheme.typography.bodyLarge.copy(
+                    fontWeight = if (item.isCurrent) FontWeight.Bold else FontWeight.Normal
+                ),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                color = if (item.isCurrent) {
-                    AppTheme.colors.onSecondaryContainer
-                } else {
-                    AppTheme.colors.onSurface
-                }
+                color = if (item.isCurrent) AppTheme.colors.primary else AppTheme.colors.onSurface
             )
-        },
-        subtitle = {
             Text(
                 text = item.addedByParticipant?.let { stringResource(Res.string.queue_item_subtitle_added_by, item.subtitle, it.displayName) } ?: item.subtitle,
                 style = AppTheme.typography.bodySmall,
@@ -388,59 +590,66 @@ private fun QueueItemRow(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-        },
-        trailing = {
-            Text(
-                text = item.durationLabel,
-                style = AppTheme.typography.bodySmall,
-                color = AppTheme.colors.onSurfaceVariant
+        }
+        if (item.isCurrent && isPlaying) {
+            PlayingBars(
+                playing = true,
+                color = AppTheme.colors.onSurface,
+                modifier = Modifier.size(width = 16.dp, height = 14.dp)
             )
-
-            Spacer(modifier = Modifier.width(4.dp))
-
-            item.addedByParticipant?.let { participant ->
-                Box(
-                    modifier = Modifier
-                        .size(28.dp)
-                        .clip(CircleShape)
-                        .background(AppTheme.colors.surfaceVariant)
-                        .clickable { onParticipantClick(participant) },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = participant.displayName.firstOrNull()?.uppercase()?.take(1) ?: "?",
-                        style = AppTheme.typography.labelSmall,
-                        color = AppTheme.colors.onSurfaceVariant
-                    )
-                }
-                Spacer(modifier = Modifier.width(4.dp))
-            }
-
-            if (showOptions) {
-                MillenniumDropdownMenu(
-                    expanded = showMenu,
-                    onExpandedChange = { showMenu = it },
-                    anchor = {
-                        MillenniumIconButton(
-                            onClick = { showMenu = true },
-                            style = MillenniumIconButtonStyle.Quiet
-                        ) {
-                            MillenniumIcon(
-                                Iconsax.Iconsax3DotsMore,
-                                contentDescription = stringResource(Res.string.player_more_options_content_description)
-                            )
-                        }
-                    }) {
-                    MillenniumDropdownMenuItem(
-                        label = stringResource(Res.string.queue_remove_from_queue),
-                        icon = Iconsax.IconsaxMusicSquareRemove,
-                        destructive = true,
-                        onClick = {
-                            onRemoveClick()
-                            showMenu = false
-                        })
-                }
+        }
+        item.addedByParticipant?.let { participant ->
+            Box(
+                modifier = Modifier
+                    .size(28.dp)
+                    .clip(CircleShape)
+                    .background(AppTheme.colors.surfaceContainer)
+                    .clickable { onParticipantClick(participant) },
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = participant.displayName.firstOrNull()?.uppercase()?.take(1) ?: "?",
+                    style = AppTheme.typography.labelSmall,
+                    color = AppTheme.colors.onSurfaceVariant
+                )
             }
         }
-    )
+        if (showOptions) {
+            MillenniumDropdownMenu(
+                expanded = showMenu,
+                onExpandedChange = { showMenu = it },
+                anchor = {
+                    Box(
+                        modifier = Modifier
+                            .size(width = 32.dp, height = 40.dp)
+                            .clip(RoundedCornerShape(50))
+                            .background(
+                                if (item.isCurrent) accentTonal() else AppTheme.colors.surfaceContainer
+                            )
+                            .clickable(role = Role.Button) { showMenu = true },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        MillenniumIcon(
+                            Iconsax.Iconsax3DotsMore,
+                            contentDescription = stringResource(Res.string.player_more_options_content_description),
+                            modifier = Modifier.size(18.dp),
+                            tint = AppTheme.colors.onSurface
+                        )
+                    }
+                }) {
+                MillenniumDropdownMenuItem(
+                    label = stringResource(Res.string.queue_remove_from_queue),
+                    icon = Iconsax.IconsaxMusicSquareRemove,
+                    destructive = true,
+                    onClick = {
+                        onRemoveClick()
+                        showMenu = false
+                    })
+            }
+        }
+    }
 }
+
+/** Tonal accent fill (Material "primary container"): the surface tinted with the accent. */
+@Composable
+private fun accentTonal(): Color = lerp(AppTheme.colors.surfaceContainerHigh, AppTheme.colors.primary, 0.3f)
