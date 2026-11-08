@@ -53,6 +53,26 @@ private fun Scene<NavKey>.tabRoot(): Any? =
 private fun AnimatedContentTransitionScope<Scene<NavKey>>.isTabSwitch(): Boolean =
     initialState.tabRoot() != targetState.tabRoot()
 
+private val topLevelOrder = TOP_LEVEL_ROUTES.map { it.toString() }
+
+/**
+ * Material shared-axis X between tabs, as on Pixel: the new tab slides in a short distance from
+ * the side of the tab that was tapped while the old one slides the other way and fades out
+ * first. Moving right (Home → Search → Library) enters from the right, moving left from the left.
+ */
+private fun AnimatedContentTransitionScope<Scene<NavKey>>.sharedAxisX(): ContentTransform {
+    val from = topLevelOrder.indexOf(initialState.tabRoot())
+    val to = topLevelOrder.indexOf(targetState.tabRoot())
+    if (from < 0 || to < 0) return fadeThrough()
+    val dir = if (to >= from) 1 else -1
+    val slide = tween<IntOffset>(TRANSITION_DURATION_MILLIS, easing = EmphasizedDecelerate)
+    val enter = slideInHorizontally(slide) { (it * 0.18f * dir).toInt() } +
+        fadeIn(tween(TRANSITION_DURATION_MILLIS - FADE_THROUGH_OUT_MILLIS, FADE_THROUGH_OUT_MILLIS, EmphasizedDecelerate))
+    val exit = slideOutHorizontally(slide) { (-it * 0.18f * dir).toInt() } +
+        fadeOut(tween(FADE_THROUGH_OUT_MILLIS + 30))
+    return enter togetherWith exit
+}
+
 /** Material fade-through: the old tab fades out, the new one fades in while scaling up slightly. */
 private fun fadeThrough(): ContentTransform {
     val enter = fadeIn(
@@ -72,7 +92,7 @@ private fun fadeThrough(): ContentTransform {
 private fun AnimatedContentTransitionScope<Scene<NavKey>>.stackTransition(
     forward: Boolean
 ): ContentTransform {
-    if (isTabSwitch()) return fadeThrough()
+    if (isTabSwitch()) return sharedAxisX()
 
     val slide = tween<IntOffset>(TRANSITION_DURATION_MILLIS, easing = EmphasizedDecelerate)
     val enter: EnterTransition
