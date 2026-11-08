@@ -18,6 +18,7 @@
 package org.spotube.spotube.modules.lyrics
 
 
+import androidx.compose.foundation.layout.statusBarsPadding
 import org.spotube.spotube.core.ui.component.ExpressiveLoadingIndicator
 import spotube.composeapp.generated.resources.player_pause_content_description
 import spotube.composeapp.generated.resources.player_play_content_description
@@ -121,17 +122,12 @@ fun LyricsScreen(
     BoxWithConstraints(
         modifier = modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    0f to pal.containerHigh,
-                    0.45f to pal.container,
-                    1f to pal.container
-                )
-            )
+            // One flat cover-tinted color edge to edge, status bar included: no gradient band.
+            .background(pal.container)
     ) {
         val isWide = maxWidth >= 840.dp
 
-        Column(Modifier.fillMaxSize()) {
+        Column(Modifier.fillMaxSize().statusBarsPadding()) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

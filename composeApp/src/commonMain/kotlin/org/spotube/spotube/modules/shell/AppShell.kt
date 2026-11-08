@@ -312,7 +312,7 @@ fun AppShell(
                             slideOutVertically(tween(220)) { it / 12 }
                     ) {
                         LyricsScreen(
-                            modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(28.dp)).statusBarsPadding(),
+                            modifier = Modifier.fillMaxSize(),
                             onClose = { viewModel.hideLyricsOverlay() })
                     }
                 }
