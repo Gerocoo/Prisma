@@ -17,6 +17,7 @@
 
 package org.spotube.spotube.modules.update
 
+import spotube.composeapp.generated.resources.common_cancel
 import spotube.composeapp.generated.resources.app_update_failed
 import spotube.composeapp.generated.resources.app_update_installing
 import spotube.composeapp.generated.resources.app_update_downloading
@@ -50,7 +51,8 @@ fun AppUpdateDialog(
     onDismiss: () -> Unit,
     onIgnore: () -> Unit,
     onUpdate: () -> Unit,
-    progress: AppUpdateProgress? = null) {
+    progress: AppUpdateProgress? = null,
+    onCancel: () -> Unit = {}) {
     MillenniumAlertDialog(
         visible = true,
         onDismissRequest = onDismiss,
@@ -76,7 +78,14 @@ fun AppUpdateDialog(
                 Text(stringResource(Res.string.app_update_dialog_no_notes))
             }
         }) {
-        MillenniumButton(
+        if (progress is AppUpdateProgress.Downloading) {
+            // While downloading the only sensible action is to stop it.
+            MillenniumButton(
+                onClick = onCancel,
+                style = MillenniumButtonStyle.Secondary) {
+                Text(stringResource(Res.string.common_cancel))
+            }
+        } else MillenniumButton(
             onClick = onIgnore,
             style = MillenniumButtonStyle.Secondary) {
             Text(stringResource(Res.string.update_action_ignore))

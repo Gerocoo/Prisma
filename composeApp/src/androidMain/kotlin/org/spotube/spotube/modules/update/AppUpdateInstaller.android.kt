@@ -23,6 +23,7 @@ import android.os.Build
 import android.provider.Settings
 import androidx.core.content.FileProvider
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import org.koin.core.context.GlobalContext
 import java.io.File
@@ -67,6 +68,7 @@ actual object AppUpdateInstaller {
                     var read: Int
                     var done = 0L
                     while (input.read(buffer).also { read = it } >= 0) {
+                        ensureActive() // "Annulla" stops the download right away
                         output.write(buffer, 0, read)
                         done += read
                         if (total > 0) onProgress((done.toFloat() / total).coerceIn(0f, 1f))

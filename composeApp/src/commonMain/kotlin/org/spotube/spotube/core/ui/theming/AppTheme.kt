@@ -415,8 +415,9 @@ private fun MillenniumThemeComponents.uniform(colors: MillenniumColors): Millenn
             it.copy(faceGlowColor = clear, faceElevation = 0.dp)
         }),
         dialogTheme = dialogTheme.copy(states = dialogTheme.states.mapNoPress {
+            // No red close cap: dialogs close with their own buttons, back, or a tap outside.
             it.copy(panelBorderColor = clear, panelBorderWidth = 0.dp, panelShadowElevation = 0.dp, panelGlowColor = clear,
-                titleBarBorderColor = clear, footerBorderColor = clear)
+                titleBarBorderColor = clear, footerBorderColor = clear, closeCapSize = 0.dp, closeTargetSize = 0.dp)
         }),
         disclosureTheme = disclosureTheme.copy(states = disclosureTheme.states.mapNoPress {
             it.copy(background = it.background ?: tonal, borderColor = clear, borderWidth = 0.dp, shadowElevation = 0.dp, innerGlowColor = clear)

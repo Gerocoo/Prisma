@@ -259,7 +259,8 @@ fun App(
                         onUpdate = {
                             appUpdateService.startUpdate { url -> runCatching { openUrlInBrowser(url) } }
                         },
-                        progress = appUpdateProgress)
+                        progress = appUpdateProgress,
+                        onCancel = appUpdateService::cancelUpdate)
                 }
                 availablePluginUpdate?.let { update ->
                     PluginUpdateDialog(

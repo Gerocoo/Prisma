@@ -139,12 +139,15 @@ class AppUpdateService(
         }
         if (_progress.value is AppUpdateProgress.Downloading) return
         _progress.value = AppUpdateProgress.Downloading(0f)
-        scope.launch {
+        downloadJob = scope.launch {
             try {
                 AppUpdateInstaller.downloadAndInstall(url) { f ->
                     _progress.value = AppUpdateProgress.Downloading(f)
                 }
                 _progress.value = AppUpdateProgress.Installing
+            } catch (e: kotlinx.coroutines.CancellationException) {
+                _progress.value = null
+                throw e
             } catch (e: Exception) {
                 logger.e(e) { "In-app update failed" }
                 _progress.value = AppUpdateProgress.Failed(e.message ?: "")
@@ -165,7 +168,18 @@ class AppUpdateService(
         }
     }
 
+    private var downloadJob: kotlinx.coroutines.Job? = null
+
+    /** Stops a download in progress; the dialog goes back to the release notes. */
+    fun cancelUpdate() {
+        downloadJob?.cancel()
+        downloadJob = null
+        _progress.value = null
+    }
+
     fun dismissUpdate() {
+        downloadJob?.cancel()
+        downloadJob = null
         _availableUpdate.value = null
         _progress.value = null
     }
