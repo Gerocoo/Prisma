@@ -20,6 +20,11 @@
 package org.spotube.spotube.modules.shell
 
 
+import androidx.compose.animation.core.tween
+import org.spotube.spotube.modules.settings.UserSettings
+import org.spotube.spotube.modules.settings.SettingsRepository
+import org.spotube.spotube.core.spotify.rememberSpotifyCanvasUrl
+import org.spotube.spotube.core.spotify.CanvasVideo
 import kotlinx.coroutines.delay
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.layout.onSizeChanged
@@ -556,6 +561,10 @@ fun AppExpandedPlayer(
                 // the width skips, and the new cover slides in from that side with a small gap,
                 // as on Pixel. Buttons drive the same slide.
                 val dragOffset = remember { Animatable(0f) }
+                // Spotify Canvas (with the Spotify plugin): looping video over the cover.
+                val settingsRepository = koinInject<SettingsRepository>()
+                val userSettings by settingsRepository.userSettings.collectAsStateWithLifecycle(UserSettings())
+                val canvasUrl = rememberSpotifyCanvasUrl(playerUiState.currentQueueEntry, userSettings.showSpotifyCanvas)
                 var coverWidth by remember { mutableIntStateOf(1) }
                 Box(
                     modifier = Modifier
@@ -609,6 +618,17 @@ fun AppExpandedPlayer(
                                 modifier = Modifier.fillMaxSize(),
                                 contentScale = ContentScale.Crop
                             )
+                            if (model == coverModel && canvasUrl != null) {
+                                var canvasShowing by remember(canvasUrl) { mutableStateOf(false) }
+                                val canvasAlpha by animateFloatAsState(
+                                    if (canvasShowing) 1f else 0f, tween(400), label = "canvasAlpha"
+                                )
+                                CanvasVideo(
+                                    url = canvasUrl,
+                                    modifier = Modifier.fillMaxSize().graphicsLayer { alpha = canvasAlpha },
+                                    onFirstFrame = { canvasShowing = true }
+                                )
+                            }
                         }
                     }
                 }

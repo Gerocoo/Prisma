@@ -86,6 +86,9 @@ data class UserSettings(
     val minimizeToTray: Boolean = false,
     val discordRichPresence: Boolean = true,
 
+    // Spotify Canvas: short looping videos shown in the player instead of the cover.
+    val showSpotifyCanvas: Boolean = true,
+
     // Updates
     val autoCheckForUpdates: Boolean = true,
     val ignoredAppUpdateVersion: String? = null,

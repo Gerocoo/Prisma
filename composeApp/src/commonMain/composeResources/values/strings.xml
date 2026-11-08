@@ -1031,4 +1031,6 @@
     <string name="queue_filter_chip">Filter</string>
     <string name="queue_find_current">Find current track</string>
     <string name="app_update_whats_new">What's new</string>
+    <string name="settings_spotify_canvas_title">Spotify Canvas</string>
+    <string name="settings_spotify_canvas_subtitle">With the Spotify plugin, show the short looping video of the track in the player instead of the cover.</string>
 </resources>

@@ -139,6 +139,24 @@ internal fun LazyListScope.playbackSection(
                 }
             )
         }
+        add {
+            SwitchSettingCard(
+                title = stringResource(Res.string.settings_spotify_canvas_title),
+                subtitle = stringResource(Res.string.settings_spotify_canvas_subtitle),
+                icon = {
+                    SettingsItemIcon(
+                        Iconsax.IconsaxMusicPlay,
+                        stringResource(Res.string.settings_spotify_canvas_title)
+                    )
+                },
+                checked = settings.showSpotifyCanvas,
+                onCheckedChange = { enabled ->
+                    settingsViewModel.updateSettings {
+                        copy(showSpotifyCanvas = enabled)
+                    }
+                }
+            )
+        }
         addAll(remoteControlSettingCards(settings, settingsViewModel, requestLocalNetworkPermission))
         add {
             val error_whole_number = stringResource(Res.string.settings_error_whole_number)

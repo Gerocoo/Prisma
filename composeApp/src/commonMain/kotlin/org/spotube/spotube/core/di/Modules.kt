@@ -113,6 +113,7 @@ val sharedModules = module {
     includes(navigationModule)
     singleOf(::Database)
     single { HttpClientFactory() } withOptions { onClose { it?.close() } }
+    single { org.spotube.spotube.core.spotify.SpotifyCanvasRepository(get(), get()) }
 
     singleOf(::WebViewController)
 

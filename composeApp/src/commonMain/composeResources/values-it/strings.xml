@@ -1036,4 +1036,6 @@
     <string name="queue_filter_chip">Filtra</string>
     <string name="queue_find_current">Trova brano attuale</string>
     <string name="app_update_whats_new">Novità</string>
+    <string name="settings_spotify_canvas_title">Canvas di Spotify</string>
+    <string name="settings_spotify_canvas_subtitle">Con il plugin Spotify, mostra nel player il breve video in loop del brano al posto della copertina.</string>
 </resources>
