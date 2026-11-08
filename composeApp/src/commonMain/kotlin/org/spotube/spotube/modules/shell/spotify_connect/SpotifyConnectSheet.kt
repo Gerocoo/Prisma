@@ -81,7 +81,8 @@ fun SpotifyConnectSheet(viewModel: SpotifyConnectViewModel) {
         title = { Text(stringResource(Res.string.spotify_connect_title), style = AppTheme.typography.titleLarge, color = colors.onSurface) }
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(bottom = 12.dp),
+            // The sheet already scrolls its content: a second vertical scroll here would crash.
+            modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             if (state.isLoading) {

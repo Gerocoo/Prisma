@@ -101,14 +101,8 @@ fun AdaptiveDialogBottomSheet(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        // No close button: swipe down, back or a tap outside close the sheet.
                         Box(Modifier.weight(1f)) { it() }
-                        MillenniumIconButton(
-                            onClick = onDismiss,
-                            style = MillenniumIconButtonStyle.Quiet) {
-                            MillenniumIcon(
-                                Iconsax.FluentDismiss,
-                                contentDescription = stringResource(Res.string.common_close_dialog))
-                        }
                     }
                     Spacer(Modifier.height(12.dp))
                 }
