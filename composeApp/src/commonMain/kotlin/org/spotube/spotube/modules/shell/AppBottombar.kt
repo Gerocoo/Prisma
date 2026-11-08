@@ -110,9 +110,10 @@ fun AppBottombar(
         val itemWidth = maxWidth / itemCount
         val target = selectedIndex.coerceAtLeast(0)
         val restLeft = itemWidth * target + (itemWidth - IndicatorWidth) / 2
-        val moving = remember { androidx.compose.runtime.mutableStateOf(target) }
-        val goingRight = target >= moving.value
-        moving.value = target
+        // Direction of the last tab change (plain holder: no state write during composition).
+        val last = remember { intArrayOf(target, 1) }
+        if (target != last[0]) { last[1] = if (target > last[0]) 1 else -1; last[0] = target }
+        val goingRight = last[1] > 0
         // Leading edge is quick, trailing edge lags: the pill stretches like a drop of paint.
         val fast = spring<androidx.compose.ui.unit.Dp>(dampingRatio = 0.72f, stiffness = 520f)
         val slow = spring<androidx.compose.ui.unit.Dp>(dampingRatio = 0.62f, stiffness = 220f)
