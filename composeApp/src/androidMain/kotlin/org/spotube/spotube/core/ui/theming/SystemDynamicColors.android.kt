@@ -60,15 +60,17 @@ private fun monetColors(context: Context, dark: Boolean): MillenniumColors {
             success = Color(0xFF86EFAC), danger = Color(0xFFFF8A80), scrim = Color(0xCC050505)
         )
     } else {
+        // Tinted light theme, as in Pixel apps: the page is a soft accent tint, cards a lighter
+        // tint of the same hue, chips and tonal buttons almost white; text stays near black.
         MillenniumColors(
-            background = c(android.R.color.system_neutral1_10),
-            surface = c(android.R.color.system_neutral1_50),
-            raised = Color.White,
-            inset = c(android.R.color.system_neutral1_100),
+            background = c(android.R.color.system_accent1_100),
+            surface = c(android.R.color.system_accent1_50),
+            raised = c(android.R.color.system_accent1_10),
+            inset = lerp(c(android.R.color.system_accent1_50), c(android.R.color.system_accent1_100), 0.5f),
             text = c(android.R.color.system_neutral1_900),
             muted = c(android.R.color.system_neutral2_700),
-            border = c(android.R.color.system_neutral2_300),
-            highlight = Color.White,
+            border = c(android.R.color.system_accent1_200),
+            highlight = c(android.R.color.system_accent1_200),
             accent = accent, accentTop = accent, accentBottom = accent, onAccent = onAccent,
             success = Color(0xFF166534), danger = Color(0xFFB42332), scrim = Color(0x99101418)
         )

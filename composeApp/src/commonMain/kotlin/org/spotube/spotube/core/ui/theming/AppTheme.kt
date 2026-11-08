@@ -17,6 +17,7 @@
 
 package org.spotube.spotube.core.ui.theming
 
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.shape.CircleShape
@@ -368,9 +369,11 @@ private fun darkSurface(accent: Color, onAccent: Color) = MillenniumColors(
  * muted grey that still passes contrast on every surface.
  */
 private fun lightSurface(accent: Color, onAccent: Color) = MillenniumColors(
-    background = Color(0xFFF7F7F8), surface = Color(0xFFECECEF), raised = Color(0xFFE1E1E6),
-    inset = Color(0xFFF1F1F3), text = Color(0xFF111114), muted = Color(0xFF52525B),
-    border = Color(0xFFD4D4D8), highlight = Color(0xFFD9D9DE), accent = accent,
+    // Tinted like Pixel apps: page in a soft accent tint, cards lighter, chips almost white.
+    background = lerp(Color.White, accent, 0.17f), surface = lerp(Color.White, accent, 0.08f),
+    raised = lerp(Color.White, accent, 0.03f), inset = lerp(Color.White, accent, 0.12f),
+    text = lerp(Color(0xFF1A1414), accent, 0.08f), muted = lerp(Color(0xFF4A3F3F), accent, 0.15f),
+    border = lerp(Color.White, accent, 0.3f), highlight = lerp(Color.White, accent, 0.3f), accent = accent,
     accentTop = accent, accentBottom = accent, onAccent = onAccent,
     success = Color(0xFF15803D), danger = Color(0xFFC62828), scrim = Color(0x99000000)
 )
