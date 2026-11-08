@@ -16,6 +16,7 @@
  */
 package org.spotube.spotube.modules.shell
 
+import androidx.compose.ui.draw.shadow
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
@@ -94,18 +95,27 @@ fun AppBottombar(
     val itemCount = tabs.size + 1
     val background = AppTheme.colors.background
 
-    BoxWithConstraints(
+    // Floating card bar: the page fades out behind it, the bar itself is a raised tonal card.
+    Box(
         modifier
             .fillMaxWidth()
             .background(
                 Brush.verticalGradient(
                     0f to background.copy(alpha = 0f),
-                    0.12f to background.copy(alpha = 0.97f),
+                    0.45f to background.copy(alpha = 0.9f),
                     1f to background
                 )
             )
             .windowInsetsPadding(WindowInsets.navigationBars)
-            .padding(top = 10.dp, bottom = 6.dp)
+            .padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 10.dp)
+    ) {
+    BoxWithConstraints(
+        Modifier
+            .fillMaxWidth()
+            .shadow(8.dp, RoundedCornerShape(28.dp), clip = false)
+            .clip(RoundedCornerShape(28.dp))
+            .background(AppTheme.colors.surfaceContainerHigh)
+            .padding(top = 12.dp, bottom = 10.dp)
     ) {
         val itemWidth = maxWidth / itemCount
         val target = selectedIndex.coerceAtLeast(0)
@@ -128,7 +138,7 @@ fun AppBottombar(
                 .height(IndicatorHeight)
                 .graphicsLayer { alpha = indicatorAlpha }
                 .clip(RoundedCornerShape(50))
-                .background(AppTheme.colors.primary.copy(alpha = 0.26f))
+                .background(AppTheme.colors.primary.copy(alpha = 0.24f))
         )
 
         Row(Modifier.fillMaxWidth()) {
@@ -155,6 +165,7 @@ fun AppBottombar(
             )
         }
     }
+}
 }
 
 @Composable

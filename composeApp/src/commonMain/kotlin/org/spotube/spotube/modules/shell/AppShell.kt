@@ -17,6 +17,17 @@
 
 package org.spotube.spotube.modules.shell
 
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.TileMode
@@ -233,6 +244,23 @@ fun AppShell(
                             .fillMaxSize()
                             .background(MillenniumTheme.colors.background)
                     )
+                    // Lyrics open over the player: what is underneath blurs and recedes while the
+                    // lyrics page scales up into place (reversed when it closes).
+                    val lyricsProgress by animateFloatAsState(
+                        if (isLyricsOverlayVisible) 1f else 0f,
+                        spring(dampingRatio = 0.9f, stiffness = 380f),
+                        label = "lyricsProgress"
+                    )
+                    Box(
+                        Modifier.fillMaxSize().graphicsLayer {
+                            val p = lyricsProgress
+                            val scale = 1f - 0.05f * p
+                            scaleX = scale
+                            scaleY = scale
+                            val blur = 24.dp.toPx() * p
+                            renderEffect = if (blur > 0.5f) BlurEffect(blur, blur, TileMode.Decal) else null
+                        }
+                    ) {
                     CompactPlayerOverlay(
                         navigator = navigator,
                         navigationState = navigationState,
@@ -242,6 +270,7 @@ fun AppShell(
                         onExpandLyrics = viewModel::showLyricsOverlay,
                         content = content
                     )
+                    }
 
                     QueueSheet(
                         isVisible = isQueueVisible,
@@ -265,24 +294,18 @@ fun AppShell(
                         )
                     }
 
-                    if (isLyricsOverlayVisible) {
-                        Dialog(
-                            onDismissRequest = { viewModel.hideLyricsOverlay() },
-                            properties = DialogProperties(
-                                usePlatformDefaultWidth = false,
-                                dismissOnBackPress = true,
-                                dismissOnClickOutside = true
-                            )
-                        ) {
-                            Box(
-                                modifier = Modifier.fillMaxSize()
-                                    .background(MillenniumTheme.colors.background)
-                            ) {
-                                LyricsScreen(
-                                    modifier = Modifier.fillMaxSize(),
-                                    onClose = { viewModel.hideLyricsOverlay() })
-                            }
-                        }
+                    PlatformBackHandler(enabled = isLyricsOverlayVisible) { viewModel.hideLyricsOverlay() }
+                    AnimatedVisibility(
+                        visible = isLyricsOverlayVisible,
+                        enter = fadeIn(tween(260)) + scaleIn(
+                            spring(dampingRatio = 0.85f, stiffness = 420f), initialScale = 0.9f
+                        ) + slideInVertically(spring(dampingRatio = 0.85f, stiffness = 420f)) { it / 10 },
+                        exit = fadeOut(tween(200)) + scaleOut(tween(220), targetScale = 0.92f) +
+                            slideOutVertically(tween(220)) { it / 12 }
+                    ) {
+                        LyricsScreen(
+                            modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(28.dp)).statusBarsPadding(),
+                            onClose = { viewModel.hideLyricsOverlay() })
                     }
                 }
             }
