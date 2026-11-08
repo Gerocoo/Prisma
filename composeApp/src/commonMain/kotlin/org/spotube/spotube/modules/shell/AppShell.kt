@@ -17,6 +17,14 @@
 
 package org.spotube.spotube.modules.shell
 
+import org.spotube.spotube.core.ui.theming.AppTheme
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.RoundRect
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.animation.core.animateFloatAsState
@@ -433,21 +441,35 @@ internal fun CompactPlayerOverlay(
         ) {
             Sheet(modifier = Modifier.fillMaxSize()) {
                 Box(modifier = Modifier.fillMaxSize()) {
+                    // Container transform: the mini player card itself grows into the full player.
+                    // A plain card with the mini player's margins and corners widens to the screen
+                    // edges as it rises; the player content fades in once the card is mostly open.
+                    val cardColor = AppTheme.colors.surfaceContainerHigh
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .graphicsLayer {
+                                val p = progress
+                                alpha = if (p > 0.001f) 1f else 0f
+                                shape = MorphingCardShape(
+                                    inset = 12.dp.toPx() * (1f - p),
+                                    radius = 28.dp.toPx() * (1f - p)
+                                )
+                                clip = true
+                            }
+                            .background(cardColor)
+                    )
                     if (expandedPlayerComposed) {
                         expandedPlayer(
                             Modifier
                                 .fillMaxSize()
                                 .graphicsLayer {
                                     val p = progress
-                                    alpha = viewModel.compactSheetUiState(p).expandedPlayerAlpha
-                                    // The player card grows into the screen with rounded top
-                                    // corners that flatten as it reaches full height.
-                                    val scale = 0.94f + 0.06f * p
-                                    scaleX = scale
-                                    scaleY = scale
-                                    transformOrigin = TransformOrigin(0.5f, 0f)
-                                    val radius = 32.dp.toPx() * (1f - p)
-                                    shape = RoundedCornerShape(topStart = radius, topEnd = radius)
+                                    alpha = ((p - 0.25f) / 0.55f).coerceIn(0f, 1f)
+                                    shape = MorphingCardShape(
+                                        inset = 12.dp.toPx() * (1f - p),
+                                        radius = 28.dp.toPx() * (1f - p)
+                                    )
                                     clip = true
                                 },
                             { scope.launch { sheetState.animateTo(partialDetent) } }
@@ -497,3 +519,14 @@ private fun Modifier.zeroSizeUnless(visible: Boolean): Modifier =
         measurable.measure(constraints)
         layout(0, 0) {}
     }
+
+/** Rounded rectangle inset from the left and right edges: the mini player card mid-transform. */
+private class MorphingCardShape(private val inset: Float, private val radius: Float) : Shape {
+    override fun createOutline(size: Size, layoutDirection: LayoutDirection, density: Density): Outline =
+        Outline.Rounded(
+            RoundRect(
+                left = inset, top = 0f, right = size.width - inset, bottom = size.height,
+                cornerRadius = CornerRadius(radius, radius)
+            )
+        )
+}

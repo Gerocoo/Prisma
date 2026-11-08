@@ -15,9 +15,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+@file:OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
+
 package org.spotube.spotube.modules.shell
 
 
+import kotlinx.coroutines.delay
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.basicMarquee
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.togetherWith
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.AnimatedContent
 import org.spotube.millennium.composables.MillenniumIcon
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -244,13 +263,28 @@ fun AppExpandedPlayer(
         }
     }
 
+    // Which way the cover carousel moves on the next track change (1 = next, -1 = previous),
+    // and which control is doing its Expressive "grow on press" pulse.
+    var skipDirection by remember { mutableIntStateOf(1) }
+    var pulsingControl by remember { mutableIntStateOf(-1) }
+    LaunchedEffect(pulsingControl) {
+        if (pulsingControl >= 0) {
+            delay(260)
+            pulsingControl = -1
+        }
+    }
+
     fun onSkipPrevious() {
         if (isJamGuest) return
+        skipDirection = -1
+        pulsingControl = 0
         scope.launch { audioPlayer.skipToPrevious() }
     }
 
     fun onSkipNext() {
         if (isJamGuest) return
+        skipDirection = 1
+        pulsingControl = 2
         scope.launch { audioPlayer.skipToNext() }
     }
 
@@ -512,31 +546,75 @@ fun AppExpandedPlayer(
                     .padding(start = 20.dp, end = 20.dp, top = 28.dp, bottom = 28.dp),
                 contentAlignment = Alignment.Center
             ) {
+                // Cover carousel: the cover follows a horizontal swipe; letting go past a third of
+                // the width skips, and the new cover slides in from that side with a small gap,
+                // as on Pixel. Buttons drive the same slide.
+                val dragOffset = remember { Animatable(0f) }
+                var coverWidth by remember { mutableIntStateOf(1) }
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(1f)
                         .then(albumArtModifier)
-                        .clip(RoundedCornerShape(32.dp))
-                        .background(art.containerHigh)
+                        .onSizeChanged { coverWidth = it.width.coerceAtLeast(1) }
+                        .pointerInput(isJamGuest) {
+                            if (isJamGuest) return@pointerInput
+                            detectHorizontalDragGestures(
+                                onDragEnd = {
+                                    val v = dragOffset.value
+                                    scope.launch {
+                                        when {
+                                            v < -coverWidth / 3f -> { onSkipNext(); dragOffset.snapTo(0f) }
+                                            v > coverWidth / 3f -> { onSkipPrevious(); dragOffset.snapTo(0f) }
+                                            else -> dragOffset.animateTo(0f, spring(dampingRatio = 0.7f, stiffness = 400f))
+                                        }
+                                    }
+                                },
+                                onDragCancel = { scope.launch { dragOffset.animateTo(0f) } }
+                            ) { change, amount ->
+                                change.consume()
+                                scope.launch { dragOffset.snapTo(dragOffset.value + amount) }
+                            }
+                        }
+                        .graphicsLayer { translationX = dragOffset.value }
                 ) {
-                    AsyncImage(
-                        model = coverModel,
-                        contentDescription = playerUiState.title,
+                    AnimatedContent(
+                        targetState = coverModel,
+                        transitionSpec = {
+                            val dir = skipDirection
+                            val slide = spring<IntOffset>(dampingRatio = 0.86f, stiffness = 340f)
+                            (slideInHorizontally(slide) { w -> dir * (w + w / 16) }) togetherWith
+                                (slideOutHorizontally(slide) { w -> -dir * (w + w / 16) })
+                        },
                         modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    )
+                        label = "coverCarousel"
+                    ) { model ->
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clip(RoundedCornerShape(32.dp))
+                                .background(art.containerHigh)
+                        ) {
+                            AsyncImage(
+                                model = model,
+                                contentDescription = playerUiState.title,
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                    }
                 }
             }
 
+            // Long titles scroll instead of being cut, like on Pixel.
             Text(
                 text = playerUiState.title,
                 style = AppTheme.typography.headlineSmall,
                 color = art.onContainer,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
+                    .basicMarquee(iterations = Int.MAX_VALUE, initialDelayMillis = 1500)
             )
             PlayerArtistsText(
                 artists = playerUiState.artistList,
@@ -597,7 +675,8 @@ fun AppExpandedPlayer(
                         enabled = !isJamGuest,
                         background = art.tonal,
                         shape = RoundedCornerShape(40.dp),
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(controlWeight(0, 1f, pulsingControl)),
+                        onPress = { pulsingControl = 0 }
                     ) {
                         MillenniumIcon(
                             Iconsax.IconsaxPrevious,
@@ -610,7 +689,8 @@ fun AppExpandedPlayer(
                         onClick = ::onPlayPause,
                         background = art.accent,
                         shape = RoundedCornerShape(if (playerUiState.isPlaying) 28.dp else 40.dp),
-                        modifier = Modifier.weight(1.25f)
+                        modifier = Modifier.weight(controlWeight(1, 1.25f, pulsingControl)),
+                        onPress = { pulsingControl = 1 }
                     ) {
                         MillenniumIcon(
                             if (playerUiState.isPlaying) Iconsax.IconsaxPause else Iconsax.IconsaxPlay,
@@ -624,7 +704,8 @@ fun AppExpandedPlayer(
                         enabled = !isJamGuest,
                         background = art.tonal,
                         shape = RoundedCornerShape(40.dp),
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(controlWeight(2, 1f, pulsingControl)),
+                        onPress = { pulsingControl = 2 }
                     ) {
                         MillenniumIcon(
                             Iconsax.IconsaxNext,
@@ -835,16 +916,45 @@ private fun PlayerControlButton(
     shape: RoundedCornerShape,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    onPress: () -> Unit = {},
     content: @Composable () -> Unit
 ) {
+    val interaction = remember { MutableInteractionSource() }
+    val pressed by interaction.collectIsPressedAsState()
+    LaunchedEffect(pressed) { if (pressed) onPress() }
     Box(
         modifier = modifier
             .height(80.dp)
             .clip(shape)
             .background(if (enabled) background else background.copy(alpha = 0.5f))
-            .clickable(enabled = enabled, role = Role.Button, onClick = onClick),
+            .clickable(
+                interactionSource = interaction,
+                indication = null,
+                enabled = enabled,
+                role = Role.Button,
+                onClick = onClick
+            ),
         contentAlignment = Alignment.Center
     ) { content() }
+}
+
+/**
+ * Material 3 Expressive button group: the pressed control widens and its neighbours give way,
+ * then everything springs back.
+ */
+@Composable
+private fun controlWeight(index: Int, base: Float, pulsing: Int): Float {
+    val target = when {
+        pulsing == index -> base * 1.55f
+        pulsing >= 0 -> base * 0.85f
+        else -> base
+    }
+    val weight by animateFloatAsState(
+        target,
+        spring(dampingRatio = 0.55f, stiffness = 500f),
+        label = "controlWeight$index"
+    )
+    return weight
 }
 
 /** One segment of the shuffle / repeat / like pill: filled with the accent while active. */
