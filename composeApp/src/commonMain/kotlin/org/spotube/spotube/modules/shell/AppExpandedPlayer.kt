@@ -20,6 +20,7 @@
 package org.spotube.spotube.modules.shell
 
 
+import androidx.compose.ui.graphics.Brush
 import spotube.composeapp.generated.resources.spotify_connect_button
 import org.spotube.spotube.resources.iconsax.IconsaxMirroringScreen
 import org.spotube.spotube.modules.shell.spotify_connect.SpotifyConnectSheet
@@ -341,8 +342,38 @@ fun AppExpandedPlayer(
 
     // Warm wash of the accent over the ground instead of a flat page.
     // Whole screen tinted with the cover's colors, cross-fading on track change.
-    val art = rememberArtworkColors(coverModel).animated(themeArtworkColors())
-    Box(modifier = modifier.fillMaxSize().background(art.container)) {
+    val coverArt = rememberArtworkColors(coverModel).animated(themeArtworkColors())
+
+    // Spotify Canvas (with the Spotify plugin): like Spotify, the looping video fills the whole
+    // player behind the controls, the cover hides and the controls switch to light-on-video colors.
+    val settingsRepository = koinInject<SettingsRepository>()
+    val userSettings by settingsRepository.userSettings.collectAsStateWithLifecycle(UserSettings())
+    val canvasUrl = rememberSpotifyCanvasUrl(playerUiState.currentQueueEntry, userSettings.showSpotifyCanvas)
+    var canvasShowing by remember(canvasUrl) { mutableStateOf(false) }
+    val canvasProgress by animateFloatAsState(
+        if (canvasUrl != null && canvasShowing) 1f else 0f, tween(500), label = "canvas"
+    )
+    val art = if (canvasProgress > 0f) coverArt.overVideo(canvasProgress) else coverArt
+
+    Box(modifier = modifier.fillMaxSize().background(coverArt.container)) {
+        if (canvasUrl != null) {
+            CanvasVideo(
+                url = canvasUrl,
+                modifier = Modifier.fillMaxSize().graphicsLayer { alpha = canvasProgress },
+                onFirstFrame = { canvasShowing = true }
+            )
+            // Darkens the top bar area a little and the controls a lot, so text stays readable.
+            Box(
+                Modifier.fillMaxSize().graphicsLayer { alpha = canvasProgress }.background(
+                    Brush.verticalGradient(
+                        0f to Color.Black.copy(alpha = 0.35f),
+                        0.25f to Color.Transparent,
+                        0.5f to Color.Transparent,
+                        1f to Color.Black.copy(alpha = 0.8f)
+                    )
+                )
+            )
+        }
         if (playerOptionsUiState.isMoreOptionsSheetOpen) {
             MillenniumModalBottomSheet(
                 state = moreOptionsSheetState,
@@ -578,16 +609,13 @@ fun AppExpandedPlayer(
                 // the width skips, and the new cover slides in from that side with a small gap,
                 // as on Pixel. Buttons drive the same slide.
                 val dragOffset = remember { Animatable(0f) }
-                // Spotify Canvas (with the Spotify plugin): looping video over the cover.
-                val settingsRepository = koinInject<SettingsRepository>()
-                val userSettings by settingsRepository.userSettings.collectAsStateWithLifecycle(UserSettings())
-                val canvasUrl = rememberSpotifyCanvasUrl(playerUiState.currentQueueEntry, userSettings.showSpotifyCanvas)
                 var coverWidth by remember { mutableIntStateOf(1) }
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(1f)
                         .then(albumArtModifier)
+                        .graphicsLayer { alpha = 1f - canvasProgress }
                         .onSizeChanged { coverWidth = it.width.coerceAtLeast(1) }
                         .pointerInput(isJamGuest) {
                             if (isJamGuest) return@pointerInput
@@ -635,17 +663,6 @@ fun AppExpandedPlayer(
                                 modifier = Modifier.fillMaxSize(),
                                 contentScale = ContentScale.Crop
                             )
-                            if (model == coverModel && canvasUrl != null) {
-                                var canvasShowing by remember(canvasUrl) { mutableStateOf(false) }
-                                val canvasAlpha by animateFloatAsState(
-                                    if (canvasShowing) 1f else 0f, tween(400), label = "canvasAlpha"
-                                )
-                                CanvasVideo(
-                                    url = canvasUrl,
-                                    modifier = Modifier.fillMaxSize().graphicsLayer { alpha = canvasAlpha },
-                                    onFirstFrame = { canvasShowing = true }
-                                )
-                            }
                         }
                     }
                 }
@@ -1035,3 +1052,17 @@ private fun PlayerToggleSegment(
     ) { content() }
 }
 
+
+/** Player palette over a Canvas video: white text and translucent white controls, like Spotify. */
+private fun ArtworkColors.overVideo(amount: Float): ArtworkColors {
+    fun mix(a: Color, b: Color) = androidx.compose.ui.graphics.lerp(a, b, amount)
+    return ArtworkColors(
+        container = mix(container, Color.Transparent),
+        containerHigh = mix(containerHigh, Color.White.copy(alpha = 0.16f)),
+        tonal = mix(tonal, Color.White.copy(alpha = 0.22f)),
+        accent = mix(accent, Color.White),
+        onAccent = mix(onAccent, Color.Black),
+        onContainer = mix(onContainer, Color.White),
+        onContainerMuted = mix(onContainerMuted, Color.White.copy(alpha = 0.75f)),
+    )
+}
