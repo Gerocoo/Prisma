@@ -3,6 +3,7 @@
  */
 package org.spotube.spotube.core.ui.component.cards
 
+import org.spotube.spotube.core.ui.component.MorphingPlayButton
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -131,17 +132,13 @@ fun PlayableListTile(
                         }
                     }
                     if (onPlay != null) {
-                        MillenniumIconButton(
+                        MorphingPlayButton(
+                            isPlaying = isPlaying,
                             onClick = onPlay,
-                            modifier = Modifier.size(if (compact) 32.dp else 40.dp).clip(CircleShape),
-                            style = MillenniumIconButtonStyle.Primary
-                        ) {
-                            MillenniumIcon(
-                                if (isPlaying) Iconsax.IconsaxPause else Iconsax.IconsaxPlay,
-                                stringResource(if (isPlaying) Res.string.player_pause_content_description else Res.string.player_play_content_description),
-                                tint = LocalTextStyle.current.color
-                            )
-                        }
+                            loading = playLoading,
+                            size = if (compact) 32.dp else 40.dp,
+                            contentDescription = stringResource(if (isPlaying) Res.string.player_pause_content_description else Res.string.player_play_content_description)
+                        )
                     }
                 }
             }

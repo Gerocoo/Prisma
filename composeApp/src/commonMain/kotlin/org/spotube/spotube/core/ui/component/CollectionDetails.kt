@@ -249,17 +249,12 @@ fun CollectionDetails(
                         modifier = Modifier.size(26.dp),
                         tint = AppTheme.colors.onSurfaceVariant)
                 }
-                MillenniumIconButton(
+                MorphingPlayButton(
+                    isPlaying = isPlaying,
                     onClick = onPlay,
-
-                    modifier = Modifier.size(56.dp).clip(CircleShape),
-                    style = MillenniumIconButtonStyle.Primary) {
-                    MillenniumIcon(
-                        imageVector = if (isPlaying) Iconsax.IconsaxPause else Iconsax.IconsaxPlay,
-                        contentDescription = if (isPlaying) stringResource(Res.string.player_pause_content_description) else stringResource(Res.string.player_play_content_description),
-                        modifier = Modifier.size(26.dp),
-                        tint = AppTheme.colors.onPrimary)
-                }
+                    loading = isPlayLoading,
+                    size = 56.dp,
+                    contentDescription = if (isPlaying) stringResource(Res.string.player_pause_content_description) else stringResource(Res.string.player_play_content_description))
             }
         }
 

@@ -18,6 +18,7 @@
 package org.spotube.spotube.core.ui.component.cards
 
 
+import org.spotube.spotube.core.ui.component.MorphingPlayButton
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumIconButton
 import org.spotube.millennium.composables.MillenniumIconButtonStyle
@@ -157,26 +158,16 @@ fun PlayableCard(
                                     Spacer(modifier = Modifier.height(8.dp))
                                 }
                                 onPlay?.let {
-                                    MillenniumIconButton(
+                                    MorphingPlayButton(
+                                        isPlaying = isPlaying,
                                         onClick = onPlay,
-                                        modifier = Modifier.size(44.dp).clip(CircleShape),
-                                        style = MillenniumIconButtonStyle.Primary
-
-                                    ) {
-                                        MillenniumIcon(
-                                            imageVector = if (isPlaying) {
-                                                Iconsax.IconsaxPause
-                                            } else Iconsax.IconsaxPlay,
-                                            contentDescription = stringResource(
-                                                if (isPlaying) {
-                                                    Res.string.player_pause_content_description
-                                                } else {
-                                                    Res.string.player_play_content_description
-                                                }
-                                            ),
-                                            tint = LocalTextStyle.current.color
+                                        loading = playLoading,
+                                        size = 44.dp,
+                                        contentDescription = stringResource(
+                                            if (isPlaying) Res.string.player_pause_content_description
+                                            else Res.string.player_play_content_description
                                         )
-                                    }
+                                    )
                                 }
                             }
                         }
