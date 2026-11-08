@@ -17,6 +17,12 @@
 
 package org.spotube.spotube.core.navigation
 
+import org.spotube.spotube.core.ui.theming.AppTheme
+import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.background
+import androidx.navigation3.runtime.NavEntryDecorator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -121,9 +127,17 @@ fun rememberNavigationState(
 fun NavigationState.toEntries(
     entryProvider: (NavKey) -> NavEntry<NavKey>
 ): SnapshotStateList<NavEntry<NavKey>> {
+    // Every page gets the app background: during transitions and the predictive back gesture
+    // two pages are on screen at once, and transparent pages would show through each other.
+    val opaquePageDecorator = remember {
+        NavEntryDecorator<NavKey> { entry ->
+            Box(Modifier.fillMaxSize().background(AppTheme.colors.background)) { entry.Content() }
+        }
+    }
     val decoratedEntries = backStacks.mapValues { (_, stack) ->
         val decorators = listOf(
-            rememberSaveableStateHolderNavEntryDecorator<NavKey>())
+            rememberSaveableStateHolderNavEntryDecorator<NavKey>(),
+            opaquePageDecorator)
         rememberDecoratedNavEntries(
             backStack = stack,
             entryDecorators = decorators,

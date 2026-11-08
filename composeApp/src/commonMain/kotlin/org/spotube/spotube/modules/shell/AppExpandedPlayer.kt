@@ -253,16 +253,6 @@ fun AppExpandedPlayer(
         }
     }
 
-    fun onPlayPause() {
-        scope.launch {
-            if (playerUiState.isPlaying) {
-                audioPlayer.pause()
-            } else {
-                audioPlayer.play()
-            }
-        }
-    }
-
     // Which way the cover carousel moves on the next track change (1 = next, -1 = previous),
     // and which control is doing its Expressive "grow on press" pulse.
     var skipDirection by remember { mutableIntStateOf(1) }
@@ -273,6 +263,18 @@ fun AppExpandedPlayer(
             pulsingControl = -1
         }
     }
+
+    fun onPlayPause() {
+        pulsingControl = 1
+        scope.launch {
+            if (playerUiState.isPlaying) {
+                audioPlayer.pause()
+            } else {
+                audioPlayer.play()
+            }
+        }
+    }
+
 
     fun onSkipPrevious() {
         if (isJamGuest) return
