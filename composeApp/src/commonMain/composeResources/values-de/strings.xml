@@ -370,7 +370,7 @@
     <string name="welcome_brand_freedom">Musik ohne Fesseln.</string>
     <string name="welcome_brand_quiet_description">Ein Open-Source-Player für eine ganze Welt voller Musik.\nZum Entdecken. Zum Selbstgestalten.</string>
     <string name="welcome_donate_quiet_title">Halte dieses Projekt am Leben.</string>
-    <string name="welcome_donate_letter">Spotube wird von Menschen gemacht, nicht von einem Abo-Unternehmen. Wenn es Teil deines Alltags wird, hilft uns schon eine kleine Unterstützung, ihm die Pflege zu geben, die es verdient.\n\nDanke, dass du unabhängiger Software einen Platz gibst.</string>
+    <string name="welcome_donate_letter">Tubify wird von Menschen gemacht, nicht von einem Abo-Unternehmen. Wenn es Teil deines Alltags wird, hilft uns schon eine kleine Unterstützung, ihm die Pflege zu geben, die es verdient.\n\nDanke, dass du unabhängiger Software einen Platz gibst.</string>
     <string name="welcome_plugins_setup_guide">Beginne mit einem Katalog-Plugin, um Songs und Playlists zu finden. Wähle ein Audio-Plugin, um sie abzuspielen. Songtexte und Hörverlauf sind optional. Entdecke unten ein Plugin, prüfe seine Berechtigungen, installiere es und wähle es dann hier aus.</string>
     <string name="welcome_plugins_discover">Plugins entdecken</string>
     <string name="welcome_plugins_sources">Deine Quellen</string>
@@ -406,7 +406,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">Unterstützer halten uns am Laufen</string>
     <string name="welcome_donate_title">Mit Leidenschaft gebaut. Von dir am Leben gehalten.</string>
-    <string name="welcome_donate_message">Spotube ist zu 100 % kostenlos, frei und Open Source – keine Werbung, keine Abos, kein Tracking. Jede Funktion gibt es nur, weil Menschen wie du geholfen haben, die Entwicklung am Laufen zu halten.</string>
+    <string name="welcome_donate_message">Tubify ist zu 100 % kostenlos, frei und Open Source – keine Werbung, keine Abos, kein Tracking. Jede Funktion gibt es nur, weil Menschen wie du geholfen haben, die Entwicklung am Laufen zu halten.</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">Monatlicher Sponsor</string>
     <string name="welcome_donate_patreon_subtitle">Unterstütze laufende Entwicklung und Infrastruktur</string>
@@ -417,14 +417,14 @@
     <string name="welcome_donate_opencollective_tag">Community-Fonds</string>
     <string name="welcome_donate_opencollective_subtitle">Transparente, von der Community verwaltete Finanzierung</string>
     <string name="welcome_donate_thanks">Von Herzen danke, dass du an offene Musik glaubst.</string>
-    <string name="welcome_donate_optional">Die Unterstützung ist völlig freiwillig – Spotube bleibt so oder so kostenlos.</string>
+    <string name="welcome_donate_optional">Die Unterstützung ist völlig freiwillig – Tubify bleibt so oder so kostenlos.</string>
     <string name="welcome_donate_action">Sponsern</string>
     <string name="welcome_donate_open_content_description">%1$s öffnen</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">Spotube unterstützen</string>
-    <string name="support_dialog_title">Spotube unterstützen</string>
-    <string name="support_dialog_message">Spotube ist kostenlos, frei und Open Source – keine Werbung, keine Abos, kein Tracking. Wenn es dir Freude macht, unterstütze doch das Projekt.</string>
+    <string name="support_button_label">Tubify unterstützen</string>
+    <string name="support_dialog_title">Tubify unterstützen</string>
+    <string name="support_dialog_message">Tubify ist kostenlos, frei und Open Source – keine Werbung, keine Abos, kein Tracking. Wenn es dir Freude macht, unterstütze doch das Projekt.</string>
     <string name="support_dialog_reminder_hint">Du kannst diese Erinnerungen unter Einstellungen → Unterstützen deaktivieren.</string>
     <string name="support_dialog_dismiss">Vielleicht später</string>
     <string name="settings_support_reminders_title">Unterstützungs-Erinnerungen</string>

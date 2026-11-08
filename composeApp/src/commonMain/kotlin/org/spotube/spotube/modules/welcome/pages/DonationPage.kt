@@ -55,7 +55,7 @@ fun DonationPage(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         MillenniumIcon(
                             option.icon, null, Modifier.size(24.dp),
-                            tint = if (option.id == "patreon") AppTheme.colors.onSurface else Color.Unspecified)
+                            tint = AppTheme.colors.primary)
                         Text(stringResource(option.title))
                     }
                 }

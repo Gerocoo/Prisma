@@ -366,7 +366,7 @@
     <string name="welcome_brand_freedom">音楽を、しがらみなく。</string>
     <string name="welcome_brand_quiet_description">音楽の世界へ広がる、オープンソースのプレーヤー。\n自由に探して、自分らしく楽しもう。</string>
     <string name="welcome_donate_quiet_title">このプロジェクトを支えてください。</string>
-    <string name="welcome_donate_letter">Spotubeはサブスクリプションビジネスではなく、人の手でつくられています。日々の暮らしの一部になったなら、少しのご支援が、このアプリにふさわしい手入れを続ける力になります。\n\n独立したソフトウェアに居場所をつくってくださり、ありがとうございます。</string>
+    <string name="welcome_donate_letter">Tubifyはサブスクリプションビジネスではなく、人の手でつくられています。日々の暮らしの一部になったなら、少しのご支援が、このアプリにふさわしい手入れを続ける力になります。\n\n独立したソフトウェアに居場所をつくってくださり、ありがとうございます。</string>
     <string name="welcome_plugins_setup_guide">まずはカタログプラグインで曲やプレイリストを探せるようにしましょう。次に、再生用のオーディオプラグインを選びます。歌詞と再生履歴は任意です。下からプラグインを見つけて権限を確認し、インストールしてからここで選択してください。</string>
     <string name="welcome_plugins_discover">プラグインを探す</string>
     <string name="welcome_plugins_sources">ソース</string>
@@ -402,7 +402,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">サポーターの皆さんに支えられています</string>
     <string name="welcome_donate_title">情熱でつくり、あなたが支える。</string>
-    <string name="welcome_donate_message">Spotubeは100%無料の自由なオープンソースソフトウェアです。広告も、サブスクリプションも、トラッキングもありません。すべての機能は、あなたのような人たちが開発を支えてくれたからこそ存在しています。</string>
+    <string name="welcome_donate_message">Tubifyは100%無料の自由なオープンソースソフトウェアです。広告も、サブスクリプションも、トラッキングもありません。すべての機能は、あなたのような人たちが開発を支えてくれたからこそ存在しています。</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">毎月のスポンサー</string>
     <string name="welcome_donate_patreon_subtitle">継続的な開発とインフラを支援</string>
@@ -413,14 +413,14 @@
     <string name="welcome_donate_opencollective_tag">コミュニティ基金</string>
     <string name="welcome_donate_opencollective_subtitle">透明性が高く、コミュニティが運営する資金支援</string>
     <string name="welcome_donate_thanks">オープンな音楽を信じてくださり、心から感謝します。</string>
-    <string name="welcome_donate_optional">支援はまったくの任意です。どちらでもSpotubeは無料のままです。</string>
+    <string name="welcome_donate_optional">支援はまったくの任意です。どちらでもTubifyは無料のままです。</string>
     <string name="welcome_donate_action">支援する</string>
     <string name="welcome_donate_open_content_description">%1$sを開く</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">Spotubeを支援</string>
-    <string name="support_dialog_title">Spotubeを支援</string>
-    <string name="support_dialog_message">Spotubeは無料の自由なオープンソースソフトウェアです。広告も、サブスクリプションも、トラッキングもありません。気に入っていただけたら、プロジェクトへのご支援をご検討ください。</string>
+    <string name="support_button_label">Tubifyを支援</string>
+    <string name="support_dialog_title">Tubifyを支援</string>
+    <string name="support_dialog_message">Tubifyは無料の自由なオープンソースソフトウェアです。広告も、サブスクリプションも、トラッキングもありません。気に入っていただけたら、プロジェクトへのご支援をご検討ください。</string>
     <string name="support_dialog_reminder_hint">このリマインダーは「設定 → サポート」でオフにできます。</string>
     <string name="support_dialog_dismiss">あとで</string>
     <string name="settings_support_reminders_title">支援のリマインダー</string>

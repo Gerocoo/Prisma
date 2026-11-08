@@ -386,7 +386,7 @@
     <string name="welcome_brand_freedom">موسيقى بلا قيود.</string>
     <string name="welcome_brand_quiet_description">مشغّل مفتوح المصدر لعالم من الموسيقى.\nلك أن تستكشفه. ولك أن تجعله على طريقتك.</string>
     <string name="welcome_donate_quiet_title">ساعد في استمرار هذا المشروع.</string>
-    <string name="welcome_donate_letter">يبني Spotube أناسٌ حقيقيون، لا شركة اشتراكات. إن أصبح جزءًا من حياتك اليومية، فإن القليل من الدعم يساعدنا على منحه الرعاية التي يستحقها.\n\nشكرًا لإفساحك المجال للبرمجيات المستقلة.</string>
+    <string name="welcome_donate_letter">يبني Tubify أناسٌ حقيقيون، لا شركة اشتراكات. إن أصبح جزءًا من حياتك اليومية، فإن القليل من الدعم يساعدنا على منحه الرعاية التي يستحقها.\n\nشكرًا لإفساحك المجال للبرمجيات المستقلة.</string>
     <string name="welcome_plugins_setup_guide">ابدأ بإضافة كتالوج للعثور على الأغاني وقوائم التشغيل. اختر إضافة صوت لتشغيلها. كلمات الأغاني وسجل الاستماع اختياريان. اكتشف إضافة أدناه، وراجع أذوناتها، وثبّتها، ثم حدّدها هنا.</string>
     <string name="welcome_plugins_discover">اكتشاف الإضافات</string>
     <string name="welcome_plugins_sources">مصادرك</string>
@@ -422,7 +422,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">الداعمون يبقوننا مستمرين</string>
     <string name="welcome_donate_title">صُنع بشغف. ويستمر بفضلك.</string>
-    <string name="welcome_donate_message">Spotube مجاني 100%، وحر، ومفتوح المصدر — بلا إعلانات، وبلا اشتراكات، وبلا تتبع. كل ميزة موجودة لأن أشخاصًا مثلك اختاروا المساعدة في استمرار تدفق الشيفرة.</string>
+    <string name="welcome_donate_message">Tubify مجاني 100%، وحر، ومفتوح المصدر — بلا إعلانات، وبلا اشتراكات، وبلا تتبع. كل ميزة موجودة لأن أشخاصًا مثلك اختاروا المساعدة في استمرار تدفق الشيفرة.</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">راعٍ شهري</string>
     <string name="welcome_donate_patreon_subtitle">ادعم التطوير والبنية التحتية بشكل مستمر</string>
@@ -433,14 +433,14 @@
     <string name="welcome_donate_opencollective_tag">صندوق المجتمع</string>
     <string name="welcome_donate_opencollective_subtitle">دعم مالي شفاف يديره المجتمع</string>
     <string name="welcome_donate_thanks">نشكرك من أعماق قلوبنا لإيمانك بالموسيقى المفتوحة.</string>
-    <string name="welcome_donate_optional">الدعم اختياري تمامًا — يبقى Spotube مجانيًا في كل الأحوال.</string>
+    <string name="welcome_donate_optional">الدعم اختياري تمامًا — يبقى Tubify مجانيًا في كل الأحوال.</string>
     <string name="welcome_donate_action">ادعم</string>
     <string name="welcome_donate_open_content_description">فتح %1$s</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">ادعم Spotube</string>
-    <string name="support_dialog_title">ادعم Spotube</string>
-    <string name="support_dialog_message">Spotube مجاني وحر ومفتوح المصدر — بلا إعلانات، وبلا اشتراكات، وبلا تتبع. إن كان يُسعدك، ففكّر في دعم المشروع.</string>
+    <string name="support_button_label">ادعم Tubify</string>
+    <string name="support_dialog_title">ادعم Tubify</string>
+    <string name="support_dialog_message">Tubify مجاني وحر ومفتوح المصدر — بلا إعلانات، وبلا اشتراكات، وبلا تتبع. إن كان يُسعدك، ففكّر في دعم المشروع.</string>
     <string name="support_dialog_reminder_hint">يمكنك إيقاف هذه التذكيرات من الإعدادات ← الدعم.</string>
     <string name="support_dialog_dismiss">ربما لاحقًا</string>
     <string name="settings_support_reminders_title">تذكيرات الدعم</string>

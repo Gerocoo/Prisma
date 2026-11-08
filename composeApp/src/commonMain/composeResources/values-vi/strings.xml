@@ -366,7 +366,7 @@
     <string name="welcome_brand_freedom">Âm nhạc, không ràng buộc.</string>
     <string name="welcome_brand_quiet_description">Trình phát mã nguồn mở cho cả thế giới âm nhạc.\nTùy bạn khám phá. Tùy bạn biến nó thành của riêng mình.</string>
     <string name="welcome_donate_quiet_title">Giúp dự án này tiếp tục sống.</string>
-    <string name="welcome_donate_letter">Spotube được tạo ra bởi con người, không phải một doanh nghiệp thu phí thuê bao. Nếu Spotube trở thành một phần cuộc sống hằng ngày của bạn, một chút ủng hộ sẽ giúp chúng tôi chăm chút nó xứng đáng hơn.\n\nCảm ơn bạn đã dành chỗ cho phần mềm độc lập.</string>
+    <string name="welcome_donate_letter">Tubify được tạo ra bởi con người, không phải một doanh nghiệp thu phí thuê bao. Nếu Tubify trở thành một phần cuộc sống hằng ngày của bạn, một chút ủng hộ sẽ giúp chúng tôi chăm chút nó xứng đáng hơn.\n\nCảm ơn bạn đã dành chỗ cho phần mềm độc lập.</string>
     <string name="welcome_plugins_setup_guide">Bắt đầu với một plugin danh mục để tìm bài hát và danh sách phát. Chọn một plugin âm thanh để phát chúng. Lời bài hát và lịch sử nghe là tùy chọn. Hãy khám phá plugin bên dưới, xem lại quyền của nó, cài đặt rồi chọn nó tại đây.</string>
     <string name="welcome_plugins_discover">Khám phá plugin</string>
     <string name="welcome_plugins_sources">Nguồn của bạn</string>
@@ -402,7 +402,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">Người ủng hộ giúp chúng tôi tiếp bước</string>
     <string name="welcome_donate_title">Tạo nên bằng đam mê. Duy trì nhờ bạn.</string>
-    <string name="welcome_donate_message">Spotube miễn phí 100%, tự do và mã nguồn mở — không quảng cáo, không thuê bao, không theo dõi. Mọi tính năng tồn tại là nhờ những người như bạn đã chọn giúp mã nguồn tiếp tục phát triển.</string>
+    <string name="welcome_donate_message">Tubify miễn phí 100%, tự do và mã nguồn mở — không quảng cáo, không thuê bao, không theo dõi. Mọi tính năng tồn tại là nhờ những người như bạn đã chọn giúp mã nguồn tiếp tục phát triển.</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">Tài trợ hằng tháng</string>
     <string name="welcome_donate_patreon_subtitle">Hỗ trợ phát triển và hạ tầng lâu dài</string>
@@ -413,14 +413,14 @@
     <string name="welcome_donate_opencollective_tag">Quỹ cộng đồng</string>
     <string name="welcome_donate_opencollective_subtitle">Hỗ trợ tài chính minh bạch, do cộng đồng quản lý</string>
     <string name="welcome_donate_thanks">Từ tận đáy lòng, cảm ơn bạn đã tin vào âm nhạc mở.</string>
-    <string name="welcome_donate_optional">Ủng hộ hoàn toàn là tùy chọn — Spotube vẫn luôn miễn phí.</string>
+    <string name="welcome_donate_optional">Ủng hộ hoàn toàn là tùy chọn — Tubify vẫn luôn miễn phí.</string>
     <string name="welcome_donate_action">Tài trợ</string>
     <string name="welcome_donate_open_content_description">Mở %1$s</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">Ủng hộ Spotube</string>
-    <string name="support_dialog_title">Ủng hộ Spotube</string>
-    <string name="support_dialog_message">Spotube miễn phí, tự do và mã nguồn mở — không quảng cáo, không thuê bao, không theo dõi. Nếu Spotube mang lại niềm vui cho bạn, hãy cân nhắc ủng hộ dự án.</string>
+    <string name="support_button_label">Ủng hộ Tubify</string>
+    <string name="support_dialog_title">Ủng hộ Tubify</string>
+    <string name="support_dialog_message">Tubify miễn phí, tự do và mã nguồn mở — không quảng cáo, không thuê bao, không theo dõi. Nếu Tubify mang lại niềm vui cho bạn, hãy cân nhắc ủng hộ dự án.</string>
     <string name="support_dialog_reminder_hint">Bạn có thể tắt lời nhắc này trong Cài đặt → Ủng hộ.</string>
     <string name="support_dialog_dismiss">Để sau</string>
     <string name="settings_support_reminders_title">Lời nhắc ủng hộ</string>

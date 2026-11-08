@@ -366,7 +366,7 @@
     <string name="welcome_brand_freedom">아무런 조건 없는 음악.</string>
     <string name="welcome_brand_quiet_description">음악의 세계를 위한 오픈 소스 플레이어.\n마음껏 탐색하고, 나만의 방식으로 꾸며 보세요.</string>
     <string name="welcome_donate_quiet_title">이 프로젝트가 계속될 수 있도록 도와주세요.</string>
-    <string name="welcome_donate_letter">Spotube는 구독 비즈니스가 아닌 사람들이 만들어요. Spotube가 일상의 일부가 되었다면, 작은 후원이 Spotube를 더 정성껏 가꾸는 데 큰 힘이 돼요.\n\n독립 소프트웨어에 자리를 내어 주셔서 감사합니다.</string>
+    <string name="welcome_donate_letter">Tubify는 구독 비즈니스가 아닌 사람들이 만들어요. Tubify가 일상의 일부가 되었다면, 작은 후원이 Tubify를 더 정성껏 가꾸는 데 큰 힘이 돼요.\n\n독립 소프트웨어에 자리를 내어 주셔서 감사합니다.</string>
     <string name="welcome_plugins_setup_guide">먼저 카탈로그 플러그인으로 노래와 플레이리스트를 찾으세요. 재생하려면 오디오 플러그인을 선택하세요. 가사와 감상 기록은 선택 사항이에요. 아래에서 플러그인을 찾아 권한을 확인하고 설치한 다음 여기서 선택하세요.</string>
     <string name="welcome_plugins_discover">플러그인 둘러보기</string>
     <string name="welcome_plugins_sources">내 소스</string>
@@ -402,7 +402,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">후원자 덕분에 계속할 수 있어요</string>
     <string name="welcome_donate_title">열정으로 만들고, 여러분 덕분에 이어 갑니다.</string>
-    <string name="welcome_donate_message">Spotube는 100% 무료이자 자유 오픈 소스 소프트웨어예요 — 광고도, 구독도, 추적도 없어요. 모든 기능은 여러분 같은 분들이 코드가 계속 이어지도록 도와주신 덕분에 존재해요.</string>
+    <string name="welcome_donate_message">Tubify는 100% 무료이자 자유 오픈 소스 소프트웨어예요 — 광고도, 구독도, 추적도 없어요. 모든 기능은 여러분 같은 분들이 코드가 계속 이어지도록 도와주신 덕분에 존재해요.</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">월간 후원</string>
     <string name="welcome_donate_patreon_subtitle">지속적인 개발과 인프라를 지원해 주세요</string>
@@ -413,14 +413,14 @@
     <string name="welcome_donate_opencollective_tag">커뮤니티 기금</string>
     <string name="welcome_donate_opencollective_subtitle">투명하게 커뮤니티가 운영하는 재정 후원</string>
     <string name="welcome_donate_thanks">열린 음악을 믿어 주셔서 진심으로 감사합니다.</string>
-    <string name="welcome_donate_optional">후원은 전적으로 선택 사항이에요 — 어떤 경우든 Spotube는 계속 무료예요.</string>
+    <string name="welcome_donate_optional">후원은 전적으로 선택 사항이에요 — 어떤 경우든 Tubify는 계속 무료예요.</string>
     <string name="welcome_donate_action">후원하기</string>
     <string name="welcome_donate_open_content_description">%1$s 열기</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">Spotube 후원하기</string>
-    <string name="support_dialog_title">Spotube 후원하기</string>
-    <string name="support_dialog_message">Spotube는 무료이자 자유 오픈 소스 소프트웨어예요 — 광고도, 구독도, 추적도 없어요. Spotube가 즐거움을 준다면 프로젝트 후원을 고려해 주세요.</string>
+    <string name="support_button_label">Tubify 후원하기</string>
+    <string name="support_dialog_title">Tubify 후원하기</string>
+    <string name="support_dialog_message">Tubify는 무료이자 자유 오픈 소스 소프트웨어예요 — 광고도, 구독도, 추적도 없어요. Tubify가 즐거움을 준다면 프로젝트 후원을 고려해 주세요.</string>
     <string name="support_dialog_reminder_hint">이 알림은 설정 → 후원에서 끌 수 있어요.</string>
     <string name="support_dialog_dismiss">나중에</string>
     <string name="settings_support_reminders_title">후원 알림</string>

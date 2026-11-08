@@ -366,7 +366,7 @@
     <string name="welcome_brand_freedom">Musik, tanpa ikatan.</string>
     <string name="welcome_brand_quiet_description">Pemutar open source untuk dunia musik.\nBebas kamu jelajahi. Bebas kamu jadikan milikmu.</string>
     <string name="welcome_donate_quiet_title">Bantu proyek ini tetap hidup.</string>
-    <string name="welcome_donate_letter">Spotube dibuat oleh orang-orang, bukan bisnis langganan. Jika Spotube menjadi bagian dari keseharianmu, sedikit dukungan membantu kami merawatnya sebagaimana mestinya.\n\nTerima kasih telah memberi ruang bagi perangkat lunak independen.</string>
+    <string name="welcome_donate_letter">Tubify dibuat oleh orang-orang, bukan bisnis langganan. Jika Tubify menjadi bagian dari keseharianmu, sedikit dukungan membantu kami merawatnya sebagaimana mestinya.\n\nTerima kasih telah memberi ruang bagi perangkat lunak independen.</string>
     <string name="welcome_plugins_setup_guide">Mulailah dengan plugin katalog untuk menemukan lagu dan playlist. Pilih plugin audio untuk memutarnya. Lirik dan riwayat dengar bersifat opsional. Temukan plugin di bawah, tinjau izinnya, pasang, lalu pilih di sini.</string>
     <string name="welcome_plugins_discover">Temukan plugin</string>
     <string name="welcome_plugins_sources">Sumbermu</string>
@@ -402,7 +402,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">Pendukung membuat kami terus berjalan</string>
     <string name="welcome_donate_title">Dibuat dengan semangat. Dihidupkan olehmu.</string>
-    <string name="welcome_donate_message">Spotube 100% gratis, bebas, dan open source — tanpa iklan, tanpa langganan, tanpa pelacakan. Setiap fitur ada karena orang sepertimu memilih untuk membantu kode terus berkembang.</string>
+    <string name="welcome_donate_message">Tubify 100% gratis, bebas, dan open source — tanpa iklan, tanpa langganan, tanpa pelacakan. Setiap fitur ada karena orang sepertimu memilih untuk membantu kode terus berkembang.</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">Sponsor Bulanan</string>
     <string name="welcome_donate_patreon_subtitle">Dukung pengembangan dan infrastruktur secara rutin</string>
@@ -413,14 +413,14 @@
     <string name="welcome_donate_opencollective_tag">Dana Komunitas</string>
     <string name="welcome_donate_opencollective_subtitle">Dukungan finansial yang transparan dan dikelola komunitas</string>
     <string name="welcome_donate_thanks">Terima kasih dari lubuk hati kami karena telah percaya pada musik terbuka.</string>
-    <string name="welcome_donate_optional">Dukungan sepenuhnya opsional — Spotube tetap gratis apa pun pilihanmu.</string>
+    <string name="welcome_donate_optional">Dukungan sepenuhnya opsional — Tubify tetap gratis apa pun pilihanmu.</string>
     <string name="welcome_donate_action">Sponsori</string>
     <string name="welcome_donate_open_content_description">Buka %1$s</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">Dukung Spotube</string>
-    <string name="support_dialog_title">Dukung Spotube</string>
-    <string name="support_dialog_message">Spotube gratis, bebas, dan open source — tanpa iklan, tanpa langganan, tanpa pelacakan. Jika Spotube membuatmu senang, pertimbangkan untuk mendukung proyek ini.</string>
+    <string name="support_button_label">Dukung Tubify</string>
+    <string name="support_dialog_title">Dukung Tubify</string>
+    <string name="support_dialog_message">Tubify gratis, bebas, dan open source — tanpa iklan, tanpa langganan, tanpa pelacakan. Jika Tubify membuatmu senang, pertimbangkan untuk mendukung proyek ini.</string>
     <string name="support_dialog_reminder_hint">Kamu bisa mematikan pengingat ini di Pengaturan → Dukungan.</string>
     <string name="support_dialog_dismiss">Nanti saja</string>
     <string name="settings_support_reminders_title">Pengingat dukungan</string>

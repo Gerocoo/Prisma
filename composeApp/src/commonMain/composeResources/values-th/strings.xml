@@ -366,7 +366,7 @@
     <string name="welcome_brand_freedom">ดนตรีที่ไร้พันธนาการ</string>
     <string name="welcome_brand_quiet_description">เครื่องเล่นโอเพนซอร์สสำหรับโลกแห่งดนตรี\nให้คุณสำรวจ ให้คุณสร้างในแบบของคุณเอง</string>
     <string name="welcome_donate_quiet_title">ช่วยให้โปรเจกต์นี้อยู่ต่อไป</string>
-    <string name="welcome_donate_letter">Spotube สร้างขึ้นโดยผู้คน ไม่ใช่ธุรกิจแบบสมัครสมาชิก หากแอปนี้กลายเป็นส่วนหนึ่งในชีวิตประจำวันของคุณ การสนับสนุนเพียงเล็กน้อยจะช่วยให้เราดูแลแอปได้อย่างที่ควรเป็น\n\nขอบคุณที่เปิดพื้นที่ให้ซอฟต์แวร์อิสระ</string>
+    <string name="welcome_donate_letter">Tubify สร้างขึ้นโดยผู้คน ไม่ใช่ธุรกิจแบบสมัครสมาชิก หากแอปนี้กลายเป็นส่วนหนึ่งในชีวิตประจำวันของคุณ การสนับสนุนเพียงเล็กน้อยจะช่วยให้เราดูแลแอปได้อย่างที่ควรเป็น\n\nขอบคุณที่เปิดพื้นที่ให้ซอฟต์แวร์อิสระ</string>
     <string name="welcome_plugins_setup_guide">เริ่มต้นด้วยปลั๊กอินแคตตาล็อกเพื่อค้นหาเพลงและเพลย์ลิสต์ เลือกปลั๊กอินเสียงเพื่อเล่นเพลง ส่วนเนื้อเพลงและประวัติการฟังเป็นตัวเลือกเสริม ค้นพบปลั๊กอินด้านล่าง ตรวจสอบสิทธิ์ ติดตั้ง แล้วเลือกใช้ที่นี่</string>
     <string name="welcome_plugins_discover">ค้นพบปลั๊กอิน</string>
     <string name="welcome_plugins_sources">แหล่งที่มาของคุณ</string>
@@ -402,7 +402,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">ผู้สนับสนุนคือแรงผลักดันของเรา</string>
     <string name="welcome_donate_title">สร้างด้วยใจ อยู่ได้ด้วยคุณ</string>
-    <string name="welcome_donate_message">Spotube ฟรี เสรี และโอเพนซอร์ส 100% — ไม่มีโฆษณา ไม่มีการสมัครสมาชิก ไม่มีการติดตาม ทุกฟีเจอร์มีอยู่ได้เพราะคนอย่างคุณเลือกที่จะช่วยให้การพัฒนาเดินหน้าต่อไป</string>
+    <string name="welcome_donate_message">Tubify ฟรี เสรี และโอเพนซอร์ส 100% — ไม่มีโฆษณา ไม่มีการสมัครสมาชิก ไม่มีการติดตาม ทุกฟีเจอร์มีอยู่ได้เพราะคนอย่างคุณเลือกที่จะช่วยให้การพัฒนาเดินหน้าต่อไป</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">ผู้สนับสนุนรายเดือน</string>
     <string name="welcome_donate_patreon_subtitle">สนับสนุนการพัฒนาและโครงสร้างพื้นฐานอย่างต่อเนื่อง</string>
@@ -413,14 +413,14 @@
     <string name="welcome_donate_opencollective_tag">กองทุนชุมชน</string>
     <string name="welcome_donate_opencollective_subtitle">การสนับสนุนทางการเงินที่โปร่งใสและบริหารโดยชุมชน</string>
     <string name="welcome_donate_thanks">ขอบคุณจากใจที่เชื่อมั่นในดนตรีแบบเปิด</string>
-    <string name="welcome_donate_optional">การสนับสนุนเป็นทางเลือกโดยสมบูรณ์ — Spotube ยังคงฟรีไม่ว่าอย่างไร</string>
+    <string name="welcome_donate_optional">การสนับสนุนเป็นทางเลือกโดยสมบูรณ์ — Tubify ยังคงฟรีไม่ว่าอย่างไร</string>
     <string name="welcome_donate_action">สนับสนุน</string>
     <string name="welcome_donate_open_content_description">เปิด %1$s</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">สนับสนุน Spotube</string>
-    <string name="support_dialog_title">สนับสนุน Spotube</string>
-    <string name="support_dialog_message">Spotube ฟรี เสรี และโอเพนซอร์ส — ไม่มีโฆษณา ไม่มีการสมัครสมาชิก ไม่มีการติดตาม หากแอปนี้ทำให้คุณมีความสุข ลองพิจารณาสนับสนุนโปรเจกต์นี้</string>
+    <string name="support_button_label">สนับสนุน Tubify</string>
+    <string name="support_dialog_title">สนับสนุน Tubify</string>
+    <string name="support_dialog_message">Tubify ฟรี เสรี และโอเพนซอร์ส — ไม่มีโฆษณา ไม่มีการสมัครสมาชิก ไม่มีการติดตาม หากแอปนี้ทำให้คุณมีความสุข ลองพิจารณาสนับสนุนโปรเจกต์นี้</string>
     <string name="support_dialog_reminder_hint">คุณปิดการแจ้งเตือนเหล่านี้ได้ที่ การตั้งค่า → สนับสนุน</string>
     <string name="support_dialog_dismiss">ไว้ทีหลัง</string>
     <string name="settings_support_reminders_title">การแจ้งเตือนให้สนับสนุน</string>

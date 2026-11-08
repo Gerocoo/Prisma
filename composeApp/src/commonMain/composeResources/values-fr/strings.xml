@@ -374,7 +374,7 @@
     <string name="welcome_brand_freedom">La musique, sans contraintes.</string>
     <string name="welcome_brand_quiet_description">Un lecteur open source pour tout un monde de musique.\nÀ vous de l'explorer. À vous de vous l'approprier.</string>
     <string name="welcome_donate_quiet_title">Faites vivre ce projet.</string>
-    <string name="welcome_donate_letter">Spotube est créé par des personnes, pas par une entreprise d'abonnements. S'il fait partie de votre quotidien, un petit soutien nous aide à lui accorder l'attention qu'il mérite.\n\nMerci de faire une place aux logiciels indépendants.</string>
+    <string name="welcome_donate_letter">Tubify est créé par des personnes, pas par une entreprise d'abonnements. S'il fait partie de votre quotidien, un petit soutien nous aide à lui accorder l'attention qu'il mérite.\n\nMerci de faire une place aux logiciels indépendants.</string>
     <string name="welcome_plugins_setup_guide">Commencez par un plugin de catalogue pour trouver des titres et des playlists. Choisissez un plugin audio pour les écouter. Les paroles et l'historique d'écoute sont facultatifs. Découvrez un plugin ci-dessous, vérifiez ses autorisations, installez-le, puis sélectionnez-le ici.</string>
     <string name="welcome_plugins_discover">Découvrir des plugins</string>
     <string name="welcome_plugins_sources">Vos sources</string>
@@ -410,7 +410,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">Nos soutiens nous font avancer</string>
     <string name="welcome_donate_title">Créé avec passion. Maintenu en vie grâce à vous.</string>
-    <string name="welcome_donate_message">Spotube est 100 % gratuit, libre et open source — sans publicité, sans abonnement, sans pistage. Chaque fonctionnalité existe parce que des personnes comme vous ont choisi d'aider à faire avancer le code.</string>
+    <string name="welcome_donate_message">Tubify est 100 % gratuit, libre et open source — sans publicité, sans abonnement, sans pistage. Chaque fonctionnalité existe parce que des personnes comme vous ont choisi d'aider à faire avancer le code.</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">Soutien mensuel</string>
     <string name="welcome_donate_patreon_subtitle">Soutenez le développement et l'infrastructure dans la durée</string>
@@ -421,14 +421,14 @@
     <string name="welcome_donate_opencollective_tag">Fonds communautaire</string>
     <string name="welcome_donate_opencollective_subtitle">Un financement transparent, géré par la communauté</string>
     <string name="welcome_donate_thanks">Merci du fond du cœur de croire en la musique libre.</string>
-    <string name="welcome_donate_optional">Le soutien est entièrement facultatif — Spotube reste gratuit dans tous les cas.</string>
+    <string name="welcome_donate_optional">Le soutien est entièrement facultatif — Tubify reste gratuit dans tous les cas.</string>
     <string name="welcome_donate_action">Soutenir</string>
     <string name="welcome_donate_open_content_description">Ouvrir %1$s</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">Soutenir Spotube</string>
-    <string name="support_dialog_title">Soutenir Spotube</string>
-    <string name="support_dialog_message">Spotube est gratuit, libre et open source — sans publicité, sans abonnement, sans pistage. S'il vous apporte de la joie, pensez à soutenir le projet.</string>
+    <string name="support_button_label">Soutenir Tubify</string>
+    <string name="support_dialog_title">Soutenir Tubify</string>
+    <string name="support_dialog_message">Tubify est gratuit, libre et open source — sans publicité, sans abonnement, sans pistage. S'il vous apporte de la joie, pensez à soutenir le projet.</string>
     <string name="support_dialog_reminder_hint">Vous pouvez désactiver ces rappels dans Paramètres → Soutien.</string>
     <string name="support_dialog_dismiss">Plus tard</string>
     <string name="settings_support_reminders_title">Rappels de soutien</string>

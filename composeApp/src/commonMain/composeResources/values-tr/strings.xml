@@ -370,7 +370,7 @@
     <string name="welcome_brand_freedom">Müzik, hiçbir kısıtlama olmadan.</string>
     <string name="welcome_brand_quiet_description">Koca bir müzik dünyası için açık kaynaklı bir oynatıcı.\nKeşfetmesi sana kalmış. Kendine göre şekillendirmesi de.</string>
     <string name="welcome_donate_quiet_title">Bu projeyi yaşat.</string>
-    <string name="welcome_donate_letter">Spotube'u bir abonelik şirketi değil, insanlar geliştiriyor. Günlük hayatının bir parçası olduysa, küçük bir destek bile ona hak ettiği özeni göstermemize yardımcı olur.\n\nBağımsız yazılıma yer açtığın için teşekkürler.</string>
+    <string name="welcome_donate_letter">Tubify'u bir abonelik şirketi değil, insanlar geliştiriyor. Günlük hayatının bir parçası olduysa, küçük bir destek bile ona hak ettiği özeni göstermemize yardımcı olur.\n\nBağımsız yazılıma yer açtığın için teşekkürler.</string>
     <string name="welcome_plugins_setup_guide">Şarkı ve çalma listesi bulmak için bir katalog eklentisiyle başla. Onları çalmak için bir ses eklentisi seç. Şarkı sözleri ve dinleme geçmişi isteğe bağlı. Aşağıdan bir eklenti keşfet, izinlerini incele, yükle ve burada seç.</string>
     <string name="welcome_plugins_discover">Eklentileri keşfet</string>
     <string name="welcome_plugins_sources">Kaynakların</string>
@@ -406,7 +406,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">Destekçilerimiz bizi ayakta tutuyor</string>
     <string name="welcome_donate_title">Tutkuyla yapıldı. Seninle yaşıyor.</string>
-    <string name="welcome_donate_message">Spotube %100 ücretsiz, özgür ve açık kaynak — reklam yok, abonelik yok, takip yok. Her özellik, kodun akmaya devam etmesine yardım etmeyi seçen senin gibi insanlar sayesinde var.</string>
+    <string name="welcome_donate_message">Tubify %100 ücretsiz, özgür ve açık kaynak — reklam yok, abonelik yok, takip yok. Her özellik, kodun akmaya devam etmesine yardım etmeyi seçen senin gibi insanlar sayesinde var.</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">Aylık Sponsor</string>
     <string name="welcome_donate_patreon_subtitle">Sürekli geliştirmeyi ve altyapıyı destekle</string>
@@ -417,14 +417,14 @@
     <string name="welcome_donate_opencollective_tag">Topluluk Fonu</string>
     <string name="welcome_donate_opencollective_subtitle">Şeffaf, topluluk tarafından yönetilen finansal destek</string>
     <string name="welcome_donate_thanks">Açık müziğe inandığın için tüm kalbimizle teşekkür ederiz.</string>
-    <string name="welcome_donate_optional">Destek tamamen isteğe bağlı — Spotube her durumda ücretsiz kalır.</string>
+    <string name="welcome_donate_optional">Destek tamamen isteğe bağlı — Tubify her durumda ücretsiz kalır.</string>
     <string name="welcome_donate_action">Sponsor ol</string>
     <string name="welcome_donate_open_content_description">%1$s sayfasını aç</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">Spotube'u destekle</string>
-    <string name="support_dialog_title">Spotube'u destekle</string>
-    <string name="support_dialog_message">Spotube ücretsiz, özgür ve açık kaynak — reklam yok, abonelik yok, takip yok. Sana keyif veriyorsa projeyi desteklemeyi düşünebilirsin.</string>
+    <string name="support_button_label">Tubify'u destekle</string>
+    <string name="support_dialog_title">Tubify'u destekle</string>
+    <string name="support_dialog_message">Tubify ücretsiz, özgür ve açık kaynak — reklam yok, abonelik yok, takip yok. Sana keyif veriyorsa projeyi desteklemeyi düşünebilirsin.</string>
     <string name="support_dialog_reminder_hint">Bu hatırlatıcıları Ayarlar → Destek bölümünden kapatabilirsin.</string>
     <string name="support_dialog_dismiss">Belki sonra</string>
     <string name="settings_support_reminders_title">Destek hatırlatıcıları</string>

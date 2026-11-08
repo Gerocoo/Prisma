@@ -370,7 +370,7 @@
     <string name="welcome_brand_freedom">موسیقی، بی‌هیچ قید و بندی.</string>
     <string name="welcome_brand_quiet_description">پخش‌کننده‌ای متن‌باز برای دنیایی از موسیقی.\nبرای کشف کردن. برای از آنِ خود کردن.</string>
     <string name="welcome_donate_quiet_title">این پروژه را زنده نگه دارید.</string>
-    <string name="welcome_donate_letter">Spotube را آدم‌ها ساخته‌اند، نه یک کسب‌وکار اشتراکی. اگر بخشی از زندگی روزمره‌تان شده، کمی حمایت به ما کمک می‌کند آن‌طور که شایسته است از آن مراقبت کنیم.\n\nسپاس که برای نرم‌افزار مستقل جا باز می‌کنید.</string>
+    <string name="welcome_donate_letter">Tubify را آدم‌ها ساخته‌اند، نه یک کسب‌وکار اشتراکی. اگر بخشی از زندگی روزمره‌تان شده، کمی حمایت به ما کمک می‌کند آن‌طور که شایسته است از آن مراقبت کنیم.\n\nسپاس که برای نرم‌افزار مستقل جا باز می‌کنید.</string>
     <string name="welcome_plugins_setup_guide">با یک افزونهٔ کاتالوگ شروع کنید تا آهنگ‌ها و پلی‌لیست‌ها را پیدا کنید. یک افزونهٔ صوتی برای پخش آن‌ها انتخاب کنید. متن آهنگ و تاریخچهٔ شنیدن اختیاری‌اند. افزونه‌ای را در پایین پیدا کنید، مجوزهایش را بررسی کنید، نصبش کنید و سپس آن را اینجا انتخاب کنید.</string>
     <string name="welcome_plugins_discover">کشف افزونه‌ها</string>
     <string name="welcome_plugins_sources">منابع شما</string>
@@ -406,7 +406,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">حامیان ما را سرپا نگه می‌دارند</string>
     <string name="welcome_donate_title">ساخته‌شده با عشق. زنده به لطف شما.</string>
-    <string name="welcome_donate_message">Spotube صددرصد رایگان، آزاد و متن‌باز است — بدون تبلیغات، بدون اشتراک، بدون ردیابی. هر قابلیتی وجود دارد چون کسانی مثل شما تصمیم گرفتند به ادامهٔ توسعه کمک کنند.</string>
+    <string name="welcome_donate_message">Tubify صددرصد رایگان، آزاد و متن‌باز است — بدون تبلیغات، بدون اشتراک، بدون ردیابی. هر قابلیتی وجود دارد چون کسانی مثل شما تصمیم گرفتند به ادامهٔ توسعه کمک کنند.</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">حامی ماهانه</string>
     <string name="welcome_donate_patreon_subtitle">از توسعه و زیرساخت مستمر حمایت کنید</string>
@@ -417,14 +417,14 @@
     <string name="welcome_donate_opencollective_tag">صندوق جامعه</string>
     <string name="welcome_donate_opencollective_subtitle">پشتیبانی مالی شفاف و تحت مدیریت جامعه</string>
     <string name="welcome_donate_thanks">از صمیم قلب سپاسگزاریم که به موسیقی آزاد باور دارید.</string>
-    <string name="welcome_donate_optional">حمایت کاملاً اختیاری است — Spotube در هر صورت رایگان می‌ماند.</string>
+    <string name="welcome_donate_optional">حمایت کاملاً اختیاری است — Tubify در هر صورت رایگان می‌ماند.</string>
     <string name="welcome_donate_action">حمایت</string>
     <string name="welcome_donate_open_content_description">باز کردن %1$s</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">حمایت از Spotube</string>
-    <string name="support_dialog_title">حمایت از Spotube</string>
-    <string name="support_dialog_message">Spotube رایگان، آزاد و متن‌باز است — بدون تبلیغات، بدون اشتراک، بدون ردیابی. اگر برایتان شادی می‌آورد، حمایت از پروژه را در نظر بگیرید.</string>
+    <string name="support_button_label">حمایت از Tubify</string>
+    <string name="support_dialog_title">حمایت از Tubify</string>
+    <string name="support_dialog_message">Tubify رایگان، آزاد و متن‌باز است — بدون تبلیغات، بدون اشتراک، بدون ردیابی. اگر برایتان شادی می‌آورد، حمایت از پروژه را در نظر بگیرید.</string>
     <string name="support_dialog_reminder_hint">می‌توانید این یادآوری‌ها را در تنظیمات → حمایت خاموش کنید.</string>
     <string name="support_dialog_dismiss">شاید بعداً</string>
     <string name="settings_support_reminders_title">یادآوری‌های حمایت</string>

@@ -366,7 +366,7 @@
     <string name="welcome_brand_freedom">音樂，無拘無束。</string>
     <string name="welcome_brand_quiet_description">一款開放原始碼的播放器，帶你走進音樂的世界。\n任你探索，由你打造。</string>
     <string name="welcome_donate_quiet_title">讓這個專案延續下去。</string>
-    <string name="welcome_donate_letter">Spotube 是由一群人打造的，而不是靠訂閱賺錢的企業。如果它已成為你日常生活的一部分，一點點支持就能幫助我們給予它應有的照顧。\n\n感謝你為獨立軟體留出一席之地。</string>
+    <string name="welcome_donate_letter">Tubify 是由一群人打造的，而不是靠訂閱賺錢的企業。如果它已成為你日常生活的一部分，一點點支持就能幫助我們給予它應有的照顧。\n\n感謝你為獨立軟體留出一席之地。</string>
     <string name="welcome_plugins_setup_guide">先從目錄外掛程式開始，用來尋找歌曲與播放清單。接著選擇音訊外掛程式來播放。歌詞與收聽紀錄為選用項目。在下方探索外掛程式，檢視其權限並安裝，然後在這裡選取。</string>
     <string name="welcome_plugins_discover">探索外掛程式</string>
     <string name="welcome_plugins_sources">你的來源</string>
@@ -402,7 +402,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">支持者讓我們走下去</string>
     <string name="welcome_donate_title">以熱情打造，因你而延續。</string>
-    <string name="welcome_donate_message">Spotube 百分之百免費、自由且開放原始碼 — 沒有廣告、沒有訂閱、沒有追蹤。每一項功能的存在，都是因為像你這樣的人選擇支持程式碼持續前進。</string>
+    <string name="welcome_donate_message">Tubify 百分之百免費、自由且開放原始碼 — 沒有廣告、沒有訂閱、沒有追蹤。每一項功能的存在，都是因為像你這樣的人選擇支持程式碼持續前進。</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">每月贊助</string>
     <string name="welcome_donate_patreon_subtitle">支持持續的開發與基礎設施</string>
@@ -413,14 +413,14 @@
     <string name="welcome_donate_opencollective_tag">社群基金</string>
     <string name="welcome_donate_opencollective_subtitle">透明、由社群治理的資金支持</string>
     <string name="welcome_donate_thanks">衷心感謝你相信開放的音樂。</string>
-    <string name="welcome_donate_optional">支持完全是自願的 — 無論如何，Spotube 都會保持免費。</string>
+    <string name="welcome_donate_optional">支持完全是自願的 — 無論如何，Tubify 都會保持免費。</string>
     <string name="welcome_donate_action">贊助</string>
     <string name="welcome_donate_open_content_description">開啟 %1$s</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">支持 Spotube</string>
-    <string name="support_dialog_title">支持 Spotube</string>
-    <string name="support_dialog_message">Spotube 免費、自由且開放原始碼 — 沒有廣告、沒有訂閱、沒有追蹤。如果它為你帶來快樂，歡迎考慮支持這個專案。</string>
+    <string name="support_button_label">支持 Tubify</string>
+    <string name="support_dialog_title">支持 Tubify</string>
+    <string name="support_dialog_message">Tubify 免費、自由且開放原始碼 — 沒有廣告、沒有訂閱、沒有追蹤。如果它為你帶來快樂，歡迎考慮支持這個專案。</string>
     <string name="support_dialog_reminder_hint">你可以在「設定 → 支持」中關閉這些提醒。</string>
     <string name="support_dialog_dismiss">稍後再說</string>
     <string name="settings_support_reminders_title">支持提醒</string>

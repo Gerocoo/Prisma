@@ -370,7 +370,7 @@
     <string name="welcome_brand_freedom">Muziek, zonder verplichtingen.</string>
     <string name="welcome_brand_quiet_description">Een opensource-speler voor een wereld vol muziek.\nOm te ontdekken. Om helemaal van jou te maken.</string>
     <string name="welcome_donate_quiet_title">Houd dit project in leven.</string>
-    <string name="welcome_donate_letter">Spotube wordt gemaakt door mensen, niet door een abonnementsbedrijf. Als het onderdeel wordt van je dagelijks leven, helpt een beetje steun ons om het de zorg te geven die het verdient.\n\nBedankt dat je ruimte maakt voor onafhankelijke software.</string>
+    <string name="welcome_donate_letter">Tubify wordt gemaakt door mensen, niet door een abonnementsbedrijf. Als het onderdeel wordt van je dagelijks leven, helpt een beetje steun ons om het de zorg te geven die het verdient.\n\nBedankt dat je ruimte maakt voor onafhankelijke software.</string>
     <string name="welcome_plugins_setup_guide">Begin met een catalogusplug-in om nummers en playlists te vinden. Kies een audioplug-in om ze af te spelen. Songteksten en luistergeschiedenis zijn optioneel. Ontdek hieronder een plug-in, bekijk de machtigingen, installeer hem en selecteer hem hier.</string>
     <string name="welcome_plugins_discover">Plug-ins ontdekken</string>
     <string name="welcome_plugins_sources">Je bronnen</string>
@@ -406,7 +406,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">Supporters houden ons op gang</string>
     <string name="welcome_donate_title">Gemaakt met passie. In leven gehouden door jou.</string>
-    <string name="welcome_donate_message">Spotube is 100% gratis, vrij en opensource — geen advertenties, geen abonnementen, geen tracking. Elke functie bestaat omdat mensen zoals jij hebben geholpen de code te laten stromen.</string>
+    <string name="welcome_donate_message">Tubify is 100% gratis, vrij en opensource — geen advertenties, geen abonnementen, geen tracking. Elke functie bestaat omdat mensen zoals jij hebben geholpen de code te laten stromen.</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">Maandelijkse sponsor</string>
     <string name="welcome_donate_patreon_subtitle">Steun doorlopende ontwikkeling en infrastructuur</string>
@@ -417,14 +417,14 @@
     <string name="welcome_donate_opencollective_tag">Communityfonds</string>
     <string name="welcome_donate_opencollective_subtitle">Transparante financiële steun, beheerd door de community</string>
     <string name="welcome_donate_thanks">Uit de grond van ons hart bedankt dat je gelooft in open muziek.</string>
-    <string name="welcome_donate_optional">Steunen is helemaal optioneel — Spotube blijft hoe dan ook gratis.</string>
+    <string name="welcome_donate_optional">Steunen is helemaal optioneel — Tubify blijft hoe dan ook gratis.</string>
     <string name="welcome_donate_action">Sponsoren</string>
     <string name="welcome_donate_open_content_description">%1$s openen</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">Spotube steunen</string>
-    <string name="support_dialog_title">Spotube steunen</string>
-    <string name="support_dialog_message">Spotube is gratis, vrij en opensource — geen advertenties, geen abonnementen, geen tracking. Als je er blij van wordt, overweeg dan het project te steunen.</string>
+    <string name="support_button_label">Tubify steunen</string>
+    <string name="support_dialog_title">Tubify steunen</string>
+    <string name="support_dialog_message">Tubify is gratis, vrij en opensource — geen advertenties, geen abonnementen, geen tracking. Als je er blij van wordt, overweeg dan het project te steunen.</string>
     <string name="support_dialog_reminder_hint">Je kunt deze herinneringen uitzetten via Instellingen → Steunen.</string>
     <string name="support_dialog_dismiss">Misschien later</string>
     <string name="settings_support_reminders_title">Herinneringen om te steunen</string>

@@ -369,7 +369,7 @@
     <string name="welcome_brand_freedom">संगीत, बिना किसी बंधन के।</string>
     <string name="welcome_brand_quiet_description">संगीत की दुनिया के लिए एक ओपन-सोर्स प्लेयर।\nखोजिए अपने तरीके से। बनाइए इसे अपना।</string>
     <string name="welcome_donate_quiet_title">इस प्रोजेक्ट को चलते रहने दें।</string>
-    <string name="welcome_donate_letter">Spotube को लोग बनाते हैं, कोई सब्सक्रिप्शन बिज़नेस नहीं। अगर यह आपकी रोज़ की ज़िंदगी का हिस्सा बन जाए, तो थोड़ा सा सहयोग हमें इसकी वह देखभाल करने में मदद करता है जिसका यह हकदार है।\n\nस्वतंत्र सॉफ़्टवेयर को जगह देने के लिए धन्यवाद।</string>
+    <string name="welcome_donate_letter">Tubify को लोग बनाते हैं, कोई सब्सक्रिप्शन बिज़नेस नहीं। अगर यह आपकी रोज़ की ज़िंदगी का हिस्सा बन जाए, तो थोड़ा सा सहयोग हमें इसकी वह देखभाल करने में मदद करता है जिसका यह हकदार है।\n\nस्वतंत्र सॉफ़्टवेयर को जगह देने के लिए धन्यवाद।</string>
     <string name="welcome_plugins_setup_guide">गाने और प्लेलिस्ट ढूंढने के लिए किसी कैटलॉग प्लगइन से शुरुआत करें। उन्हें चलाने के लिए एक ऑडियो प्लगइन चुनें। लिरिक्स और सुनने का इतिहास वैकल्पिक हैं। नीचे कोई प्लगइन खोजें, उसकी अनुमतियां देखें, इंस्टॉल करें, फिर उसे यहां चुनें।</string>
     <string name="welcome_plugins_discover">प्लगइन खोजें</string>
     <string name="welcome_plugins_sources">आपके सोर्स</string>
@@ -405,7 +405,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">सहयोगियों से हम चलते हैं</string>
     <string name="welcome_donate_title">जुनून से बना। आपसे ज़िंदा।</string>
-    <string name="welcome_donate_message">Spotube 100% मुफ़्त, स्वतंत्र और ओपन सोर्स है — न विज्ञापन, न सब्सक्रिप्शन, न ट्रैकिंग। हर फ़ीचर इसलिए है क्योंकि आप जैसे लोगों ने कोड को आगे बढ़ाने में मदद करना चुना।</string>
+    <string name="welcome_donate_message">Tubify 100% मुफ़्त, स्वतंत्र और ओपन सोर्स है — न विज्ञापन, न सब्सक्रिप्शन, न ट्रैकिंग। हर फ़ीचर इसलिए है क्योंकि आप जैसे लोगों ने कोड को आगे बढ़ाने में मदद करना चुना।</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">मासिक स्पॉन्सर</string>
     <string name="welcome_donate_patreon_subtitle">लगातार डेवलपमेंट और इंफ्रास्ट्रक्चर में सहयोग करें</string>
@@ -416,14 +416,14 @@
     <string name="welcome_donate_opencollective_tag">कम्युनिटी फ़ंड</string>
     <string name="welcome_donate_opencollective_subtitle">पारदर्शी, कम्युनिटी द्वारा संचालित आर्थिक सहयोग</string>
     <string name="welcome_donate_thanks">ओपन म्यूज़िक पर भरोसा करने के लिए दिल से धन्यवाद।</string>
-    <string name="welcome_donate_optional">सहयोग करना पूरी तरह वैकल्पिक है — Spotube हर हाल में मुफ़्त रहेगा।</string>
+    <string name="welcome_donate_optional">सहयोग करना पूरी तरह वैकल्पिक है — Tubify हर हाल में मुफ़्त रहेगा।</string>
     <string name="welcome_donate_action">स्पॉन्सर करें</string>
     <string name="welcome_donate_open_content_description">%1$s खोलें</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">Spotube को सहयोग दें</string>
-    <string name="support_dialog_title">Spotube को सहयोग दें</string>
-    <string name="support_dialog_message">Spotube मुफ़्त, स्वतंत्र और ओपन सोर्स है — न विज्ञापन, न सब्सक्रिप्शन, न ट्रैकिंग। अगर यह आपको खुशी देता है, तो प्रोजेक्ट को सहयोग देने के बारे में सोचें।</string>
+    <string name="support_button_label">Tubify को सहयोग दें</string>
+    <string name="support_dialog_title">Tubify को सहयोग दें</string>
+    <string name="support_dialog_message">Tubify मुफ़्त, स्वतंत्र और ओपन सोर्स है — न विज्ञापन, न सब्सक्रिप्शन, न ट्रैकिंग। अगर यह आपको खुशी देता है, तो प्रोजेक्ट को सहयोग देने के बारे में सोचें।</string>
     <string name="support_dialog_reminder_hint">आप ये रिमाइंडर सेटिंग → सहयोग में बंद कर सकते हैं।</string>
     <string name="support_dialog_dismiss">बाद में</string>
     <string name="settings_support_reminders_title">सहयोग रिमाइंडर</string>

@@ -377,8 +377,8 @@
     <string name="welcome_app_name">Tubify</string>
     <string name="welcome_brand_freedom">Musica, senza vincoli.</string>
     <string name="welcome_brand_quiet_description">Un player open source per un mondo di musica.\nTutto da esplorare. Tutto da rendere tuo.</string>
-    <string name="welcome_donate_quiet_title">Aiutaci a mantenere vivo questo progetto.</string>
-    <string name="welcome_donate_letter">Spotube è creato da persone, non da un'azienda in abbonamento. Se diventa parte della tua quotidianità, un piccolo contributo ci aiuta a dargli la cura che merita.\n\nGrazie per fare spazio al software indipendente.</string>
+    <string name="welcome_donate_quiet_title">Sostieni lo sviluppo di Tubify.</string>
+    <string name="welcome_donate_letter">Tubify è creato da persone, non da un'azienda in abbonamento. Se diventa parte della tua quotidianità, un piccolo contributo ci aiuta a dargli la cura che merita.\n\nGrazie per fare spazio al software indipendente.</string>
     <string name="welcome_plugins_setup_guide">Inizia con un plugin di catalogo per trovare brani e playlist. Scegli un plugin audio per riprodurli. Testi e cronologia di ascolto sono facoltativi. Scopri un plugin qui sotto, controlla le sue autorizzazioni, installalo e poi selezionalo qui.</string>
     <string name="welcome_plugins_discover">Scopri plugin</string>
     <string name="welcome_plugins_sources">Le tue fonti</string>
@@ -412,9 +412,9 @@
     <string name="welcome_lets_go">Iniziamo</string>
 
     <!-- Page 2: donations -->
-    <string name="welcome_donate_eyebrow">I sostenitori ci fanno andare avanti</string>
-    <string name="welcome_donate_title">Creato con passione. Tenuto in vita da te.</string>
-    <string name="welcome_donate_message">Spotube è gratuito al 100%, libero e open source: niente pubblicità, niente abbonamenti, nessun tracciamento. Ogni funzione esiste perché persone come te hanno scelto di contribuire allo sviluppo.</string>
+    <string name="welcome_donate_eyebrow">Tubify è un progetto personale</string>
+    <string name="welcome_donate_title">Fatto con passione, gratis per tutti.</string>
+    <string name="welcome_donate_message">Tubify è gratuito: niente pubblicità, niente abbonamenti, nessun tracciamento. Se ti piace, puoi offrire una donazione libera allo sviluppatore.</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">Sostenitore mensile</string>
     <string name="welcome_donate_patreon_subtitle">Sostieni lo sviluppo continuo e l'infrastruttura</string>
@@ -424,15 +424,15 @@
     <string name="welcome_donate_opencollective_title">Open Collective</string>
     <string name="welcome_donate_opencollective_tag">Fondo della community</string>
     <string name="welcome_donate_opencollective_subtitle">Sostegno finanziario trasparente e gestito dalla community</string>
-    <string name="welcome_donate_thanks">Grazie di cuore per credere nella musica libera.</string>
-    <string name="welcome_donate_optional">Il sostegno è del tutto facoltativo: Spotube resta comunque gratuito.</string>
+    <string name="welcome_donate_thanks">Grazie di cuore per il tuo sostegno.</string>
+    <string name="welcome_donate_optional">La donazione è del tutto facoltativa: Tubify resta comunque gratuito.</string>
     <string name="welcome_donate_action">Sostieni</string>
     <string name="welcome_donate_open_content_description">Apri %1$s</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">Sostieni Spotube</string>
-    <string name="support_dialog_title">Sostieni Spotube</string>
-    <string name="support_dialog_message">Spotube è gratuito, libero e open source: niente pubblicità, niente abbonamenti, nessun tracciamento. Se ti rende felice, valuta di sostenere il progetto.</string>
+    <string name="support_button_label">Sostieni Tubify</string>
+    <string name="support_dialog_title">Sostieni Tubify</string>
+    <string name="support_dialog_message">Tubify è gratuito: niente pubblicità, niente abbonamenti, nessun tracciamento. Se ti piace, puoi sostenerne lo sviluppo con una donazione libera.</string>
     <string name="support_dialog_reminder_hint">Puoi disattivare questi promemoria in Impostazioni → Supporto.</string>
     <string name="support_dialog_dismiss">Forse più tardi</string>
     <string name="settings_support_reminders_title">Promemoria di sostegno</string>
@@ -1029,4 +1029,6 @@
     <string name="settings_updates_check_now_title">Cerca aggiornamenti</string>
     <string name="settings_updates_check_now_subtitle">Installata: build %1$d</string>
     <string name="settings_updates_up_to_date">Hai già l'ultima versione</string>
+    <string name="donate_paypal_title">PayPal</string>
+    <string name="donate_paypal_subtitle">Una donazione diretta allo sviluppatore di Tubify</string>
 </resources>

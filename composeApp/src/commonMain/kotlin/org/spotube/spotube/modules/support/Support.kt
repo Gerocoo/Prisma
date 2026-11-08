@@ -17,6 +17,9 @@
 
 package org.spotube.spotube.modules.support
 
+import spotube.composeapp.generated.resources.donate_paypal_subtitle
+import spotube.composeapp.generated.resources.donate_paypal_title
+import org.spotube.spotube.resources.iconsax.IconsaxHeart
 import org.spotube.millennium.composables.MillenniumDialogHeader
 import org.spotube.millennium.composables.MillenniumDialogTitle
 import org.spotube.millennium.composables.MillenniumDialogClose
@@ -37,9 +40,6 @@ import androidx.compose.ui.unit.dp
 import com.composeunstyled.Text
 import org.spotube.spotube.core.ui.theming.AppTheme
 import org.spotube.spotube.openUrlInBrowser
-import org.spotube.spotube.resources.iconsax.BrandBuyMeACoffee
-import org.spotube.spotube.resources.iconsax.BrandOpencollective
-import org.spotube.spotube.resources.iconsax.BrandPatreon
 import org.spotube.spotube.resources.iconsax.Iconsax
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
@@ -52,12 +52,6 @@ import spotube.composeapp.generated.resources.support_dialog_dismiss
 import spotube.composeapp.generated.resources.support_dialog_message
 import spotube.composeapp.generated.resources.support_dialog_reminder_hint
 import spotube.composeapp.generated.resources.support_dialog_title
-import spotube.composeapp.generated.resources.welcome_donate_bmac_subtitle
-import spotube.composeapp.generated.resources.welcome_donate_bmac_title
-import spotube.composeapp.generated.resources.welcome_donate_opencollective_subtitle
-import spotube.composeapp.generated.resources.welcome_donate_opencollective_title
-import spotube.composeapp.generated.resources.welcome_donate_patreon_subtitle
-import spotube.composeapp.generated.resources.welcome_donate_patreon_title
 
 /** A single donation destination offered across the app. */
 data class DonationOption(
@@ -69,24 +63,17 @@ data class DonationOption(
 
 /** The donation destinations shown in onboarding, settings and the support prompt. */
 val donationOptions: List<DonationOption> = listOf(
+    // Tubify's only donation destination: PayPal to the developer of this fork.
     DonationOption(
-        id = "patreon",
-        title = Res.string.welcome_donate_patreon_title,
-        subtitle = Res.string.welcome_donate_patreon_subtitle,
-        url = "https://patreon.com/krtirtho",
-        icon = Iconsax.BrandPatreon),
-    DonationOption(
-        id = "buymeacoffee",
-        title = Res.string.welcome_donate_bmac_title,
-        subtitle = Res.string.welcome_donate_bmac_subtitle,
-        url = "https://www.buymeacoffee.com/krtirtho",
-        icon = Iconsax.BrandBuyMeACoffee),
-    DonationOption(
-        id = "opencollective",
-        title = Res.string.welcome_donate_opencollective_title,
-        subtitle = Res.string.welcome_donate_opencollective_subtitle,
-        url = "https://opencollective.com/spotube",
-        icon = Iconsax.BrandOpencollective))
+        id = "paypal",
+        title = Res.string.donate_paypal_title,
+        subtitle = Res.string.donate_paypal_subtitle,
+        url = TubifyDonationUrl,
+        icon = Iconsax.IconsaxHeart))
+
+/** PayPal donation page for geroco16@gmail.com. */
+const val TubifyDonationUrl: String =
+    "https://www.paypal.com/donate/?business=geroco16%40gmail.com&currency_code=EUR"
 
 /** Minimum time between two automatic support reminders. */
 const val SupportReminderIntervalMillis: Long = 7L * 24 * 60 * 60 * 1000
@@ -137,11 +124,7 @@ fun SupportDialog(
                             imageVector = option.icon,
                             contentDescription = null,
                             modifier = Modifier.size(20.dp),
-                            tint = if (option.id == "patreon") {
-                                AppTheme.colors.onSurface
-                            } else {
-                                Color.Unspecified
-                            })
+                            tint = AppTheme.colors.primary)
                         Text(stringResource(option.title))
                     }
                 }
