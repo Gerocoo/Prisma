@@ -17,6 +17,8 @@
 
 package org.spotube.spotube.core.navigation
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.EnterTransition
@@ -117,5 +119,22 @@ val navPushTransitionSpec: AnimatedContentTransitionScope<Scene<NavKey>>.() -> C
 val navPopTransitionSpec: AnimatedContentTransitionScope<Scene<NavKey>>.() -> ContentTransform =
     { stackTransition(forward = false) }
 
+/**
+ * Android predictive back, driven by the swipe: the page shrinks into a card and drifts toward
+ * the side being swiped from, while the page underneath comes forward from slightly smaller and
+ * dimmed. Releasing completes the motion, cancelling plays it back.
+ */
+private fun predictiveBack(swipeEdge: Int): ContentTransform {
+    val duration = TRANSITION_DURATION_MILLIS
+    val linear = tween<Float>(duration, easing = LinearEasing)
+    // Swipe edge: 0 = from the left (page drifts right), 1 = from the right (page drifts left).
+    val drift = if (swipeEdge == 1) -1 else 1
+    val exit = scaleOut(linear, targetScale = 0.86f) +
+        slideOutHorizontally(tween(duration, easing = LinearEasing)) { (it * 0.08f * drift).toInt() } +
+        fadeOut(tween(duration / 3, delayMillis = duration * 2 / 3, easing = LinearEasing))
+    val enter = scaleIn(linear, initialScale = 0.94f) + fadeIn(linear, initialAlpha = 0.4f)
+    return ContentTransform(enter, exit, targetContentZIndex = -1f)
+}
+
 val navPredictivePopTransitionSpec: AnimatedContentTransitionScope<Scene<NavKey>>.(Int) -> ContentTransform =
-    { stackTransition(forward = false) }
+    { edge -> predictiveBack(edge) }
