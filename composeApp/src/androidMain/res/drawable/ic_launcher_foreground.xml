@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2026 Kingkor Roy Tirtho and Spotube Contributors
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path android:pathData="M28.73,54.00 a25.27,25.27 0 1,0 50.54,0 a25.27,25.27 0 1,0 -50.54,0 Z" android:strokeColor="#FFFFFFFF" android:strokeWidth="0.68" android:fillColor="#00000000"/>
+    <path android:pathData="M34.05,54.00 a19.95,19.95 0 1,0 39.90,0 a19.95,19.95 0 1,0 -39.90,0 Z" android:strokeColor="#FFFFFFFF" android:strokeWidth="0.68" android:fillColor="#00000000"/>
+    <path android:pathData="M45.13,37.29 Q40.32,34.62 40.32,40.12 L40.32,67.88 Q40.32,73.38 45.13,70.71 L70.47,56.67 Q75.28,54.00 70.47,51.33 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="radial"
+                android:centerX="51"
+                android:centerY="54"
+                android:gradientRadius="21"
+                android:startColor="#FFF7C79A"
+                android:endColor="#FF9257D9"/>
+        </aapt:attr>
+    </path>
+    <path android:pathData="M77.18,47.73 L88.39,47.73 M77.18,47.73 L35.00,70.72" android:strokeColor="#FFFFFFFF" android:strokeWidth="3.61" android:fillColor="#00000000"/>
+    <path android:pathData="M74.33,47.73 a2.85,2.85 0 1,0 5.70,0 a2.85,2.85 0 1,0 -5.70,0 Z" android:fillColor="#FFFFFFFF"/>
+    <path android:pathData="M30.06,72.43 L33.29,64.07 L39.94,71.10 Z" android:fillColor="#FFFFFFFF" android:strokeColor="#FFFFFFFF" android:strokeWidth="1.2" android:strokeLineJoin="round"/>
+</vector>
