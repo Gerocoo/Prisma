@@ -61,6 +61,9 @@ jobs:
           chmod +x gradlew
           ./gradlew publishToMavenLocal --no-configuration-cache
 
+      - name: Build patched Millennium (no glass overlay)
+        run: app/.github/scripts/build-millennium.sh millennium-src
+
       # Fixed signing key, so every new build installs as an update over the previous one.
       # The key lives in the repository; for a private key, move it and the password into
       # repository secrets (KEYSTORE / KEYSTORE_PASSWORD) and they take precedence.
@@ -168,6 +171,12 @@ jobs:
 
       # Unsigned on purpose (no Apple developer account): SideStore / AltStore / Sideloadly
       # re-sign the IPA with the user's own Apple ID when installing it.
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4
+
+      - name: Build patched Millennium (no glass overlay)
+        run: app/.github/scripts/build-millennium.sh millennium-src
+
       - name: Build unsigned app
         working-directory: app
         env:
