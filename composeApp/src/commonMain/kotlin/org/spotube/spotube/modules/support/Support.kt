@@ -71,9 +71,9 @@ val donationOptions: List<DonationOption> = listOf(
         url = TubifyDonationUrl,
         icon = Iconsax.IconsaxHeart))
 
-/** PayPal donation page for geroco16@gmail.com. */
+/** PayPal.Me page of the developer of Tubify. */
 const val TubifyDonationUrl: String =
-    "https://www.paypal.com/donate/?business=geroco16%40gmail.com&currency_code=EUR"
+    "https://paypal.me/gerocoo16"
 
 /** Minimum time between two automatic support reminders. */
 const val SupportReminderIntervalMillis: Long = 7L * 24 * 60 * 60 * 1000
