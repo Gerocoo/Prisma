@@ -31,6 +31,8 @@ jobs:
         uses: actions/checkout@v7
         with:
           path: app
+          # Full history and tags: the release notes list the changes since the previous build.
+          fetch-depth: 0
 
       - name: Checkout ComposeNativeWebview
         uses: actions/checkout@v7
@@ -116,6 +118,26 @@ jobs:
 
       # Every successful build on master becomes a GitHub Release as soon as the APKs are ready;
       # the iPhone job attaches its IPA to the same release when it finishes (it is slower).
+      # Release notes = the commit titles since the previous build-N tag, as a readable list.
+      - name: Write release notes
+        if: github.ref == 'refs/heads/master'
+        working-directory: app
+        run: |
+          prev=$(git tag --list 'build-*' --sort=-v:refname | head -n 1)
+          {
+            echo "## Novità"
+            if [ -n "$prev" ]; then
+              git log --no-merges --format='- %s' "$prev..HEAD"
+            else
+              git log --no-merges --format='- %s' -n 20
+            fi
+            echo
+            echo "## Installazione"
+            echo "- **Android:** aggiorna dall'app (Impostazioni → Cerca aggiornamenti) oppure installa **Prisma-arm64-v8a.apk** (o **Prisma-universal.apk** se il primo non si installa)."
+            echo "- **iPhone:** **Prisma-ios.ipa** (arriva qualche minuto dopo) non è firmato: installalo con SideStore o AltStore."
+          } > "$GITHUB_WORKSPACE/release-notes.md"
+          cat "$GITHUB_WORKSPACE/release-notes.md"
+
       - name: Publish release
         if: github.ref == 'refs/heads/master'
         uses: softprops/action-gh-release@v2
@@ -124,10 +146,7 @@ jobs:
           name: Prisma build ${{ github.run_number }}
           target_commitish: ${{ github.sha }}
           make_latest: true
-          body: |
-            **Android:** installa **Prisma-arm64-v8a.apk** (quasi tutti i telefoni recenti) oppure **Prisma-universal.apk** se il primo non si installa.
-            **iPhone:** **Prisma-ios.ipa** (compare qualche minuto dopo) non è firmato: installalo con SideStore o AltStore, che lo firmano con il tuo Apple ID (con un Apple ID gratuito va rinnovato ogni 7 giorni).
-            Commit: ${{ github.sha }}
+          body_path: release-notes.md
           files: |
             out/Prisma-arm64-v8a.apk
             out/Prisma-armeabi-v7a.apk
