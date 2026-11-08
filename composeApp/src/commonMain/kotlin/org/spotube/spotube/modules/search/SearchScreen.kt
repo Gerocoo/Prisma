@@ -84,7 +84,7 @@ import org.spotube.millennium.composables.MillenniumAutocomplete
 import org.spotube.millennium.composables.MillenniumButton
 import org.spotube.millennium.composables.MillenniumButtonStyle
 import org.spotube.millennium.composables.MillenniumIcon
-import org.spotube.millennium.composables.MillenniumListTile
+import org.spotube.spotube.core.ui.component.MillenniumListTile
 import org.spotube.millennium.composables.MillenniumMarqueeProgress
 import org.spotube.millennium.composables.MillenniumText
 import org.spotube.millennium.theme.MillenniumTheme

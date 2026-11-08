@@ -19,7 +19,7 @@ package org.spotube.spotube.modules.settings.components
 
 import org.spotube.spotube.core.ui.theming.AppTheme
 import com.composeunstyled.Text
-import org.spotube.millennium.composables.MillenniumListTile
+import org.spotube.spotube.core.ui.component.MillenniumListTile
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 

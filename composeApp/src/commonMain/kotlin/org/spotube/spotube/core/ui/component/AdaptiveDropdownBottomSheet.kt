@@ -86,7 +86,7 @@ import com.composeunstyled.Text
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumIconButton
 import org.spotube.millennium.composables.MillenniumIconButtonStyle
-import org.spotube.millennium.composables.MillenniumListTile
+import org.spotube.spotube.core.ui.component.MillenniumListTile
 import org.spotube.millennium.composables.MillenniumModalBottomSheet
 import org.spotube.millennium.composables.MillenniumSeparator
 import org.spotube.millennium.composables.MillenniumText

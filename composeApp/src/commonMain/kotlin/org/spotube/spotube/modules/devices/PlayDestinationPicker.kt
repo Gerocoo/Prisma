@@ -25,7 +25,7 @@ import org.spotube.millennium.composables.MillenniumDialogBody
 import org.spotube.millennium.composables.MillenniumDialogFooter
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumDialog
-import org.spotube.millennium.composables.MillenniumListTile
+import org.spotube.spotube.core.ui.component.MillenniumListTile
 import org.spotube.millennium.composables.MillenniumButton
 import org.spotube.millennium.composables.MillenniumButtonStyle
 import androidx.compose.foundation.layout.Arrangement

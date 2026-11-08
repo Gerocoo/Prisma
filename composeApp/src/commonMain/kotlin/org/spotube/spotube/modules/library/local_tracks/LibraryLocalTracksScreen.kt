@@ -56,7 +56,7 @@ import org.spotube.millennium.composables.MillenniumButtonStyle
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumIconButton
 import org.spotube.millennium.composables.MillenniumIconButtonStyle
-import org.spotube.millennium.composables.MillenniumListTile
+import org.spotube.spotube.core.ui.component.MillenniumListTile
 import org.spotube.millennium.theme.MillenniumTheme
 import org.spotube.spotube.core.ui.theming.materialPanelBrush
 import org.spotube.spotube.core.ui.theming.materialSurface

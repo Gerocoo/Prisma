@@ -375,16 +375,16 @@ private fun MillenniumThemeComponents.uniform(colors: MillenniumColors): Millenn
     val tonal = SolidColor(colors.raised)
     return copy(
         buttonTheme = buttonTheme.copy(
-            primary = buttonTheme.primary.mapNoPress { it.copy(borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp) },
-            secondary = buttonTheme.secondary.mapNoPress { it.copy(borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp) },
-            quiet = buttonTheme.quiet.mapNoPress { it.copy(borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp) },
-            danger = buttonTheme.danger.mapNoPress { it.copy(borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp) }
+            primary = buttonTheme.primary.mapNoPress { it.copy(background = SolidColor(colors.accent), borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp) },
+            secondary = buttonTheme.secondary.mapNoPress { it.copy(background = tonal, borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp) },
+            quiet = buttonTheme.quiet.mapNoPress { it.copy(background = SolidColor(clear), borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp) },
+            danger = buttonTheme.danger.mapNoPress { it.copy(background = SolidColor(colors.danger), borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp) }
         ),
         iconButtonTheme = iconButtonTheme.copy(
-            primary = iconButtonTheme.primary.mapNoPress { it.copy(borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp, orb = false, orbColor = clear) },
-            secondary = iconButtonTheme.secondary.mapNoPress { it.copy(borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp, orb = false, orbColor = clear) },
-            quiet = iconButtonTheme.quiet.mapNoPress { it.copy(borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp, orb = false, orbColor = clear) },
-            danger = iconButtonTheme.danger.mapNoPress { it.copy(borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp, orb = false, orbColor = clear) }
+            primary = iconButtonTheme.primary.mapNoPress { it.copy(background = SolidColor(colors.accent), borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp, orb = false, orbColor = clear) },
+            secondary = iconButtonTheme.secondary.mapNoPress { it.copy(background = tonal, borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp, orb = false, orbColor = clear) },
+            quiet = iconButtonTheme.quiet.mapNoPress { it.copy(background = SolidColor(clear), borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp, orb = false, orbColor = clear) },
+            danger = iconButtonTheme.danger.mapNoPress { it.copy(background = SolidColor(colors.danger), borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp, orb = false, orbColor = clear) }
         ),
         cardTheme = cardTheme.copy(states = cardTheme.states.mapNoPress {
             it.copy(shadowElevation = 0.dp, shadowColor = clear, borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear)
@@ -419,7 +419,7 @@ private fun MillenniumThemeComponents.uniform(colors: MillenniumColors): Millenn
                 titleBarBorderColor = clear, footerBorderColor = clear)
         }),
         disclosureTheme = disclosureTheme.copy(states = disclosureTheme.states.mapNoPress {
-            it.copy(borderColor = clear, borderWidth = 0.dp, shadowElevation = 0.dp, innerGlowColor = clear)
+            it.copy(background = it.background ?: tonal, borderColor = clear, borderWidth = 0.dp, shadowElevation = 0.dp, innerGlowColor = clear)
         }),
         drawerTheme = drawerTheme.copy(states = drawerTheme.states.mapNoPress {
             it.copy(borderColor = clear, borderWidth = 0.dp, shadowElevation = 0.dp, innerGlowColor = clear)
@@ -445,7 +445,7 @@ private fun MillenniumThemeComponents.uniform(colors: MillenniumColors): Millenn
                 thumbElevation = 0.dp, thumbGlowColor = clear, thumbBottomRimColor = clear, trackInsetShadeColor = clear)
         }),
         tabGroupTheme = tabGroupTheme.copy(states = tabGroupTheme.states.mapNoPress {
-            it.copy(listBorderColor = clear, listBorderWidth = 0.dp, tabBorderWidth = 0.dp, tabElevation = 0.dp, tabGlowColor = clear)
+            it.copy(listBackground = it.listBackground ?: SolidColor(colors.surface), listBorderColor = clear, listBorderWidth = 0.dp, tabBorderWidth = 0.dp, tabElevation = 0.dp, tabGlowColor = clear)
         }),
         toggleSwitchTheme = toggleSwitchTheme.copy(states = toggleSwitchTheme.states.mapNoPress {
             it.copy(trackGlowColor = clear, thumbElevation = 0.dp, thumbBorderColor = clear, thumbBorderWidth = 0.dp, thumbGlowColor = clear)
