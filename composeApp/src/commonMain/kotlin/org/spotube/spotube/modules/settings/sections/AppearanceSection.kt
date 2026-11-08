@@ -272,7 +272,7 @@ private fun PalettePreview(palette: MillenniumPalette) {
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(14.dp))
                 .background(MillenniumTheme.colors.surface)
-                .border(1.dp, MillenniumTheme.colors.border, RoundedCornerShape(14.dp))
+                
                 .padding(14.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)) {
             MillenniumText(

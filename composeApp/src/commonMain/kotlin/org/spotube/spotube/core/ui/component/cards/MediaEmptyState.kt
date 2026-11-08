@@ -41,7 +41,7 @@ internal fun MediaEmptyState(
                     background = androidx.compose.ui.graphics.SolidColor(MillenniumTheme.colors.raised),
                     shape = RoundedCornerShape(14.dp),
                     borderColor = MillenniumTheme.colors.border,
-                    borderWidth = 1.dp
+                    borderWidth = 0.dp
                 ),
                 contentAlignment = Alignment.Center
             ) {

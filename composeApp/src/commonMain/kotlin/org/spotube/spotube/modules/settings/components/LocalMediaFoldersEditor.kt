@@ -111,7 +111,7 @@ internal fun LocalMediaFoldersEditorContent(
                     background = SolidColor(MillenniumTheme.colors.background),
                     shape = RoundedCornerShape(8.dp),
                     borderColor = MillenniumTheme.colors.border,
-                    borderWidth = 1.dp
+                    borderWidth = 0.dp
                 ),
             contentAlignment = Alignment.Center
         ) {
@@ -213,7 +213,7 @@ private fun LocalMediaFolderEditorRow(
                 background = androidx.compose.ui.graphics.SolidColor(MillenniumTheme.colors.raised),
                 shape = RoundedCornerShape(6.dp),
                 borderColor = MillenniumTheme.colors.border,
-                borderWidth = 1.dp
+                borderWidth = 0.dp
             ),
             contentAlignment = Alignment.Center
         ) {

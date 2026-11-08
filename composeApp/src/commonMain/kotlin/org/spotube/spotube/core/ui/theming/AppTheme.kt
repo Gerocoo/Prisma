@@ -365,6 +365,104 @@ private fun darkSurface(accent: Color, onAccent: Color) = MillenniumColors(
 )
 
 /**
+ * One flat Material look for every Millennium component, applied last. Millennium falls back to
+ * its glossy effects whenever an effect color is null, so every glow, shade, rim and border is
+ * set to transparent explicitly, every elevation to zero, and hover / press / focus all look like
+ * the resting state. No bevels, gel, shine or outlines anywhere in the app.
+ */
+private fun MillenniumThemeComponents.uniform(colors: MillenniumColors): MillenniumThemeComponents {
+    val clear = Color.Transparent
+    val tonal = SolidColor(colors.raised)
+    return copy(
+        buttonTheme = buttonTheme.copy(
+            primary = buttonTheme.primary.mapNoPress { it.copy(borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp) },
+            secondary = buttonTheme.secondary.mapNoPress { it.copy(borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp) },
+            quiet = buttonTheme.quiet.mapNoPress { it.copy(borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp) },
+            danger = buttonTheme.danger.mapNoPress { it.copy(borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp) }
+        ),
+        iconButtonTheme = iconButtonTheme.copy(
+            primary = iconButtonTheme.primary.mapNoPress { it.copy(borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp, orb = false, orbColor = clear) },
+            secondary = iconButtonTheme.secondary.mapNoPress { it.copy(borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp, orb = false, orbColor = clear) },
+            quiet = iconButtonTheme.quiet.mapNoPress { it.copy(borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp, orb = false, orbColor = clear) },
+            danger = iconButtonTheme.danger.mapNoPress { it.copy(borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear, shadows = emptyList(), shadowElevation = 0.dp, orb = false, orbColor = clear) }
+        ),
+        cardTheme = cardTheme.copy(states = cardTheme.states.mapNoPress {
+            it.copy(shadowElevation = 0.dp, shadowColor = clear, borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear, bottomRimColor = clear)
+        }),
+        listTileTheme = listTileTheme.copy(states = listTileTheme.states.mapNoPress {
+            it.copy(selectedGelStrength = 0f, borderWidth = 0.dp, borderColor = clear, innerGlowColor = clear)
+        }),
+        textFieldTheme = textFieldTheme.copy(states = textFieldTheme.states.mapNoPress {
+            it.copy(background = it.background ?: tonal, borderColor = clear, borderWidth = 0.dp,
+                insetShadeColor = clear, innerGlowColor = clear, bottomRimColor = clear)
+        }),
+        autocompleteTheme = autocompleteTheme.copy(states = autocompleteTheme.states.mapNoPress {
+            it.copy(panelBorderColor = clear, panelBorderWidth = 0.dp, panelShadowElevation = 0.dp, panelGlowColor = clear)
+        }),
+        avatarTheme = avatarTheme.copy(states = avatarTheme.states.mapNoPress {
+            it.copy(borderColor = clear, borderWidth = 0.dp, shadowElevation = 0.dp, shadowColor = clear, innerGlowColor = clear)
+        }),
+        bottomSheetTheme = bottomSheetTheme.copy(states = bottomSheetTheme.states.mapNoPress {
+            it.copy(borderColor = clear, borderWidth = 0.dp, shadowElevation = 0.dp, innerGlowColor = clear)
+        }),
+        modalBottomSheetTheme = modalBottomSheetTheme.copy(states = modalBottomSheetTheme.states.mapNoPress {
+            it.copy(borderColor = clear, borderWidth = 0.dp, shadowElevation = 0.dp, innerGlowColor = clear)
+        }),
+        checkboxTheme = checkboxTheme.copy(states = checkboxTheme.states.mapNoPress {
+            it.copy(faceGlowColor = clear, faceElevation = 0.dp)
+        }),
+        triStateCheckboxTheme = triStateCheckboxTheme.copy(states = triStateCheckboxTheme.states.mapNoPress {
+            it.copy(faceGlowColor = clear, faceElevation = 0.dp)
+        }),
+        dialogTheme = dialogTheme.copy(states = dialogTheme.states.mapNoPress {
+            it.copy(panelBorderColor = clear, panelBorderWidth = 0.dp, panelShadowElevation = 0.dp, panelGlowColor = clear,
+                titleBarBorderColor = clear, footerBorderColor = clear)
+        }),
+        disclosureTheme = disclosureTheme.copy(states = disclosureTheme.states.mapNoPress {
+            it.copy(borderColor = clear, borderWidth = 0.dp, shadowElevation = 0.dp, innerGlowColor = clear)
+        }),
+        drawerTheme = drawerTheme.copy(states = drawerTheme.states.mapNoPress {
+            it.copy(borderColor = clear, borderWidth = 0.dp, shadowElevation = 0.dp, innerGlowColor = clear)
+        }),
+        dropdownMenuTheme = dropdownMenuTheme.copy(states = dropdownMenuTheme.states.mapNoPress {
+            it.copy(panelBorderColor = clear, panelBorderWidth = 0.dp, panelShadowElevation = 0.dp, panelGlowColor = clear,
+                itemBorderColor = clear, itemBorderWidth = 0.dp, itemGlowColor = clear)
+        }),
+        progressTheme = progressTheme.copy(states = progressTheme.states.mapNoPress {
+            it.copy(borderColor = clear, borderWidth = 0.dp, innerGlowColor = clear)
+        }),
+        radioGroupTheme = radioGroupTheme.copy(states = radioGroupTheme.states.mapNoPress {
+            it.copy(indicatorGlowColor = clear, indicatorElevation = 0.dp)
+        }),
+        segmentedButtonTheme = segmentedButtonTheme.copy(states = segmentedButtonTheme.states.mapNoPress {
+            it.copy(borderWidth = 0.dp, borderColor = clear, innerGlowColor = clear)
+        }),
+        separatorTheme = separatorTheme.copy(states = separatorTheme.states.mapNoPress {
+            it.copy(highlightColor = clear, highlightWidth = 0.dp)
+        }),
+        sliderTheme = sliderTheme.copy(states = sliderTheme.states.mapNoPress {
+            it.copy(trackBorderColor = clear, trackBorderWidth = 0.dp, thumbBorderColor = clear, thumbBorderWidth = 0.dp,
+                thumbElevation = 0.dp, thumbGlowColor = clear, thumbBottomRimColor = clear, trackInsetShadeColor = clear)
+        }),
+        tabGroupTheme = tabGroupTheme.copy(states = tabGroupTheme.states.mapNoPress {
+            it.copy(listBorderColor = clear, listBorderWidth = 0.dp, tabBorderWidth = 0.dp, tabElevation = 0.dp, tabGlowColor = clear)
+        }),
+        toggleSwitchTheme = toggleSwitchTheme.copy(states = toggleSwitchTheme.states.mapNoPress {
+            it.copy(trackGlowColor = clear, thumbElevation = 0.dp, thumbBorderColor = clear, thumbBorderWidth = 0.dp, thumbGlowColor = clear)
+        }),
+        tooltipTheme = tooltipTheme.copy(states = tooltipTheme.states.mapNoPress {
+            it.copy(borderColor = clear, borderWidth = 0.dp, shadowElevation = 0.dp, innerGlowColor = clear)
+        }),
+        snackbarTheme = snackbarTheme.copy(properties = snackbarTheme.properties.copy(
+            borderColor = clear, borderWidth = 0.dp, shadowElevation = 0.dp, innerGlowColor = clear
+        )),
+        pullToRefreshTheme = pullToRefreshTheme.copy(properties = pullToRefreshTheme.properties.copy(
+            indicatorBorderColor = clear, indicatorBorderWidth = 0.dp, indicatorShadowElevation = 0.dp, indicatorInnerGlowColor = clear
+        ))
+    )
+}
+
+/**
  * Light surfaces: soft off-white ground with clearly darker tonal cards, near-black text and a
  * muted grey that still passes contrast on every surface.
  */
@@ -464,14 +562,14 @@ fun SpotubeTheme(
         config = MillenniumThemeConfig(
             colorSchemes = colorSchemes,
             palette = palette,
-            dark = darkTheme.expressive(colorSchemes.resolve(palette, dark = true)).copy(
+            dark = darkTheme.expressive(colorSchemes.resolve(palette, dark = true)).uniform(colorSchemes.resolve(palette, dark = true)).copy(
                 topAppBarTheme = MillenniumTopAppBarTheme(
                     properties = darkTheme.topAppBarTheme.properties.copy(
                         separatorColor = Color.Transparent
                     )
                 )
             ),
-            light = lightTheme.expressive(colorSchemes.resolve(palette, dark = false)).copy(
+            light = lightTheme.expressive(colorSchemes.resolve(palette, dark = false)).uniform(colorSchemes.resolve(palette, dark = false)).copy(
                 topAppBarTheme = MillenniumTopAppBarTheme(
                     properties = lightTheme.topAppBarTheme.properties.copy(
                         separatorColor = Color.Transparent

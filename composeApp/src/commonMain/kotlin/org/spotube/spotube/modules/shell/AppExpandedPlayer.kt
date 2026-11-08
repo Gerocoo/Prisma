@@ -374,7 +374,7 @@ fun AppExpandedPlayer(
                                     background = materialPanelBrush(MillenniumTheme.colors),
                                     shape = RoundedCornerShape(14.dp),
                                     borderColor = MillenniumTheme.colors.border,
-                                    borderWidth = 1.dp,
+                                    borderWidth = 0.dp,
                                     shadowElevation = 2.dp
                                 )
                                 .clickable {

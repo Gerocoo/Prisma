@@ -189,7 +189,7 @@ internal fun DownloadListRow(
             background = materialPanelBrush(colors),
             shape = RoundedCornerShape(8.dp),
             borderColor = colors.border,
-            borderWidth = 1.dp,
+            borderWidth = 0.dp,
             innerGlowColor = colors.highlight.copy(alpha = 0.2f)
         ).padding(12.dp), verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)

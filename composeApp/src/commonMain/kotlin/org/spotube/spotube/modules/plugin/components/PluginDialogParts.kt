@@ -99,7 +99,7 @@ internal fun PluginPanel(
                 background = materialPanelBrush(MillenniumTheme.colors),
                 shape = RoundedCornerShape(14.dp),
                 borderColor = AppTheme.colors.outlineVariant,
-                borderWidth = 1.dp),
+                borderWidth = 0.dp),
         content = content)
 }
 

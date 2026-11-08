@@ -188,7 +188,7 @@ private fun SettingsPane(
                     background = materialPanelBrush(MillenniumTheme.colors),
                     shape = AppTheme.shapes.large,
                     borderColor = MillenniumTheme.colors.border,
-                    borderWidth = 1.dp,
+                    borderWidth = 0.dp,
                     shadowElevation = 16.dp)) {
             SettingsSidebar(
                 tabs = tabs,

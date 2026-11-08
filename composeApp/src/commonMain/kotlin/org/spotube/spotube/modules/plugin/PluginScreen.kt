@@ -445,7 +445,7 @@ internal fun PluginScreenContent(
                                                 background = materialPanelBrush(MillenniumTheme.colors),
                                                 shape = RoundedCornerShape(12.dp),
                                                 borderColor = AppTheme.colors.outlineVariant,
-                                                borderWidth = 1.dp,
+                                                borderWidth = 0.dp,
                                                 shadowElevation = 6.dp)) {
                                         Column(
                                             modifier = Modifier.fillMaxWidth()
@@ -872,7 +872,7 @@ private fun DiscoverRepoCard(
                 background = materialPanelBrush(MillenniumTheme.colors),
                 shape = RoundedCornerShape(12.dp),
                 borderColor = AppTheme.colors.outlineVariant,
-                borderWidth = 1.dp,
+                borderWidth = 0.dp,
                 shadowElevation = 6.dp)
     ) {
         Row(

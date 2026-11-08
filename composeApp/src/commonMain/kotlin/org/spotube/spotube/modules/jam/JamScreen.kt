@@ -149,7 +149,7 @@ private fun JamPanel(content: @Composable ColumnScope.() -> Unit) {
             background = materialPanelBrush(MillenniumTheme.colors),
             shape = RoundedCornerShape(10.dp),
             borderColor = MillenniumTheme.colors.border,
-            borderWidth = 1.dp,
+            borderWidth = 0.dp,
             innerGlowColor = MillenniumTheme.colors.highlight.copy(alpha = 0.25f)
         ).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp),
@@ -332,7 +332,7 @@ internal fun SessionPanel(
                 background = SolidColor(MillenniumTheme.colors.background),
                 shape = RoundedCornerShape(5.dp),
                 borderColor = MillenniumTheme.colors.border,
-                borderWidth = 1.dp
+                borderWidth = 0.dp
             ).padding(12.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
@@ -380,7 +380,7 @@ internal fun SessionPanel(
                 background = SolidColor(MillenniumTheme.colors.background),
                 shape = RoundedCornerShape(5.dp),
                 borderColor = MillenniumTheme.colors.border,
-                borderWidth = 1.dp
+                borderWidth = 0.dp
             ).padding(10.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
@@ -399,7 +399,7 @@ internal fun SessionPanel(
                             background = androidx.compose.ui.graphics.SolidColor(MillenniumTheme.colors.raised),
                             shape = CircleShape,
                             borderColor = MillenniumTheme.colors.border,
-                            borderWidth = 1.dp
+                            borderWidth = 0.dp
                         ), contentAlignment = Alignment.Center
                     ) {
                         Text(participant.initial, style = AppTheme.typography.labelMedium)
