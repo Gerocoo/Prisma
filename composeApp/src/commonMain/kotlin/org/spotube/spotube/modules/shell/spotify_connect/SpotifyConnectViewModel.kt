@@ -44,6 +44,8 @@ data class SpotifyConnectUiState(
     val devices: List<SpotifyDevice> = emptyList(),
     val playback: SpotifyPlayback? = null,
     val error: SpotifyConnectError? = null,
+    /** Technical detail of the last failure (HTTP status and Spotify's message), for reports. */
+    val errorDetail: String? = null,
     /** Device id Prisma handed playback to; null while Prisma plays itself. */
     val remoteDeviceId: String? = null,
 ) {
@@ -103,7 +105,8 @@ class SpotifyConnectViewModel(
                     isLoading = false,
                     devices = devices,
                     playback = playback,
-                    error = if (devices.isEmpty()) SpotifyConnectError.NoDevices else null
+                    error = if (devices.isEmpty()) SpotifyConnectError.NoDevices else null,
+                    errorDetail = null
                 )
             }
         }.onFailure { e -> report(e) }
@@ -116,7 +119,11 @@ class SpotifyConnectViewModel(
             404 -> SpotifyConnectError.NoDevices
             else -> SpotifyConnectError.Failed
         }
-        _uiState.update { it.copy(isLoading = false, error = error) }
+        val detail = when (e) {
+            is SpotifyConnectException -> "HTTP ${e.status}: ${e.message.orEmpty().take(160)}"
+            else -> "${e::class.simpleName}: ${e.message.orEmpty().take(160)}"
+        }
+        _uiState.update { it.copy(isLoading = false, error = error, errorDetail = detail) }
     }
 
     private fun action(block: suspend () -> Unit) {

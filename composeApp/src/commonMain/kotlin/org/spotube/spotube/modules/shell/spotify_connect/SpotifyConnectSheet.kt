@@ -108,6 +108,9 @@ fun SpotifyConnectSheet(viewModel: SpotifyConnectViewModel) {
                         .background(colors.surfaceContainerHigh)
                         .padding(16.dp)
                 )
+                state.errorDetail?.let { detail ->
+                    Text(detail, style = AppTheme.typography.labelSmall, color = colors.onSurfaceVariant)
+                }
             }
 
             // Now playing on Spotify, with remote controls.
