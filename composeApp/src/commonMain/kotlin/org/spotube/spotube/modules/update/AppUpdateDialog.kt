@@ -17,6 +17,14 @@
 
 package org.spotube.spotube.modules.update
 
+import spotube.composeapp.generated.resources.app_update_failed
+import spotube.composeapp.generated.resources.app_update_installing
+import spotube.composeapp.generated.resources.app_update_downloading
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxWidth
+import org.spotube.spotube.core.ui.component.WavyLinearProgress
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.runtime.Composable
 import com.composeunstyled.Text
@@ -41,13 +49,26 @@ fun AppUpdateDialog(
     update: AvailableAppUpdate,
     onDismiss: () -> Unit,
     onIgnore: () -> Unit,
-    onUpdate: () -> Unit) {
+    onUpdate: () -> Unit,
+    progress: AppUpdateProgress? = null) {
     MillenniumAlertDialog(
         visible = true,
         onDismissRequest = onDismiss,
         title = { Text(stringResource(Res.string.app_update_dialog_title, update.tag)) },
         content = {
-            if (update.releaseNotesMarkdown.isNotBlank()) {
+            when (progress) {
+                is AppUpdateProgress.Downloading -> {
+                    Text(stringResource(Res.string.app_update_downloading, (progress.fraction * 100).toInt()))
+                    WavyLinearProgress(modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp))
+                }
+                AppUpdateProgress.Installing -> Text(stringResource(Res.string.app_update_installing))
+                is AppUpdateProgress.Failed -> Text(stringResource(Res.string.app_update_failed))
+                null -> {}
+            }
+            val busy = progress is AppUpdateProgress.Downloading || progress == AppUpdateProgress.Installing
+            if (busy) {
+                // Progress only while the update is on its way.
+            } else if (update.releaseNotesMarkdown.isNotBlank()) {
                 SelectionContainer {
                     Markdown(content = update.releaseNotesMarkdown)
                 }
@@ -60,7 +81,7 @@ fun AppUpdateDialog(
             style = MillenniumButtonStyle.Secondary) {
             Text(stringResource(Res.string.update_action_ignore))
         }
-        MillenniumButton(onClick = onUpdate) {
+        if (progress !is AppUpdateProgress.Downloading) MillenniumButton(onClick = onUpdate) {
             Text(stringResource(Res.string.update_action_update))
         }
     }

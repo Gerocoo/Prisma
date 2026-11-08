@@ -1023,4 +1023,10 @@
         <item quantity="one">%1$d ascolto</item>
         <item quantity="other">%1$d ascolti</item>
     </plurals>
+    <string name="app_update_downloading">Download dell'aggiornamento… %1$d%</string>
+    <string name="app_update_installing">Apertura dell'installazione…</string>
+    <string name="app_update_failed">Il download non è riuscito. Controlla la connessione e riprova.</string>
+    <string name="settings_updates_check_now_title">Cerca aggiornamenti</string>
+    <string name="settings_updates_check_now_subtitle">Installata: build %1$d</string>
+    <string name="settings_updates_up_to_date">Hai già l'ultima versione</string>
 </resources>

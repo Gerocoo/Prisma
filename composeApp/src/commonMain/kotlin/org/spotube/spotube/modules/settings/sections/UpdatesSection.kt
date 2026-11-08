@@ -17,6 +17,17 @@
 
 package org.spotube.spotube.modules.settings.sections
 
+import androidx.compose.runtime.Composable
+import spotube.composeapp.generated.resources.settings_updates_up_to_date
+import spotube.composeapp.generated.resources.settings_updates_check_now_subtitle
+import spotube.composeapp.generated.resources.settings_updates_check_now_title
+import org.spotube.spotube.resources.iconsax.IconsaxDocumentDownload
+import org.spotube.spotube.modules.settings.components.SettingCardItem
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
+import org.spotube.spotube.AppBuildInfo
+import org.spotube.spotube.modules.update.AppUpdateService
+import org.koin.compose.koinInject
 import androidx.compose.foundation.lazy.LazyListScope
 import org.spotube.spotube.modules.settings.SettingsViewModel
 import org.spotube.spotube.modules.settings.UserSettings
@@ -37,7 +48,7 @@ internal fun LazyListScope.updatesSection(
         settingsSectionHeader(Res.string.settings_section_updates)
     }
     settingsSectionCard(
-        items = listOf {
+        items = listOf<@Composable () -> Unit>({
             SwitchSettingCard(
                 title = stringResource(Res.string.settings_updates_auto_check_title),
                 subtitle = stringResource(Res.string.settings_updates_auto_check_subtitle),
@@ -54,7 +65,24 @@ internal fun LazyListScope.updatesSection(
                     }
                 }
             )
-        }
+        }, {
+            // Manual check: opens the update dialog (download + install inside the app) when a
+            // newer build exists, otherwise says so in the subtitle.
+            val updateService = koinInject<AppUpdateService>()
+            val upToDate by updateService.upToDate.collectAsState()
+            SettingCardItem(
+                title = stringResource(Res.string.settings_updates_check_now_title),
+                subtitle = if (upToDate == true) stringResource(Res.string.settings_updates_up_to_date)
+                    else stringResource(Res.string.settings_updates_check_now_subtitle, AppBuildInfo.BUILD_NUMBER),
+                icon = {
+                    SettingsItemIcon(
+                        Iconsax.IconsaxDocumentDownload,
+                        stringResource(Res.string.settings_updates_check_now_title)
+                    )
+                },
+                onClick = updateService::checkNow
+            )
+        })
     )
 }
 

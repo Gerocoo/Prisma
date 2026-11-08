@@ -73,9 +73,11 @@ val isProductionBuild = providers.gradleProperty("production").map { it.toBoolea
 )
 val targetName = "Spotube"
 val homePageUrl = "https://spotube.cc"
-val repositoryUrl = "https://github.com/team-spotube/spotube"
+val repositoryUrl = "https://github.com/Gerocoo/Tubify"
 val appVersionName = if (betaNumber != null) "$version-beta.$betaNumber" else version
-val appBuildNumber = if (isNightly) nightlyBuildNumber else buildNumber
+// Every CI build gets its run number as versionCode, so the in-app updater can install it over the
+// previous one (Android refuses lower versionCodes). Local builds fall back to buildNumber.
+val appBuildNumber = nightlyBuildNumber
 val appRepositoryUrl = repositoryUrl
 // CI reads the release version from here instead of scraping this file.
 tasks.register("printVersion") {

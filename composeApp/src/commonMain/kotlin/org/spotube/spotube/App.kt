@@ -163,6 +163,7 @@ fun App(
     val appUpdateService: AppUpdateService = koinInject()
     val pluginUpdateService: PluginUpdateService = koinInject()
     val availableAppUpdate by appUpdateService.availableUpdate.collectAsStateWithLifecycle()
+    val appUpdateProgress by appUpdateService.progress.collectAsStateWithLifecycle()
     val availablePluginUpdate by pluginUpdateService.availableUpdate.collectAsStateWithLifecycle()
 
     val welcomeRepository: WelcomeRepository = koinInject()
@@ -256,9 +257,9 @@ fun App(
                         onDismiss = appUpdateService::dismissUpdate,
                         onIgnore = appUpdateService::ignoreUpdate,
                         onUpdate = {
-                            runCatching { openUrlInBrowser("https://spotube.cc/downloads/") }
-                            appUpdateService.dismissUpdate()
-                        })
+                            appUpdateService.startUpdate { url -> runCatching { openUrlInBrowser(url) } }
+                        },
+                        progress = appUpdateProgress)
                 }
                 availablePluginUpdate?.let { update ->
                     PluginUpdateDialog(

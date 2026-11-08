@@ -1018,4 +1018,10 @@
         <item quantity="one">%1$d play</item>
         <item quantity="other">%1$d plays</item>
     </plurals>
+    <string name="app_update_downloading">Downloading update… %1$d%</string>
+    <string name="app_update_installing">Opening the installer…</string>
+    <string name="app_update_failed">The download failed. Check your connection and try again.</string>
+    <string name="settings_updates_check_now_title">Check for updates</string>
+    <string name="settings_updates_check_now_subtitle">Installed: build %1$d</string>
+    <string name="settings_updates_up_to_date">You already have the latest version</string>
 </resources>
