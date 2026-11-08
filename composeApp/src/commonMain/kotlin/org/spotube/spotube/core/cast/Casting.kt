@@ -16,6 +16,7 @@
  */
 package org.spotube.spotube.core.cast
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
@@ -24,4 +25,10 @@ expect fun supportsCasting(): Boolean
 
 /** Button that opens the Cast device picker; renders nothing where casting isn't supported. */
 @Composable
-expect fun CastButton(modifier: Modifier = Modifier)
+expect fun CastButton(
+    modifier: Modifier = Modifier,
+    /** Fill of the round button, to match the other player buttons; transparent by default. */
+    background: Color = Color.Transparent,
+    /** Icon color; unspecified keeps the theme's muted icon color. */
+    tint: Color = Color.Unspecified
+)

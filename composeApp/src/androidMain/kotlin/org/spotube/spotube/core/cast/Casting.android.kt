@@ -16,6 +16,14 @@
  */
 package org.spotube.spotube.core.cast
 
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.Alignment
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.background
+import androidx.compose.ui.graphics.Color
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
@@ -47,7 +55,7 @@ private fun localNetworkPermission(): String? = when {
 
 @OptIn(UnstableApi::class)
 @Composable
-actual fun CastButton(modifier: Modifier) {
+actual fun CastButton(modifier: Modifier, background: Color, tint: Color) {
     // Cast is initialized in MyApplication; without Google Play services it never becomes
     // ready, so the button stays hidden instead of crashing.
     val context = androidx.compose.ui.platform.LocalContext.current
@@ -63,7 +71,14 @@ actual fun CastButton(modifier: Modifier) {
     }
     val cast = runCatching { Cast.getSingletonInstance(context) }.getOrNull() ?: return
     if (cast.needsInitialization() || cast.castContextLoadFailure != null) return
-    CompositionLocalProvider(LocalContentColor provides AppTheme.colors.onSurfaceVariant) {
-        MediaRouteButton(modifier = modifier)
+    // Same round tonal button as the queue and options buttons next to it.
+    val iconColor = if (tint == Color.Unspecified) AppTheme.colors.onSurfaceVariant else tint
+    Box(
+        modifier = modifier.size(44.dp).clip(CircleShape).background(background),
+        contentAlignment = Alignment.Center
+    ) {
+        CompositionLocalProvider(LocalContentColor provides iconColor) {
+            MediaRouteButton(modifier = Modifier.size(44.dp))
+        }
     }
 }

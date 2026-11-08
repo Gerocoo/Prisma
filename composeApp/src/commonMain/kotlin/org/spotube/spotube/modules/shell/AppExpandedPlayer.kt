@@ -529,7 +529,7 @@ fun AppExpandedPlayer(
                     modifier = Modifier.weight(1f).padding(start = 6.dp),
                     maxLines = 1
                 )
-                CastButton()
+                CastButton(background = art.containerHigh, tint = art.onContainer)
                 PlayerRoundButton(onClick = onQueue, background = art.containerHigh) {
                     MillenniumIcon(
                         Iconsax.IconsaxMusicFilter,

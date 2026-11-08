@@ -16,10 +16,11 @@
  */
 package org.spotube.spotube.core.cast
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 actual fun supportsCasting(): Boolean = false
 
 @Composable
-actual fun CastButton(modifier: Modifier) = Unit
+actual fun CastButton(modifier: Modifier, background: Color, tint: Color) = Unit
