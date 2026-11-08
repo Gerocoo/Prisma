@@ -21,3 +21,16 @@ import androidx.compose.runtime.Composable
 /** Intercepts the system back gesture/button while [enabled] (Android); no-op elsewhere. */
 @Composable
 expect fun PlatformBackHandler(enabled: Boolean, onBack: () -> Unit)
+
+/**
+ * Back handler that follows Android's predictive back gesture: [onProgress] gets 0..1 while the
+ * user swipes, then [onBack] if they release or [onCancel] if they change their mind.
+ * Platforms without the gesture just call [onBack].
+ */
+@Composable
+expect fun PlatformPredictiveBackHandler(
+    enabled: Boolean,
+    onProgress: (Float) -> Unit,
+    onCancel: () -> Unit,
+    onBack: () -> Unit
+)

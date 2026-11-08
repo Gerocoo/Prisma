@@ -16,8 +16,33 @@
  */
 package org.spotube.spotube.core.ui.component
 
+import kotlin.coroutines.cancellation.CancellationException
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.getValue
+import androidx.activity.compose.PredictiveBackHandler
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 
 @Composable
 actual fun PlatformBackHandler(enabled: Boolean, onBack: () -> Unit) = BackHandler(enabled, onBack)
+
+@Composable
+actual fun PlatformPredictiveBackHandler(
+    enabled: Boolean,
+    onProgress: (Float) -> Unit,
+    onCancel: () -> Unit,
+    onBack: () -> Unit
+) {
+    val progressCallback by rememberUpdatedState(onProgress)
+    val cancelCallback by rememberUpdatedState(onCancel)
+    val backCallback by rememberUpdatedState(onBack)
+    PredictiveBackHandler(enabled) { events ->
+        try {
+            events.collect { event -> progressCallback(event.progress) }
+            backCallback()
+        } catch (e: CancellationException) {
+            cancelCallback()
+            throw e
+        }
+    }
+}

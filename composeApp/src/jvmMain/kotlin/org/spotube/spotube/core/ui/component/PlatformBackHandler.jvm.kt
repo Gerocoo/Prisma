@@ -20,3 +20,11 @@ import androidx.compose.runtime.Composable
 
 @Composable
 actual fun PlatformBackHandler(enabled: Boolean, onBack: () -> Unit) = Unit
+
+@Composable
+actual fun PlatformPredictiveBackHandler(
+    enabled: Boolean,
+    onProgress: (Float) -> Unit,
+    onCancel: () -> Unit,
+    onBack: () -> Unit
+) = PlatformBackHandler(enabled, onBack)

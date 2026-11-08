@@ -17,6 +17,8 @@
 
 package org.spotube.spotube.modules.shell
 
+import org.spotube.spotube.core.ui.component.PlatformPredictiveBackHandler
+import androidx.compose.runtime.mutableFloatStateOf
 import org.spotube.spotube.core.ui.theming.AppTheme
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
@@ -302,7 +304,14 @@ fun AppShell(
                         )
                     }
 
-                    PlatformBackHandler(enabled = isLyricsOverlayVisible) { viewModel.hideLyricsOverlay() }
+                    // Predictive back: the lyrics page shrinks into a rounded card while swiping.
+                    var lyricsBack by remember { mutableFloatStateOf(0f) }
+                    PlatformPredictiveBackHandler(
+                        enabled = isLyricsOverlayVisible,
+                        onProgress = { lyricsBack = it },
+                        onCancel = { lyricsBack = 0f },
+                        onBack = { viewModel.hideLyricsOverlay(); lyricsBack = 0f }
+                    )
                     AnimatedVisibility(
                         visible = isLyricsOverlayVisible,
                         enter = fadeIn(tween(260)) + scaleIn(
@@ -312,7 +321,7 @@ fun AppShell(
                             slideOutVertically(tween(220)) { it / 12 }
                     ) {
                         LyricsScreen(
-                            modifier = Modifier.fillMaxSize(),
+                            modifier = Modifier.fillMaxSize().predictiveBackCard { lyricsBack },
                             onClose = { viewModel.hideLyricsOverlay() })
                     }
                 }
@@ -412,9 +421,19 @@ internal fun CompactPlayerOverlay(
     if (expandedPlayerVisible) expandedPlayerComposed = true
 
     // Back closes the full-screen player (back to the page underneath) instead of leaving the app.
-    PlatformBackHandler(enabled = sheetState.currentDetent == SheetDetent.FullyExpanded) {
-        scope.launch { sheetState.animateTo(partialDetent) }
-    }
+    // Predictive back: swiping back shrinks the full player into a card, releasing collapses it.
+    var playerBack by remember { mutableFloatStateOf(0f) }
+    PlatformPredictiveBackHandler(
+        enabled = sheetState.currentDetent == SheetDetent.FullyExpanded,
+        onProgress = { playerBack = it },
+        onCancel = { playerBack = 0f },
+        onBack = {
+            scope.launch {
+                sheetState.animateTo(partialDetent)
+                playerBack = 0f
+            }
+        }
+    )
 
     Box(modifier = Modifier.fillMaxSize()) {
         // Opening the player pushes the page back: it shrinks a little, blurs and dims, so the
@@ -448,6 +467,7 @@ internal fun CompactPlayerOverlay(
                     Box(
                         Modifier
                             .fillMaxSize()
+                            .predictiveBackCard { playerBack }
                             .graphicsLayer {
                                 val p = progress
                                 alpha = if (p > 0.001f) 1f else 0f
@@ -463,6 +483,7 @@ internal fun CompactPlayerOverlay(
                         expandedPlayer(
                             Modifier
                                 .fillMaxSize()
+                                .predictiveBackCard { playerBack }
                                 .graphicsLayer {
                                     val p = progress
                                     alpha = ((p - 0.25f) / 0.55f).coerceIn(0f, 1f)
@@ -529,4 +550,20 @@ private class MorphingCardShape(private val inset: Float, private val radius: Fl
                 cornerRadius = CornerRadius(radius, radius)
             )
         )
+}
+
+/**
+ * Material predictive-back look: while the back swipe progresses the content scales down to 90%,
+ * gets rounded corners and drifts slightly, like a card about to be dismissed.
+ */
+private fun Modifier.predictiveBackCard(progress: () -> Float): Modifier = graphicsLayer {
+    val p = progress().coerceIn(0f, 1f)
+    if (p > 0f) {
+        val scale = 1f - 0.1f * p
+        scaleX = scale
+        scaleY = scale
+        translationX = 8.dp.toPx() * p
+        shape = RoundedCornerShape(32.dp.toPx() * p)
+        clip = true
+    }
 }
