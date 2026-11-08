@@ -121,7 +121,7 @@
     <string name="settings_option_name_and_code">%1$s (%2$s)</string>
 
     <string name="settings_theme_title">थीम</string>
-    <string name="settings_theme_subtitle_current">चुनें कि Tubify आपके सिस्टम की दिखावट से कैसे मेल खाए। मौजूदा: %1$s</string>
+    <string name="settings_theme_subtitle_current">चुनें कि Prisma आपके सिस्टम की दिखावट से कैसे मेल खाए। मौजूदा: %1$s</string>
     <string name="settings_theme_light">लाइट</string>
     <string name="settings_theme_dark">डार्क</string>
     <string name="settings_theme_system">सिस्टम</string>
@@ -171,7 +171,7 @@
     <string name="settings_download_folder_title">डाउनलोड फ़ोल्डर बदलें</string>
     <string name="settings_download_folder_current">मौजूदा फ़ोल्डर: %1$s</string>
     <string name="settings_download_folder_description">डिफ़ॉल्ट म्यूज़िक फ़ोल्डर इस्तेमाल करने के लिए इसे खाली छोड़ें।</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Tubify</string>
+    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">लोकल मीडिया फ़ोल्डर</string>
     <string name="settings_local_media_folders_subtitle_current">डेस्कटॉप पर स्कैन करने के लिए कस्टम फ़ोल्डर। जोड़े गए: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">अभी तक कोई कस्टम फ़ोल्डर नहीं जोड़ा गया</string>
@@ -216,8 +216,8 @@
     <string name="settings_allow_remote_control_subtitle">एक ही नेटवर्क के दूसरे डिवाइस कनेक्ट होने पर प्लेबैक कंट्रोल कर सकें।</string>
     <string name="settings_remote_device_name_title">रिमोट कंट्रोल डिवाइस का नाम</string>
     <string name="settings_remote_device_name_subtitle">यह नाम दूसरे डिवाइस को इस डिवाइस को खोजते समय दिखता है। मौजूदा: %1$s</string>
-    <string name="settings_remote_device_name_description">एक आसान नाम चुनें, जो आपके नेटवर्क के दूसरे डिवाइस को यह Tubify खोजते समय दिखे।</string>
-    <string name="settings_remote_device_name_placeholder">जैसे लिविंग रूम Tubify</string>
+    <string name="settings_remote_device_name_description">एक आसान नाम चुनें, जो आपके नेटवर्क के दूसरे डिवाइस को यह Prisma खोजते समय दिखे।</string>
+    <string name="settings_remote_device_name_placeholder">जैसे लिविंग रूम Prisma</string>
     <string name="settings_remote_device_name_default">डिवाइस होस्टनेम</string>
     <string name="settings_playback_port_subtitle_current">प्लेबैक प्रॉक्सी सर्वर का पोर्ट। मौजूदा: %1$d</string>
     <string name="settings_playback_port_description">1 से 65535 के बीच कोई पोर्ट चुनें।</string>
@@ -229,12 +229,12 @@
     <string name="settings_blacklist_subtitle">ब्लैकलिस्ट किए गए ट्रैक और कलाकार मैनेज करें</string>
 
     <string name="settings_desktop_minimize_title">ट्रे में छोटा करें</string>
-    <string name="settings_desktop_minimize_subtitle">विंडो छोटी करने पर Tubify को सिस्टम ट्रे में चलता रहने दें।</string>
+    <string name="settings_desktop_minimize_subtitle">विंडो छोटी करने पर Prisma को सिस्टम ट्रे में चलता रहने दें।</string>
     <string name="settings_desktop_discord_title">Discord रिच प्रेज़ेंस</string>
     <string name="settings_desktop_discord_subtitle">डेस्कटॉप पर Discord में आपका मौजूदा प्लेबैक स्टेटस दिखाएं।</string>
 
     <string name="settings_updates_auto_check_title">अपडेट अपने-आप जांचें</string>
-    <string name="settings_updates_auto_check_subtitle">बैकग्राउंड में Tubify के नए रिलीज़ देखें।</string>
+    <string name="settings_updates_auto_check_subtitle">बैकग्राउंड में Prisma के नए रिलीज़ देखें।</string>
 
     <string name="settings_plugins_manage_title">प्लगइन मैनेज करें</string>
     <string name="settings_plugins_manage_subtitle">अपने प्लगइन मैनेज करें</string>
@@ -299,7 +299,7 @@
     <string name="settings_jam_broker_username">यूज़रनेम (वैकल्पिक)</string>
     <string name="settings_jam_broker_password">पासवर्ड (वैकल्पिक)</string>
     <string name="settings_jam_broker_client_id">क्लाइंट ID प्रीफ़िक्स</string>
-    <string name="settings_jam_broker_client_id_subtitle">इस Tubify की पहचान के लिए इस्तेमाल होता है</string>
+    <string name="settings_jam_broker_client_id_subtitle">इस Prisma की पहचान के लिए इस्तेमाल होता है</string>
     <string name="settings_jam_broker_tls_subtitle">ब्रोकर कनेक्शन एन्क्रिप्ट करें</string>
     <string name="settings_jam_broker_diagnostics_subtitle">रूम शुरू करने से पहले मौजूदा ब्रोकर सेटिंग जांचें।</string>
     <string name="settings_jam_broker_test">कनेक्शन टेस्ट करें</string>
@@ -343,7 +343,7 @@
     <string name="jam_error_create">जैम सेशन नहीं बन सका</string>
     <string name="jam_error_join">जैम सेशन से नहीं जुड़ सके</string>
     <string name="jam_error_invalid_code">अक्षरों और अंकों वाला छह अक्षर का रूम कोड डालें।</string>
-    <string name="jam_share_message">मेरे Tubify जैम से जुड़ें, कोड: %1$s</string>
+    <string name="jam_share_message">मेरे Prisma जैम से जुड़ें, कोड: %1$s</string>
 
     <string name="player_go_to_album">एल्बम पर जाएं</string>
     <string name="player_sleep_timer">स्लीप टाइमर</string>
@@ -355,8 +355,8 @@
 
     <string name="update_action_ignore">अनदेखा करें</string>
     <string name="update_action_update">अपडेट करें</string>
-    <string name="app_update_dialog_title">Tubify %1$s उपलब्ध है</string>
-    <string name="app_update_dialog_no_notes">इस रिलीज़ में क्या नया है, यह Tubify डाउनलोड पेज पर देखें।</string>
+    <string name="app_update_dialog_title">Prisma %1$s उपलब्ध है</string>
+    <string name="app_update_dialog_no_notes">इस रिलीज़ में क्या नया है, यह Prisma डाउनलोड पेज पर देखें।</string>
     <string name="plugin_update_dialog_title">%1$s %2$s उपलब्ध है</string>
     <string name="plugin_update_dialog_current_version">अभी इंस्टॉल है: %1$s</string>
     <string name="plugin_update_dialog_no_notes">इस अपडेट में क्या नया है, यह प्लगइन के पेज पर देखें।</string>
@@ -365,11 +365,11 @@
     <string name="welcome_next">आगे</string>
     <string name="welcome_back">पीछे</string>
     <string name="welcome_get_started">शुरू करें</string>
-    <string name="welcome_app_name">Tubify</string>
+    <string name="welcome_app_name">Prisma</string>
     <string name="welcome_brand_freedom">संगीत, बिना किसी बंधन के।</string>
     <string name="welcome_brand_quiet_description">संगीत की दुनिया के लिए एक ओपन-सोर्स प्लेयर।\nखोजिए अपने तरीके से। बनाइए इसे अपना।</string>
     <string name="welcome_donate_quiet_title">इस प्रोजेक्ट को चलते रहने दें।</string>
-    <string name="welcome_donate_letter">Tubify को लोग बनाते हैं, कोई सब्सक्रिप्शन बिज़नेस नहीं। अगर यह आपकी रोज़ की ज़िंदगी का हिस्सा बन जाए, तो थोड़ा सा सहयोग हमें इसकी वह देखभाल करने में मदद करता है जिसका यह हकदार है।\n\nस्वतंत्र सॉफ़्टवेयर को जगह देने के लिए धन्यवाद।</string>
+    <string name="welcome_donate_letter">Prisma को लोग बनाते हैं, कोई सब्सक्रिप्शन बिज़नेस नहीं। अगर यह आपकी रोज़ की ज़िंदगी का हिस्सा बन जाए, तो थोड़ा सा सहयोग हमें इसकी वह देखभाल करने में मदद करता है जिसका यह हकदार है।\n\nस्वतंत्र सॉफ़्टवेयर को जगह देने के लिए धन्यवाद।</string>
     <string name="welcome_plugins_setup_guide">गाने और प्लेलिस्ट ढूंढने के लिए किसी कैटलॉग प्लगइन से शुरुआत करें। उन्हें चलाने के लिए एक ऑडियो प्लगइन चुनें। लिरिक्स और सुनने का इतिहास वैकल्पिक हैं। नीचे कोई प्लगइन खोजें, उसकी अनुमतियां देखें, इंस्टॉल करें, फिर उसे यहां चुनें।</string>
     <string name="welcome_plugins_discover">प्लगइन खोजें</string>
     <string name="welcome_plugins_sources">आपके सोर्स</string>
@@ -382,7 +382,7 @@
     <string name="welcome_step_plugins">प्लगइन</string>
     <string name="welcome_step_guide">गाइड</string>
 
-    <string name="welcome_guide_title">Tubify कैसे इस्तेमाल करें</string>
+    <string name="welcome_guide_title">Prisma कैसे इस्तेमाल करें</string>
     <string name="welcome_guide_subtitle">चार आसान स्टेप और आप सुनना शुरू कर सकते हैं।</string>
     <string name="welcome_guide_signin_title">साइन इन करें</string>
     <string name="welcome_guide_signin_desc">अपना अकाउंट कनेक्ट करें, या अपना कैटलॉग प्लगइन चुनें।</string>
@@ -405,7 +405,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">सहयोगियों से हम चलते हैं</string>
     <string name="welcome_donate_title">जुनून से बना। आपसे ज़िंदा।</string>
-    <string name="welcome_donate_message">Tubify 100% मुफ़्त, स्वतंत्र और ओपन सोर्स है — न विज्ञापन, न सब्सक्रिप्शन, न ट्रैकिंग। हर फ़ीचर इसलिए है क्योंकि आप जैसे लोगों ने कोड को आगे बढ़ाने में मदद करना चुना।</string>
+    <string name="welcome_donate_message">Prisma 100% मुफ़्त, स्वतंत्र और ओपन सोर्स है — न विज्ञापन, न सब्सक्रिप्शन, न ट्रैकिंग। हर फ़ीचर इसलिए है क्योंकि आप जैसे लोगों ने कोड को आगे बढ़ाने में मदद करना चुना।</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">मासिक स्पॉन्सर</string>
     <string name="welcome_donate_patreon_subtitle">लगातार डेवलपमेंट और इंफ्रास्ट्रक्चर में सहयोग करें</string>
@@ -416,14 +416,14 @@
     <string name="welcome_donate_opencollective_tag">कम्युनिटी फ़ंड</string>
     <string name="welcome_donate_opencollective_subtitle">पारदर्शी, कम्युनिटी द्वारा संचालित आर्थिक सहयोग</string>
     <string name="welcome_donate_thanks">ओपन म्यूज़िक पर भरोसा करने के लिए दिल से धन्यवाद।</string>
-    <string name="welcome_donate_optional">सहयोग करना पूरी तरह वैकल्पिक है — Tubify हर हाल में मुफ़्त रहेगा।</string>
+    <string name="welcome_donate_optional">सहयोग करना पूरी तरह वैकल्पिक है — Prisma हर हाल में मुफ़्त रहेगा।</string>
     <string name="welcome_donate_action">स्पॉन्सर करें</string>
     <string name="welcome_donate_open_content_description">%1$s खोलें</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">Tubify को सहयोग दें</string>
-    <string name="support_dialog_title">Tubify को सहयोग दें</string>
-    <string name="support_dialog_message">Tubify मुफ़्त, स्वतंत्र और ओपन सोर्स है — न विज्ञापन, न सब्सक्रिप्शन, न ट्रैकिंग। अगर यह आपको खुशी देता है, तो प्रोजेक्ट को सहयोग देने के बारे में सोचें।</string>
+    <string name="support_button_label">Prisma को सहयोग दें</string>
+    <string name="support_dialog_title">Prisma को सहयोग दें</string>
+    <string name="support_dialog_message">Prisma मुफ़्त, स्वतंत्र और ओपन सोर्स है — न विज्ञापन, न सब्सक्रिप्शन, न ट्रैकिंग। अगर यह आपको खुशी देता है, तो प्रोजेक्ट को सहयोग देने के बारे में सोचें।</string>
     <string name="support_dialog_reminder_hint">आप ये रिमाइंडर सेटिंग → सहयोग में बंद कर सकते हैं।</string>
     <string name="support_dialog_dismiss">बाद में</string>
     <string name="settings_support_reminders_title">सहयोग रिमाइंडर</string>
@@ -432,7 +432,7 @@
     <!-- Page 3: plugins -->
     <string name="welcome_plugins_eyebrow">मॉड्यूलर आर्किटेक्चर</string>
     <string name="welcome_plugins_title">चुनें कि आपका संगीत कहां से आए।</string>
-    <string name="welcome_plugins_subtitle">Tubify कैटलॉग खोज, ऑडियो स्ट्रीमिंग और सिंक्ड लिरिक्स को अलग रखता है। नीचे अपने इंजन सेट करें या उन्हें कभी भी बदलें।</string>
+    <string name="welcome_plugins_subtitle">Prisma कैटलॉग खोज, ऑडियो स्ट्रीमिंग और सिंक्ड लिरिक्स को अलग रखता है। नीचे अपने इंजन सेट करें या उन्हें कभी भी बदलें।</string>
     <string name="welcome_plugins_metadata_title">मेटाडेटा इंजन</string>
     <string name="welcome_plugins_metadata_description">म्यूज़िक खोज, सर्च, ट्रैक लिस्टिंग और प्लेलिस्ट को चलाता है।</string>
     <string name="welcome_plugins_audio_title">ऑडियो इंजन</string>
@@ -454,13 +454,13 @@
     <!-- Page 4: how it works -->
     <string name="welcome_how_eyebrow">रेट्रो-मॉडर्न आर्किटेक्चर</string>
     <string name="welcome_how_title">शुद्ध Hi-Fi, कोई बिचौलिया नहीं</string>
-    <string name="welcome_how_subtitle">देखिए Tubify कैसे आपकी मशीन पर सीधे डीसेंट्रलाइज़्ड प्लेबैक चलाता है।</string>
+    <string name="welcome_how_subtitle">देखिए Prisma कैसे आपकी मशीन पर सीधे डीसेंट्रलाइज़्ड प्लेबैक चलाता है।</string>
     <string name="welcome_how_status_badge">सीधा पीयर-टू-पीयर • 256 KBPS OPUS</string>
     <string name="welcome_how_mockup_title">ब्लू आवर</string>
-    <string name="welcome_how_mockup_artist">Tubify · प्लेयर डेमो</string>
+    <string name="welcome_how_mockup_artist">Prisma · प्लेयर डेमो</string>
     <string name="welcome_how_mockup_lyric">बीच के पलों के लिए थोड़ा सा संगीत।</string>
     <string name="welcome_how_step_search_title">1. डीसेंट्रलाइज़्ड खोज</string>
-    <string name="welcome_how_step_search_desc">सर्च सीधे आपके चुने हुए कैटलॉग प्लगइन तक जाती है। Tubify कभी आपकी पसंद की प्रोफ़ाइल नहीं बनाता।</string>
+    <string name="welcome_how_step_search_desc">सर्च सीधे आपके चुने हुए कैटलॉग प्लगइन तक जाती है। Prisma कभी आपकी पसंद की प्रोफ़ाइल नहीं बनाता।</string>
     <string name="welcome_how_step_stream_title">2. सीधा स्ट्रीम रिज़ॉल्यूशन</string>
     <string name="welcome_how_step_stream_desc">ऑडियो सीधे कंटेंट सर्वर से आपकी मशीन तक स्ट्रीम होता है। न कोई प्रॉक्सी, न रिमोट डेटा संग्रह।</string>
     <string name="welcome_how_step_playback_title">3. लोकल DSP और प्लेबैक</string>
@@ -838,8 +838,8 @@
     <string name="plugin_error_builtin_add">बिल्ट-इन प्लगइन पहले से शामिल हैं और दोबारा नहीं जोड़े जा सकते।</string>
     <string name="plugin_error_builtin_remove">बिल्ट-इन प्लगइन हटाए नहीं जा सकते।</string>
     <string name="plugin_error_api_version_invalid">%1$s ने अमान्य apiVersion (%2$s) बताया है। %3$s के साथ संगत सिमैंटिक वर्शनिंग अपेक्षित है।</string>
-    <string name="plugin_error_app_api_version_invalid">Tubify प्लगइन API वर्शन %1$s अमान्य है।</string>
-    <string name="plugin_error_api_incompatible">%1$s प्लगइन API %2$s के लिए बना है, लेकिन Tubify ब्रेकिंग प्लगइन API %3$s सपोर्ट करता है। उसी ब्रेकिंग API वर्शन के लिए बना प्लगइन इंस्टॉल करें।</string>
+    <string name="plugin_error_app_api_version_invalid">Prisma प्लगइन API वर्शन %1$s अमान्य है।</string>
+    <string name="plugin_error_api_incompatible">%1$s प्लगइन API %2$s के लिए बना है, लेकिन Prisma ब्रेकिंग प्लगइन API %3$s सपोर्ट करता है। उसी ब्रेकिंग API वर्शन के लिए बना प्लगइन इंस्टॉल करें।</string>
 
     <!-- Plugin install prompts -->
     <string name="plugin_prompt_incompatible_title">प्लगइन API संगत नहीं है</string>

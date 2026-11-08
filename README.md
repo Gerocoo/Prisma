@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="iosApp/iosApp/Assets.xcassets/AppIcon.appiconset/app-icon-1024.png" width="128" alt="Tubify icon"/>
+<img src="iosApp/iosApp/Assets.xcassets/AppIcon.appiconset/app-icon-1024.png" width="128" alt="Prisma icon"/>
 
-# Tubify
+# Prisma
 
 **An open-source music client with a Material 3 Expressive interface.**
 
@@ -18,7 +18,7 @@ subscriptions or tracking. Metadata, playlists and audio come from community plu
 
 ## What it is
 
-Tubify is a fork of [Spotube](https://github.com/team-spotube/spotube), the cross-platform,
+Prisma is a fork of [Spotube](https://github.com/team-spotube/spotube), the cross-platform,
 plugin-based music client. The playback engine and plugin system come from Spotube; the interface
 has been redesigned from scratch around **Material 3 Expressive** and everyday Android conventions.
 
@@ -30,17 +30,17 @@ synced lyrics, local files, Jam sessions with friends, no telemetry.
 ### Android
 
 1. Open the [latest release](https://github.com/Gerocoo/Tubify/releases/latest).
-2. Download the APK for your device: **`Tubify-arm64-v8a.apk`** for almost every recent phone
+2. Download the APK for your device: **`Prisma-arm64-v8a.apk`** for almost every recent phone
    (`armeabi-v7a` for old 32-bit phones, `x86_64` for emulators, `universal` if unsure).
 3. Allow installing apps from your browser or file manager when Android asks.
 
 Every build is signed with the same key, so a new APK always installs as an update. After the
-first install you never need to come back here: Tubify updates itself (see
+first install you never need to come back here: Prisma updates itself (see
 [In-app updater](#in-app-updater)).
 
 ### iPhone / iPad
 
-Each release also contains **`Tubify-ios.ipa`**, unsigned. Install it with
+Each release also contains **`Prisma-ios.ipa`**, unsigned. Install it with
 [SideStore](https://sidestore.io), [AltStore](https://altstore.io) or Sideloadly, which sign it
 with your own Apple ID. With a free Apple ID the app has to be refreshed every 7 days.
 
@@ -50,7 +50,7 @@ with your own Apple ID. With a free Apple ID the app has to be refreshed every 7
 
 - **Material 3 Expressive everywhere**: pill buttons, large rounded surfaces, tonal containers,
   flat fills. Millennium's glossy "glass" effects (bevels, shine, inner glows, highlights on
-  press, focus and long press) are removed from every component. Tubify builds the UI library from
+  press, focus and long press) are removed from every component. Prisma builds the UI library from
   source with that effect turned off.
 - **Material You (Monet)**: the whole app can take its colors from your wallpaper, or use one of
   the built-in accents (amber, blue, teal).
@@ -135,20 +135,20 @@ with your own Apple ID. With a free Apple ID the app has to be refreshed every 7
 - Grouped settings like Android's own: large outer corners, small inner ones, thin gaps.
 - Material 3 switches with a check or cross in the thumb.
 - Searchable language and region pickers that never slide under the status bar.
-- Tubify follows the **system language** by default; the Italian translation is complete.
+- Prisma follows the **system language** by default; the Italian translation is complete.
 
 ### Casting and Android Auto
 
 - **Google Cast**: send what is playing to Chromecast, Google TV and Cast speakers on your Wi-Fi
   (Android 17's local-network permission is requested when needed). It can be turned off in
   Settings → Playback.
-- **Android Auto**: Tubify exposes a browsable media library. Android Auto hides apps that do not
+- **Android Auto**: Prisma exposes a browsable media library. Android Auto hides apps that do not
   come from the Play Store unless *Unknown sources* is enabled in Android Auto's developer
   settings, and some cars hide them anyway.
 
 ### In-app updater
 
-- On launch Tubify checks this repository's releases. If a newer build exists it shows the release
+- On launch Prisma checks this repository's releases. If a newer build exists it shows the release
   notes.
 - **Update** downloads the right APK for your device (by ABI), shows the progress and opens
   Android's installer. *Cancel* stops the download.
@@ -158,7 +158,7 @@ with your own Apple ID. With a free Apple ID the app has to be refreshed every 7
 
 ## Build from source
 
-Tubify is a Compose Multiplatform (Kotlin) app. You need **JDK 21**, **Rust** (`rustup` +
+Prisma is a Compose Multiplatform (Kotlin) app. You need **JDK 21**, **Rust** (`rustup` +
 `cargo`) and, for Android, the **Android SDK**.
 
 ```bash
@@ -185,20 +185,20 @@ For desktop native builds and GraalVM see the upstream instructions:
 
 ## Support
 
-Tubify is free and has no ads, subscriptions or tracking. If you like it, you can support its
+Prisma is free and has no ads, subscriptions or tracking. If you like it, you can support its
 development with a voluntary donation on **[PayPal](https://paypal.me/gerocoo16)**. It is
 entirely optional.
 
 ## Credits and license
 
-Tubify is built on the work of
+Prisma is built on the work of
 [Kingkor Roy Tirtho and the Spotube contributors](https://github.com/team-spotube/spotube) and on the
 [Millennium](https://github.com/team-spotube/millennium) UI library. Like the original project, it
 is licensed under **AGPL-3.0-or-later**: see [LICENSE](LICENSE).
 
 The Figtree typeface is licensed under the [SIL Open Font License](assets/licenses/Figtree-OFL.txt).
 
-Tubify is an independent project. It is not affiliated with, endorsed by or sponsored by Spotify,
-YouTube, Google or their owners. All trademarks belong to their respective owners. Tubify does not
+Prisma is an independent project. It is not affiliated with, endorsed by or sponsored by Spotify,
+YouTube, Google or their owners. All trademarks belong to their respective owners. Prisma does not
 host any content; what you can play depends on the plugins you install and on the terms of the
 services they connect to.

@@ -16,7 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<!-- Tubify: one adaptive icon for every launcher shape; the monochrome layer is tinted by the
+<!-- Prisma: one adaptive icon for every launcher shape; the monochrome layer is tinted by the
      system for Android 13+ themed (Material You) icons. -->
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
     <background android:drawable="@color/ic_launcher_background" />

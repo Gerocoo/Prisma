@@ -6,4 +6,4 @@ PRODUCT_BUNDLE_IDENTIFIER=io.github.gerocoo.tubify$(TEAM_ID)
 CURRENT_PROJECT_VERSION=1
 MARKETING_VERSION=1.0
 // Name shown under the icon on the iPhone home screen.
-INFOPLIST_KEY_CFBundleDisplayName=Tubify
+INFOPLIST_KEY_CFBundleDisplayName=Prisma

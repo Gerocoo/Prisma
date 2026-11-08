@@ -1,4 +1,4 @@
-# Android release (R8) rules added by Tubify, on top of proguard-rules.pro.
+# Android release (R8) rules added by Prisma, on top of proguard-rules.pro.
 
 # Keep class and member names: plugins (Zipline), kotlinx.serialization, Koin and uniffi
 # resolve classes by name, so renaming them would break the app at runtime.

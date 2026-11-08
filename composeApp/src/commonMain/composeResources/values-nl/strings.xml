@@ -122,7 +122,7 @@
     <string name="settings_option_name_and_code">%1$s (%2$s)</string>
 
     <string name="settings_theme_title">Thema</string>
-    <string name="settings_theme_subtitle_current">Kies hoe Tubify aansluit op de weergave van je systeem. Huidig: %1$s</string>
+    <string name="settings_theme_subtitle_current">Kies hoe Prisma aansluit op de weergave van je systeem. Huidig: %1$s</string>
     <string name="settings_theme_light">Licht</string>
     <string name="settings_theme_dark">Donker</string>
     <string name="settings_theme_system">Systeem</string>
@@ -172,7 +172,7 @@
     <string name="settings_download_folder_title">Andere downloadmap</string>
     <string name="settings_download_folder_current">Huidige map: %1$s</string>
     <string name="settings_download_folder_description">Laat dit leeg om de standaard muziekmap te gebruiken.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Tubify</string>
+    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">Lokale mediamappen</string>
     <string name="settings_local_media_folders_subtitle_current">Eigen mappen om te scannen op desktop. Toegevoegd: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">Nog geen eigen map toegevoegd</string>
@@ -217,8 +217,8 @@
     <string name="settings_allow_remote_control_subtitle">Laat andere apparaten op hetzelfde netwerk het afspelen bedienen als ze verbinding maken.</string>
     <string name="settings_remote_device_name_title">Apparaatnaam voor bediening op afstand</string>
     <string name="settings_remote_device_name_subtitle">De naam die andere apparaten zien als ze dit apparaat vinden. Huidig: %1$s</string>
-    <string name="settings_remote_device_name_description">Kies een herkenbare naam die andere apparaten op je netwerk te zien krijgen als ze deze Tubify-installatie vinden.</string>
-    <string name="settings_remote_device_name_placeholder">bijv. Tubify woonkamer</string>
+    <string name="settings_remote_device_name_description">Kies een herkenbare naam die andere apparaten op je netwerk te zien krijgen als ze deze Prisma-installatie vinden.</string>
+    <string name="settings_remote_device_name_placeholder">bijv. Prisma woonkamer</string>
     <string name="settings_remote_device_name_default">hostnaam van apparaat</string>
     <string name="settings_playback_port_subtitle_current">Poort die de afspeelproxyserver gebruikt. Huidig: %1$d</string>
     <string name="settings_playback_port_description">Kies een poort tussen 1 en 65535.</string>
@@ -230,12 +230,12 @@
     <string name="settings_blacklist_subtitle">Nummers en artiesten op de zwarte lijst beheren</string>
 
     <string name="settings_desktop_minimize_title">Minimaliseren naar systeemvak</string>
-    <string name="settings_desktop_minimize_subtitle">Houd Tubify actief in het systeemvak als het venster wordt geminimaliseerd.</string>
+    <string name="settings_desktop_minimize_subtitle">Houd Prisma actief in het systeemvak als het venster wordt geminimaliseerd.</string>
     <string name="settings_desktop_discord_title">Discord Rich Presence</string>
     <string name="settings_desktop_discord_subtitle">Toon wat je afspeelt in Discord op desktop.</string>
 
     <string name="settings_updates_auto_check_title">Automatisch controleren op updates</string>
-    <string name="settings_updates_auto_check_subtitle">Op de achtergrond zoeken naar nieuwe Tubify-versies.</string>
+    <string name="settings_updates_auto_check_subtitle">Op de achtergrond zoeken naar nieuwe Prisma-versies.</string>
 
     <string name="settings_plugins_manage_title">Plug-ins beheren</string>
     <string name="settings_plugins_manage_subtitle">Beheer je plug-ins</string>
@@ -300,7 +300,7 @@
     <string name="settings_jam_broker_username">Gebruikersnaam (optioneel)</string>
     <string name="settings_jam_broker_password">Wachtwoord (optioneel)</string>
     <string name="settings_jam_broker_client_id">Voorvoegsel client-ID</string>
-    <string name="settings_jam_broker_client_id_subtitle">Wordt gebruikt om deze Tubify-installatie te herkennen</string>
+    <string name="settings_jam_broker_client_id_subtitle">Wordt gebruikt om deze Prisma-installatie te herkennen</string>
     <string name="settings_jam_broker_tls_subtitle">De verbinding met de broker versleutelen</string>
     <string name="settings_jam_broker_diagnostics_subtitle">Controleer de huidige broker-instellingen voordat je een Jam start.</string>
     <string name="settings_jam_broker_test">Verbinding testen</string>
@@ -344,7 +344,7 @@
     <string name="jam_error_create">Jam-sessie maken mislukt</string>
     <string name="jam_error_join">Deelnemen aan Jam-sessie mislukt</string>
     <string name="jam_error_invalid_code">Voer een sessiecode van zes tekens in met letters en cijfers.</string>
-    <string name="jam_share_message">Doe mee met mijn Tubify Jam met code: %1$s</string>
+    <string name="jam_share_message">Doe mee met mijn Prisma Jam met code: %1$s</string>
 
     <string name="player_go_to_album">Naar album</string>
     <string name="player_sleep_timer">Slaaptimer</string>
@@ -356,8 +356,8 @@
 
     <string name="update_action_ignore">Negeren</string>
     <string name="update_action_update">Bijwerken</string>
-    <string name="app_update_dialog_title">Tubify %1$s is beschikbaar</string>
-    <string name="app_update_dialog_no_notes">Bekijk wat er nieuw is in deze versie op de downloadpagina van Tubify.</string>
+    <string name="app_update_dialog_title">Prisma %1$s is beschikbaar</string>
+    <string name="app_update_dialog_no_notes">Bekijk wat er nieuw is in deze versie op de downloadpagina van Prisma.</string>
     <string name="plugin_update_dialog_title">%1$s %2$s is beschikbaar</string>
     <string name="plugin_update_dialog_current_version">Momenteel geïnstalleerd: %1$s</string>
     <string name="plugin_update_dialog_no_notes">Bekijk wat er nieuw is in deze update op de pagina van de plug-in.</string>
@@ -366,11 +366,11 @@
     <string name="welcome_next">Volgende</string>
     <string name="welcome_back">Terug</string>
     <string name="welcome_get_started">Aan de slag</string>
-    <string name="welcome_app_name">Tubify</string>
+    <string name="welcome_app_name">Prisma</string>
     <string name="welcome_brand_freedom">Muziek, zonder verplichtingen.</string>
     <string name="welcome_brand_quiet_description">Een opensource-speler voor een wereld vol muziek.\nOm te ontdekken. Om helemaal van jou te maken.</string>
     <string name="welcome_donate_quiet_title">Houd dit project in leven.</string>
-    <string name="welcome_donate_letter">Tubify wordt gemaakt door mensen, niet door een abonnementsbedrijf. Als het onderdeel wordt van je dagelijks leven, helpt een beetje steun ons om het de zorg te geven die het verdient.\n\nBedankt dat je ruimte maakt voor onafhankelijke software.</string>
+    <string name="welcome_donate_letter">Prisma wordt gemaakt door mensen, niet door een abonnementsbedrijf. Als het onderdeel wordt van je dagelijks leven, helpt een beetje steun ons om het de zorg te geven die het verdient.\n\nBedankt dat je ruimte maakt voor onafhankelijke software.</string>
     <string name="welcome_plugins_setup_guide">Begin met een catalogusplug-in om nummers en playlists te vinden. Kies een audioplug-in om ze af te spelen. Songteksten en luistergeschiedenis zijn optioneel. Ontdek hieronder een plug-in, bekijk de machtigingen, installeer hem en selecteer hem hier.</string>
     <string name="welcome_plugins_discover">Plug-ins ontdekken</string>
     <string name="welcome_plugins_sources">Je bronnen</string>
@@ -383,7 +383,7 @@
     <string name="welcome_step_plugins">Plug-ins</string>
     <string name="welcome_step_guide">Uitleg</string>
 
-    <string name="welcome_guide_title">Zo gebruik je Tubify</string>
+    <string name="welcome_guide_title">Zo gebruik je Prisma</string>
     <string name="welcome_guide_subtitle">Vier snelle stappen en je luistert al.</string>
     <string name="welcome_guide_signin_title">Inloggen</string>
     <string name="welcome_guide_signin_desc">Koppel je account of kies je eigen catalogusplug-in.</string>
@@ -406,7 +406,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">Supporters houden ons op gang</string>
     <string name="welcome_donate_title">Gemaakt met passie. In leven gehouden door jou.</string>
-    <string name="welcome_donate_message">Tubify is 100% gratis, vrij en opensource — geen advertenties, geen abonnementen, geen tracking. Elke functie bestaat omdat mensen zoals jij hebben geholpen de code te laten stromen.</string>
+    <string name="welcome_donate_message">Prisma is 100% gratis, vrij en opensource — geen advertenties, geen abonnementen, geen tracking. Elke functie bestaat omdat mensen zoals jij hebben geholpen de code te laten stromen.</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">Maandelijkse sponsor</string>
     <string name="welcome_donate_patreon_subtitle">Steun doorlopende ontwikkeling en infrastructuur</string>
@@ -417,14 +417,14 @@
     <string name="welcome_donate_opencollective_tag">Communityfonds</string>
     <string name="welcome_donate_opencollective_subtitle">Transparante financiële steun, beheerd door de community</string>
     <string name="welcome_donate_thanks">Uit de grond van ons hart bedankt dat je gelooft in open muziek.</string>
-    <string name="welcome_donate_optional">Steunen is helemaal optioneel — Tubify blijft hoe dan ook gratis.</string>
+    <string name="welcome_donate_optional">Steunen is helemaal optioneel — Prisma blijft hoe dan ook gratis.</string>
     <string name="welcome_donate_action">Sponsoren</string>
     <string name="welcome_donate_open_content_description">%1$s openen</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">Tubify steunen</string>
-    <string name="support_dialog_title">Tubify steunen</string>
-    <string name="support_dialog_message">Tubify is gratis, vrij en opensource — geen advertenties, geen abonnementen, geen tracking. Als je er blij van wordt, overweeg dan het project te steunen.</string>
+    <string name="support_button_label">Prisma steunen</string>
+    <string name="support_dialog_title">Prisma steunen</string>
+    <string name="support_dialog_message">Prisma is gratis, vrij en opensource — geen advertenties, geen abonnementen, geen tracking. Als je er blij van wordt, overweeg dan het project te steunen.</string>
     <string name="support_dialog_reminder_hint">Je kunt deze herinneringen uitzetten via Instellingen → Steunen.</string>
     <string name="support_dialog_dismiss">Misschien later</string>
     <string name="settings_support_reminders_title">Herinneringen om te steunen</string>
@@ -433,7 +433,7 @@
     <!-- Page 3: plugins -->
     <string name="welcome_plugins_eyebrow">Modulaire architectuur</string>
     <string name="welcome_plugins_title">Kies waar je muziek vandaan komt.</string>
-    <string name="welcome_plugins_subtitle">Tubify scheidt het ontdekken van de catalogus, het streamen van audio en gesynchroniseerde songteksten. Stel je engines hieronder in of wissel ze op elk moment.</string>
+    <string name="welcome_plugins_subtitle">Prisma scheidt het ontdekken van de catalogus, het streamen van audio en gesynchroniseerde songteksten. Stel je engines hieronder in of wissel ze op elk moment.</string>
     <string name="welcome_plugins_metadata_title">Metadata-engine</string>
     <string name="welcome_plugins_metadata_description">Zorgt voor muziek ontdekken, zoeken, tracklijsten en playlists.</string>
     <string name="welcome_plugins_audio_title">Audio-engine</string>
@@ -455,13 +455,13 @@
     <!-- Page 4: how it works -->
     <string name="welcome_how_eyebrow">Retromoderne architectuur</string>
     <string name="welcome_how_title">Pure hi-fi, geen tussenpersonen</string>
-    <string name="welcome_how_subtitle">Zo regelt Tubify gedecentraliseerd afspelen, rechtstreeks op je apparaat.</string>
+    <string name="welcome_how_subtitle">Zo regelt Prisma gedecentraliseerd afspelen, rechtstreeks op je apparaat.</string>
     <string name="welcome_how_status_badge">RECHTSTREEKS PEER-TO-PEER • 256 KBPS OPUS</string>
     <string name="welcome_how_mockup_title">Blauw uur</string>
-    <string name="welcome_how_mockup_artist">Tubify · demonstratie van de speler</string>
+    <string name="welcome_how_mockup_artist">Prisma · demonstratie van de speler</string>
     <string name="welcome_how_mockup_lyric">Een beetje muziek voor de momenten tussendoor.</string>
     <string name="welcome_how_step_search_title">1. Gedecentraliseerd ontdekken</string>
-    <string name="welcome_how_step_search_desc">Zoekopdrachten gaan rechtstreeks naar je gekozen catalogusplug-in. Tubify maakt nooit een profiel van je smaak.</string>
+    <string name="welcome_how_step_search_desc">Zoekopdrachten gaan rechtstreeks naar je gekozen catalogusplug-in. Prisma maakt nooit een profiel van je smaak.</string>
     <string name="welcome_how_step_stream_title">2. Directe streams</string>
     <string name="welcome_how_step_stream_desc">Audio wordt rechtstreeks van de contentservers naar je apparaat gestreamd. Geen proxy's ertussen en geen gegevensverzameling op afstand.</string>
     <string name="welcome_how_step_playback_title">3. Lokale DSP &amp; afspelen</string>
@@ -839,8 +839,8 @@
     <string name="plugin_error_builtin_add">Ingebouwde plug-ins zijn al inbegrepen en kunnen niet opnieuw worden toegevoegd.</string>
     <string name="plugin_error_builtin_remove">Ingebouwde plug-ins kunnen niet worden verwijderd.</string>
     <string name="plugin_error_api_version_invalid">%1$s geeft een ongeldige apiVersion op (%2$s). Verwacht: semantische versie compatibel met %3$s.</string>
-    <string name="plugin_error_app_api_version_invalid">Plug-in-API-versie %1$s van Tubify is ongeldig.</string>
-    <string name="plugin_error_api_incompatible">%1$s is gemaakt voor plug-in-API %2$s, maar Tubify ondersteunt de breaking plug-in-API %3$s. Installeer een plug-in die is gemaakt voor dezelfde breaking API-versie.</string>
+    <string name="plugin_error_app_api_version_invalid">Plug-in-API-versie %1$s van Prisma is ongeldig.</string>
+    <string name="plugin_error_api_incompatible">%1$s is gemaakt voor plug-in-API %2$s, maar Prisma ondersteunt de breaking plug-in-API %3$s. Installeer een plug-in die is gemaakt voor dezelfde breaking API-versie.</string>
 
     <!-- Plugin install prompts -->
     <string name="plugin_prompt_incompatible_title">Plug-in-API niet compatibel</string>

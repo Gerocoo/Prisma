@@ -120,7 +120,7 @@
     <string name="settings_option_name_and_code">%1$s (%2$s)</string>
 
     <string name="settings_theme_title">테마</string>
-    <string name="settings_theme_subtitle_current">Tubify가 시스템 화면 모드를 따르는 방식을 선택하세요. 현재: %1$s</string>
+    <string name="settings_theme_subtitle_current">Prisma가 시스템 화면 모드를 따르는 방식을 선택하세요. 현재: %1$s</string>
     <string name="settings_theme_light">라이트</string>
     <string name="settings_theme_dark">다크</string>
     <string name="settings_theme_system">시스템</string>
@@ -170,7 +170,7 @@
     <string name="settings_download_folder_title">다운로드 폴더 지정</string>
     <string name="settings_download_folder_current">현재 폴더: %1$s</string>
     <string name="settings_download_folder_description">기본 음악 폴더를 사용하려면 비워 두세요.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Tubify</string>
+    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">로컬 미디어 폴더</string>
     <string name="settings_local_media_folders_subtitle_current">데스크톱에서 검색할 사용자 지정 폴더. 추가됨: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">아직 추가한 사용자 지정 폴더가 없어요</string>
@@ -214,8 +214,8 @@
     <string name="settings_allow_remote_control_subtitle">같은 네트워크의 다른 기기가 연결되면 재생을 제어할 수 있도록 허용해요.</string>
     <string name="settings_remote_device_name_title">원격 제어 기기 이름</string>
     <string name="settings_remote_device_name_subtitle">다른 기기가 이 기기를 찾을 때 표시되는 이름입니다. 현재: %1$s</string>
-    <string name="settings_remote_device_name_description">네트워크의 다른 기기가 이 Tubify를 찾을 때 표시할 이름을 정하세요.</string>
-    <string name="settings_remote_device_name_placeholder">예: 거실 Tubify</string>
+    <string name="settings_remote_device_name_description">네트워크의 다른 기기가 이 Prisma를 찾을 때 표시할 이름을 정하세요.</string>
+    <string name="settings_remote_device_name_placeholder">예: 거실 Prisma</string>
     <string name="settings_remote_device_name_default">기기 호스트 이름</string>
     <string name="settings_playback_port_subtitle_current">재생 프록시 서버에서 사용하는 포트입니다. 현재: %1$d</string>
     <string name="settings_playback_port_description">1에서 65535 사이의 포트를 선택하세요.</string>
@@ -227,12 +227,12 @@
     <string name="settings_blacklist_subtitle">차단한 트랙 및 아티스트 관리</string>
 
     <string name="settings_desktop_minimize_title">트레이로 최소화</string>
-    <string name="settings_desktop_minimize_subtitle">창을 최소화하면 Tubify를 시스템 트레이에서 계속 실행해요.</string>
+    <string name="settings_desktop_minimize_subtitle">창을 최소화하면 Prisma를 시스템 트레이에서 계속 실행해요.</string>
     <string name="settings_desktop_discord_title">Discord Rich Presence</string>
     <string name="settings_desktop_discord_subtitle">데스크톱에서 현재 재생 상태를 Discord에 표시해요.</string>
 
     <string name="settings_updates_auto_check_title">자동으로 업데이트 확인</string>
-    <string name="settings_updates_auto_check_subtitle">백그라운드에서 Tubify 새 버전을 확인해요.</string>
+    <string name="settings_updates_auto_check_subtitle">백그라운드에서 Prisma 새 버전을 확인해요.</string>
 
     <string name="settings_plugins_manage_title">플러그인 관리</string>
     <string name="settings_plugins_manage_subtitle">플러그인을 관리하세요</string>
@@ -296,7 +296,7 @@
     <string name="settings_jam_broker_username">사용자 이름(선택 사항)</string>
     <string name="settings_jam_broker_password">비밀번호(선택 사항)</string>
     <string name="settings_jam_broker_client_id">클라이언트 ID 접두사</string>
-    <string name="settings_jam_broker_client_id_subtitle">이 Tubify 인스턴스를 식별하는 데 사용돼요</string>
+    <string name="settings_jam_broker_client_id_subtitle">이 Prisma 인스턴스를 식별하는 데 사용돼요</string>
     <string name="settings_jam_broker_tls_subtitle">브로커 연결 암호화</string>
     <string name="settings_jam_broker_diagnostics_subtitle">방을 시작하기 전에 현재 브로커 설정을 확인하세요.</string>
     <string name="settings_jam_broker_test">연결 테스트</string>
@@ -340,7 +340,7 @@
     <string name="jam_error_create">잼 세션을 만들지 못했어요</string>
     <string name="jam_error_join">잼 세션에 참여하지 못했어요</string>
     <string name="jam_error_invalid_code">영문자와 숫자로 된 6자리 방 코드를 입력하세요.</string>
-    <string name="jam_share_message">내 Tubify 잼에 참여하세요. 코드: %1$s</string>
+    <string name="jam_share_message">내 Prisma 잼에 참여하세요. 코드: %1$s</string>
 
     <string name="player_go_to_album">앨범으로 이동</string>
     <string name="player_sleep_timer">취침 타이머</string>
@@ -352,8 +352,8 @@
 
     <string name="update_action_ignore">무시</string>
     <string name="update_action_update">업데이트</string>
-    <string name="app_update_dialog_title">Tubify %1$s 버전을 사용할 수 있어요</string>
-    <string name="app_update_dialog_no_notes">이번 릴리스의 새로운 기능은 Tubify 다운로드 페이지에서 확인하세요.</string>
+    <string name="app_update_dialog_title">Prisma %1$s 버전을 사용할 수 있어요</string>
+    <string name="app_update_dialog_no_notes">이번 릴리스의 새로운 기능은 Prisma 다운로드 페이지에서 확인하세요.</string>
     <string name="plugin_update_dialog_title">%1$s %2$s 버전을 사용할 수 있어요</string>
     <string name="plugin_update_dialog_current_version">현재 설치된 버전: %1$s</string>
     <string name="plugin_update_dialog_no_notes">이번 업데이트의 새로운 기능은 플러그인 페이지에서 확인하세요.</string>
@@ -362,11 +362,11 @@
     <string name="welcome_next">다음</string>
     <string name="welcome_back">뒤로</string>
     <string name="welcome_get_started">시작하기</string>
-    <string name="welcome_app_name">Tubify</string>
+    <string name="welcome_app_name">Prisma</string>
     <string name="welcome_brand_freedom">아무런 조건 없는 음악.</string>
     <string name="welcome_brand_quiet_description">음악의 세계를 위한 오픈 소스 플레이어.\n마음껏 탐색하고, 나만의 방식으로 꾸며 보세요.</string>
     <string name="welcome_donate_quiet_title">이 프로젝트가 계속될 수 있도록 도와주세요.</string>
-    <string name="welcome_donate_letter">Tubify는 구독 비즈니스가 아닌 사람들이 만들어요. Tubify가 일상의 일부가 되었다면, 작은 후원이 Tubify를 더 정성껏 가꾸는 데 큰 힘이 돼요.\n\n독립 소프트웨어에 자리를 내어 주셔서 감사합니다.</string>
+    <string name="welcome_donate_letter">Prisma는 구독 비즈니스가 아닌 사람들이 만들어요. Prisma가 일상의 일부가 되었다면, 작은 후원이 Prisma를 더 정성껏 가꾸는 데 큰 힘이 돼요.\n\n독립 소프트웨어에 자리를 내어 주셔서 감사합니다.</string>
     <string name="welcome_plugins_setup_guide">먼저 카탈로그 플러그인으로 노래와 플레이리스트를 찾으세요. 재생하려면 오디오 플러그인을 선택하세요. 가사와 감상 기록은 선택 사항이에요. 아래에서 플러그인을 찾아 권한을 확인하고 설치한 다음 여기서 선택하세요.</string>
     <string name="welcome_plugins_discover">플러그인 둘러보기</string>
     <string name="welcome_plugins_sources">내 소스</string>
@@ -379,7 +379,7 @@
     <string name="welcome_step_plugins">플러그인</string>
     <string name="welcome_step_guide">가이드</string>
 
-    <string name="welcome_guide_title">Tubify 사용 방법</string>
+    <string name="welcome_guide_title">Prisma 사용 방법</string>
     <string name="welcome_guide_subtitle">간단한 네 단계면 바로 감상할 수 있어요.</string>
     <string name="welcome_guide_signin_title">로그인</string>
     <string name="welcome_guide_signin_desc">계정을 연결하거나 원하는 카탈로그 플러그인을 선택하세요.</string>
@@ -402,7 +402,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">후원자 덕분에 계속할 수 있어요</string>
     <string name="welcome_donate_title">열정으로 만들고, 여러분 덕분에 이어 갑니다.</string>
-    <string name="welcome_donate_message">Tubify는 100% 무료이자 자유 오픈 소스 소프트웨어예요 — 광고도, 구독도, 추적도 없어요. 모든 기능은 여러분 같은 분들이 코드가 계속 이어지도록 도와주신 덕분에 존재해요.</string>
+    <string name="welcome_donate_message">Prisma는 100% 무료이자 자유 오픈 소스 소프트웨어예요 — 광고도, 구독도, 추적도 없어요. 모든 기능은 여러분 같은 분들이 코드가 계속 이어지도록 도와주신 덕분에 존재해요.</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">월간 후원</string>
     <string name="welcome_donate_patreon_subtitle">지속적인 개발과 인프라를 지원해 주세요</string>
@@ -413,14 +413,14 @@
     <string name="welcome_donate_opencollective_tag">커뮤니티 기금</string>
     <string name="welcome_donate_opencollective_subtitle">투명하게 커뮤니티가 운영하는 재정 후원</string>
     <string name="welcome_donate_thanks">열린 음악을 믿어 주셔서 진심으로 감사합니다.</string>
-    <string name="welcome_donate_optional">후원은 전적으로 선택 사항이에요 — 어떤 경우든 Tubify는 계속 무료예요.</string>
+    <string name="welcome_donate_optional">후원은 전적으로 선택 사항이에요 — 어떤 경우든 Prisma는 계속 무료예요.</string>
     <string name="welcome_donate_action">후원하기</string>
     <string name="welcome_donate_open_content_description">%1$s 열기</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">Tubify 후원하기</string>
-    <string name="support_dialog_title">Tubify 후원하기</string>
-    <string name="support_dialog_message">Tubify는 무료이자 자유 오픈 소스 소프트웨어예요 — 광고도, 구독도, 추적도 없어요. Tubify가 즐거움을 준다면 프로젝트 후원을 고려해 주세요.</string>
+    <string name="support_button_label">Prisma 후원하기</string>
+    <string name="support_dialog_title">Prisma 후원하기</string>
+    <string name="support_dialog_message">Prisma는 무료이자 자유 오픈 소스 소프트웨어예요 — 광고도, 구독도, 추적도 없어요. Prisma가 즐거움을 준다면 프로젝트 후원을 고려해 주세요.</string>
     <string name="support_dialog_reminder_hint">이 알림은 설정 → 후원에서 끌 수 있어요.</string>
     <string name="support_dialog_dismiss">나중에</string>
     <string name="settings_support_reminders_title">후원 알림</string>
@@ -429,7 +429,7 @@
     <!-- Page 3: plugins -->
     <string name="welcome_plugins_eyebrow">모듈식 구조</string>
     <string name="welcome_plugins_title">음악을 어디서 가져올지 선택하세요.</string>
-    <string name="welcome_plugins_subtitle">Tubify는 카탈로그 탐색, 오디오 스트리밍, 싱크 가사를 분리해서 처리해요. 아래에서 엔진을 구성하거나 언제든지 바꿀 수 있어요.</string>
+    <string name="welcome_plugins_subtitle">Prisma는 카탈로그 탐색, 오디오 스트리밍, 싱크 가사를 분리해서 처리해요. 아래에서 엔진을 구성하거나 언제든지 바꿀 수 있어요.</string>
     <string name="welcome_plugins_metadata_title">메타데이터 엔진</string>
     <string name="welcome_plugins_metadata_description">음악 탐색, 검색, 트랙 목록, 플레이리스트를 담당해요.</string>
     <string name="welcome_plugins_audio_title">오디오 엔진</string>
@@ -451,13 +451,13 @@
     <!-- Page 4: how it works -->
     <string name="welcome_how_eyebrow">레트로 모던 아키텍처</string>
     <string name="welcome_how_title">순수한 하이파이, 중개자는 없어요</string>
-    <string name="welcome_how_subtitle">Tubify가 기기에서 직접 분산형 재생을 처리하는 방법은 다음과 같아요.</string>
+    <string name="welcome_how_subtitle">Prisma가 기기에서 직접 분산형 재생을 처리하는 방법은 다음과 같아요.</string>
     <string name="welcome_how_status_badge">P2P 직접 연결 • 256 KBPS OPUS</string>
     <string name="welcome_how_mockup_title">블루 아워</string>
-    <string name="welcome_how_mockup_artist">Tubify · 플레이어 데모</string>
+    <string name="welcome_how_mockup_artist">Prisma · 플레이어 데모</string>
     <string name="welcome_how_mockup_lyric">그 사이의 순간들을 위한 작은 음악.</string>
     <string name="welcome_how_step_search_title">1. 분산형 탐색</string>
-    <string name="welcome_how_step_search_desc">검색어는 선택한 카탈로그 플러그인으로 바로 전달돼요. Tubify는 취향을 분석하지 않아요.</string>
+    <string name="welcome_how_step_search_desc">검색어는 선택한 카탈로그 플러그인으로 바로 전달돼요. Prisma는 취향을 분석하지 않아요.</string>
     <string name="welcome_how_step_stream_title">2. 직접 스트림 확인</string>
     <string name="welcome_how_step_stream_desc">오디오는 콘텐츠 서버에서 기기로 바로 스트리밍돼요. 프록시 경유나 원격 데이터 수집은 없어요.</string>
     <string name="welcome_how_step_playback_title">3. 로컬 DSP &amp; 재생</string>
@@ -833,8 +833,8 @@
     <string name="plugin_error_builtin_add">기본 제공 플러그인은 이미 포함되어 있어 다시 추가할 수 없어요.</string>
     <string name="plugin_error_builtin_remove">기본 제공 플러그인은 삭제할 수 없어요.</string>
     <string name="plugin_error_api_version_invalid">%1$s에 잘못된 apiVersion(%2$s)이 선언되어 있어요. %3$s과(와) 호환되는 유의적 버전이 필요해요.</string>
-    <string name="plugin_error_app_api_version_invalid">Tubify 플러그인 API 버전 %1$s이(가) 올바르지 않아요.</string>
-    <string name="plugin_error_api_incompatible">%1$s은(는) 플러그인 API %2$s용이지만, Tubify는 호환성이 깨지는 플러그인 API %3$s을(를) 지원해요. 같은 주 API 버전용으로 빌드된 플러그인을 설치하세요.</string>
+    <string name="plugin_error_app_api_version_invalid">Prisma 플러그인 API 버전 %1$s이(가) 올바르지 않아요.</string>
+    <string name="plugin_error_api_incompatible">%1$s은(는) 플러그인 API %2$s용이지만, Prisma는 호환성이 깨지는 플러그인 API %3$s을(를) 지원해요. 같은 주 API 버전용으로 빌드된 플러그인을 설치하세요.</string>
 
     <!-- Plugin install prompts -->
     <string name="plugin_prompt_incompatible_title">호환되지 않는 플러그인 API</string>

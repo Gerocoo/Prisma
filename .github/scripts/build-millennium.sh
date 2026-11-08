@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds the Millennium UI library from source with Tubify's patch and publishes it to
+# Builds the Millennium UI library from source with Prisma's patch and publishes it to
 # mavenLocal, which Gradle resolves before Maven Central. The patch removes Millennium's
 # built-in "glass" overlay (shine, dark wash and rim drawn on hover, focus and press, e.g. on
 # long press), which ignores the theme and cannot be turned off from the app.
@@ -20,7 +20,7 @@ new = ("@Suppress(\"UNUSED_PARAMETER\")\n"
        "internal fun millenniumInteractionLevels(state: MillenniumControlState): Pair<Float, Float> = 0f to 0f")
 s2, n = re.subn(pattern, new, s, flags=re.S)
 if n != 1:
-    sys.exit("Tubify patch: millenniumInteractionLevels not found")
+    sys.exit("Prisma patch: millenniumInteractionLevels not found")
 open(p, "w").write(s2)
 PY
 

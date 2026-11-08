@@ -124,7 +124,7 @@
     <string name="settings_option_name_and_code">%1$s (%2$s)</string>
 
     <string name="settings_theme_title">Thème</string>
-    <string name="settings_theme_subtitle_current">Choisissez comment Tubify s'adapte à l'apparence du système. Actuel : %1$s</string>
+    <string name="settings_theme_subtitle_current">Choisissez comment Prisma s'adapte à l'apparence du système. Actuel : %1$s</string>
     <string name="settings_theme_light">Clair</string>
     <string name="settings_theme_dark">Sombre</string>
     <string name="settings_theme_system">Système</string>
@@ -174,7 +174,7 @@
     <string name="settings_download_folder_title">Dossier de téléchargement personnalisé</string>
     <string name="settings_download_folder_current">Dossier actuel : %1$s</string>
     <string name="settings_download_folder_description">Laissez vide pour utiliser le dossier Musique par défaut.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Tubify</string>
+    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">Dossiers de médias locaux</string>
     <string name="settings_local_media_folders_subtitle_current">Dossiers personnalisés à analyser sur ordinateur. Ajoutés : %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">Aucun dossier personnalisé ajouté</string>
@@ -220,8 +220,8 @@
     <string name="settings_allow_remote_control_subtitle">Permettre aux autres appareils du même réseau de contrôler la lecture lorsqu'ils se connectent.</string>
     <string name="settings_remote_device_name_title">Nom de l'appareil pour le contrôle à distance</string>
     <string name="settings_remote_device_name_subtitle">Le nom que voient les autres appareils lorsqu'ils détectent celui-ci. Actuel : %1$s</string>
-    <string name="settings_remote_device_name_description">Choisissez un nom convivial à afficher aux autres appareils de votre réseau lorsqu'ils détectent cette instance de Tubify.</string>
-    <string name="settings_remote_device_name_placeholder">p. ex. Tubify du salon</string>
+    <string name="settings_remote_device_name_description">Choisissez un nom convivial à afficher aux autres appareils de votre réseau lorsqu'ils détectent cette instance de Prisma.</string>
+    <string name="settings_remote_device_name_placeholder">p. ex. Prisma du salon</string>
     <string name="settings_remote_device_name_default">nom d'hôte de l'appareil</string>
     <string name="settings_playback_port_subtitle_current">Port utilisé par le serveur proxy de lecture. Actuel : %1$d</string>
     <string name="settings_playback_port_description">Choisissez un port entre 1 et 65535.</string>
@@ -233,12 +233,12 @@
     <string name="settings_blacklist_subtitle">Gérer les titres et artistes sur liste noire</string>
 
     <string name="settings_desktop_minimize_title">Réduire dans la zone de notification</string>
-    <string name="settings_desktop_minimize_subtitle">Garder Tubify actif dans la zone de notification lorsque la fenêtre est réduite.</string>
+    <string name="settings_desktop_minimize_subtitle">Garder Prisma actif dans la zone de notification lorsque la fenêtre est réduite.</string>
     <string name="settings_desktop_discord_title">Statut enrichi Discord</string>
     <string name="settings_desktop_discord_subtitle">Afficher votre lecture en cours dans Discord sur ordinateur.</string>
 
     <string name="settings_updates_auto_check_title">Rechercher automatiquement les mises à jour</string>
-    <string name="settings_updates_auto_check_subtitle">Rechercher les nouvelles versions de Tubify en arrière-plan.</string>
+    <string name="settings_updates_auto_check_subtitle">Rechercher les nouvelles versions de Prisma en arrière-plan.</string>
 
     <string name="settings_plugins_manage_title">Gérer les plugins</string>
     <string name="settings_plugins_manage_subtitle">Gérez vos plugins</string>
@@ -304,7 +304,7 @@
     <string name="settings_jam_broker_username">Nom d'utilisateur (facultatif)</string>
     <string name="settings_jam_broker_password">Mot de passe (facultatif)</string>
     <string name="settings_jam_broker_client_id">Préfixe de l'ID client</string>
-    <string name="settings_jam_broker_client_id_subtitle">Sert à identifier cette instance de Tubify</string>
+    <string name="settings_jam_broker_client_id_subtitle">Sert à identifier cette instance de Prisma</string>
     <string name="settings_jam_broker_tls_subtitle">Chiffrer la connexion au broker</string>
     <string name="settings_jam_broker_diagnostics_subtitle">Vérifiez les paramètres actuels du broker avant de créer une salle.</string>
     <string name="settings_jam_broker_test">Tester la connexion</string>
@@ -348,7 +348,7 @@
     <string name="jam_error_create">Échec de la création de la session Jam</string>
     <string name="jam_error_join">Impossible de rejoindre la session Jam</string>
     <string name="jam_error_invalid_code">Saisissez un code de salle de six caractères (lettres et chiffres).</string>
-    <string name="jam_share_message">Rejoignez ma Jam Tubify avec le code : %1$s</string>
+    <string name="jam_share_message">Rejoignez ma Jam Prisma avec le code : %1$s</string>
 
     <string name="player_go_to_album">Accéder à l'album</string>
     <string name="player_sleep_timer">Minuteur de veille</string>
@@ -360,8 +360,8 @@
 
     <string name="update_action_ignore">Ignorer</string>
     <string name="update_action_update">Mettre à jour</string>
-    <string name="app_update_dialog_title">Tubify %1$s est disponible</string>
-    <string name="app_update_dialog_no_notes">Découvrez les nouveautés de cette version sur la page de téléchargement de Tubify.</string>
+    <string name="app_update_dialog_title">Prisma %1$s est disponible</string>
+    <string name="app_update_dialog_no_notes">Découvrez les nouveautés de cette version sur la page de téléchargement de Prisma.</string>
     <string name="plugin_update_dialog_title">%1$s %2$s est disponible</string>
     <string name="plugin_update_dialog_current_version">Version installée : %1$s</string>
     <string name="plugin_update_dialog_no_notes">Découvrez les nouveautés de cette mise à jour sur la page du plugin.</string>
@@ -370,11 +370,11 @@
     <string name="welcome_next">Suivant</string>
     <string name="welcome_back">Retour</string>
     <string name="welcome_get_started">Commencer</string>
-    <string name="welcome_app_name">Tubify</string>
+    <string name="welcome_app_name">Prisma</string>
     <string name="welcome_brand_freedom">La musique, sans contraintes.</string>
     <string name="welcome_brand_quiet_description">Un lecteur open source pour tout un monde de musique.\nÀ vous de l'explorer. À vous de vous l'approprier.</string>
     <string name="welcome_donate_quiet_title">Faites vivre ce projet.</string>
-    <string name="welcome_donate_letter">Tubify est créé par des personnes, pas par une entreprise d'abonnements. S'il fait partie de votre quotidien, un petit soutien nous aide à lui accorder l'attention qu'il mérite.\n\nMerci de faire une place aux logiciels indépendants.</string>
+    <string name="welcome_donate_letter">Prisma est créé par des personnes, pas par une entreprise d'abonnements. S'il fait partie de votre quotidien, un petit soutien nous aide à lui accorder l'attention qu'il mérite.\n\nMerci de faire une place aux logiciels indépendants.</string>
     <string name="welcome_plugins_setup_guide">Commencez par un plugin de catalogue pour trouver des titres et des playlists. Choisissez un plugin audio pour les écouter. Les paroles et l'historique d'écoute sont facultatifs. Découvrez un plugin ci-dessous, vérifiez ses autorisations, installez-le, puis sélectionnez-le ici.</string>
     <string name="welcome_plugins_discover">Découvrir des plugins</string>
     <string name="welcome_plugins_sources">Vos sources</string>
@@ -387,7 +387,7 @@
     <string name="welcome_step_plugins">Plugins</string>
     <string name="welcome_step_guide">Guide</string>
 
-    <string name="welcome_guide_title">Comment utiliser Tubify</string>
+    <string name="welcome_guide_title">Comment utiliser Prisma</string>
     <string name="welcome_guide_subtitle">Quatre étapes rapides et c'est parti.</string>
     <string name="welcome_guide_signin_title">Se connecter</string>
     <string name="welcome_guide_signin_desc">Connectez votre compte ou choisissez votre propre plugin de catalogue.</string>
@@ -410,7 +410,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">Nos soutiens nous font avancer</string>
     <string name="welcome_donate_title">Créé avec passion. Maintenu en vie grâce à vous.</string>
-    <string name="welcome_donate_message">Tubify est 100 % gratuit, libre et open source — sans publicité, sans abonnement, sans pistage. Chaque fonctionnalité existe parce que des personnes comme vous ont choisi d'aider à faire avancer le code.</string>
+    <string name="welcome_donate_message">Prisma est 100 % gratuit, libre et open source — sans publicité, sans abonnement, sans pistage. Chaque fonctionnalité existe parce que des personnes comme vous ont choisi d'aider à faire avancer le code.</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">Soutien mensuel</string>
     <string name="welcome_donate_patreon_subtitle">Soutenez le développement et l'infrastructure dans la durée</string>
@@ -421,14 +421,14 @@
     <string name="welcome_donate_opencollective_tag">Fonds communautaire</string>
     <string name="welcome_donate_opencollective_subtitle">Un financement transparent, géré par la communauté</string>
     <string name="welcome_donate_thanks">Merci du fond du cœur de croire en la musique libre.</string>
-    <string name="welcome_donate_optional">Le soutien est entièrement facultatif — Tubify reste gratuit dans tous les cas.</string>
+    <string name="welcome_donate_optional">Le soutien est entièrement facultatif — Prisma reste gratuit dans tous les cas.</string>
     <string name="welcome_donate_action">Soutenir</string>
     <string name="welcome_donate_open_content_description">Ouvrir %1$s</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">Soutenir Tubify</string>
-    <string name="support_dialog_title">Soutenir Tubify</string>
-    <string name="support_dialog_message">Tubify est gratuit, libre et open source — sans publicité, sans abonnement, sans pistage. S'il vous apporte de la joie, pensez à soutenir le projet.</string>
+    <string name="support_button_label">Soutenir Prisma</string>
+    <string name="support_dialog_title">Soutenir Prisma</string>
+    <string name="support_dialog_message">Prisma est gratuit, libre et open source — sans publicité, sans abonnement, sans pistage. S'il vous apporte de la joie, pensez à soutenir le projet.</string>
     <string name="support_dialog_reminder_hint">Vous pouvez désactiver ces rappels dans Paramètres → Soutien.</string>
     <string name="support_dialog_dismiss">Plus tard</string>
     <string name="settings_support_reminders_title">Rappels de soutien</string>
@@ -437,7 +437,7 @@
     <!-- Page 3: plugins -->
     <string name="welcome_plugins_eyebrow">Architecture modulaire</string>
     <string name="welcome_plugins_title">Choisissez d'où vient votre musique.</string>
-    <string name="welcome_plugins_subtitle">Tubify sépare la découverte du catalogue, le streaming audio et les paroles synchronisées. Configurez vos moteurs ci-dessous ou changez-les à tout moment.</string>
+    <string name="welcome_plugins_subtitle">Prisma sépare la découverte du catalogue, le streaming audio et les paroles synchronisées. Configurez vos moteurs ci-dessous ou changez-les à tout moment.</string>
     <string name="welcome_plugins_metadata_title">Moteur de métadonnées</string>
     <string name="welcome_plugins_metadata_description">Gère la découverte musicale, la recherche, les listes de titres et les playlists.</string>
     <string name="welcome_plugins_audio_title">Moteur audio</string>
@@ -459,13 +459,13 @@
     <!-- Page 4: how it works -->
     <string name="welcome_how_eyebrow">Architecture rétro-moderne</string>
     <string name="welcome_how_title">Hi-Fi pure, zéro intermédiaire</string>
-    <string name="welcome_how_subtitle">Voici comment Tubify orchestre une lecture décentralisée directement sur votre machine.</string>
+    <string name="welcome_how_subtitle">Voici comment Prisma orchestre une lecture décentralisée directement sur votre machine.</string>
     <string name="welcome_how_status_badge">PAIR-À-PAIR DIRECT • OPUS 256 KBPS</string>
     <string name="welcome_how_mockup_title">L'heure bleue</string>
-    <string name="welcome_how_mockup_artist">Tubify · démonstration du lecteur</string>
+    <string name="welcome_how_mockup_artist">Prisma · démonstration du lecteur</string>
     <string name="welcome_how_mockup_lyric">Un peu de musique pour les moments entre deux.</string>
     <string name="welcome_how_step_search_title">1. Découverte décentralisée</string>
-    <string name="welcome_how_step_search_desc">Les requêtes vont directement au plugin de catalogue choisi. Tubify ne profile jamais vos goûts.</string>
+    <string name="welcome_how_step_search_desc">Les requêtes vont directement au plugin de catalogue choisi. Prisma ne profile jamais vos goûts.</string>
     <string name="welcome_how_step_stream_title">2. Résolution directe des flux</string>
     <string name="welcome_how_step_stream_desc">L'audio est diffusé directement des serveurs de contenu vers votre machine. Aucun proxy ni collecte de données à distance.</string>
     <string name="welcome_how_step_playback_title">3. DSP et lecture en local</string>
@@ -845,8 +845,8 @@
     <string name="plugin_error_builtin_add">Les plugins intégrés sont déjà inclus et ne peuvent pas être ajoutés à nouveau.</string>
     <string name="plugin_error_builtin_remove">Les plugins intégrés ne peuvent pas être supprimés.</string>
     <string name="plugin_error_api_version_invalid">%1$s déclare une apiVersion non valide (%2$s). Une version sémantique compatible avec %3$s est attendue.</string>
-    <string name="plugin_error_app_api_version_invalid">La version %1$s de l'API de plugins de Tubify n'est pas valide.</string>
-    <string name="plugin_error_api_incompatible">%1$s cible l'API de plugins %2$s, mais Tubify prend en charge la version majeure %3$s de l'API de plugins. Installez un plugin conçu pour la même version majeure de l'API.</string>
+    <string name="plugin_error_app_api_version_invalid">La version %1$s de l'API de plugins de Prisma n'est pas valide.</string>
+    <string name="plugin_error_api_incompatible">%1$s cible l'API de plugins %2$s, mais Prisma prend en charge la version majeure %3$s de l'API de plugins. Installez un plugin conçu pour la même version majeure de l'API.</string>
 
     <!-- Plugin install prompts -->
     <string name="plugin_prompt_incompatible_title">API de plugin incompatible</string>

@@ -96,10 +96,10 @@ class AppUpdateService(
 
             val release = httpClient.get(AppBuildInfo.LATEST_RELEASE_API_URL) {
                 header(HttpHeaders.Accept, "application/vnd.github+json")
-                header(HttpHeaders.UserAgent, "Tubify/${AppBuildInfo.VERSION}")
+                header(HttpHeaders.UserAgent, "Prisma/${AppBuildInfo.VERSION}")
             }.body<GitHubRelease>()
 
-            // Tubify releases are tagged build-<CI run>, the same number as this app's build.
+            // Prisma releases are tagged build-<CI run>, the same number as this app's build.
             val latestBuild = release.tagName.removePrefix("build-").toIntOrNull()
                 ?: return logger.w { "Ignoring release with unexpected tag: ${release.tagName}" }
             val newer = latestBuild > AppBuildInfo.BUILD_NUMBER

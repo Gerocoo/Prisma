@@ -1,6 +1,6 @@
 name: Build APK
 
-# Builds Tubify for Android (APKs) and iPhone (unsigned IPA) on every push to the tubify
+# Builds Prisma for Android (APKs) and iPhone (unsigned IPA) on every push to the tubify
 # branches, or on demand from the Actions tab; builds of master are published as a Release.
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 150
     steps:
-      - name: Checkout Tubify
+      - name: Checkout Prisma
         uses: actions/checkout@v7
         with:
           path: app
@@ -99,19 +99,19 @@ jobs:
           mkdir -p "$GITHUB_WORKSPACE/out"
           for f in $(find stable/release -name "*.apk"); do
             abi=$(basename "$f" .apk | sed -E 's/^composeApp-stable-//; s/-release.*$//')
-            cp "$f" "$GITHUB_WORKSPACE/out/Tubify-$abi.apk"
+            cp "$f" "$GITHUB_WORKSPACE/out/Prisma-$abi.apk"
           done
           debug=$(find stable/debug -name "*universal*.apk" | head -1)
           [ -n "$debug" ] || debug=$(find stable/debug -name "*.apk" | head -1)
-          cp "$debug" "$GITHUB_WORKSPACE/out/Tubify-debug-fallback.apk"
+          cp "$debug" "$GITHUB_WORKSPACE/out/Prisma-debug-fallback.apk"
           ls -la "$GITHUB_WORKSPACE/out"
-          test -n "$(ls $GITHUB_WORKSPACE/out/Tubify-arm64-v8a.apk 2>/dev/null)" || { echo "::error::Missing arm64 APK"; exit 1; }
+          test -n "$(ls $GITHUB_WORKSPACE/out/Prisma-arm64-v8a.apk 2>/dev/null)" || { echo "::error::Missing arm64 APK"; exit 1; }
 
       - name: Upload optimized APKs
         uses: actions/upload-artifact@v7
         with:
           name: tubify-android-apk
-          path: out/Tubify-*.apk
+          path: out/Prisma-*.apk
           retention-days: 30
 
       # Every successful build on master becomes a GitHub Release as soon as the APKs are ready;
@@ -121,25 +121,25 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ github.run_number }}
-          name: Tubify build ${{ github.run_number }}
+          name: Prisma build ${{ github.run_number }}
           target_commitish: ${{ github.sha }}
           make_latest: true
           body: |
-            **Android:** installa **Tubify-arm64-v8a.apk** (quasi tutti i telefoni recenti) oppure **Tubify-universal.apk** se il primo non si installa.
-            **iPhone:** **Tubify-ios.ipa** (compare qualche minuto dopo) non è firmato: installalo con SideStore o AltStore, che lo firmano con il tuo Apple ID (con un Apple ID gratuito va rinnovato ogni 7 giorni).
+            **Android:** installa **Prisma-arm64-v8a.apk** (quasi tutti i telefoni recenti) oppure **Prisma-universal.apk** se il primo non si installa.
+            **iPhone:** **Prisma-ios.ipa** (compare qualche minuto dopo) non è firmato: installalo con SideStore o AltStore, che lo firmano con il tuo Apple ID (con un Apple ID gratuito va rinnovato ogni 7 giorni).
             Commit: ${{ github.sha }}
           files: |
-            out/Tubify-arm64-v8a.apk
-            out/Tubify-armeabi-v7a.apk
-            out/Tubify-x86_64.apk
-            out/Tubify-universal.apk
+            out/Prisma-arm64-v8a.apk
+            out/Prisma-armeabi-v7a.apk
+            out/Prisma-x86_64.apk
+            out/Prisma-universal.apk
 
   ios:
     name: iPhone IPA (unsigned, for sideloading)
     runs-on: macos-latest
     timeout-minutes: 150
     steps:
-      - name: Checkout Tubify
+      - name: Checkout Prisma
         uses: actions/checkout@v7
         with:
           path: app
@@ -203,13 +203,13 @@ jobs:
           test -n "$APP" || { echo "::error::No .app produced"; exit 1; }
           mkdir Payload
           cp -R "$APP" Payload/
-          zip -qry "$GITHUB_WORKSPACE/Tubify-ios.ipa" Payload
+          zip -qry "$GITHUB_WORKSPACE/Prisma-ios.ipa" Payload
 
       - name: Upload IPA
         uses: actions/upload-artifact@v7
         with:
           name: tubify-ios-ipa
-          path: Tubify-ios.ipa
+          path: Prisma-ios.ipa
           retention-days: 30
 
       # Adds the IPA to the release the Android job already published for this run.
@@ -218,4 +218,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ github.run_number }}
-          files: Tubify-ios.ipa
+          files: Prisma-ios.ipa

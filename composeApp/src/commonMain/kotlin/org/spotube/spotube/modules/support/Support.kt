@@ -63,16 +63,16 @@ data class DonationOption(
 
 /** The donation destinations shown in onboarding, settings and the support prompt. */
 val donationOptions: List<DonationOption> = listOf(
-    // Tubify's only donation destination: PayPal to the developer of this fork.
+    // Prisma's only donation destination: PayPal to the developer of this fork.
     DonationOption(
         id = "paypal",
         title = Res.string.donate_paypal_title,
         subtitle = Res.string.donate_paypal_subtitle,
-        url = TubifyDonationUrl,
+        url = PrismaDonationUrl,
         icon = Iconsax.IconsaxHeart))
 
-/** PayPal.Me page of the developer of Tubify. */
-const val TubifyDonationUrl: String =
+/** PayPal.Me page of the developer of Prisma. */
+const val PrismaDonationUrl: String =
     "https://paypal.me/gerocoo16"
 
 /** Minimum time between two automatic support reminders. */

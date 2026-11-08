@@ -122,7 +122,7 @@
     <string name="settings_option_name_and_code">%1$s (%2$s)</string>
 
     <string name="settings_theme_title">پوسته</string>
-    <string name="settings_theme_subtitle_current">انتخاب کنید Tubify چگونه با ظاهر سیستم شما هماهنگ شود. فعلی: %1$s</string>
+    <string name="settings_theme_subtitle_current">انتخاب کنید Prisma چگونه با ظاهر سیستم شما هماهنگ شود. فعلی: %1$s</string>
     <string name="settings_theme_light">روشن</string>
     <string name="settings_theme_dark">تیره</string>
     <string name="settings_theme_system">سیستم</string>
@@ -172,7 +172,7 @@
     <string name="settings_download_folder_title">پوشهٔ دانلود سفارشی</string>
     <string name="settings_download_folder_current">پوشهٔ فعلی: %1$s</string>
     <string name="settings_download_folder_description">برای استفاده از پوشهٔ پیش‌فرض موسیقی، این قسمت را خالی بگذارید.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Tubify</string>
+    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">پوشه‌های رسانهٔ محلی</string>
     <string name="settings_local_media_folders_subtitle_current">پوشه‌های سفارشی برای اسکن در دسکتاپ. افزوده‌شده: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">هنوز پوشهٔ سفارشی‌ای اضافه نشده است</string>
@@ -217,8 +217,8 @@
     <string name="settings_allow_remote_control_subtitle">به دستگاه‌های دیگر در همان شبکه اجازه دهید هنگام اتصال، پخش را کنترل کنند.</string>
     <string name="settings_remote_device_name_title">نام دستگاه برای کنترل از راه دور</string>
     <string name="settings_remote_device_name_subtitle">نامی که دستگاه‌های دیگر هنگام یافتن این دستگاه می‌بینند. فعلی: %1$s</string>
-    <string name="settings_remote_device_name_description">یک نام دوستانه انتخاب کنید تا دستگاه‌های دیگر شبکه هنگام یافتن این نسخه از Tubify آن را ببینند.</string>
-    <string name="settings_remote_device_name_placeholder">مثلاً Tubify اتاق نشیمن</string>
+    <string name="settings_remote_device_name_description">یک نام دوستانه انتخاب کنید تا دستگاه‌های دیگر شبکه هنگام یافتن این نسخه از Prisma آن را ببینند.</string>
+    <string name="settings_remote_device_name_placeholder">مثلاً Prisma اتاق نشیمن</string>
     <string name="settings_remote_device_name_default">نام میزبان دستگاه</string>
     <string name="settings_playback_port_subtitle_current">درگاه مورد استفادهٔ سرور پراکسی پخش. فعلی: %1$d</string>
     <string name="settings_playback_port_description">درگاهی بین 1 و 65535 انتخاب کنید.</string>
@@ -230,12 +230,12 @@
     <string name="settings_blacklist_subtitle">مدیریت آهنگ‌ها و هنرمندان فهرست سیاه</string>
 
     <string name="settings_desktop_minimize_title">کوچک‌سازی به سینی سیستم</string>
-    <string name="settings_desktop_minimize_subtitle">وقتی پنجره کوچک می‌شود، Tubify در سینی سیستم در حال اجرا بماند.</string>
+    <string name="settings_desktop_minimize_subtitle">وقتی پنجره کوچک می‌شود، Prisma در سینی سیستم در حال اجرا بماند.</string>
     <string name="settings_desktop_discord_title">وضعیت Discord</string>
     <string name="settings_desktop_discord_subtitle">وضعیت پخش فعلی خود را در Discord روی دسکتاپ نمایش دهید.</string>
 
     <string name="settings_updates_auto_check_title">بررسی خودکار به‌روزرسانی‌ها</string>
-    <string name="settings_updates_auto_check_subtitle">نسخه‌های جدید Tubify را در پس‌زمینه بررسی کنید.</string>
+    <string name="settings_updates_auto_check_subtitle">نسخه‌های جدید Prisma را در پس‌زمینه بررسی کنید.</string>
 
     <string name="settings_plugins_manage_title">مدیریت افزونه‌ها</string>
     <string name="settings_plugins_manage_subtitle">افزونه‌های خود را مدیریت کنید</string>
@@ -300,7 +300,7 @@
     <string name="settings_jam_broker_username">نام کاربری (اختیاری)</string>
     <string name="settings_jam_broker_password">گذرواژه (اختیاری)</string>
     <string name="settings_jam_broker_client_id">پیشوند شناسهٔ کلاینت</string>
-    <string name="settings_jam_broker_client_id_subtitle">برای شناسایی این نسخه از Tubify استفاده می‌شود</string>
+    <string name="settings_jam_broker_client_id_subtitle">برای شناسایی این نسخه از Prisma استفاده می‌شود</string>
     <string name="settings_jam_broker_tls_subtitle">رمزگذاری اتصال به بروکر</string>
     <string name="settings_jam_broker_diagnostics_subtitle">پیش از شروع اتاق، تنظیمات فعلی بروکر را بررسی کنید.</string>
     <string name="settings_jam_broker_test">آزمایش اتصال</string>
@@ -344,7 +344,7 @@
     <string name="jam_error_create">ساخت جلسهٔ جم ناموفق بود</string>
     <string name="jam_error_join">پیوستن به جلسهٔ جم ناموفق بود</string>
     <string name="jam_error_invalid_code">یک کد اتاق شش‌نویسه‌ای شامل حروف و اعداد وارد کنید.</string>
-    <string name="jam_share_message">با این کد به جم Tubify من بپیوندید: %1$s</string>
+    <string name="jam_share_message">با این کد به جم Prisma من بپیوندید: %1$s</string>
 
     <string name="player_go_to_album">رفتن به آلبوم</string>
     <string name="player_sleep_timer">زمان‌سنج خواب</string>
@@ -356,8 +356,8 @@
 
     <string name="update_action_ignore">نادیده گرفتن</string>
     <string name="update_action_update">به‌روزرسانی</string>
-    <string name="app_update_dialog_title">Tubify %1$s در دسترس است</string>
-    <string name="app_update_dialog_no_notes">تازه‌های این نسخه را در صفحهٔ دانلود Tubify ببینید.</string>
+    <string name="app_update_dialog_title">Prisma %1$s در دسترس است</string>
+    <string name="app_update_dialog_no_notes">تازه‌های این نسخه را در صفحهٔ دانلود Prisma ببینید.</string>
     <string name="plugin_update_dialog_title">%1$s %2$s در دسترس است</string>
     <string name="plugin_update_dialog_current_version">نسخهٔ نصب‌شدهٔ فعلی: %1$s</string>
     <string name="plugin_update_dialog_no_notes">تازه‌های این به‌روزرسانی را در صفحهٔ افزونه ببینید.</string>
@@ -366,11 +366,11 @@
     <string name="welcome_next">بعدی</string>
     <string name="welcome_back">بازگشت</string>
     <string name="welcome_get_started">شروع کنید</string>
-    <string name="welcome_app_name">Tubify</string>
+    <string name="welcome_app_name">Prisma</string>
     <string name="welcome_brand_freedom">موسیقی، بی‌هیچ قید و بندی.</string>
     <string name="welcome_brand_quiet_description">پخش‌کننده‌ای متن‌باز برای دنیایی از موسیقی.\nبرای کشف کردن. برای از آنِ خود کردن.</string>
     <string name="welcome_donate_quiet_title">این پروژه را زنده نگه دارید.</string>
-    <string name="welcome_donate_letter">Tubify را آدم‌ها ساخته‌اند، نه یک کسب‌وکار اشتراکی. اگر بخشی از زندگی روزمره‌تان شده، کمی حمایت به ما کمک می‌کند آن‌طور که شایسته است از آن مراقبت کنیم.\n\nسپاس که برای نرم‌افزار مستقل جا باز می‌کنید.</string>
+    <string name="welcome_donate_letter">Prisma را آدم‌ها ساخته‌اند، نه یک کسب‌وکار اشتراکی. اگر بخشی از زندگی روزمره‌تان شده، کمی حمایت به ما کمک می‌کند آن‌طور که شایسته است از آن مراقبت کنیم.\n\nسپاس که برای نرم‌افزار مستقل جا باز می‌کنید.</string>
     <string name="welcome_plugins_setup_guide">با یک افزونهٔ کاتالوگ شروع کنید تا آهنگ‌ها و پلی‌لیست‌ها را پیدا کنید. یک افزونهٔ صوتی برای پخش آن‌ها انتخاب کنید. متن آهنگ و تاریخچهٔ شنیدن اختیاری‌اند. افزونه‌ای را در پایین پیدا کنید، مجوزهایش را بررسی کنید، نصبش کنید و سپس آن را اینجا انتخاب کنید.</string>
     <string name="welcome_plugins_discover">کشف افزونه‌ها</string>
     <string name="welcome_plugins_sources">منابع شما</string>
@@ -383,7 +383,7 @@
     <string name="welcome_step_plugins">افزونه‌ها</string>
     <string name="welcome_step_guide">راهنما</string>
 
-    <string name="welcome_guide_title">نحوهٔ استفاده از Tubify</string>
+    <string name="welcome_guide_title">نحوهٔ استفاده از Prisma</string>
     <string name="welcome_guide_subtitle">چهار گام سریع و مشغول شنیدن هستید.</string>
     <string name="welcome_guide_signin_title">ورود</string>
     <string name="welcome_guide_signin_desc">حساب خود را متصل کنید یا افزونهٔ کاتالوگ دلخواهتان را انتخاب کنید.</string>
@@ -406,7 +406,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">حامیان ما را سرپا نگه می‌دارند</string>
     <string name="welcome_donate_title">ساخته‌شده با عشق. زنده به لطف شما.</string>
-    <string name="welcome_donate_message">Tubify صددرصد رایگان، آزاد و متن‌باز است — بدون تبلیغات، بدون اشتراک، بدون ردیابی. هر قابلیتی وجود دارد چون کسانی مثل شما تصمیم گرفتند به ادامهٔ توسعه کمک کنند.</string>
+    <string name="welcome_donate_message">Prisma صددرصد رایگان، آزاد و متن‌باز است — بدون تبلیغات، بدون اشتراک، بدون ردیابی. هر قابلیتی وجود دارد چون کسانی مثل شما تصمیم گرفتند به ادامهٔ توسعه کمک کنند.</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">حامی ماهانه</string>
     <string name="welcome_donate_patreon_subtitle">از توسعه و زیرساخت مستمر حمایت کنید</string>
@@ -417,14 +417,14 @@
     <string name="welcome_donate_opencollective_tag">صندوق جامعه</string>
     <string name="welcome_donate_opencollective_subtitle">پشتیبانی مالی شفاف و تحت مدیریت جامعه</string>
     <string name="welcome_donate_thanks">از صمیم قلب سپاسگزاریم که به موسیقی آزاد باور دارید.</string>
-    <string name="welcome_donate_optional">حمایت کاملاً اختیاری است — Tubify در هر صورت رایگان می‌ماند.</string>
+    <string name="welcome_donate_optional">حمایت کاملاً اختیاری است — Prisma در هر صورت رایگان می‌ماند.</string>
     <string name="welcome_donate_action">حمایت</string>
     <string name="welcome_donate_open_content_description">باز کردن %1$s</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">حمایت از Tubify</string>
-    <string name="support_dialog_title">حمایت از Tubify</string>
-    <string name="support_dialog_message">Tubify رایگان، آزاد و متن‌باز است — بدون تبلیغات، بدون اشتراک، بدون ردیابی. اگر برایتان شادی می‌آورد، حمایت از پروژه را در نظر بگیرید.</string>
+    <string name="support_button_label">حمایت از Prisma</string>
+    <string name="support_dialog_title">حمایت از Prisma</string>
+    <string name="support_dialog_message">Prisma رایگان، آزاد و متن‌باز است — بدون تبلیغات، بدون اشتراک، بدون ردیابی. اگر برایتان شادی می‌آورد، حمایت از پروژه را در نظر بگیرید.</string>
     <string name="support_dialog_reminder_hint">می‌توانید این یادآوری‌ها را در تنظیمات → حمایت خاموش کنید.</string>
     <string name="support_dialog_dismiss">شاید بعداً</string>
     <string name="settings_support_reminders_title">یادآوری‌های حمایت</string>
@@ -433,7 +433,7 @@
     <!-- Page 3: plugins -->
     <string name="welcome_plugins_eyebrow">معماری ماژولار</string>
     <string name="welcome_plugins_title">انتخاب کنید موسیقی‌تان از کجا بیاید.</string>
-    <string name="welcome_plugins_subtitle">Tubify کشف کاتالوگ، پخش صدا و متن همگام‌شده را از هم جدا می‌کند. موتورهای خود را در پایین پیکربندی کنید یا هر زمان عوضشان کنید.</string>
+    <string name="welcome_plugins_subtitle">Prisma کشف کاتالوگ، پخش صدا و متن همگام‌شده را از هم جدا می‌کند. موتورهای خود را در پایین پیکربندی کنید یا هر زمان عوضشان کنید.</string>
     <string name="welcome_plugins_metadata_title">موتور فراداده</string>
     <string name="welcome_plugins_metadata_description">کشف موسیقی، جستجو، فهرست آهنگ‌ها و پلی‌لیست‌ها را ممکن می‌کند.</string>
     <string name="welcome_plugins_audio_title">موتور صدا</string>
@@ -455,13 +455,13 @@
     <!-- Page 4: how it works -->
     <string name="welcome_how_eyebrow">معماری رترو-مدرن</string>
     <string name="welcome_how_title">Hi-Fi خالص، بدون واسطه</string>
-    <string name="welcome_how_subtitle">این‌گونه Tubify پخش غیرمتمرکز را مستقیماً روی دستگاه شما هماهنگ می‌کند.</string>
+    <string name="welcome_how_subtitle">این‌گونه Prisma پخش غیرمتمرکز را مستقیماً روی دستگاه شما هماهنگ می‌کند.</string>
     <string name="welcome_how_status_badge">نظیربه‌نظیر مستقیم • 256 KBPS OPUS</string>
     <string name="welcome_how_mockup_title">ساعت آبی</string>
-    <string name="welcome_how_mockup_artist">Tubify · نمایش پخش‌کننده</string>
+    <string name="welcome_how_mockup_artist">Prisma · نمایش پخش‌کننده</string>
     <string name="welcome_how_mockup_lyric">کمی موسیقی برای لحظه‌های میان‌راه.</string>
     <string name="welcome_how_step_search_title">۱. کشف غیرمتمرکز</string>
-    <string name="welcome_how_step_search_desc">جستجوها مستقیماً به افزونهٔ کاتالوگ انتخابی شما می‌روند. Tubify هرگز از سلیقهٔ شما نمایه نمی‌سازد.</string>
+    <string name="welcome_how_step_search_desc">جستجوها مستقیماً به افزونهٔ کاتالوگ انتخابی شما می‌روند. Prisma هرگز از سلیقهٔ شما نمایه نمی‌سازد.</string>
     <string name="welcome_how_step_stream_title">۲. دریافت مستقیم جریان</string>
     <string name="welcome_how_step_stream_desc">صدا مستقیماً از سرورهای محتوا به دستگاه شما می‌رسد. بدون پراکسی میانی یا جمع‌آوری داده از راه دور.</string>
     <string name="welcome_how_step_playback_title">۳. پردازش صدا و پخش محلی</string>
@@ -839,8 +839,8 @@
     <string name="plugin_error_builtin_add">افزونه‌های داخلی از قبل وجود دارند و نمی‌توان دوباره اضافه‌شان کرد.</string>
     <string name="plugin_error_builtin_remove">افزونه‌های داخلی را نمی‌توان حذف کرد.</string>
     <string name="plugin_error_api_version_invalid">%1$s یک apiVersion نامعتبر (%2$s) اعلام کرده است. نسخه‌بندی معنایی سازگار با %3$s انتظار می‌رود.</string>
-    <string name="plugin_error_app_api_version_invalid">نسخهٔ API افزونهٔ Tubify (%1$s) نامعتبر است.</string>
-    <string name="plugin_error_api_incompatible">%1$s برای API افزونهٔ %2$s ساخته شده، اما Tubify از نسخهٔ اصلی API افزونهٔ %3$s پشتیبانی می‌کند. افزونه‌ای نصب کنید که برای همان نسخهٔ اصلی API ساخته شده باشد.</string>
+    <string name="plugin_error_app_api_version_invalid">نسخهٔ API افزونهٔ Prisma (%1$s) نامعتبر است.</string>
+    <string name="plugin_error_api_incompatible">%1$s برای API افزونهٔ %2$s ساخته شده، اما Prisma از نسخهٔ اصلی API افزونهٔ %3$s پشتیبانی می‌کند. افزونه‌ای نصب کنید که برای همان نسخهٔ اصلی API ساخته شده باشد.</string>
 
     <!-- Plugin install prompts -->
     <string name="plugin_prompt_incompatible_title">API افزونه سازگار نیست</string>

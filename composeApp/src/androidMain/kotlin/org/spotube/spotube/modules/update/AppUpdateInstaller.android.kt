@@ -50,7 +50,7 @@ actual object AppUpdateInstaller {
                     instanceFollowRedirects = false
                     connectTimeout = 20_000
                     readTimeout = 30_000
-                    setRequestProperty("User-Agent", "Tubify-Updater")
+                    setRequestProperty("User-Agent", "Prisma-Updater")
                 }
                 val code = connection.responseCode
                 if (code in 300..399 && hops++ < 5) {
@@ -83,7 +83,7 @@ actual object AppUpdateInstaller {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
                 !context.packageManager.canRequestPackageInstalls()
             ) {
-                // First time only: Android asks to allow installs from Tubify, then "Aggiorna" again.
+                // First time only: Android asks to allow installs from Prisma, then "Aggiorna" again.
                 context.startActivity(
                     Intent(
                         Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,

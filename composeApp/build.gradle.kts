@@ -381,7 +381,7 @@ android {
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        // Tubify's own id, so it installs next to the official Spotube app.
+        // Prisma's own id, so it installs next to the official Spotube app.
         applicationId = "io.github.gerocoo.tubify"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()

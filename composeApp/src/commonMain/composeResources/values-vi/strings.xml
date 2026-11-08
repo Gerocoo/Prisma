@@ -120,7 +120,7 @@
     <string name="settings_option_name_and_code">%1$s (%2$s)</string>
 
     <string name="settings_theme_title">Chủ đề</string>
-    <string name="settings_theme_subtitle_current">Chọn cách Tubify khớp với giao diện hệ thống. Hiện tại: %1$s</string>
+    <string name="settings_theme_subtitle_current">Chọn cách Prisma khớp với giao diện hệ thống. Hiện tại: %1$s</string>
     <string name="settings_theme_light">Sáng</string>
     <string name="settings_theme_dark">Tối</string>
     <string name="settings_theme_system">Theo hệ thống</string>
@@ -170,7 +170,7 @@
     <string name="settings_download_folder_title">Thư mục tải xuống tùy chỉnh</string>
     <string name="settings_download_folder_current">Thư mục hiện tại: %1$s</string>
     <string name="settings_download_folder_description">Để trống để dùng thư mục nhạc mặc định.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Tubify</string>
+    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">Thư mục nhạc trên máy</string>
     <string name="settings_local_media_folders_subtitle_current">Thư mục tùy chỉnh để quét trên máy tính. Đã thêm: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">Chưa thêm thư mục tùy chỉnh nào</string>
@@ -214,8 +214,8 @@
     <string name="settings_allow_remote_control_subtitle">Cho phép các thiết bị khác trong cùng mạng điều khiển phát lại khi kết nối.</string>
     <string name="settings_remote_device_name_title">Tên thiết bị điều khiển từ xa</string>
     <string name="settings_remote_device_name_subtitle">Tên mà các thiết bị khác thấy khi tìm thấy thiết bị này. Hiện tại: %1$s</string>
-    <string name="settings_remote_device_name_description">Chọn một tên dễ nhận biết để hiển thị cho các thiết bị khác trong mạng khi chúng tìm thấy Tubify này.</string>
-    <string name="settings_remote_device_name_placeholder">VD: Tubify phòng khách</string>
+    <string name="settings_remote_device_name_description">Chọn một tên dễ nhận biết để hiển thị cho các thiết bị khác trong mạng khi chúng tìm thấy Prisma này.</string>
+    <string name="settings_remote_device_name_placeholder">VD: Prisma phòng khách</string>
     <string name="settings_remote_device_name_default">tên máy chủ của thiết bị</string>
     <string name="settings_playback_port_subtitle_current">Cổng được máy chủ proxy phát lại sử dụng. Hiện tại: %1$d</string>
     <string name="settings_playback_port_description">Chọn một cổng từ 1 đến 65535.</string>
@@ -227,12 +227,12 @@
     <string name="settings_blacklist_subtitle">Quản lý bài hát và nghệ sĩ bị chặn</string>
 
     <string name="settings_desktop_minimize_title">Thu nhỏ xuống khay hệ thống</string>
-    <string name="settings_desktop_minimize_subtitle">Giữ Tubify chạy trong khay hệ thống khi thu nhỏ cửa sổ.</string>
+    <string name="settings_desktop_minimize_subtitle">Giữ Prisma chạy trong khay hệ thống khi thu nhỏ cửa sổ.</string>
     <string name="settings_desktop_discord_title">Discord Rich Presence</string>
     <string name="settings_desktop_discord_subtitle">Hiển thị trạng thái đang phát trên Discord trên máy tính.</string>
 
     <string name="settings_updates_auto_check_title">Tự động kiểm tra cập nhật</string>
-    <string name="settings_updates_auto_check_subtitle">Tìm các phiên bản Tubify mới trong nền.</string>
+    <string name="settings_updates_auto_check_subtitle">Tìm các phiên bản Prisma mới trong nền.</string>
 
     <string name="settings_plugins_manage_title">Quản lý plugin</string>
     <string name="settings_plugins_manage_subtitle">Quản lý các plugin của bạn</string>
@@ -296,7 +296,7 @@
     <string name="settings_jam_broker_username">Tên người dùng (không bắt buộc)</string>
     <string name="settings_jam_broker_password">Mật khẩu (không bắt buộc)</string>
     <string name="settings_jam_broker_client_id">Tiền tố Client ID</string>
-    <string name="settings_jam_broker_client_id_subtitle">Dùng để nhận diện Tubify này</string>
+    <string name="settings_jam_broker_client_id_subtitle">Dùng để nhận diện Prisma này</string>
     <string name="settings_jam_broker_tls_subtitle">Mã hóa kết nối tới broker</string>
     <string name="settings_jam_broker_diagnostics_subtitle">Kiểm tra cài đặt broker hiện tại trước khi tạo phòng.</string>
     <string name="settings_jam_broker_test">Kiểm tra kết nối</string>
@@ -340,7 +340,7 @@
     <string name="jam_error_create">Không thể tạo phiên Jam</string>
     <string name="jam_error_join">Không thể tham gia phiên Jam</string>
     <string name="jam_error_invalid_code">Nhập mã phòng gồm sáu ký tự chữ và số.</string>
-    <string name="jam_share_message">Tham gia Jam Tubify của mình với mã: %1$s</string>
+    <string name="jam_share_message">Tham gia Jam Prisma của mình với mã: %1$s</string>
 
     <string name="player_go_to_album">Đi tới album</string>
     <string name="player_sleep_timer">Hẹn giờ tắt</string>
@@ -352,8 +352,8 @@
 
     <string name="update_action_ignore">Bỏ qua</string>
     <string name="update_action_update">Cập nhật</string>
-    <string name="app_update_dialog_title">Đã có Tubify %1$s</string>
-    <string name="app_update_dialog_no_notes">Xem có gì mới trong bản phát hành này trên trang tải xuống Tubify.</string>
+    <string name="app_update_dialog_title">Đã có Prisma %1$s</string>
+    <string name="app_update_dialog_no_notes">Xem có gì mới trong bản phát hành này trên trang tải xuống Prisma.</string>
     <string name="plugin_update_dialog_title">Đã có %1$s %2$s</string>
     <string name="plugin_update_dialog_current_version">Đang cài đặt: %1$s</string>
     <string name="plugin_update_dialog_no_notes">Xem có gì mới trong bản cập nhật này trên trang của plugin.</string>
@@ -362,11 +362,11 @@
     <string name="welcome_next">Tiếp</string>
     <string name="welcome_back">Quay lại</string>
     <string name="welcome_get_started">Bắt đầu</string>
-    <string name="welcome_app_name">Tubify</string>
+    <string name="welcome_app_name">Prisma</string>
     <string name="welcome_brand_freedom">Âm nhạc, không ràng buộc.</string>
     <string name="welcome_brand_quiet_description">Trình phát mã nguồn mở cho cả thế giới âm nhạc.\nTùy bạn khám phá. Tùy bạn biến nó thành của riêng mình.</string>
     <string name="welcome_donate_quiet_title">Giúp dự án này tiếp tục sống.</string>
-    <string name="welcome_donate_letter">Tubify được tạo ra bởi con người, không phải một doanh nghiệp thu phí thuê bao. Nếu Tubify trở thành một phần cuộc sống hằng ngày của bạn, một chút ủng hộ sẽ giúp chúng tôi chăm chút nó xứng đáng hơn.\n\nCảm ơn bạn đã dành chỗ cho phần mềm độc lập.</string>
+    <string name="welcome_donate_letter">Prisma được tạo ra bởi con người, không phải một doanh nghiệp thu phí thuê bao. Nếu Prisma trở thành một phần cuộc sống hằng ngày của bạn, một chút ủng hộ sẽ giúp chúng tôi chăm chút nó xứng đáng hơn.\n\nCảm ơn bạn đã dành chỗ cho phần mềm độc lập.</string>
     <string name="welcome_plugins_setup_guide">Bắt đầu với một plugin danh mục để tìm bài hát và danh sách phát. Chọn một plugin âm thanh để phát chúng. Lời bài hát và lịch sử nghe là tùy chọn. Hãy khám phá plugin bên dưới, xem lại quyền của nó, cài đặt rồi chọn nó tại đây.</string>
     <string name="welcome_plugins_discover">Khám phá plugin</string>
     <string name="welcome_plugins_sources">Nguồn của bạn</string>
@@ -379,7 +379,7 @@
     <string name="welcome_step_plugins">Plugin</string>
     <string name="welcome_step_guide">Hướng dẫn</string>
 
-    <string name="welcome_guide_title">Cách dùng Tubify</string>
+    <string name="welcome_guide_title">Cách dùng Prisma</string>
     <string name="welcome_guide_subtitle">Bốn bước nhanh là bạn đã có thể nghe nhạc.</string>
     <string name="welcome_guide_signin_title">Đăng nhập</string>
     <string name="welcome_guide_signin_desc">Kết nối tài khoản hoặc chọn plugin danh mục của riêng bạn.</string>
@@ -402,7 +402,7 @@
     <!-- Page 2: donations -->
     <string name="welcome_donate_eyebrow">Người ủng hộ giúp chúng tôi tiếp bước</string>
     <string name="welcome_donate_title">Tạo nên bằng đam mê. Duy trì nhờ bạn.</string>
-    <string name="welcome_donate_message">Tubify miễn phí 100%, tự do và mã nguồn mở — không quảng cáo, không thuê bao, không theo dõi. Mọi tính năng tồn tại là nhờ những người như bạn đã chọn giúp mã nguồn tiếp tục phát triển.</string>
+    <string name="welcome_donate_message">Prisma miễn phí 100%, tự do và mã nguồn mở — không quảng cáo, không thuê bao, không theo dõi. Mọi tính năng tồn tại là nhờ những người như bạn đã chọn giúp mã nguồn tiếp tục phát triển.</string>
     <string name="welcome_donate_patreon_title">Patreon</string>
     <string name="welcome_donate_patreon_tag">Tài trợ hằng tháng</string>
     <string name="welcome_donate_patreon_subtitle">Hỗ trợ phát triển và hạ tầng lâu dài</string>
@@ -413,14 +413,14 @@
     <string name="welcome_donate_opencollective_tag">Quỹ cộng đồng</string>
     <string name="welcome_donate_opencollective_subtitle">Hỗ trợ tài chính minh bạch, do cộng đồng quản lý</string>
     <string name="welcome_donate_thanks">Từ tận đáy lòng, cảm ơn bạn đã tin vào âm nhạc mở.</string>
-    <string name="welcome_donate_optional">Ủng hộ hoàn toàn là tùy chọn — Tubify vẫn luôn miễn phí.</string>
+    <string name="welcome_donate_optional">Ủng hộ hoàn toàn là tùy chọn — Prisma vẫn luôn miễn phí.</string>
     <string name="welcome_donate_action">Tài trợ</string>
     <string name="welcome_donate_open_content_description">Mở %1$s</string>
 
     <!-- Support / donations -->
-    <string name="support_button_label">Ủng hộ Tubify</string>
-    <string name="support_dialog_title">Ủng hộ Tubify</string>
-    <string name="support_dialog_message">Tubify miễn phí, tự do và mã nguồn mở — không quảng cáo, không thuê bao, không theo dõi. Nếu Tubify mang lại niềm vui cho bạn, hãy cân nhắc ủng hộ dự án.</string>
+    <string name="support_button_label">Ủng hộ Prisma</string>
+    <string name="support_dialog_title">Ủng hộ Prisma</string>
+    <string name="support_dialog_message">Prisma miễn phí, tự do và mã nguồn mở — không quảng cáo, không thuê bao, không theo dõi. Nếu Prisma mang lại niềm vui cho bạn, hãy cân nhắc ủng hộ dự án.</string>
     <string name="support_dialog_reminder_hint">Bạn có thể tắt lời nhắc này trong Cài đặt → Ủng hộ.</string>
     <string name="support_dialog_dismiss">Để sau</string>
     <string name="settings_support_reminders_title">Lời nhắc ủng hộ</string>
@@ -429,7 +429,7 @@
     <!-- Page 3: plugins -->
     <string name="welcome_plugins_eyebrow">Kiến trúc mô-đun</string>
     <string name="welcome_plugins_title">Chọn nơi lấy nhạc của bạn.</string>
-    <string name="welcome_plugins_subtitle">Tubify tách riêng việc khám phá danh mục, phát âm thanh trực tuyến và lời bài hát đồng bộ. Cấu hình các engine bên dưới hoặc chuyển đổi bất cứ lúc nào.</string>
+    <string name="welcome_plugins_subtitle">Prisma tách riêng việc khám phá danh mục, phát âm thanh trực tuyến và lời bài hát đồng bộ. Cấu hình các engine bên dưới hoặc chuyển đổi bất cứ lúc nào.</string>
     <string name="welcome_plugins_metadata_title">Engine siêu dữ liệu</string>
     <string name="welcome_plugins_metadata_description">Cung cấp khám phá nhạc, tìm kiếm, danh sách bài hát và danh sách phát.</string>
     <string name="welcome_plugins_audio_title">Engine âm thanh</string>
@@ -451,13 +451,13 @@
     <!-- Page 4: how it works -->
     <string name="welcome_how_eyebrow">Kiến trúc cổ điển hiện đại</string>
     <string name="welcome_how_title">Hi-Fi thuần túy, không trung gian</string>
-    <string name="welcome_how_subtitle">Đây là cách Tubify điều phối việc phát nhạc phi tập trung ngay trên máy của bạn.</string>
+    <string name="welcome_how_subtitle">Đây là cách Prisma điều phối việc phát nhạc phi tập trung ngay trên máy của bạn.</string>
     <string name="welcome_how_status_badge">NGANG HÀNG TRỰC TIẾP • 256 KBPS OPUS</string>
     <string name="welcome_how_mockup_title">Giờ xanh</string>
-    <string name="welcome_how_mockup_artist">Tubify · minh họa trình phát</string>
+    <string name="welcome_how_mockup_artist">Prisma · minh họa trình phát</string>
     <string name="welcome_how_mockup_lyric">Một chút âm nhạc cho những khoảnh khắc xen giữa.</string>
     <string name="welcome_how_step_search_title">1. Khám phá phi tập trung</string>
-    <string name="welcome_how_step_search_desc">Truy vấn được gửi thẳng tới plugin danh mục bạn chọn. Tubify không bao giờ lập hồ sơ sở thích của bạn.</string>
+    <string name="welcome_how_step_search_desc">Truy vấn được gửi thẳng tới plugin danh mục bạn chọn. Prisma không bao giờ lập hồ sơ sở thích của bạn.</string>
     <string name="welcome_how_step_stream_title">2. Phân giải luồng trực tiếp</string>
     <string name="welcome_how_step_stream_desc">Âm thanh được truyền trực tiếp từ máy chủ nội dung tới máy của bạn. Không qua proxy, không thu thập dữ liệu từ xa.</string>
     <string name="welcome_how_step_playback_title">3. DSP &amp; phát lại cục bộ</string>
@@ -833,8 +833,8 @@
     <string name="plugin_error_builtin_add">Plugin tích hợp sẵn đã có trong ứng dụng và không thể thêm lại.</string>
     <string name="plugin_error_builtin_remove">Không thể gỡ plugin tích hợp sẵn.</string>
     <string name="plugin_error_api_version_invalid">%1$s khai báo apiVersion không hợp lệ (%2$s). Cần phiên bản theo chuẩn semantic versioning tương thích với %3$s.</string>
-    <string name="plugin_error_app_api_version_invalid">Phiên bản API plugin Tubify %1$s không hợp lệ.</string>
-    <string name="plugin_error_api_incompatible">%1$s nhắm tới API plugin %2$s, nhưng Tubify hỗ trợ API plugin %3$s có thay đổi không tương thích. Hãy cài đặt plugin được xây dựng cho cùng phiên bản API chính.</string>
+    <string name="plugin_error_app_api_version_invalid">Phiên bản API plugin Prisma %1$s không hợp lệ.</string>
+    <string name="plugin_error_api_incompatible">%1$s nhắm tới API plugin %2$s, nhưng Prisma hỗ trợ API plugin %3$s có thay đổi không tương thích. Hãy cài đặt plugin được xây dựng cho cùng phiên bản API chính.</string>
 
     <!-- Plugin install prompts -->
     <string name="plugin_prompt_incompatible_title">API plugin không tương thích</string>
