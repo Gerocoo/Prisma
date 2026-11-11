@@ -75,18 +75,19 @@ jobs:
           KEYSTORE: ${{ secrets.KEYSTORE }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
         run: |
-          if [ -n "$KEYSTORE" ]; then
-            echo "$KEYSTORE" | base64 --decode > release.jks
-            PASS="$KEYSTORE_PASSWORD"
-          else
-            cp ../keystore/tubify-release.jks release.jks
-            PASS="cUUjpcoWjMxV6lF4q6eOAVud"
+          set -euo pipefail
+          if [ -z "${KEYSTORE:-}" ] || [ -z "${KEYSTORE_PASSWORD:-}" ]; then
+            echo "::error::KEYSTORE / KEYSTORE_PASSWORD secrets are missing"
+            exit 1
           fi
+          printf '%s' "$KEYSTORE" | tr -d '\n\r ' | python3 -c 'import base64,sys; open("release.jks","wb").write(base64.b64decode(sys.stdin.read()))'
+          test -s release.jks
+          keytool -list -keystore release.jks -storepass "$KEYSTORE_PASSWORD" > /dev/null
           cat >> local.properties <<PROPS
           release.signing.storeFile=$PWD/release.jks
-          release.signing.storePassword=$PASS
+          release.signing.storePassword=$KEYSTORE_PASSWORD
           release.signing.keyAlias=tubify
-          release.signing.keyPassword=$PASS
+          release.signing.keyPassword=$KEYSTORE_PASSWORD
           PROPS
 
       - name: Assemble optimized release and debug fallback
@@ -137,6 +138,17 @@ jobs:
             echo "- **iPhone:** **Prisma-ios.ipa** (arriva qualche minuto dopo) non è firmato: installalo con SideStore o AltStore."
           } > "$GITHUB_WORKSPACE/release-notes.md"
           cat "$GITHUB_WORKSPACE/release-notes.md"
+
+      - name: Verify signing certificate
+        working-directory: app
+        run: |
+          set -euo pipefail
+          APK="$GITHUB_WORKSPACE/out/Prisma-arm64-v8a.apk"
+          APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner 2>/dev/null | tail -1)
+          test -n "$APKSIGNER" || { echo "::error::apksigner not found"; exit 1; }
+          FP=$("$APKSIGNER" verify --print-certs "$APK" | awk -F': ' '/SHA-256 digest/{print $2; exit}')
+          echo "APK signing SHA-256: $FP"
+          test "$FP" = "a743393774f776cbf32ffdf662a07324723f2fffacbefc955cad978e81fcf144" || { echo "::error::APK signed with an unexpected key"; exit 1; }
 
       - name: Publish release
         if: github.ref == 'refs/heads/master'
