@@ -51,8 +51,8 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew publishToMavenLocal --no-configuration-cache
-      - name: Build patched Millennium (no glass overlay)
-        run: app/.github/scripts/build-millennium.sh millennium-src
+      - name: Build the UI component library (flat, no overlays)
+        run: app/.github/scripts/build-ui-library.sh ui-library-src
       # The signing key comes from repository secrets; it is never stored in the repo.
       - name: Configure signing
         working-directory: app/composeApp
@@ -180,8 +180,8 @@ jobs:
           ./gradlew publishToMavenLocal --no-configuration-cache
       - name: Set up Android SDK
         uses: android-actions/setup-android@v4
-      - name: Build patched Millennium (no glass overlay)
-        run: app/.github/scripts/build-millennium.sh millennium-src
+      - name: Build the UI component library (flat, no overlays)
+        run: app/.github/scripts/build-ui-library.sh ui-library-src
       # Unsigned on purpose: SideStore / AltStore re-sign it with the user's Apple ID.
       - name: Build unsigned app
         working-directory: app

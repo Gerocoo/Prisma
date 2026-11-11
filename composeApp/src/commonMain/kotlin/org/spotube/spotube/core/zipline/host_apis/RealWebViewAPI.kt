@@ -29,7 +29,22 @@ import kotlinx.coroutines.withContext
 class RealWebViewAPI(
     private val scope: CoroutineScope,
     private val webViewController: WebViewController,
-    private val pluginId: String) : WebViewAPI {
+    private val pluginId: String,
+    /** Hosts the plugin declared (plugin API 0.1.0); empty for older plugins, which are not limited. */
+    private val cookieDomains: List<String> = emptyList()) : WebViewAPI {
+
+    /** True when the plugin declared no domains, or [url]'s host is one of them or a subdomain. */
+    private fun mayReadCookies(url: String): Boolean {
+        if (cookieDomains.isEmpty()) return true
+        val host = url.substringAfter("://", url).substringBefore('/').substringBefore(':')
+            .substringAfterLast('@').lowercase().trimEnd('.')
+        return cookieDomains.any { declared ->
+            val pattern = declared.trim().lowercase().trimEnd('.')
+            val domain = pattern.removePrefix("*.")
+            host == domain || host.endsWith(".$domain")
+        }
+    }
+
     override fun navigateTo(url: String) {
         scope.launch(Dispatchers.Main) {
             webViewController.navigateTo(url, pluginId)
@@ -43,6 +58,9 @@ class RealWebViewAPI(
     }
 
     override suspend fun getCookies(url: String): List<Cookie> {
+        check(mayReadCookies(url)) {
+            "This plugin may not read cookies of $url: the host is not in its cookieDomains"
+        }
         return withContext(Dispatchers.Main) {
             webViewController.getCookies(url)
         }

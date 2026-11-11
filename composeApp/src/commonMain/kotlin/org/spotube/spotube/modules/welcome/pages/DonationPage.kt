@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.spotube.spotube.modules.support.DonationOption
@@ -33,7 +34,7 @@ fun DonationPage(
         verticalArrangement = Arrangement.Center) {
         Text(
             stringResource(Res.string.welcome_donate_quiet_title),
-            style = AppTheme.typography.displaySmall.copy(fontFamily = FontFamily.Serif),
+            style = AppTheme.typography.headlineLarge.copy(fontWeight = FontWeight.ExtraBold),
             textAlign = TextAlign.Center)
         Spacer(Modifier.height(20.dp))
         Text(

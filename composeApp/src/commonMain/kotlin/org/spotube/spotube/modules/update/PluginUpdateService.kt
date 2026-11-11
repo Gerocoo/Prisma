@@ -41,6 +41,9 @@ data class AvailablePluginUpdate(
     val currentVersion: String,
     val info: PluginUpdateInfo)
 
+/** A plugin that was just updated by itself: shown as a short banner. */
+data class PluginUpdatedNotice(val pluginName: String, val version: String)
+
 /**
  * Checks the currently active plugins for updates through their own [PluginService.use]
  * -> `coreAPI.checkPluginUpdates` API whenever the selected plugin set changes, and
@@ -57,6 +60,18 @@ class PluginUpdateService(
 
     private val _availableUpdate = MutableStateFlow<AvailablePluginUpdate?>(null)
     val availableUpdate: StateFlow<AvailablePluginUpdate?> = _availableUpdate.asStateFlow()
+
+    private val _updatedNotice = MutableStateFlow<PluginUpdatedNotice?>(null)
+
+    /** Set after an automatic update; the banner shows it and then calls [dismissUpdatedNotice]. */
+    val updatedNotice: StateFlow<PluginUpdatedNotice?> = _updatedNotice.asStateFlow()
+
+    /** Versions already tried in this run, so a failed install is not retried in a loop. */
+    private val attemptedAutoUpdates = mutableSetOf<String>()
+
+    fun dismissUpdatedNotice() {
+        _updatedNotice.value = null
+    }
 
     init {
         scope.launch {
@@ -88,6 +103,20 @@ class PluginUpdateService(
 
                 val ignoredVersion = settings.ignoredPluginUpdateVersions[pluginEntry.id]
                 if (latestVersion > currentVersion && updateInfo.latestVersion != ignoredVersion) {
+                    // Automatic updates: install it now and just tell the user it happened.
+                    val attemptKey = "${pluginEntry.id}:${updateInfo.latestVersion}"
+                    if (settings.autoUpdatePlugins && attemptedAutoUpdates.add(attemptKey)) {
+                        val installed = runCatching {
+                            pluginManager.updatePluginFromURL(updateInfo.directDownloadUrl)
+                        }.onFailure { e ->
+                            logger.w(e) { "Automatic update of plugin ${pluginEntry.name} failed" }
+                        }.isSuccess
+                        if (installed) {
+                            _updatedNotice.value = PluginUpdatedNotice(pluginEntry.name, updateInfo.latestVersion)
+                            // Installing restarts the plugins, which triggers the next check.
+                            return
+                        }
+                    }
                     _availableUpdate.value = AvailablePluginUpdate(
                         pluginId = pluginEntry.id,
                         pluginName = pluginEntry.name,

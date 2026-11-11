@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
+import org.spotube.spotube.core.zipline.settledLoggedInFlow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.spotube.spotube.modules.library.LibraryRepository
@@ -104,7 +105,9 @@ class HomeScreenViewModel(
         viewModelScope.launch {
             pluginManager.selectedMetadataPlugin
                 .filterNotNull()
-                .flatMapLatest { it.loggedInFlow }
+                // Waits for the plugin to restore its session, so the home is not loaded (and
+                // refused) as a signed-out user at every start.
+                .flatMapLatest { it.settledLoggedInFlow() }
                 .distinctUntilChanged().collect {
                     loadInitialData()
                 }
@@ -115,13 +118,13 @@ class HomeScreenViewModel(
         state.value = HomeScreenState.Loading
         loadQuickAccess()
         val featuredItems = repository.featuredItems() ?: emptyList()
-        val genres = repository.genres() ?: emptyList()
+        val genres = (repository.genres() ?: emptyList()).shortList()
         val firstGenreId = genres.firstOrNull()?.id
         val browseSections = mutableMapOf<String, List<MetadataBrowseSection>?>()
         val paginationStrategies = mutableMapOf<String, PaginationStrategy?>()
         if (firstGenreId != null) {
             val result = repository.list(firstGenreId)
-            browseSections[firstGenreId] = result?.items ?: emptyList()
+            browseSections[firstGenreId] = (result?.items ?: emptyList()).cleaned()
             paginationStrategies[firstGenreId] = result?.nextPagination
         }
         state.value = HomeScreenState.Data.Loaded(
@@ -144,14 +147,17 @@ class HomeScreenViewModel(
             }
             if (currentState.browseSections[genreId] == null) {
                 viewModelScope.launch {
-                    val result = repository.list(genreId)
+                    // A category that fails to load shows up empty instead of breaking the whole home.
+                    val result = runCatching { repository.list(genreId) }
+                        .onFailure { e -> logger.e(e) { "Failed to load home category $genreId" } }
+                        .getOrNull()
                     val current = state.value
                     if (current is HomeScreenState.Data) {
                         state.value = HomeScreenState.Data.Loaded(
                             featuredItems = current.featuredItems,
                             genres = current.genres,
                             selectedGenreId = genreId,
-                            browseSections = current.browseSections + (genreId to (result?.items ?: emptyList())),
+                            browseSections = current.browseSections + (genreId to (result?.items ?: emptyList()).cleaned()),
                             paginationStrategies = current.paginationStrategies + (genreId to result?.nextPagination))
                     }
                 }
@@ -171,7 +177,7 @@ class HomeScreenViewModel(
                 featuredItems = currentState.featuredItems,
                 genres = currentState.genres,
                 selectedGenreId = genreId,
-                browseSections = currentState.browseSections + (genreId to (existingSections + (result?.items ?: emptyList()))),
+                browseSections = currentState.browseSections + (genreId to (existingSections + (result?.items ?: emptyList()).cleaned())),
                 paginationStrategies = currentState.paginationStrategies + (genreId to result?.nextPagination))
         }
     }.onFailure { e ->
@@ -185,4 +191,35 @@ class HomeScreenViewModel(
             loadInitialData()
         }
     }
+}
+
+/**
+ * Like Spotify's home, the chip row stays short: the home feed first, then only the three main
+ * pages (made for you, new releases, charts) instead of every browse category.
+ */
+private val MainBrowsePageIds = listOf(
+    "0JQ5DAt0tbjZptfcdMSKl3", // Made For You
+    "0JQ5DAqbMKFz6FAsUtgAab", // New Releases
+    "0JQ5DAudkNjCgYMM0TZXDw", // Charts
+)
+
+private fun List<MetadataBrowseGenre>.shortList(): List<MetadataBrowseGenre> {
+    if (size <= 4) return this
+    val home = first()
+    val main = MainBrowsePageIds.mapNotNull { pageId -> drop(1).firstOrNull { it.id.endsWith(pageId) } }
+    return listOf(home) + main
+}
+
+/** Drops cards with no id or no title (they open a broken page) and the sections left empty. */
+private fun List<MetadataBrowseSection>.cleaned(): List<MetadataBrowseSection> = mapNotNull { section ->
+    val items = section.items.filter { item ->
+        when (item) {
+            is MetadataBrowseItem.Album -> item.data.id.isNotBlank() && item.data.title.isNotBlank()
+            is MetadataBrowseItem.Artist -> item.data.id.isNotBlank() && item.data.name.isNotBlank()
+            is MetadataBrowseItem.Playlist -> item.data.id.isNotBlank() && item.data.title.isNotBlank()
+            is MetadataBrowseItem.Track -> item.data.id.isNotBlank() && item.data.title.isNotBlank()
+            is MetadataBrowseItem.User -> item.data.id.isNotBlank()
+        }
+    }
+    if (items.isEmpty()) null else section.copy(items = items)
 }

@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,13 +25,13 @@ fun BrandingPage(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center) {
-        Image(painterResource(Res.drawable.spotube_logo), null, Modifier.size(88.dp))
+        Image(painterResource(Res.drawable.prisma_logo), null, Modifier.size(112.dp))
         Spacer(Modifier.height(24.dp))
         WelcomeWordmark(fontSize = 48.sp)
         Spacer(Modifier.height(24.dp))
         Text(
             stringResource(Res.string.welcome_brand_freedom),
-            style = AppTheme.typography.displaySmall.copy(fontFamily = FontFamily.Serif),
+            style = AppTheme.typography.headlineLarge.copy(fontWeight = FontWeight.ExtraBold),
             textAlign = TextAlign.Center)
         Spacer(Modifier.height(16.dp))
         Text(

@@ -24,11 +24,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.luminance
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import com.composeunstyled.Text
 import org.spotube.spotube.core.ui.theming.AppTheme
-import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.stringResource
 import org.spotube.millennium.theme.MillenniumTheme
 import spotube.composeapp.generated.resources.*
@@ -63,7 +62,7 @@ fun WelcomeWordmark(
     Text(
         stringResource(Res.string.welcome_app_name),
         modifier = modifier,
-        fontFamily = FontFamily(Font(Res.font.cookie_regular)),
+        fontWeight = FontWeight.ExtraBold,
         fontSize = fontSize,
         color = AppTheme.colors.onSurface)
 }

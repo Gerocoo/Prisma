@@ -17,6 +17,8 @@
 
 package org.spotube.spotube.core.zipline
 
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.transformLatest
 import app.cash.zipline.ZiplineService
 import org.spotube.plugin_interfaces.plugin_apis.audio.AudioAPI
 import org.spotube.plugin_interfaces.plugin_apis.core.CoreAPI
@@ -59,3 +61,31 @@ interface PluginService {
     suspend fun stop()
     suspend fun <T> use(block: suspend PluginServiceScope.() -> T): T
 }
+
+/** How long a plugin gets, after it starts, to restore its saved session before "signed out" counts. */
+private const val SessionRestoreGraceMillis = 4_000L
+
+/**
+ * [PluginService.loggedInFlow] without the false "signed out" every start begins with: a plugin
+ * that needs an account reports signed out until it has restored its session, a moment later.
+ * Here "signed out" is only reported once it has lasted [SessionRestoreGraceMillis]; "signed in"
+ * is reported at once. Plugins that need no account are passed through unchanged.
+ */
+@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+fun PluginService.settledLoggedInFlow(alreadyKnownToRequireAuth: Boolean = false): kotlinx.coroutines.flow.Flow<Boolean> =
+    kotlinx.coroutines.flow.flow {
+        val requiresAuth = alreadyKnownToRequireAuth || try {
+            use { coreAPI.requiresAuthentication }
+        } catch (e: Exception) {
+            if (e is kotlinx.coroutines.CancellationException) throw e
+            false
+        }
+        if (!requiresAuth) {
+            emitAll(loggedInFlow)
+        } else {
+            emitAll(loggedInFlow.transformLatest { loggedIn ->
+                if (!loggedIn) kotlinx.coroutines.delay(SessionRestoreGraceMillis)
+                emit(loggedIn)
+            })
+        }
+    }

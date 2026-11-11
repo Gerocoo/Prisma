@@ -46,6 +46,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import org.spotube.plugin_interfaces.plugin_apis.metadata.track.MetadataTrack
+import org.spotube.plugin_interfaces.plugin_apis.metadata.artist.MetadataArtist
+import org.spotube.spotube.resources.iconsax.User
+import androidx.compose.foundation.shape.RoundedCornerShape
 import org.spotube.spotube.core.ui.misc.shimmerApply
 import org.spotube.spotube.resources.iconsax.Iconsax
 import org.spotube.spotube.resources.iconsax.Iconsax3DotsMore
@@ -54,7 +57,6 @@ import org.spotube.spotube.resources.iconsax.IconsaxCd
 import org.spotube.spotube.resources.iconsax.IconsaxDirectboxReceive
 import org.spotube.spotube.resources.iconsax.IconsaxHeart
 import org.spotube.spotube.resources.iconsax.IconsaxHeart2
-import org.spotube.spotube.resources.iconsax.IconsaxMusicCircle
 import org.spotube.spotube.resources.iconsax.IconsaxMusicPlaylist
 import org.spotube.spotube.resources.iconsax.IconsaxMusicSquareRemove
 import org.spotube.spotube.resources.iconsax.IconsaxMusicSquareRemoveFilled
@@ -104,6 +106,7 @@ fun TrackOptions(
     onAction: (TrackOptionsAction) -> Unit,
     onAlbumClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onArtistClick: (MetadataArtist.Basic) -> Unit = {},
     isInJam: Boolean = false,
     isJamGuest: Boolean = false) {
     AdaptiveDropdownBottomSheet(
@@ -112,6 +115,7 @@ fun TrackOptions(
             state = state,
             onAction = onAction,
             onAlbumClick = onAlbumClick,
+            onArtistClick = onArtistClick,
             isInJam = isInJam,
             isJamGuest = isJamGuest),
         trigger = { onClick ->
@@ -137,6 +141,8 @@ fun TrackOptionsBottomSheet(
     onDismiss: () -> Unit,
     onAction: (TrackOptionsAction) -> Unit,
     onAlbumClick: () -> Unit,
+    onArtistClick: (MetadataArtist.Basic) -> Unit = {},
+    onSelect: (() -> Unit)? = null,
     isInJam: Boolean = false,
     isJamGuest: Boolean = false) {
     val sheetState = rememberModalBottomSheetState(initialDetent = SheetDetent.FullyExpanded)
@@ -168,11 +174,17 @@ fun TrackOptionsBottomSheet(
                         onAlbumClick()
                         onDismiss()
                     },
+                    onArtistClick = { artist ->
+                        onArtistClick(artist)
+                        onDismiss()
+                    },
+                    onSelect = onSelect,
                     isInJam = isInJam,
                     isJamGuest = isJamGuest).forEach { item ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .clip(RoundedCornerShape(18.dp))
                             .clickable(
                                 enabled = item.enabled,
                                 onClick = item.onClick)
@@ -245,12 +257,15 @@ fun TrackOptionsSheetHeader(track: MetadataTrack) {
     }
 }
 
+/** Same order as Spotify's track menu: save, playlists, queue, then where the track leads. */
 @Composable
 private fun buildTrackMenuItems(
     track: MetadataTrack,
     state: TrackOptionsState,
     onAction: (TrackOptionsAction) -> Unit,
     onAlbumClick: () -> Unit,
+    onArtistClick: (MetadataArtist.Basic) -> Unit = {},
+    onSelect: (() -> Unit)? = null,
     isInJam: Boolean = false,
     isJamGuest: Boolean = false): List<AdaptiveMenuItem> = buildList {
     if (isInJam) {
@@ -259,44 +274,6 @@ private fun buildTrackMenuItems(
                 icon = Iconsax.IconsaxAddSquare,
                 label = stringResource(Res.string.track_options_add_to_jam),
                 onClick = { onAction(TrackOptionsAction.AddToJam) }))
-    }
-
-    add(
-        AdaptiveMenuItem(
-            icon = Iconsax.IconsaxMusicCircle,
-            label = stringResource(Res.string.track_options_start_radio),
-            onClick = { onAction(TrackOptionsAction.StartRadio) }))
-
-    // A guest's queue is the shared jam queue — mutating it locally is not
-    // allowed, so queue actions are replaced by "Add to Jam".
-    if (!isJamGuest) {
-        if (!state.isInQueue && !state.isCurrentlyPlaying) {
-            add(
-                AdaptiveMenuItem(
-                    icon = Iconsax.IconsaxNext,
-                    label = stringResource(Res.string.track_options_play_next),
-                    onClick = { onAction(TrackOptionsAction.PlayNext) }))
-        } else if (state.isInQueue && !state.isCurrentlyPlaying) {
-            add(
-                AdaptiveMenuItem(
-                    icon = Iconsax.IconsaxNext,
-                    label = stringResource(Res.string.track_options_move_to_next),
-                    onClick = { onAction(TrackOptionsAction.PlayNext) }))
-        }
-
-        if (!state.isInQueue) {
-            add(
-                AdaptiveMenuItem(
-                    icon = Iconsax.IconsaxAddSquare,
-                    label = stringResource(Res.string.player_add_to_queue_content_description),
-                    onClick = { onAction(TrackOptionsAction.AddToQueue) }))
-        } else {
-            add(
-                AdaptiveMenuItem(
-                    icon = Iconsax.IconsaxMusicSquareRemove,
-                    label = stringResource(Res.string.track_options_remove_from_queue),
-                    onClick = { onAction(TrackOptionsAction.RemoveFromQueue) }))
-        }
     }
 
     add(
@@ -311,6 +288,57 @@ private fun buildTrackMenuItems(
             label = stringResource(Res.string.track_options_add_to_playlist),
             onClick = { onAction(TrackOptionsAction.AddToPlaylist) }))
 
+    // A guest's queue is the shared jam queue — mutating it locally is not
+    // allowed, so queue actions are replaced by "Add to Jam".
+    if (!isJamGuest) {
+        if (!state.isInQueue) {
+            add(
+                AdaptiveMenuItem(
+                    icon = Iconsax.IconsaxAddSquare,
+                    label = stringResource(Res.string.player_add_to_queue_content_description),
+                    onClick = { onAction(TrackOptionsAction.AddToQueue) }))
+        } else {
+            add(
+                AdaptiveMenuItem(
+                    icon = Iconsax.IconsaxMusicSquareRemove,
+                    label = stringResource(Res.string.track_options_remove_from_queue),
+                    onClick = { onAction(TrackOptionsAction.RemoveFromQueue) }))
+        }
+
+        if (!state.isCurrentlyPlaying) {
+            add(
+                AdaptiveMenuItem(
+                    icon = Iconsax.IconsaxNext,
+                    label = if (state.isInQueue) stringResource(Res.string.track_options_move_to_next) else stringResource(Res.string.track_options_play_next),
+                    onClick = { onAction(TrackOptionsAction.PlayNext) }))
+        }
+    }
+
+    if (track.album != null) {
+        add(
+            AdaptiveMenuItem(
+                icon = Iconsax.IconsaxCd,
+                label = stringResource(Res.string.player_go_to_album),
+                onClick = onAlbumClick))
+    }
+
+    // One entry per artist, so a featured artist is one tap away too.
+    track.artists.filter { it.id.isNotBlank() }.take(4).forEach { artist ->
+        add(
+            AdaptiveMenuItem(
+                icon = Iconsax.User,
+                label = stringResource(Res.string.track_options_go_to_artist, artist.name),
+                onClick = { onArtistClick(artist) }))
+    }
+
+    if (!track.externalUri.isNullOrBlank()) {
+        add(
+            AdaptiveMenuItem(
+                icon = Iconsax.IconsaxShare,
+                label = stringResource(Res.string.track_options_share),
+                onClick = { onAction(TrackOptionsAction.Share) }))
+    }
+
     add(
         AdaptiveMenuItem(
             icon = Iconsax.IconsaxDirectboxReceive,
@@ -323,19 +351,11 @@ private fun buildTrackMenuItems(
             label = if (state.isBlacklisted) stringResource(Res.string.blacklist_remove) else stringResource(Res.string.blacklist_add),
             onClick = { onAction(TrackOptionsAction.ToggleBlacklist) }))
 
-    if (!track.externalUri.isNullOrBlank()) {
+    if (onSelect != null) {
         add(
             AdaptiveMenuItem(
-                icon = Iconsax.IconsaxShare,
-                label = stringResource(Res.string.track_options_share),
-                onClick = { onAction(TrackOptionsAction.Share) }))
-    }
-
-    if (track.album != null) {
-        add(
-            AdaptiveMenuItem(
-                icon = Iconsax.IconsaxCd,
-                label = stringResource(Res.string.player_go_to_album),
-                onClick = onAlbumClick))
+                icon = Iconsax.IconsaxAddSquare,
+                label = stringResource(Res.string.track_options_select),
+                onClick = onSelect))
     }
 }

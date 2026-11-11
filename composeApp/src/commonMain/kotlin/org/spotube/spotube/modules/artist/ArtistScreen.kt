@@ -76,6 +76,8 @@ import org.spotube.spotube.core.navigation.NavigationCommands
 import org.spotube.spotube.core.navigation.Routes
 import org.koin.compose.koinInject
 import org.spotube.spotube.core.ui.component.AlbumCard
+import org.spotube.spotube.core.ui.component.ExpressiveLoadingIndicator
+import org.spotube.spotube.modules.shell.LocalAppShellBottomInset
 import org.spotube.spotube.core.ui.component.ApplicationMainBar
 import org.spotube.spotube.core.ui.component.ArtistCard
 import org.spotube.spotube.core.ui.component.PlaylistCard
@@ -144,12 +146,14 @@ fun ArtistScreen(
                         state = listState,
                         modifier = Modifier
                             .fillMaxSize(),
+                        // Leaves room for the mini player and the navigation bar under the last row.
+                        contentPadding = PaddingValues(bottom = LocalAppShellBottomInset.current + 16.dp),
                         verticalArrangement = Arrangement.spacedBy(24.dp)
                     ) {
                         item {
                             ArtistHeaderCard(
                                 artist = currentState.artist,
-                                isSaved = savedArtistIds.contains(currentState.artist.id),
+                                isSaved = currentState.isArtistSaved || savedArtistIds.contains(currentState.artist.id),
                                 isSaving = currentState.isSaving,
                                 onFollowClick = viewModel::toggleSavedArtist,
                                 isBlacklisted = currentState.artist.id in blacklistedArtistIds,
@@ -205,17 +209,29 @@ fun ArtistScreen(
                         }
 
                         if (currentState.albums.isNotEmpty() || currentState.albumsNextPagination != null) {
-                            item {
+                            item(key = "albums-section") {
                                 AlbumsSection(
                                     albums = currentState.albums,
-                                    onAlbumClick = { album ->
-                                        navigationCommands.navigateTo(
-                                            Routes.Album(
-                                                album.id
-                                            )
-                                        )
-                                    },
+                                    expanded = currentState.showFullDiscography,
+                                    onToggleExpanded = viewModel::toggleFullDiscography,
                                     onLoadMore = { viewModel.loadMoreAlbums() })
+                            }
+                            if (currentState.showFullDiscography) {
+                                items(currentState.albums, key = { "discography-" + it.id }) { album ->
+                                    AlbumCard(
+                                        album = album,
+                                        listMode = true,
+                                        modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp)
+                                    )
+                                }
+                                if (currentState.isLoadingAlbums) {
+                                    item(key = "discography-loading") {
+                                        Box(
+                                            modifier = Modifier.fillMaxWidth().padding(12.dp),
+                                            contentAlignment = Alignment.Center
+                                        ) { ExpressiveLoadingIndicator() }
+                                    }
+                                }
                             }
                         }
 
@@ -609,12 +625,14 @@ private fun TopTracksHeader(
 @Composable
 private fun AlbumsSection(
     albums: List<MetadataAlbum.Detailed>,
-    onAlbumClick: (MetadataAlbum.Detailed) -> Unit,
+    expanded: Boolean,
+    onToggleExpanded: () -> Unit,
     onLoadMore: () -> Unit
 ) {
     val rowState = rememberLazyListState()
 
-    LaunchedEffect(rowState) {
+    LaunchedEffect(rowState, expanded) {
+        if (expanded) return@LaunchedEffect
         snapshotFlow { rowState.layoutInfo }
             .map { layoutInfo ->
                 val lastVisibleIndex = layoutInfo.visibleItemsInfo.lastOrNull()?.index
@@ -629,17 +647,39 @@ private fun AlbumsSection(
             }
     }
 
-    SectionHeader(title = stringResource(Res.string.library_tab_albums))
-    Spacer(modifier = Modifier.size(8.dp))
-    LazyRow(
-        state = rowState,
-        modifier = Modifier.dragScrollable(rowState),
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalAlignment = Alignment.Top
-    ) {
-        items(albums, key = { it.id }) { album ->
-            AlbumCard(album = album)
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = stringResource(Res.string.library_tab_albums),
+                style = AppTheme.typography.titleLarge,
+                fontWeight = FontWeight.SemiBold
+            )
+            MillenniumButton(onClick = onToggleExpanded, style = MillenniumButtonStyle.Secondary) {
+                Text(
+                    stringResource(
+                        if (expanded) Res.string.artist_discography_hide else Res.string.artist_discography_show
+                    ),
+                    maxLines = 1
+                )
+            }
+        }
+        if (!expanded) {
+            Spacer(modifier = Modifier.size(8.dp))
+            LazyRow(
+                state = rowState,
+                modifier = Modifier.dragScrollable(rowState),
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.Top
+            ) {
+                items(albums, key = { it.id }) { album ->
+                    AlbumCard(album = album)
+                }
+            }
         }
     }
 }

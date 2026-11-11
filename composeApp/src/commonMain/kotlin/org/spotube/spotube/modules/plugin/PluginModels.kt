@@ -95,6 +95,11 @@ data class PluginEntry(
     val capabilities: List<PluginCapability>,
     @Serializable(with = LenientPluginAbilityListSerializer::class)
     val abilities: List<PluginAbility>,
+    /**
+     * Plugin API 0.1.0: hosts whose WebView cookies the plugin reads (`example.com` for that host,
+     * `*.example.com` for its subdomains). When declared, cookie reads for other hosts are refused.
+     */
+    val cookieDomains: List<String> = emptyList(),
     val contact: String,
     val repository: String,
     val bugs: String,

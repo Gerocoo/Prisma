@@ -30,6 +30,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.map
+import org.spotube.spotube.core.zipline.settledLoggedInFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -40,7 +43,12 @@ data class MetadataAuthUiState(
     val loginRequired: Boolean = false,
     val pluginName: String? = null,
     /** True while a login started from the prompt is still running. */
-    val isLoggingIn: Boolean = false)
+    val isLoggingIn: Boolean = false,
+    /**
+     * True until the plugin has had time to restore its saved session. Screens wait instead of
+     * flashing the sign-in prompt at every start.
+     */
+    val checkingLogin: Boolean = false)
 
 /**
  * Tells screens whether the selected metadata plugin is waiting for a login, so they can show a
@@ -54,16 +62,22 @@ class MetadataAuthViewModel(
 
     val uiState: StateFlow<MetadataAuthUiState> = combine(
         pluginManager.selectedMetadataPlugin.flatMapLatest { service ->
-            if (service == null) flowOf(false) else loginRequiredFlow(service)
+            if (service == null) flowOf<Boolean?>(false) else loginRequiredFlow(service)
         },
         pluginManager.state,
         isLoggingIn) { loginRequired, managerState, loggingIn ->
         val name = (managerState as? PluginManagerStates.Data)
             ?.selectedPlugins?.get(PluginAbility.METADATA)?.name
-        MetadataAuthUiState(loginRequired = loginRequired, pluginName = name, isLoggingIn = loggingIn)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), MetadataAuthUiState())
+        MetadataAuthUiState(
+            loginRequired = loginRequired == true,
+            pluginName = name,
+            isLoggingIn = loggingIn,
+            checkingLogin = loginRequired == null)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), MetadataAuthUiState(checkingLogin = true))
 
-    private fun loginRequiredFlow(service: org.spotube.spotube.core.zipline.PluginService): Flow<Boolean> = flow {
+    /** Null while it is too early to tell (the plugin is still restoring its session). */
+    private fun loginRequiredFlow(service: org.spotube.spotube.core.zipline.PluginService): Flow<Boolean?> = flow {
+        emit(null)
         val requiresAuth = try {
             service.use { coreAPI.requiresAuthentication }
         } catch (e: Exception) {
@@ -73,7 +87,7 @@ class MetadataAuthViewModel(
         if (!requiresAuth) {
             emit(false)
         } else {
-            service.loggedInFlow.collect { emit(!it) }
+            emitAll(service.settledLoggedInFlow(alreadyKnownToRequireAuth = true).map { !it })
         }
     }
 

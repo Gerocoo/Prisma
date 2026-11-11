@@ -39,6 +39,8 @@ import spotube.composeapp.generated.resources.Res
 import spotube.composeapp.generated.resources.settings_section_updates
 import spotube.composeapp.generated.resources.settings_updates_auto_check_subtitle
 import spotube.composeapp.generated.resources.settings_updates_auto_check_title
+import spotube.composeapp.generated.resources.settings_updates_auto_plugins_subtitle
+import spotube.composeapp.generated.resources.settings_updates_auto_plugins_title
 
 internal fun LazyListScope.updatesSection(
     settings: UserSettings,
@@ -62,6 +64,23 @@ internal fun LazyListScope.updatesSection(
                 onCheckedChange = { enabled ->
                     settingsViewModel.updateSettings {
                         copy(autoCheckForUpdates = enabled)
+                    }
+                }
+            )
+        }, {
+            SwitchSettingCard(
+                title = stringResource(Res.string.settings_updates_auto_plugins_title),
+                subtitle = stringResource(Res.string.settings_updates_auto_plugins_subtitle),
+                icon = {
+                    SettingsItemIcon(
+                        Iconsax.IconsaxRefreshArrow2,
+                        stringResource(Res.string.settings_updates_auto_plugins_title)
+                    )
+                },
+                checked = settings.autoUpdatePlugins,
+                onCheckedChange = { enabled ->
+                    settingsViewModel.updateSettings {
+                        copy(autoUpdatePlugins = enabled)
                     }
                 }
             )

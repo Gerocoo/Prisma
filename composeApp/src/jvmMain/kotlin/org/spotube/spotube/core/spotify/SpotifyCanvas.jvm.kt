@@ -18,6 +18,12 @@ package org.spotube.spotube.core.spotify
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 
 @Composable
-actual fun CanvasVideo(url: String, modifier: Modifier, onFirstFrame: () -> Unit) = Unit
+actual fun CanvasVideo(
+    url: String,
+    modifier: Modifier,
+    onFirstFrame: () -> Unit,
+    onBackdrop: (ImageBitmap) -> Unit,
+) = Unit

@@ -19,6 +19,12 @@ package org.spotube.spotube
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
+import android.view.View
+import android.view.ViewTreeObserver
+import org.koin.core.context.GlobalContext
+import org.spotube.spotube.modules.plugin.PluginManager
+import org.spotube.spotube.modules.plugin.PluginManagerStates
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -43,6 +49,30 @@ class MainActivity : ComponentActivity() {
         setContent {
             App()
         }
+        holdSplashUntilReady()
+    }
+
+    /**
+     * Keeps the launch screen up until the plugins are loaded (2.5 s at most), so the app opens
+     * on its real interface instead of a half-loaded one.
+     */
+    private fun holdSplashUntilReady() {
+        val pluginManager = runCatching { GlobalContext.get().get<PluginManager>() }.getOrNull() ?: return
+        val content = findViewById<View>(android.R.id.content)
+        val deadline = SystemClock.uptimeMillis() + 2_500
+        content.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                val ready = pluginManager.state.value !is PluginManagerStates.Loading ||
+                    SystemClock.uptimeMillis() >= deadline
+                if (ready) {
+                    content.viewTreeObserver.removeOnPreDrawListener(this)
+                } else {
+                    // Ask for another frame: nothing else would redraw while we hold the first one.
+                    content.postDelayed({ content.invalidate() }, 50)
+                }
+                return ready
+            }
+        })
     }
 
     override fun onNewIntent(intent: Intent) {

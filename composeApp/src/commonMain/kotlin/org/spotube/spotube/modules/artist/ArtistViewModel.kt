@@ -64,7 +64,10 @@ sealed interface ArtistScreenState {
         val relatedArtistsNextPagination: PaginationStrategy?,
         val featuredPlaylists: List<MetadataPlaylist>,
         val featuredPlaylistsNextPagination: PaginationStrategy?,
-        val isSaving: Boolean = false) : ArtistScreenState
+        val isSaving: Boolean = false,
+        /** The albums row is expanded into the full discography list. */
+        val showFullDiscography: Boolean = false,
+        val isLoadingAlbums: Boolean = false) : ArtistScreenState
 
     data class Error(val message: String) : ArtistScreenState
 }
@@ -160,18 +163,25 @@ class ArtistViewModel(
     }
 
     fun toggleSavedArtist() {
-        if ((_state.value as? ArtistScreenState.Loaded)?.isSaving == true) return
-        setSaving(true)
+        val loaded = _state.value as? ArtistScreenState.Loaded ?: return
+        if (loaded.isSaving) return
+        val follow = !loaded.isArtistSaved
+        // Show the new state right away ("Segui" -> "Segui già"); undo it if Spotify refuses.
+        _state.update { state ->
+            if (state is ArtistScreenState.Loaded) state.copy(isSaving = true, isArtistSaved = follow) else state
+        }
         viewModelScope.launch {
             runCatching {
-                val isLiked = libraryRepository.isSavedArtists(listOf(artistId)).firstOrNull() ?: false
-                if (isLiked) {
-                    libraryRepository.removeSavedArtists(listOf(artistId))
-                } else {
+                if (follow) {
                     libraryRepository.saveArtists(listOf(artistId))
+                } else {
+                    libraryRepository.removeSavedArtists(listOf(artistId))
                 }
             }.onFailure { e ->
                 logger.e(e) { "Failed to toggle saved artist" }
+                _state.update { state ->
+                    if (state is ArtistScreenState.Loaded) state.copy(isArtistSaved = !follow) else state
+                }
             }
             setSaving(false)
         }
@@ -207,20 +217,67 @@ class ArtistViewModel(
 
     fun loadMoreAlbums() {
         val currentState = _state.value
-        if (currentState !is ArtistScreenState.Loaded) return
+        if (currentState !is ArtistScreenState.Loaded || currentState.isLoadingAlbums) return
         val pagination = currentState.albumsNextPagination ?: return
+        setLoadingAlbums(true)
 
         viewModelScope.launch {
             runCatching {
                 repository.albums(artistId, pagination)
             }.onSuccess { result ->
-                if (result != null) {
-                    _state.value = currentState.copy(
-                        albums = currentState.albums + result.items,
-                        albumsNextPagination = result.nextPagination)
+                _state.update { state ->
+                    if (state !is ArtistScreenState.Loaded) return@update state
+                    if (result == null) return@update state.copy(albumsNextPagination = null)
+                    // The same release can come back on two pages: a repeated id would crash the row.
+                    val merged = (state.albums + result.items).distinctBy { it.id }
+                    state.copy(
+                        albums = merged,
+                        // No new album on this page: stop asking, or the row would load forever.
+                        albumsNextPagination = result.nextPagination
+                            ?.takeIf { merged.size > state.albums.size && it != pagination })
                 }
             }.onFailure { e ->
                 logger.e(e) { "Failed to load more albums" }
+            }
+            setLoadingAlbums(false)
+        }
+    }
+
+    private fun setLoadingAlbums(loading: Boolean) {
+        _state.update { state ->
+            if (state is ArtistScreenState.Loaded) state.copy(isLoadingAlbums = loading) else state
+        }
+    }
+
+    /** Opens or closes the full discography; opening it loads every remaining page. */
+    fun toggleFullDiscography() {
+        val currentState = _state.value as? ArtistScreenState.Loaded ?: return
+        val show = !currentState.showFullDiscography
+        _state.update { state ->
+            if (state is ArtistScreenState.Loaded) state.copy(showFullDiscography = show) else state
+        }
+        if (!show) return
+        viewModelScope.launch {
+            var guard = 0
+            while (guard++ < 40) {
+                val state = _state.value as? ArtistScreenState.Loaded ?: return@launch
+                if (!state.showFullDiscography) return@launch
+                val pagination = state.albumsNextPagination ?: return@launch
+                if (state.isLoadingAlbums) { kotlinx.coroutines.delay(150); continue }
+                setLoadingAlbums(true)
+                val result = runCatching { repository.albums(artistId, pagination) }
+                    .onFailure { e -> logger.e(e) { "Failed to load the discography" } }
+                    .getOrNull()
+                _state.update { current ->
+                    if (current !is ArtistScreenState.Loaded) return@update current
+                    if (result == null) return@update current.copy(albumsNextPagination = null, isLoadingAlbums = false)
+                    val merged = (current.albums + result.items).distinctBy { it.id }
+                    current.copy(
+                        albums = merged,
+                        albumsNextPagination = result.nextPagination
+                            ?.takeIf { merged.size > current.albums.size && it != pagination },
+                        isLoadingAlbums = false)
+                }
             }
         }
     }
@@ -235,9 +292,14 @@ class ArtistViewModel(
                 repository.relatedArtists(artistId, pagination)
             }.onSuccess { result ->
                 if (result != null) {
-                    _state.value = currentState.copy(
-                        relatedArtists = currentState.relatedArtists + result.items,
-                        relatedArtistsNextPagination = result.nextPagination)
+                    _state.update { state ->
+                        if (state !is ArtistScreenState.Loaded) return@update state
+                        val merged = (state.relatedArtists + result.items).distinctBy { it.id }
+                        state.copy(
+                            relatedArtists = merged,
+                            relatedArtistsNextPagination = result.nextPagination
+                                ?.takeIf { merged.size > state.relatedArtists.size && it != pagination })
+                    }
                 }
             }.onFailure { e ->
                 logger.e(e) { "Failed to load more related artists" }
@@ -255,9 +317,14 @@ class ArtistViewModel(
                 repository.featuredPlaylists(artistId, pagination)
             }.onSuccess { result ->
                 if (result != null) {
-                    _state.value = currentState.copy(
-                        featuredPlaylists = currentState.featuredPlaylists + result.items,
-                        featuredPlaylistsNextPagination = result.nextPagination)
+                    _state.update { state ->
+                        if (state !is ArtistScreenState.Loaded) return@update state
+                        val merged = (state.featuredPlaylists + result.items).distinctBy { it.id }
+                        state.copy(
+                            featuredPlaylists = merged,
+                            featuredPlaylistsNextPagination = result.nextPagination
+                                ?.takeIf { merged.size > state.featuredPlaylists.size && it != pagination })
+                    }
                 }
             }.onFailure { e ->
                 logger.e(e) { "Failed to load more featured playlists" }
@@ -396,12 +463,21 @@ class ArtistViewModel(
                         artist = overview.artist,
                         isArtistSaved = libraryRepository.savedArtistIdsFlow.value.contains(artistId),
                         topTracks = overview.top10Tracks,
-                        albums = overview.albums.items,
+                        albums = overview.albums.items.distinctBy { it.id },
                         albumsNextPagination = overview.albums.nextPagination,
-                        relatedArtists = overview.relatedArtists.items,
+                        relatedArtists = overview.relatedArtists.items.distinctBy { it.id },
                         relatedArtistsNextPagination = overview.relatedArtists.nextPagination,
-                        featuredPlaylists = overview.featuredPlaylists.items,
+                        featuredPlaylists = overview.featuredPlaylists.items.distinctBy { it.id },
                         featuredPlaylistsNextPagination = overview.featuredPlaylists.nextPagination)
+                    // Ask whether the artist is already followed, so the button starts in the right state.
+                    val followed = runCatching {
+                        libraryRepository.isSavedArtists(listOf(artistId)).firstOrNull() == true
+                    }.getOrDefault(false)
+                    if (followed) {
+                        _state.update { state ->
+                            if (state is ArtistScreenState.Loaded) state.copy(isArtistSaved = true) else state
+                        }
+                    }
                 } else {
                     _state.value = ArtistScreenState.Error(getString(Res.string.artist_error_load_failed))
                 }

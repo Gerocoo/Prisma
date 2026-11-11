@@ -91,6 +91,8 @@ data class UserSettings(
 
     // Updates
     val autoCheckForUpdates: Boolean = true,
+    // Installs plugin updates by itself and shows a short banner, instead of asking each time.
+    val autoUpdatePlugins: Boolean = true,
     val ignoredAppUpdateVersion: String? = null,
     val ignoredPluginUpdateVersions: Map<String, String> = emptyMap(),
 

@@ -18,5 +18,7 @@
 <resources>
     <string name="app_name">Prisma</string>
     <string name="now_playing">Now Playing</string>
+    <string name="notification_like">Like</string>
+    <string name="notification_unlike">Remove like</string>
     <string name="car_connect_hint">Play music from your phone to start listening in the car</string>
 </resources>

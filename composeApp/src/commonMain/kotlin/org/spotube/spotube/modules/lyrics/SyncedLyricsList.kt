@@ -125,9 +125,11 @@ fun SyncedLyricsList(
                         text = text,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 8.dp, vertical = 2.dp),
-                        style = AppTheme.typography.bodyMedium.copy(
-                            fontWeight = if (isCurrent) FontWeight.Bold else FontWeight.Normal,
+                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                        // Large enough to read at a glance from the player.
+                        style = AppTheme.typography.titleLarge.copy(
+                            fontWeight = if (isCurrent) FontWeight.Bold else FontWeight.Medium,
+                            lineHeight = 30.sp,
                             color = color
                         ),
                         textAlign = TextAlign.Center,

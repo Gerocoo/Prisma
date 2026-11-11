@@ -83,6 +83,14 @@ fun ErrorDisplay(
     modifier: Modifier = Modifier,
     authViewModel: MetadataAuthViewModel = koinViewModel()) {
     val authState by authViewModel.uiState.collectAsStateWithLifecycle()
+    if (authState.checkingLogin) {
+        // The plugin is still restoring the session: most early errors are just "not signed in yet".
+        androidx.compose.foundation.layout.Box(
+            modifier.fillMaxWidth().padding(32.dp),
+            contentAlignment = androidx.compose.ui.Alignment.Center
+        ) { ExpressiveLoadingIndicator() }
+        return
+    }
     if (authState.loginRequired) {
         LoginRequiredDisplay(
             pluginName = authState.pluginName,

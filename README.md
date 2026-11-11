@@ -18,8 +18,8 @@ subscriptions or tracking. Metadata, playlists and audio come from community plu
 
 ## What it is
 
-Prisma is a fork of [Spotube](https://github.com/team-spotube/spotube), the cross-platform,
-plugin-based music client. The playback engine and plugin system come from Spotube; the interface
+Prisma is a fork of [Spotube](https://github.com/team-spotube/spotube), the plugin-based music
+client, for **Android and iPhone**. The playback engine and plugin system come from Spotube; the interface
 has been redesigned from scratch around **Material 3 Expressive** and everyday Android conventions.
 
 Everything Spotube already does is still there: plugins for any service, downloads with metadata,
@@ -48,10 +48,9 @@ with your own Apple ID. With a free Apple ID the app has to be refreshed every 7
 
 ### Design
 
-- **Material 3 Expressive everywhere**: pill buttons, large rounded surfaces, tonal containers,
-  flat fills. Millennium's glossy "glass" effects (bevels, shine, inner glows, highlights on
-  press, focus and long press) are removed from every component. Prisma builds the UI library from
-  source with that effect turned off.
+- **Material 3 Expressive everywhere**: pill buttons, large rounded surfaces, tonal containers and
+  flat fills, with no glossy "glass" effects on press, focus or long press. The first-run setup
+  follows the same design.
 - **Material You (Monet)**: the whole app can take its colors from your wallpaper, or use one of
   the built-in accents (amber, blue, teal).
 - **Light and dark themes** with checked contrast. The light theme is tinted with the accent color,
@@ -61,7 +60,8 @@ with your own Apple ID. With a free Apple ID the app has to be refreshed every 7
 - **Expressive loading indicators**: a morphing, scalloped spinner, a wavy progress bar and an
   Expressive pull-to-refresh.
 - **Adaptive app icon**: a vector icon that fits every launcher shape, with a monochrome layer for
-  Android 13+ themed icons. The same icon is used on iPhone and desktop.
+  Android 13+ themed icons. The same icon is used on iPhone, in the launch screen (light or dark
+  with the system) and in the media notification.
 
 ### Navigation and motion
 
@@ -81,6 +81,16 @@ with your own Apple ID. With a free Apple ID the app has to be refreshed every 7
 - **Library** with playlists, albums, artists, local tracks and downloads, all shown as rounded
   tonal cards like the album and playlist pages.
 - **Liked songs** update instantly when you tap the heart.
+- **Artist pages** with popular tracks, a *Show discography* button that lists every release, and
+  a follow button that turns into *Following*.
+
+### Track menu
+
+- The three dots next to a track, or a **long press** on it in any list (playlists, albums, artist
+  pages, search), open the same menu: like, add to playlist, queue, play next, go to album, go to
+  artist, share, download.
+- Tapping anywhere on a row plays the track; the artist page is reached from the menu or from the
+  player.
 
 ### Playlists and albums
 
@@ -106,6 +116,19 @@ with your own Apple ID. With a free Apple ID the app has to be refreshed every 7
   shows a loading indicator while the stream buffers.
 - **Wavy progress bar** and a title that scrolls when it is too long.
 - Shuffle, repeat and like in one pill; sleep timer, track details and more in the options sheet.
+- **Like from the notification**: the media notification and the lock screen have a heart button.
+
+### Spotify Canvas and Spotify Connect
+
+Both need the Spotify plugin, signed in with your account.
+
+- **Canvas**: when a track has one, its looping video fills the player as on Spotify. It starts
+  with the track (canvases of the next tracks are looked up in advance), a shadow under the title
+  keeps text readable, and the buttons and the lyrics card take a blurred copy of the video as
+  their background. It can be turned off in Settings → Playback.
+- **Connect**: the button in the player lists your Spotify devices (desktop app, speakers, TVs).
+  Pick one to continue the track there and control it from Prisma, or bring playback back to the
+  phone.
 
 ### Queue
 
@@ -154,7 +177,10 @@ with your own Apple ID. With a free Apple ID the app has to be refreshed every 7
   Android's installer. *Cancel* stops the download.
 - Settings → Updates → **Check for updates** runs the same check by hand and shows your installed
   build. Automatic checks can be turned off there.
-- On iPhone and desktop the button opens the release page.
+- On iPhone the button opens the release page.
+- **Plugins update themselves**: a new plugin version is installed in the background and a banner
+  tells you which one and to which version. This can be turned off in Settings → Updates.
+- Prisma implements **plugin API 0.1.0** and still runs plugins built for 0.0.x.
 
 ## Build from source
 
@@ -162,26 +188,20 @@ Prisma is a Compose Multiplatform (Kotlin) app. You need **JDK 21**, **Rust** (`
 `cargo`) and, for Android, the **Android SDK**.
 
 ```bash
-# Patched Millennium UI library (no glass overlay), published to mavenLocal
-.github/scripts/build-millennium.sh /tmp/millennium-src
+# UI component library, published to mavenLocal
+.github/scripts/build-ui-library.sh /tmp/ui-library-src
 
 # Android
 ./gradlew :composeApp:assembleStableDebug
-
-# Desktop
-./gradlew :composeApp:run
 ```
 
 GitHub Actions builds every push to `master` / `tubify`:
 
-- The **Android** job builds the patched Millennium and the signed per-ABI APKs, then publishes
-  the release `build-<run number>`.
+- The **Android** job builds the signed per-ABI APKs, then publishes the release
+  `build-<run number>`.
 - The **iPhone** job builds the unsigned IPA and attaches it to the same release.
 - The run number is also the app's `versionCode`, which is how the in-app updater knows a build is
   newer.
-
-For desktop native builds and GraalVM see the upstream instructions:
-[Spotube — Building from source](https://github.com/team-spotube/spotube#readme).
 
 ## Support
 
@@ -192,9 +212,8 @@ entirely optional.
 ## Credits and license
 
 Prisma is built on the work of
-[Kingkor Roy Tirtho and the Spotube contributors](https://github.com/team-spotube/spotube) and on the
-[Millennium](https://github.com/team-spotube/millennium) UI library. Like the original project, it
-is licensed under **AGPL-3.0-or-later**: see [LICENSE](LICENSE).
+[Kingkor Roy Tirtho and the Spotube contributors](https://github.com/team-spotube/spotube). Like the
+original project, it is licensed under **AGPL-3.0-or-later**: see [LICENSE](LICENSE).
 
 The Figtree typeface is licensed under the [SIL Open Font License](assets/licenses/Figtree-OFL.txt).
 

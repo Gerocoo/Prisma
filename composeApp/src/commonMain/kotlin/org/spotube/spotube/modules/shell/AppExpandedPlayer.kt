@@ -30,6 +30,13 @@ import org.spotube.spotube.modules.settings.UserSettings
 import org.spotube.spotube.modules.settings.SettingsRepository
 import org.spotube.spotube.core.spotify.rememberSpotifyCanvasUrl
 import org.spotube.spotube.core.spotify.CanvasVideo
+import org.spotube.spotube.core.spotify.CanvasBackdrop
+import org.spotube.spotube.core.spotify.LocalCanvasBackdrop
+import org.spotube.spotube.core.spotify.canvasBlur
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.Dp
 import kotlinx.coroutines.delay
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.layout.onSizeChanged
@@ -350,26 +357,44 @@ fun AppExpandedPlayer(
     val userSettings by settingsRepository.userSettings.collectAsStateWithLifecycle(UserSettings())
     val canvasUrl = rememberSpotifyCanvasUrl(playerUiState.currentQueueEntry, userSettings.showSpotifyCanvas)
     var canvasShowing by remember(canvasUrl) { mutableStateOf(false) }
+    // As soon as a track is known to have a canvas the player switches to the video look (cover
+    // hidden, light controls on a dark ground); the video itself fades in on its first frame.
     val canvasProgress by animateFloatAsState(
-        if (canvasUrl != null && canvasShowing) 1f else 0f, tween(500), label = "canvas"
+        if (canvasUrl != null) 1f else 0f, tween(220), label = "canvas"
+    )
+    val videoAlpha by animateFloatAsState(
+        if (canvasUrl != null && canvasShowing) 1f else 0f, tween(260), label = "canvasVideo"
     )
     val art = if (canvasProgress > 0f) coverArt.overVideo(canvasProgress) else coverArt
+    val canvasBackdrop = remember { CanvasBackdrop() }
+    SideEffect { canvasBackdrop.amount = videoAlpha }
+    LaunchedEffect(canvasUrl) { if (canvasUrl == null) canvasBackdrop.image = null }
 
-    Box(modifier = modifier.fillMaxSize().background(coverArt.container)) {
+    CompositionLocalProvider(LocalCanvasBackdrop provides canvasBackdrop) {
+    Box(
+        modifier = modifier.fillMaxSize().background(coverArt.container)
+            .onGloballyPositioned { canvasBackdrop.container = it }
+    ) {
         if (canvasUrl != null) {
+            // Dark ground under the video, so nothing of the cover's colors flashes before it.
+            Box(Modifier.fillMaxSize().graphicsLayer { alpha = canvasProgress }.background(Color.Black))
             CanvasVideo(
                 url = canvasUrl,
-                modifier = Modifier.fillMaxSize().graphicsLayer { alpha = canvasProgress },
-                onFirstFrame = { canvasShowing = true }
+                modifier = Modifier.fillMaxSize().graphicsLayer { alpha = videoAlpha },
+                onFirstFrame = { canvasShowing = true },
+                onBackdrop = { canvasBackdrop.image = it }
             )
-            // Darkens the top bar area a little and the controls a lot, so text stays readable.
+            // Like Spotify: a light shade under the top bar, and a shadow that deepens from the
+            // middle of the video down to the title and the controls, so they stay readable.
             Box(
                 Modifier.fillMaxSize().graphicsLayer { alpha = canvasProgress }.background(
                     Brush.verticalGradient(
-                        0f to Color.Black.copy(alpha = 0.35f),
-                        0.25f to Color.Transparent,
-                        0.5f to Color.Transparent,
-                        1f to Color.Black.copy(alpha = 0.8f)
+                        0f to Color.Black.copy(alpha = 0.40f),
+                        0.18f to Color.Transparent,
+                        0.36f to Color.Transparent,
+                        0.52f to Color.Black.copy(alpha = 0.50f),
+                        0.72f to Color.Black.copy(alpha = 0.78f),
+                        1f to Color.Black.copy(alpha = 0.94f)
                     )
                 )
             )
@@ -784,6 +809,7 @@ fun AppExpandedPlayer(
                         .align(Alignment.CenterHorizontally)
                         .padding(top = 14.dp, bottom = 16.dp)
                         .clip(RoundedCornerShape(50))
+                        .canvasBlur()
                         .background(art.containerHigh)
                         .padding(6.dp),
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -850,6 +876,7 @@ fun AppExpandedPlayer(
             modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
+    }
 }
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -884,6 +911,7 @@ private fun LyricsPreviewCard(
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(28.dp))
+            .canvasBlur()
             .background(colors.containerHigh)
             .clickable(onClick = onExpand)
             .padding(16.dp),
@@ -922,7 +950,7 @@ private fun LyricsPreviewCard(
             currentIndex = uiState.currentIndex,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(120.dp),
+                .height(168.dp),
             textColor = colors.onContainerMuted,
             activeColor = colors.onContainer
         )
@@ -978,6 +1006,7 @@ private fun PlayerRoundButton(
         modifier = Modifier
             .size(44.dp)
             .clip(CircleShape)
+            .canvasBlur()
             .background(background)
             .clickable(role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center
@@ -986,12 +1015,13 @@ private fun PlayerRoundButton(
 
 /** Big rounded control (previous / play / next); the shape morphs smoothly between states. */
 @Composable
-private fun PlayerControlButton(
+internal fun PlayerControlButton(
     onClick: () -> Unit,
     background: Color,
     shape: RoundedCornerShape,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    height: Dp = 80.dp,
     onPress: () -> Unit = {},
     content: @Composable () -> Unit
 ) {
@@ -1000,8 +1030,9 @@ private fun PlayerControlButton(
     LaunchedEffect(pressed) { if (pressed) onPress() }
     Box(
         modifier = modifier
-            .height(80.dp)
+            .height(height)
             .clip(shape)
+            .canvasBlur()
             .background(if (enabled) background else background.copy(alpha = 0.5f))
             .clickable(
                 interactionSource = interaction,
@@ -1019,7 +1050,7 @@ private fun PlayerControlButton(
  * then everything springs back.
  */
 @Composable
-private fun controlWeight(index: Int, base: Float, pulsing: Int): Float {
+internal fun controlWeight(index: Int, base: Float, pulsing: Int): Float {
     val target = when {
         pulsing == index -> base * 1.55f
         pulsing >= 0 -> base * 0.85f

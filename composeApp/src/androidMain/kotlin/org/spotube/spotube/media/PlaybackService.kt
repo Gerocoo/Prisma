@@ -31,6 +31,12 @@ import androidx.media3.common.MediaItem as Media3MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.DefaultMediaNotificationProvider
+import androidx.media3.session.CommandButton
+import androidx.media3.session.SessionResult
+import android.os.Bundle
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import org.spotube.spotube.modules.saved_tracks.SavedTracksRepository
 import androidx.media3.session.LibraryResult
 import androidx.media3.session.MediaLibraryService
 import androidx.media3.session.MediaLibraryService.LibraryParams
@@ -68,6 +74,7 @@ class PlaybackService : MediaLibraryService(), KoinComponent {
     private val audioPlayer = inject<AudioPlayerInterface>().value as AudioPlayer
     private val audioPlayerQueue: AudioPlayerQueue by inject()
     private val mediaBrowseHelper: MediaBrowseHelper by inject()
+    private val savedTracksRepository: SavedTracksRepository by inject()
     private lateinit var librarySession: MediaLibrarySession
 
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -85,7 +92,7 @@ class PlaybackService : MediaLibraryService(), KoinComponent {
                 .setChannelId(CHANNEL_ID)
                 .setNotificationId(NOTIFICATION_ID)
                 .build()
-                .apply { setSmallIcon(R.drawable.ic_stat_spotube) }
+                .apply { setSmallIcon(R.drawable.ic_stat_prisma) }
         )
 
         val sessionActivity = PendingIntent.getActivity(
@@ -100,8 +107,8 @@ class PlaybackService : MediaLibraryService(), KoinComponent {
         // Short-lived placeholder until Media3 posts the playback notification. No localized text:
         // loading it here would block the main thread (see createNotificationChannel).
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("Spotube")
-            .setSmallIcon(R.drawable.ic_stat_spotube)
+            .setContentTitle("Prisma")
+            .setSmallIcon(R.drawable.ic_stat_prisma)
             .setContentIntent(sessionActivity)
             .setOngoing(true)
             .build()
@@ -120,9 +127,11 @@ class PlaybackService : MediaLibraryService(), KoinComponent {
         librarySession =
             MediaLibrarySession.Builder(this, audioPlayer.player, LibrarySessionCallback())
                 .setSessionActivity(sessionActivity)
+                .setCustomLayout(ImmutableList.of(likeButton(liked = false)))
                 .build()
 
         addSession(librarySession)
+        observeLikeState()
 
         Log.i(TAG, "Library session created")
     }
@@ -146,7 +155,7 @@ class PlaybackService : MediaLibraryService(), KoinComponent {
                 setShowBadge(false)
             }
 
-        manager.createNotificationChannel(channel("Spotube"))
+        manager.createNotificationChannel(channel("Prisma"))
         serviceScope.launch {
             // Re-creating a channel with the same ID updates its name and description.
             manager.createNotificationChannel(
@@ -158,6 +167,52 @@ class PlaybackService : MediaLibraryService(), KoinComponent {
 
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaLibrarySession =
         librarySession
+
+    /** The heart shown in the media notification (and on the lock screen): filled when liked. */
+    private fun likeButton(liked: Boolean): CommandButton =
+        CommandButton.Builder(if (liked) CommandButton.ICON_HEART_FILLED else CommandButton.ICON_HEART_UNFILLED)
+            .setDisplayName(getString(if (liked) R.string.notification_unlike else R.string.notification_like))
+            .setSessionCommand(SessionCommand(COMMAND_TOGGLE_LIKE, Bundle.EMPTY))
+            .build()
+
+    private fun currentTrackId(): String? =
+        (audioPlayerQueue.currentQueueEntryFlow.value as? QueueEntry.StreamingTrack)?.track?.id
+
+    /** Keeps the notification heart in step with the playing track and the saved tracks. */
+    private fun observeLikeState() {
+        serviceScope.launch {
+            audioPlayerQueue.currentQueueEntryFlow.collect { entry ->
+                val id = (entry as? QueueEntry.StreamingTrack)?.track?.id ?: return@collect
+                // Asks whether this track is saved; the answer lands in savedTracksIdsFlow.
+                runCatching { savedTracksRepository.isSavedTracks(listOf(id)) }
+            }
+        }
+        serviceScope.launch {
+            combine(
+                audioPlayerQueue.currentQueueEntryFlow,
+                savedTracksRepository.savedTracksIdsFlow
+            ) { entry, saved ->
+                (entry as? QueueEntry.StreamingTrack)?.track?.id?.let { it in saved } ?: false
+            }.distinctUntilChanged().collect { liked ->
+                withContext(Dispatchers.Main) {
+                    runCatching { librarySession.setCustomLayout(ImmutableList.of(likeButton(liked))) }
+                }
+            }
+        }
+    }
+
+    private fun toggleLike() {
+        val id = currentTrackId() ?: return
+        serviceScope.launch {
+            runCatching {
+                if (id in savedTracksRepository.savedTracksIdsFlow.value) {
+                    savedTracksRepository.removeSavedTracks(listOf(id))
+                } else {
+                    savedTracksRepository.saveTracks(listOf(id))
+                }
+            }.onFailure { Log.w(TAG, "Like from the notification failed", it) }
+        }
+    }
 
     override fun onDestroy() {
         Log.i(TAG, "onDestroy")
@@ -188,6 +243,7 @@ class PlaybackService : MediaLibraryService(), KoinComponent {
                 .add(SessionCommand.COMMAND_CODE_LIBRARY_GET_LIBRARY_ROOT)
                 .add(SessionCommand.COMMAND_CODE_LIBRARY_SUBSCRIBE)
                 .add(SessionCommand.COMMAND_CODE_LIBRARY_UNSUBSCRIBE)
+                .add(SessionCommand(COMMAND_TOGGLE_LIKE, Bundle.EMPTY))
                 .build()
 
             val playerCommands = Player.Commands.Builder()
@@ -198,6 +254,19 @@ class PlaybackService : MediaLibraryService(), KoinComponent {
                 sessionCommands,
                 playerCommands
             )
+        }
+
+        override fun onCustomCommand(
+            session: MediaSession,
+            controller: MediaSession.ControllerInfo,
+            customCommand: SessionCommand,
+            args: Bundle
+        ): ListenableFuture<SessionResult> {
+            if (customCommand.customAction == COMMAND_TOGGLE_LIKE) {
+                toggleLike()
+                return Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
+            }
+            return super.onCustomCommand(session, controller, customCommand, args)
         }
 
         override fun onGetLibraryRoot(
@@ -454,5 +523,6 @@ class PlaybackService : MediaLibraryService(), KoinComponent {
         private const val TAG = "PlaybackService"
         private const val CHANNEL_ID = "spotube_playback"
         private const val NOTIFICATION_ID = 1
+        private const val COMMAND_TOGGLE_LIKE = "org.spotube.prisma.TOGGLE_LIKE"
     }
 }

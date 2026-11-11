@@ -89,6 +89,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -272,10 +279,8 @@ fun TrackList(
                             }
                         },
                         onLongClick = {
+                            // Holding a row opens the same menu as its three dots.
                             if (!useDropdownForOptions && !isSelectionMode) {
-                                isSelectionMode = true
-                                selectedTrackIds = setOf(track.id)
-                            } else if (!useDropdownForOptions) {
                                 selectedTrackForOptions = track
                             }
                         },
@@ -501,6 +506,12 @@ fun TrackList(
                             selectedTrackForOptions = null
                         },
                         onAlbumClick = { track.album?.let { onAlbumClick(it) } },
+                        onArtistClick = onArtistClick,
+                        onSelect = {
+                            isSelectionMode = true
+                            selectedTrackIds = setOf(track.id)
+                            selectedTrackForOptions = null
+                        },
                         isInJam = isInJam,
                         isJamGuest = isJamGuest)
                 }
@@ -535,7 +546,15 @@ fun TrackList(
                         onTrackOptionsAction(track, action)
                         selectedTrackForOptions = null
                     },
-                    onAlbumClick = { track.album?.let { onAlbumClick(it) } })
+                    onAlbumClick = { track.album?.let { onAlbumClick(it) } },
+                    onArtistClick = onArtistClick,
+                    onSelect = {
+                        isSelectionMode = true
+                        selectedTrackIds = setOf(track.id)
+                        selectedTrackForOptions = null
+                    },
+                    isInJam = isInJam,
+                    isJamGuest = isJamGuest)
             }
         }
     }
@@ -576,8 +595,12 @@ private fun TrackListRow(
         else -> Color.Transparent
     }
 
+    val haptics = LocalHapticFeedback.current
     MillenniumListTile(
-        modifier = modifier,
+        modifier = modifier.longPressMenu {
+            haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+            onLongClick()
+        },
         selected = isSelected,
         onClick = onTrackClick,
         title = {
@@ -589,10 +612,14 @@ private fun TrackListRow(
                 overflow = TextOverflow.Ellipsis)
         },
         subtitle = {
-            ArtistChips(
-                artists = track.artists,
-                onArtistClick = onArtistClick,
-                onArtistsOverflowClick = onArtistsOverflowClick)
+            // Plain text: a tap anywhere on the row plays the track. The artist page is reached
+            // from the row's menu and from the player.
+            TextWithShimmer(
+                text = track.artists.joinToString(", ") { it.name },
+                style = AppTheme.typography.bodySmall,
+                color = AppTheme.colors.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis)
         },
         leading = {
             Row(
@@ -720,6 +747,7 @@ private fun TrackListRow(
                         state = trackOptionsState,
                         onAction = onTrackOptionsAction,
                         onAlbumClick = { track.album?.let { onAlbumClick(it) } },
+                        onArtistClick = onArtistClick,
                         isInJam = isInJam,
                         isJamGuest = isJamGuest)
                 } else {
@@ -761,54 +789,24 @@ private fun TrackListRow(
         })
 }
 
-@Composable
-private fun ArtistChips(
-    artists: List<MetadataArtist.Basic>,
-    onArtistClick: (MetadataArtist.Basic) -> Unit,
-    onArtistsOverflowClick: () -> Unit) {
-    val visibleArtists = artists.take(2)
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()) {
-        visibleArtists.forEachIndexed { index, artist ->
-            Row(
-                verticalAlignment = Alignment.CenterVertically) {
-                val interactionSource = remember { MutableInteractionSource() }
-                val isHovered by interactionSource.collectIsHoveredAsState()
-                val isPressed by interactionSource.collectIsPressedAsState()
-
-                TextWithShimmer(
-                    text = artist.name,
-                    style = AppTheme.typography.bodySmall,
-                    color = AppTheme.colors.primary,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    textDecoration = if (isHovered || isPressed) TextDecoration.Underline else null,
-                    modifier = Modifier
-                        .clickable(
-                        indication = null,
-                        interactionSource = interactionSource
-                    ) { onArtistClick(artist) }
-                    )
-                if (index < visibleArtists.size - 1)
-                    Text(
-                        ",",
-                        color = AppTheme.colors.onSurfaceVariant,
-                        style = AppTheme.typography.bodySmall
-                    )
-            }
+/**
+ * Long press that works on top of a clickable row: it watches the gesture before the row does and,
+ * once the press has lasted long enough, swallows the rest so the row's own click does not fire.
+ */
+private fun Modifier.longPressMenu(onLongPress: () -> Unit): Modifier = pointerInput(onLongPress) {
+    awaitEachGesture {
+        awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Initial)
+        var ended = false
+        withTimeoutOrNull(viewConfiguration.longPressTimeoutMillis) {
+            waitForUpOrCancellation(PointerEventPass.Initial)
+            ended = true
         }
-
-        val remaining = artists.size - visibleArtists.size
-        if (remaining > 0) {
-            TextWithShimmer(
-                text = stringResource(Res.string.track_list_more_artists, remaining),
-                style = AppTheme.typography.bodySmall,
-                color = AppTheme.colors.primary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.clickable(onClick = onArtistsOverflowClick))
+        if (!ended) {
+            onLongPress()
+            do {
+                val event = awaitPointerEvent(PointerEventPass.Initial)
+                event.changes.forEach { it.consume() }
+            } while (event.changes.any { it.pressed })
         }
     }
 }

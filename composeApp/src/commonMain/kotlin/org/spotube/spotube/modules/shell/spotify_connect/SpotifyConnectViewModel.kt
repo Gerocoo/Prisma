@@ -80,9 +80,17 @@ class SpotifyConnectViewModel(
     private fun startPolling() {
         if (pollJob?.isActive == true) return
         pollJob = viewModelScope.launch {
+            // Spotify pushes changes over the socket; the slow loop only keeps the position fresh.
+            launch { api.changes.collect { refreshOnce() } }
             while (isActive) {
                 refreshOnce()
-                delay(if (_uiState.value.isOpen) 2_000 else 5_000)
+                // After a refusal wait longer, so a rate limit is not made worse by retrying.
+                val pause = when {
+                    _uiState.value.error == SpotifyConnectError.Failed -> 15_000L
+                    _uiState.value.isOpen -> 4_000L
+                    else -> 8_000L
+                }
+                delay(pause)
             }
         }
     }
@@ -90,6 +98,7 @@ class SpotifyConnectViewModel(
     private fun stopPolling() {
         pollJob?.cancel()
         pollJob = null
+        api.disconnect()
     }
 
     private suspend fun refreshOnce() {

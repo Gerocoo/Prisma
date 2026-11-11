@@ -151,13 +151,17 @@ class CollectionPlaybackHelper(
         }
     }
 
-    suspend fun playArtistTopTracks(artistId: String) {
+    suspend fun playArtistTopTracks(artistId: String, startTrack: MetadataTrack? = null) {
         val entries = fetchArtistTopTracks(artistId)
         if (entries.isNotEmpty()) {
+            // Start from the track that was tapped, not always from the first one.
+            val startPosition = if (startTrack == null) 0 else entries.indexOfFirst { entry ->
+                (entry as? QueueEntry.StreamingTrack)?.track?.matchesTrack(startTrack) == true
+            }.coerceAtLeast(0)
             audioPlayerQueue.load(
                 entries = entries,
                 autoPlay = true,
-                startPosition = 0,
+                startPosition = startPosition,
                 collectionEntry = null)
         }
     }

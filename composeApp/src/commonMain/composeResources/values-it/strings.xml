@@ -1048,4 +1048,11 @@
     <string name="spotify_connect_error_premium">Spotify permette di comandare la riproduzione su altri dispositivi solo agli account Premium.</string>
     <string name="spotify_connect_error_no_devices">Nessun dispositivo Spotify è online. Apri Spotify sul computer (o su un altro dispositivo) e riprova.</string>
     <string name="spotify_connect_error_failed">Spotify non ha risposto. Riprova tra poco.</string>
+    <string name="artist_discography_show">Mostra discografia</string>
+    <string name="artist_discography_hide">Mostra meno</string>
+    <string name="track_options_go_to_artist">Vai all'artista: %1$s</string>
+    <string name="track_options_select">Seleziona</string>
+    <string name="settings_updates_auto_plugins_title">Aggiorna i plugin automaticamente</string>
+    <string name="settings_updates_auto_plugins_subtitle">Le nuove versioni dei plugin si installano da sole; un banner ti avvisa quando succede.</string>
+    <string name="plugin_updated_banner">%1$s aggiornato alla versione %2$s</string>
 </resources>

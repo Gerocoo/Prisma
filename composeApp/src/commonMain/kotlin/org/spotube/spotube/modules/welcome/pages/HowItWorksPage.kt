@@ -16,6 +16,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.dp
 import org.spotube.spotube.resources.iconsax.Iconsax
 import org.spotube.spotube.resources.iconsax.IconsaxDocumentDownload
@@ -51,7 +60,7 @@ fun HowItWorksPage(modifier: Modifier = Modifier) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(
                 stringResource(Res.string.welcome_guide_title),
-                style = AppTheme.typography.headlineMedium.copy(fontFamily = FontFamily.Serif))
+                style = AppTheme.typography.headlineMedium.copy(fontWeight = FontWeight.ExtraBold))
             Text(
                 stringResource(Res.string.welcome_guide_subtitle),
                 style = AppTheme.typography.bodyLarge,
@@ -79,20 +88,44 @@ fun HowItWorksPage(modifier: Modifier = Modifier) {
     }
 }
 
+/** One step as an Expressive tonal card: accent icon in a round badge, title and one line. */
 @Composable
 private fun WelcomeGuideStep(
     icon: ImageVector,
     title: StringResource,
     description: StringResource,
 ) {
-    MillenniumListTile(
-        leading = {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(24.dp))
+            .background(AppTheme.colors.surfaceContainerHighest)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(14.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape)
+                .background(AppTheme.colors.primary),
+            contentAlignment = Alignment.Center
+        ) {
             MillenniumIcon(
                 imageVector = icon,
                 contentDescription = null,
-                modifier = Modifier.size(20.dp),
-                tint = AppTheme.colors.primary)
-        },
-        title = { Text(stringResource(title)) },
-        subtitle = { Text(stringResource(description)) })
+                modifier = Modifier.size(22.dp),
+                tint = AppTheme.colors.onPrimary)
+        }
+        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(
+                stringResource(title),
+                style = AppTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                color = AppTheme.colors.onSurface)
+            Text(
+                stringResource(description),
+                style = AppTheme.typography.bodyMedium,
+                color = AppTheme.colors.onSurfaceVariant)
+        }
+    }
 }

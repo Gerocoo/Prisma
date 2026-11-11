@@ -20,6 +20,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
+import org.spotube.spotube.core.audioplayer.AudioPlayerQueue
+import kotlin.math.roundToInt
 import androidx.datastore.preferences.core.stringPreferencesKey
 import co.touchlab.kermit.Logger
 import io.ktor.client.request.header
@@ -77,6 +95,9 @@ class SpotifyCanvasRepository(
         mutex.withLock { cache[trackId] = url }
         return url
     }
+
+    /** Canvas already looked up for [trackId]: known at once, with no request. */
+    fun cachedCanvasUrl(trackId: String?): String? = trackId?.let { cache[it] }
 
     private companion object {
         const val CANVAZ_URL = "https://spclient.wg.spotify.com/canvaz-cache/v0/canvases"
@@ -151,18 +172,91 @@ class SpotifyCanvasRepository(
 @Composable
 fun rememberSpotifyCanvasUrl(entry: QueueEntry?, enabled: Boolean): String? {
     val repository = koinInject<SpotifyCanvasRepository>()
+    val queue = koinInject<AudioPlayerQueue>()
     val trackId = (entry as? QueueEntry.StreamingTrack)?.track?.id
-    val url by produceState<String?>(null, trackId, enabled) {
-        value = null
+    // A canvas looked up in advance is there from the first frame: no cover flash before it.
+    val url by produceState(
+        if (enabled) repository.cachedCanvasUrl(trackId) else null, trackId, enabled
+    ) {
+        value = if (enabled) repository.cachedCanvasUrl(trackId) else null
         if (enabled && trackId != null) value = repository.canvasUrl(trackId)
+    }
+    // Looks up the canvases of the next tracks while this one plays.
+    LaunchedEffect(trackId, enabled) {
+        if (!enabled || trackId == null) return@LaunchedEffect
+        val entries = queue.queueFlow.value
+        val index = entries.indexOfFirst { (it as? QueueEntry.StreamingTrack)?.track?.id == trackId }
+        if (index < 0) return@LaunchedEffect
+        entries.drop(index + 1).take(2).forEach { next ->
+            (next as? QueueEntry.StreamingTrack)?.track?.id?.let { repository.canvasUrl(it) }
+        }
     }
     return url
 }
 
 /**
  * Plays a canvas muted and looping, cropped to fill [modifier]. Calls [onFirstFrame] once the
- * video is actually showing, so the cover can stay visible until then. Android only; elsewhere
- * nothing is drawn and the cover stays.
+ * video is actually showing. [onBackdrop] receives a tiny copy of the current frame a few times
+ * a second: stretched back to full size it is the blurred picture drawn behind the controls.
+ * Android only; elsewhere nothing is drawn and the cover stays.
  */
 @Composable
-expect fun CanvasVideo(url: String, modifier: Modifier = Modifier, onFirstFrame: () -> Unit = {})
+expect fun CanvasVideo(
+    url: String,
+    modifier: Modifier = Modifier,
+    onFirstFrame: () -> Unit = {},
+    onBackdrop: (ImageBitmap) -> Unit = {},
+)
+
+/** The blurred copy of the canvas video shared with the controls drawn over it. */
+@Stable
+class CanvasBackdrop {
+    var image by mutableStateOf<ImageBitmap?>(null)
+    var container by mutableStateOf<LayoutCoordinates?>(null)
+
+    /** 0 = no canvas (nothing is drawn), 1 = canvas fully shown. */
+    var amount by mutableFloatStateOf(0f)
+}
+
+val LocalCanvasBackdrop = staticCompositionLocalOf<CanvasBackdrop?> { null }
+
+/**
+ * Frosted-glass fill for a control drawn over a canvas video: paints the part of the blurred
+ * video that lies behind the control, then a dark veil so icons and text stay readable. Put it
+ * after `clip(...)` and before the control's own `background(...)`. Does nothing without a canvas.
+ */
+@Composable
+fun Modifier.canvasBlur(): Modifier {
+    val backdrop = LocalCanvasBackdrop.current ?: return this
+    var origin by remember { mutableStateOf(Offset.Zero) }
+    return this
+        .onGloballyPositioned { coordinates ->
+            val container = backdrop.container
+            if (container != null && container.isAttached && coordinates.isAttached) {
+                origin = container.localPositionOf(coordinates, Offset.Zero)
+            }
+        }
+        .drawBehind {
+            val image = backdrop.image ?: return@drawBehind
+            val amount = backdrop.amount
+            val container = backdrop.container
+            if (amount <= 0f || container == null || !container.isAttached) return@drawBehind
+            val containerWidth = container.size.width.toFloat()
+            val containerHeight = container.size.height.toFloat()
+            // The video is cropped to fill the screen: place the small frame the same way.
+            val scale = maxOf(containerWidth / image.width, containerHeight / image.height)
+            val width = image.width * scale
+            val height = image.height * scale
+            drawImage(
+                image = image,
+                dstOffset = IntOffset(
+                    ((containerWidth - width) / 2f - origin.x).roundToInt(),
+                    ((containerHeight - height) / 2f - origin.y).roundToInt()
+                ),
+                dstSize = IntSize(width.roundToInt(), height.roundToInt()),
+                alpha = amount,
+                filterQuality = FilterQuality.High
+            )
+            drawRect(Color.Black.copy(alpha = 0.28f * amount))
+        }
+}

@@ -17,6 +17,7 @@
 
 package org.spotube.spotube.modules.plugin.guard
 
+import org.spotube.spotube.core.ui.component.ExpressiveLoadingIndicator
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -96,7 +97,14 @@ fun MetadataPluginGuard(
 
     when (val s = state) {
         is MetadataPluginGuardState.Available ->
-            if (requireLogin && authState.loginRequired) {
+            if (requireLogin && authState.checkingLogin) {
+                // Still restoring the session: a calm loader instead of a sign-in prompt.
+                Box(
+                    Modifier.fillMaxSize().background(MillenniumTheme.colors.background),
+                    contentAlignment = Alignment.Center) {
+                    ExpressiveLoadingIndicator()
+                }
+            } else if (requireLogin && authState.loginRequired) {
                 Column(Modifier.fillMaxSize().background(MillenniumTheme.colors.background)) {
                     if (showTopBar) ApplicationMainBar(backButton = backButton)
                     Box(

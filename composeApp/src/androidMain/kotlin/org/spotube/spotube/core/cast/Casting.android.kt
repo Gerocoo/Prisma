@@ -16,6 +16,7 @@
  */
 package org.spotube.spotube.core.cast
 
+import org.spotube.spotube.core.spotify.canvasBlur
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.Alignment
@@ -74,7 +75,7 @@ actual fun CastButton(modifier: Modifier, background: Color, tint: Color) {
     // Same round tonal button as the queue and options buttons next to it.
     val iconColor = if (tint == Color.Unspecified) AppTheme.colors.onSurfaceVariant else tint
     Box(
-        modifier = modifier.size(44.dp).clip(CircleShape).background(background),
+        modifier = modifier.size(44.dp).clip(CircleShape).canvasBlur().background(background),
         contentAlignment = Alignment.Center
     ) {
         CompositionLocalProvider(LocalContentColor provides iconColor) {

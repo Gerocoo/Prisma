@@ -17,36 +17,47 @@
 
 package org.spotube.spotube.modules.welcome
 
-
-import org.spotube.millennium.composables.MillenniumButton
-import org.spotube.millennium.composables.MillenniumButtonStyle
-import org.spotube.millennium.composables.MillenniumCard
-import org.spotube.millennium.composables.MillenniumIcon
-import org.spotube.millennium.composables.MillenniumSeparator
-import org.spotube.millennium.composables.MillenniumTabGroup
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-
-import org.spotube.spotube.core.ui.theming.AppTheme
-import com.composeunstyled.Text
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.spotube.spotube.core.ui.component.ApplicationMainBar
+import com.composeunstyled.Text
+import org.jetbrains.compose.resources.stringResource
+import org.spotube.millennium.composables.MillenniumIcon
+import org.spotube.spotube.core.ui.theming.AppTheme
 import org.spotube.spotube.modules.welcome.pages.BrandingPage
 import org.spotube.spotube.modules.welcome.pages.DonationPage
 import org.spotube.spotube.modules.welcome.pages.HowItWorksPage
@@ -54,69 +65,138 @@ import org.spotube.spotube.modules.welcome.pages.PluginsPage
 import org.spotube.spotube.resources.iconsax.Iconsax
 import org.spotube.spotube.resources.iconsax.IconsaxCheckCircle
 import org.spotube.spotube.resources.iconsax.IconsaxNext
-import org.jetbrains.compose.resources.stringResource
+import org.spotube.spotube.resources.iconsax.IconsaxPrevious
 import spotube.composeapp.generated.resources.Res
+import spotube.composeapp.generated.resources.welcome_back
 import spotube.composeapp.generated.resources.welcome_skip
 
 /**
- * First-run Welcome/Onboarding screen. It is a route
+ * First-run setup, in the app's Material 3 Expressive look: a flat tinted page, a row of step
+ * pills (the current one stretches and shows its name), the step's content sliding in, and one
+ * large action at the bottom. It is a route
  * ([org.spotube.spotube.core.navigation.Routes.Welcome]) rendered inside the app shell.
- *
- * The steps are exposed through a Millennium tab group rather than ad-hoc dots or a footer
- * walk-through, so the screen reads as one deliberate panel on every window size.
- * Each step owns its content and the footer only carries the forward action.
  */
 @Composable
 fun WelcomeScreen(viewModel: WelcomeViewModel) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     WelcomeTheme {
-        Box(Modifier.fillMaxSize()) {
-            WelcomeBackground()
-            Column(modifier = Modifier.fillMaxSize()) {
-                ApplicationMainBar(
-                    title = {
-                        WelcomeWordmark(
-                            fontSize = AppTheme.typography.titleLarge.fontSize)
-                    },
-                    backButton = false,
-                    transparent = true,
-                    actions = {
-                        if (!state.isLastPage) {
-                            MillenniumButton(
-                                onClick = viewModel::completeOnboarding,
-                                style = MillenniumButtonStyle.Quiet) {
-                                Text(
-                                    text = stringResource(Res.string.welcome_skip),
-                                    color = AppTheme.colors.onSurfaceVariant)
-                            }
-                        }
-                    })
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(AppTheme.colors.background)
+                .windowInsetsPadding(WindowInsets.safeDrawing),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            Column(modifier = Modifier.fillMaxSize().widthIn(max = 1040.dp)) {
+                // Header: name on the left, "skip" as a quiet pill on the right.
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 16.dp, top = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    WelcomeWordmark(fontSize = AppTheme.typography.headlineSmall.fontSize)
+                    Spacer(Modifier.weight(1f))
+                    if (!state.isLastPage) {
+                        Text(
+                            text = stringResource(Res.string.welcome_skip),
+                            style = AppTheme.typography.labelLarge,
+                            color = AppTheme.colors.onSurfaceVariant,
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(50))
+                                .clickable(role = Role.Button, onClick = viewModel::completeOnboarding)
+                                .padding(horizontal = 16.dp, vertical = 10.dp)
+                        )
+                    }
+                }
 
+                WelcomeSteps(
+                    state = state,
+                    onSelect = viewModel::goToPage,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 12.dp)
+                )
+
+                // The step itself, on a large rounded tonal surface.
                 Box(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 16.dp),
-                    contentAlignment = Alignment.Center) {
-                    MillenniumCard(
-                        modifier = Modifier
-                            .widthIn(max = 1040.dp)
-                            .fillMaxWidth()
-                            .fillMaxHeight(),
-                        contentPadding = PaddingValues(0.dp)) {
-                        Column(Modifier.fillMaxSize()) {
-                            WelcomeStepSwitcher(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 12.dp, vertical = 12.dp),
-                                state = state,
-                                viewModel = viewModel)
-                            MillenniumSeparator()
-                            WelcomeActionBar(
-                                state = state,
-                                viewModel = viewModel)
+                        .padding(horizontal = 12.dp)
+                        .clip(RoundedCornerShape(36.dp))
+                        .background(AppTheme.colors.surfaceContainer)
+                ) {
+                    AnimatedContent(
+                        targetState = state.currentPageIndex,
+                        transitionSpec = {
+                            val forward = targetState > initialState
+                            (slideInHorizontally { if (forward) it / 4 else -it / 4 } + fadeIn()) togetherWith
+                                (slideOutHorizontally { if (forward) -it / 4 else it / 4 } + fadeOut())
+                        },
+                        label = "welcomeStep"
+                    ) { index ->
+                        when (index) {
+                            0 -> BrandingPage()
+                            1 -> DonationPage(donations = state.donations, onDonate = viewModel::openDonation)
+                            2 -> PluginsPage()
+                            else -> HowItWorksPage()
                         }
+                    }
+                }
+
+                WelcomeActionBar(state = state, viewModel = viewModel)
+            }
+        }
+    }
+}
+
+/** One pill per step: the current one is wide, filled with the accent and shows its label. */
+@Composable
+private fun WelcomeSteps(
+    state: WelcomeUiState,
+    onSelect: (Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        welcomeStepLabels.forEachIndexed { index, label ->
+            val current = index == state.currentPageIndex
+            val done = index < state.currentPageIndex
+            val background by animateColorAsState(
+                when {
+                    current -> AppTheme.colors.primary
+                    done -> AppTheme.colors.primary.copy(alpha = 0.32f)
+                    else -> AppTheme.colors.surfaceContainerHighest
+                },
+                label = "stepColor"
+            )
+            val height by animateDpAsState(
+                if (current) 40.dp else 12.dp,
+                spring(dampingRatio = 0.7f, stiffness = 400f),
+                label = "stepHeight"
+            )
+            Box(
+                modifier = Modifier
+                    .weight(if (current) 2.4f else 1f)
+                    .height(40.dp)
+                    .clickable(role = Role.Tab, onClick = { onSelect(index) }),
+                contentAlignment = Alignment.Center
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(height)
+                        .clip(RoundedCornerShape(50))
+                        .background(background),
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (current) {
+                        Text(
+                            text = stringResource(label),
+                            style = AppTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
+                            color = AppTheme.colors.onPrimary,
+                            maxLines = 1
+                        )
                     }
                 }
             }
@@ -125,59 +205,56 @@ fun WelcomeScreen(viewModel: WelcomeViewModel) {
 }
 
 @Composable
-private fun WelcomeStepSwitcher(
-    state: WelcomeUiState,
-    viewModel: WelcomeViewModel,
-    modifier: Modifier = Modifier) {
-    val labels = welcomeStepLabels.map { stringResource(it) }
-    MillenniumTabGroup(
-        selectedTab = state.currentPageIndex,
-        onSelectedTabChange = viewModel::goToPage,
-        tabs = labels.indices.toList(),
-        modifier = modifier,
-        tabLabel = { labels[it] }) { index ->
-        when (index) {
-            0 -> BrandingPage()
-
-            1 -> DonationPage(
-                donations = state.donations,
-                onDonate = viewModel::openDonation)
-
-            2 -> PluginsPage()
-
-            else -> HowItWorksPage()
-        }
-    }
-}
-
-@Composable
 private fun WelcomeActionBar(
     state: WelcomeUiState,
-    viewModel: WelcomeViewModel) {
+    viewModel: WelcomeViewModel
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically) {
-        Spacer(Modifier.weight(1f))
-        MillenniumButton(
-            onClick = viewModel::onPrimary,
-            style = MillenniumButtonStyle.Secondary) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text(
-                    text = stringResource(state.primaryLabel),
-                    fontWeight = FontWeight.SemiBold)
+            .padding(horizontal = 16.dp, vertical = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        if (state.currentPageIndex > 0) {
+            Box(
+                modifier = Modifier
+                    .size(60.dp)
+                    .clip(CircleShape)
+                    .background(AppTheme.colors.surfaceContainerHighest)
+                    .clickable(role = Role.Button) { viewModel.goToPage(state.currentPageIndex - 1) },
+                contentAlignment = Alignment.Center
+            ) {
                 MillenniumIcon(
-                    imageVector = if (state.isLastPage) {
-                        Iconsax.IconsaxCheckCircle
-                    } else {
-                        Iconsax.IconsaxNext
-                    },
-                    contentDescription = null,
-                    modifier = Modifier.size(16.dp))
+                    imageVector = Iconsax.IconsaxPrevious,
+                    contentDescription = stringResource(Res.string.welcome_back),
+                    tint = AppTheme.colors.onSurface,
+                    modifier = Modifier.size(22.dp)
+                )
             }
+        }
+        Row(
+            modifier = Modifier
+                .weight(1f)
+                .height(60.dp)
+                .clip(if (state.isLastPage) RoundedCornerShape(22.dp) else RoundedCornerShape(50))
+                .background(AppTheme.colors.primary)
+                .clickable(role = Role.Button, onClick = viewModel::onPrimary),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = stringResource(state.primaryLabel),
+                style = AppTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                color = AppTheme.colors.onPrimary
+            )
+            Spacer(Modifier.width(10.dp))
+            MillenniumIcon(
+                imageVector = if (state.isLastPage) Iconsax.IconsaxCheckCircle else Iconsax.IconsaxNext,
+                contentDescription = null,
+                tint = AppTheme.colors.onPrimary,
+                modifier = Modifier.size(20.dp)
+            )
         }
     }
 }

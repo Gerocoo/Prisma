@@ -38,6 +38,16 @@ import org.spotube.spotube.core.audioplayer.AudioPlayerQueue
 import org.spotube.spotube.core.audioplayer.AudioPlayerInterface
 import org.koin.compose.koinInject
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import org.spotube.spotube.modules.shell.PlayPauseGlyph
+import org.spotube.spotube.modules.shell.PlayerControlButton
+import org.spotube.spotube.modules.shell.controlWeight
+import org.spotube.spotube.modules.shell.playIsBusy
+import org.spotube.spotube.modules.shell.rememberPlayTapState
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.graphics.Color
@@ -196,10 +206,13 @@ fun LyricsScreen(
                     LyricsBody(uiState, viewModel)
                 }
             }
+            val playTap = rememberPlayTapState(playerUiState.isPlaying)
             LyricsControls(
                 isPlaying = playerUiState.isPlaying,
+                busy = playIsBusy(playTap, playerUiState),
                 onPrevious = { scope.launch { audioPlayer.skipToPrevious() } },
                 onPlayPause = {
+                    playTap.pending = true
                     scope.launch { if (playerUiState.isPlaying) audioPlayer.pause() else audioPlayer.play() }
                 },
                 onNext = { scope.launch { audioPlayer.skipToNext() } },
@@ -392,49 +405,63 @@ private fun lyricsText(): Color = LocalLyricsColors.current?.onContainer ?: Mill
 private fun lyricsMuted(): Color = LocalLyricsColors.current?.onContainerMuted ?: MillenniumTheme.colors.muted
 
 /** Previous / play-pause / next under the lyrics, in the player's round Expressive style. */
+/** Same Expressive group as the player: the pressed button widens and the others give way. */
 @Composable
 private fun LyricsControls(
     isPlaying: Boolean,
+    busy: Boolean,
     onPrevious: () -> Unit,
     onPlayPause: () -> Unit,
     onNext: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val pal = LocalLyricsColors.current ?: return
+    var pulsing by remember { mutableIntStateOf(-1) }
+    LaunchedEffect(pulsing) {
+        if (pulsing >= 0) {
+            delay(260)
+            pulsing = -1
+        }
+    }
     Row(
-        modifier,
-        horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
+        modifier.padding(horizontal = 24.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Box(
-            Modifier.size(56.dp).clip(CircleShape).background(pal.tonal)
-                .clickable(role = Role.Button, onClick = onPrevious),
-            contentAlignment = Alignment.Center
+        PlayerControlButton(
+            onClick = { pulsing = 0; onPrevious() },
+            background = pal.tonal,
+            shape = RoundedCornerShape(36.dp),
+            modifier = Modifier.weight(controlWeight(0, 1f, pulsing)),
+            height = 68.dp,
+            onPress = { pulsing = 0 }
         ) {
             MillenniumIcon(
                 Iconsax.IconsaxPrevious, stringResource(Res.string.player_previous_content_description),
-                tint = pal.onContainer, modifier = Modifier.size(24.dp)
+                tint = pal.onContainer, modifier = Modifier.size(26.dp)
             )
         }
-        Box(
-            Modifier.width(96.dp).height(64.dp).clip(RoundedCornerShape(50)).background(pal.accent)
-                .clickable(role = Role.Button, onClick = onPlayPause),
-            contentAlignment = Alignment.Center
+        PlayerControlButton(
+            onClick = { pulsing = 1; onPlayPause() },
+            background = pal.accent,
+            shape = RoundedCornerShape(if (isPlaying) 24.dp else 36.dp),
+            modifier = Modifier.weight(controlWeight(1, 1.25f, pulsing)),
+            height = 68.dp,
+            onPress = { pulsing = 1 }
         ) {
-            MillenniumIcon(
-                if (isPlaying) Iconsax.IconsaxPause else Iconsax.IconsaxPlay,
-                stringResource(if (isPlaying) Res.string.player_pause_content_description else Res.string.player_play_content_description),
-                tint = pal.onAccent, modifier = Modifier.size(28.dp)
-            )
+            PlayPauseGlyph(isPlaying = isPlaying, busy = busy, tint = pal.onAccent, size = 30.dp)
         }
-        Box(
-            Modifier.size(56.dp).clip(CircleShape).background(pal.tonal)
-                .clickable(role = Role.Button, onClick = onNext),
-            contentAlignment = Alignment.Center
+        PlayerControlButton(
+            onClick = { pulsing = 2; onNext() },
+            background = pal.tonal,
+            shape = RoundedCornerShape(36.dp),
+            modifier = Modifier.weight(controlWeight(2, 1f, pulsing)),
+            height = 68.dp,
+            onPress = { pulsing = 2 }
         ) {
             MillenniumIcon(
                 Iconsax.IconsaxNext, stringResource(Res.string.player_next_content_description),
-                tint = pal.onContainer, modifier = Modifier.size(24.dp)
+                tint = pal.onContainer, modifier = Modifier.size(26.dp)
             )
         }
     }

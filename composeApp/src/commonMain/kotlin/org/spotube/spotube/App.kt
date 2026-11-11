@@ -56,6 +56,7 @@ import org.spotube.spotube.modules.support.SupportReminderIntervalMillis
 import org.spotube.spotube.modules.update.AppUpdateDialog
 import org.spotube.spotube.modules.update.AppUpdateService
 import org.spotube.spotube.modules.update.PluginUpdateDialog
+import org.spotube.spotube.modules.update.PluginUpdatedBanner
 import org.spotube.spotube.modules.update.PluginUpdateService
 import org.spotube.spotube.modules.webview.WebViewScreen
 import org.spotube.spotube.modules.welcome.WelcomeRepository
@@ -269,6 +270,10 @@ fun App(
                         onIgnore = pluginUpdateService::ignoreUpdate,
                         onUpdate = pluginUpdateService::installUpdate)
                 }
+                val pluginUpdatedNotice by pluginUpdateService.updatedNotice.collectAsStateWithLifecycle()
+                PluginUpdatedBanner(
+                    notice = pluginUpdatedNotice,
+                    onDismiss = pluginUpdateService::dismissUpdatedNotice)
                 SupportDialog(
                     visible = showSupportDialog,
                     onDismissRequest = { showSupportDialog = false },

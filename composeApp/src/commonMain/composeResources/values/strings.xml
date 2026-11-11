@@ -1043,4 +1043,11 @@
     <string name="spotify_connect_error_premium">Spotify only lets Premium accounts control playback on other devices.</string>
     <string name="spotify_connect_error_no_devices">No Spotify device is online. Open Spotify on your computer (or another device) and try again.</string>
     <string name="spotify_connect_error_failed">Spotify did not answer. Try again in a moment.</string>
+    <string name="artist_discography_show">Show discography</string>
+    <string name="artist_discography_hide">Show less</string>
+    <string name="track_options_go_to_artist">Go to artist: %1$s</string>
+    <string name="track_options_select">Select</string>
+    <string name="settings_updates_auto_plugins_title">Update plugins automatically</string>
+    <string name="settings_updates_auto_plugins_subtitle">New plugin versions are installed by themselves; a banner tells you when it happens.</string>
+    <string name="plugin_updated_banner">%1$s updated to version %2$s</string>
 </resources>

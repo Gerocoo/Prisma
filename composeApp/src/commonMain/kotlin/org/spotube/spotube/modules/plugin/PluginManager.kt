@@ -91,7 +91,11 @@ import spotube.composeapp.generated.resources.plugin_prompt_update_message
 import spotube.composeapp.generated.resources.plugin_prompt_update_title
 import spotube.composeapp.generated.resources.update_action_update
 
-const val PLUGIN_API_VERSION = "0.0.1"
+/**
+ * Plugin API this app implements. 0.1.0 is the same interface as 0.0.x plus the `cookieDomains`
+ * declaration, so plugins built for 0.0.x keep working (see [getPluginApiCompatibilityError]).
+ */
+const val PLUGIN_API_VERSION = "0.1.0"
 
 interface PluginProvider {
     val selectedMetadataPlugin: StateFlow<PluginService?>
@@ -754,7 +758,9 @@ class PluginManager(
             ?: return getString(Res.string.plugin_error_app_api_version_invalid, PLUGIN_API_VERSION)
 
         val compatible = if (pluginApiVersion.major == 0 || appApiVersion.major == 0) {
-            pluginApiVersion.major == appApiVersion.major && pluginApiVersion.minor == appApiVersion.minor
+            // 0.0.x plugins run unchanged on 0.1: the calls are the same, 0.1 only added the
+            // cookie-domain declaration that newer plugins make.
+            pluginApiVersion.major == appApiVersion.major && pluginApiVersion.minor <= appApiVersion.minor
         } else {
             pluginApiVersion.major == appApiVersion.major
         }
