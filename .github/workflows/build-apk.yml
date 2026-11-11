@@ -1,14 +1,13 @@
 name: Build APK
 
-# Builds Prisma for Android (APKs) and iPhone (unsigned IPA) on every push to the tubify
-# branches, or on demand from the Actions tab; builds of master are published as a Release.
+# Builds Prisma for Android (APKs) and iPhone (unsigned IPA) on every push to the
+# tubify branches, or on demand; builds of master are published as a Release.
 on:
   push:
     branches: [master, tubify]
   workflow_dispatch:
 
 permissions:
-  # write: needed to publish the GitHub Release with the APKs
   contents: write
 
 concurrency:
@@ -16,14 +15,12 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # Same compose-webview revision the upstream release workflow pins.
   COMPOSE_WEBVIEW_REPO: KRTirtho/ComposeNativeWebview
   COMPOSE_WEBVIEW_COMMIT: b11ac748de1219f9432338c067a2c5dafef3072a
 
 jobs:
   android:
     name: Android debug APK
-    # macOS like upstream's prepare-deps job, so compose-webview can publish all its targets.
     runs-on: macos-latest
     timeout-minutes: 150
     steps:
@@ -31,44 +28,32 @@ jobs:
         uses: actions/checkout@v7
         with:
           path: app
-          # Full history and tags: the release notes list the changes since the previous build.
           fetch-depth: 0
-
       - name: Checkout ComposeNativeWebview
         uses: actions/checkout@v7
         with:
           repository: ${{ env.COMPOSE_WEBVIEW_REPO }}
           ref: ${{ env.COMPOSE_WEBVIEW_COMMIT }}
           path: compose-webview
-
       - name: Set up JDK 21
         uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: 21
-
       - name: Set up Android SDK
         uses: android-actions/setup-android@v4
-
-      - name: Set Up Rust
+      - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
-
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v6
-
-      # The desktop WebView natives are not needed for Android; the jars only have to resolve.
       - name: Publish compose-webview to mavenLocal
         working-directory: compose-webview
         run: |
           chmod +x gradlew
           ./gradlew publishToMavenLocal --no-configuration-cache
-
       - name: Build patched Millennium (no glass overlay)
         run: app/.github/scripts/build-millennium.sh millennium-src
-
-      # Fixed signing key, so every new build installs as an update over the previous one.
-      # The key lives in the repository; for a private key, move it and the password into
-      # repository secrets (KEYSTORE / KEYSTORE_PASSWORD) and they take precedence.
+      # The signing key comes from repository secrets; it is never stored in the repo.
       - name: Configure signing
         working-directory: app/composeApp
         env:
@@ -89,12 +74,150 @@ jobs:
           release.signing.keyAlias=tubify
           release.signing.keyPassword=$KEYSTORE_PASSWORD
           PROPS
-
       - name: Assemble optimized release and debug fallback
         working-directory: app
         run: |
           chmod +x gradlew
           ./gradlew :composeApp:assembleStableRelease :composeApp:assembleStableDebug -PbuildNumber=${{ github.run_number }} --stacktrace
-
       - name: Collect APKs
-        working-directory: app/composeApp/build/outputs/apk/stable/release
+        working-directory: app/composeApp/build/outputs/apk
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/out"
+          for f in $(find stable/release -name "*.apk"); do
+            abi=$(basename "$f" .apk | sed -E 's/^composeApp-stable-//; s/-release.*$//')
+            cp "$f" "$GITHUB_WORKSPACE/out/Prisma-$abi.apk"
+          done
+          debug=$(find stable/debug -name "*universal*.apk" | head -1)
+          [ -n "$debug" ] || debug=$(find stable/debug -name "*.apk" | head -1)
+          cp "$debug" "$GITHUB_WORKSPACE/out/Prisma-debug-fallback.apk"
+          ls -la "$GITHUB_WORKSPACE/out"
+          test -n "$(ls $GITHUB_WORKSPACE/out/Prisma-arm64-v8a.apk 2>/dev/null)" || { echo "::error::Missing arm64 APK"; exit 1; }
+      - name: Upload optimized APKs
+        uses: actions/upload-artifact@v7
+        with:
+          name: tubify-android-apk
+          path: out/Prisma-*.apk
+          retention-days: 30
+      - name: Write release notes
+        if: github.ref == 'refs/heads/master'
+        working-directory: app
+        run: |
+          prev=$(git tag --list 'build-*' --sort=-v:refname | head -n 1)
+          {
+            echo "## Novità"
+            if [ -n "$prev" ]; then
+              git log --no-merges --format='- %s' "$prev..HEAD"
+            else
+              git log --no-merges --format='- %s' -n 20
+            fi
+            echo
+            echo "## Installazione"
+            echo "- **Android:** aggiorna dall'app (Impostazioni → Cerca aggiornamenti) oppure installa **Prisma-arm64-v8a.apk** (o **Prisma-universal.apk** se il primo non si installa)."
+            echo "- **iPhone:** **Prisma-ios.ipa** (arriva fino a un'ora dopo) non è firmato: installalo con SideStore o AltStore."
+          } > "$GITHUB_WORKSPACE/release-notes.md"
+          cat "$GITHUB_WORKSPACE/release-notes.md"
+      # Blocks the release if the APK is not signed with the expected certificate.
+      - name: Verify signing certificate
+        working-directory: app
+        run: |
+          APK="$GITHUB_WORKSPACE/out/Prisma-arm64-v8a.apk"
+          SDK="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
+          echo "SDK: $SDK"
+          APKSIGNER=$(find "$SDK/build-tools" -name apksigner -type f 2>/dev/null | sort | tail -1)
+          echo "apksigner: $APKSIGNER"
+          if [ -z "$APKSIGNER" ]; then echo "::error::apksigner not found"; exit 1; fi
+          OUT=$("$APKSIGNER" verify --print-certs "$APK" 2>&1) || true
+          echo "$OUT"
+          FP=$(echo "$OUT" | grep -oE '[0-9a-fA-F]{64}' | head -1 | tr 'A-F' 'a-f')
+          echo "APK signing SHA-256: ${FP:-nessuna firma}"
+          if [ "$FP" != "a743393774f776cbf32ffdf662a07324723f2fffacbefc955cad978e81fcf144" ]; then
+            echo "::error::APK firmato con una chiave inattesa o non firmato"
+            exit 1
+          fi
+      - name: Publish release
+        if: github.ref == 'refs/heads/master'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Prisma build ${{ github.run_number }}
+          target_commitish: ${{ github.sha }}
+          make_latest: true
+          body_path: release-notes.md
+          files: |
+            out/Prisma-arm64-v8a.apk
+            out/Prisma-armeabi-v7a.apk
+            out/Prisma-x86_64.apk
+            out/Prisma-universal.apk
+
+  ios:
+    name: iPhone IPA (unsigned, for sideloading)
+    runs-on: macos-latest
+    timeout-minutes: 150
+    steps:
+      - name: Checkout Prisma
+        uses: actions/checkout@v7
+        with:
+          path: app
+      - name: Checkout ComposeNativeWebview
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ env.COMPOSE_WEBVIEW_REPO }}
+          ref: ${{ env.COMPOSE_WEBVIEW_COMMIT }}
+          path: compose-webview
+      - name: Set up JDK 21
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+      - name: Publish compose-webview to mavenLocal
+        working-directory: compose-webview
+        run: |
+          chmod +x gradlew
+          ./gradlew publishToMavenLocal --no-configuration-cache
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4
+      - name: Build patched Millennium (no glass overlay)
+        run: app/.github/scripts/build-millennium.sh millennium-src
+      # Unsigned on purpose: SideStore / AltStore re-sign it with the user's Apple ID.
+      - name: Build unsigned app
+        working-directory: app
+        env:
+          ORG_GRADLE_PROJECT_buildNumber: ${{ github.run_number }}
+        run: |
+          chmod +x gradlew
+          xcodebuild \
+            -project iosApp/iosApp.xcodeproj \
+            -scheme iosApp \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build/ios \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            DEVELOPMENT_TEAM="" \
+            build
+      - name: Package IPA
+        working-directory: app
+        run: |
+          APP=$(find build/ios/Build/Products/Release-iphoneos -maxdepth 1 -name "*.app" -type d | head -1)
+          test -n "$APP" || { echo "::error::No .app produced"; exit 1; }
+          mkdir Payload
+          cp -R "$APP" Payload/
+          zip -qry "$GITHUB_WORKSPACE/Prisma-ios.ipa" Payload
+      - name: Upload IPA
+        uses: actions/upload-artifact@v7
+        with:
+          name: tubify-ios-ipa
+          path: Prisma-ios.ipa
+          retention-days: 30
+      - name: Attach IPA to release
+        if: github.ref == 'refs/heads/master'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          files: Prisma-ios.ipa
