@@ -46,7 +46,6 @@ import org.spotube.spotube.modules.settings.sections.appearanceSection
 import org.spotube.spotube.modules.settings.sections.connectSection
 import org.spotube.spotube.modules.settings.sections.cacheSection
 import org.spotube.spotube.modules.settings.sections.desktopSection
-import org.spotube.spotube.modules.settings.sections.downloadsSection
 import org.spotube.spotube.modules.settings.sections.jamSection
 import org.spotube.spotube.modules.settings.sections.languageRegionSection
 import org.spotube.spotube.modules.settings.sections.playbackSection
@@ -149,9 +148,6 @@ private fun CompactSettingsContent(
                     settings = settings,
                     navigationCommands = navigatorCommands)
                 cacheSection(
-                    settings = settings,
-                    settingsViewModel = settingsViewModel)
-                downloadsSection(
                     settings = settings,
                     settingsViewModel = settingsViewModel)
                 if (isDesktopPlatform) {

@@ -73,7 +73,6 @@ sealed interface TrackOptionsAction {
     data object RemoveFromQueue : TrackOptionsAction
     data object ToggleFavorite : TrackOptionsAction
     data object AddToPlaylist : TrackOptionsAction
-    data object Download : TrackOptionsAction
     data object ToggleBlacklist : TrackOptionsAction
     data object Share : TrackOptionsAction
 }
@@ -338,12 +337,6 @@ private fun buildTrackMenuItems(
                 label = stringResource(Res.string.track_options_share),
                 onClick = { onAction(TrackOptionsAction.Share) }))
     }
-
-    add(
-        AdaptiveMenuItem(
-            icon = Iconsax.IconsaxDirectboxReceive,
-            label = stringResource(Res.string.track_options_download),
-            onClick = { onAction(TrackOptionsAction.Download) }))
 
     add(
         AdaptiveMenuItem(

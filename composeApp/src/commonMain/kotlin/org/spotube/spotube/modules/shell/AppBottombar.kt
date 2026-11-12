@@ -65,7 +65,6 @@ import org.spotube.spotube.core.navigation.NavigationState
 import org.spotube.spotube.core.navigation.Navigator
 import org.spotube.spotube.core.navigation.Routes
 import org.spotube.spotube.core.ui.theming.AppTheme
-import org.spotube.spotube.modules.downloads.DownloadBadgeIndicator
 import org.spotube.spotube.modules.library.LibraryState
 import org.spotube.spotube.modules.library.LibraryTab
 import org.spotube.spotube.resources.iconsax.Iconsax
@@ -86,7 +85,7 @@ fun AppBottombar(
     navigator: Navigator,
     navigationState: NavigationState,
     modifier: Modifier = Modifier,
-    libraryBadge: @Composable () -> Unit = { DownloadBadgeIndicator() }
+    libraryBadge: @Composable () -> Unit = {}
 ) {
     val libraryState = koinInject<LibraryState>()
     val tabs = remember { bottombarTabs.filterIsInstance<NavigationItem.Tab<*>>() }

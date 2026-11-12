@@ -29,10 +29,6 @@ actual class Paths {
         return AppDirsFactory.getInstance().getUserDataDir("Spotube", null, "Spotube")
     }
 
-    actual fun getUserDownloadsDirPath(): String {
-        return AppDirsFactory.getInstance().getUserDownloadsDir("Spotube", null, null)
-    }
-
     actual fun getMusicCacheDirPath(): String {
         return AppDirsFactory.getInstance().getUserCacheDir("Spotube", null, "Spotube") + "/music_cache"
     }

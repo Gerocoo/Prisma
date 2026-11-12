@@ -47,7 +47,6 @@ import com.composeunstyled.currentWindowWidthBreakpoint
 import org.spotube.spotube.getPlatform
 import org.spotube.spotube.isDesktop
 import org.spotube.spotube.core.ui.component.ApplicationMainBar
-import org.spotube.spotube.modules.downloads.DownloadsScreen
 import org.spotube.spotube.modules.library.album.LibraryAlbumsScreen
 import org.spotube.spotube.modules.library.artist.LibraryArtistsScreen
 import org.spotube.spotube.modules.library.local_tracks.LibraryLocalTracksScreen
@@ -82,14 +81,6 @@ fun LibraryScreen(libraryState: LibraryState = koinInject()) {
     val viewMode = state.viewModeOverride ?: defaultLibraryViewMode(isCompact)
     val focusManager = LocalFocusManager.current
     val keyboard = LocalSoftwareKeyboardController.current
-
-    if (state.currentTab == LibraryTab.Downloads && !isCompact) {
-        DownloadsScreen(
-            headerInAppBar = true,
-            topContent = { if (!expandedDesktop) LibraryTabs(state, libraryState::onTabSelected) }
-        )
-        return
-    }
 
     val closeSearch = {
         focusManager.clearFocus()
@@ -147,7 +138,6 @@ fun LibraryScreen(libraryState: LibraryState = koinInject()) {
                     LibraryArtistsScreen(viewMode = viewMode)
                 }
                 LibraryTab.LocalTracks -> LibraryLocalTracksScreen()
-                LibraryTab.Downloads -> DownloadsScreen()
             }
         }
     }

@@ -32,7 +32,6 @@
     <string name="library_tab_albums">專輯</string>
     <string name="library_tab_artists">藝人</string>
     <string name="library_tab_local_tracks">本機曲目</string>
-    <string name="library_tab_downloads">下載</string>
     <string name="library_filter_playlists">搜尋已儲存的播放清單…</string>
     <string name="library_filter_albums">搜尋已儲存的專輯…</string>
     <string name="library_filter_artists">搜尋已儲存的藝人…</string>
@@ -70,19 +69,6 @@
     <string name="library_local_no_results">沒有符合的資料夾或曲目</string>
     <string name="library_local_refresh_failed">無法重新整理本機媒體</string>
 
-    <!-- Downloads -->
-    <string name="downloads_summary">%1$d 個進行中 • %2$d 個已完成</string>
-    <string name="downloads_clear_completed">清除已完成項目</string>
-    <string name="downloads_empty">尚無下載項目</string>
-    <string name="downloads_status_downloading">下載中 %1$d%</string>
-    <string name="downloads_status_queued">等待中</string>
-    <string name="downloads_status_completed">已完成</string>
-    <string name="downloads_status_cancelled">已取消</string>
-    <string name="downloads_status_failed">失敗</string>
-    <string name="downloads_status_failed_error">失敗：%1$s</string>
-    <string name="downloads_action_cancel">取消下載</string>
-    <string name="downloads_action_retry">重試下載</string>
-    <string name="downloads_action_remove">移除下載項目</string>
 
     <!-- Shared media items -->
     <string name="media_artist">藝人</string>
@@ -101,7 +87,6 @@
     <string name="settings_section_language_region">語言與地區</string>
     <string name="settings_section_appearance">外觀</string>
     <string name="settings_section_playback">播放</string>
-    <string name="settings_section_downloads">下載</string>
     <string name="settings_section_caching">快取</string>
     <string name="settings_section_desktop">桌面版</string>
     <string name="settings_section_updates">更新</string>
@@ -167,10 +152,6 @@
     <string name="settings_palette_orange">橘色</string>
     <string name="settings_palette_lime">萊姆綠</string>
 
-    <string name="settings_download_folder_title">自訂下載資料夾</string>
-    <string name="settings_download_folder_current">目前資料夾：%1$s</string>
-    <string name="settings_download_folder_description">留空即使用預設音樂資料夾。</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">本機媒體資料夾</string>
     <string name="settings_local_media_folders_subtitle_current">桌面版要掃描的自訂資料夾。已新增：%1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">尚未新增自訂資料夾</string>
@@ -180,17 +161,12 @@
     <string name="settings_local_media_folders_remove_action">移除資料夾</string>
     <string name="settings_local_media_folders_none_added">尚未新增自訂資料夾。</string>
     <string name="settings_local_media_folders_remove_named">從掃描清單中移除 %1$s</string>
-    <string name="settings_local_media_folders_automatic_both">下載資料夾與音樂快取資料夾會自動納入。</string>
-    <string name="settings_local_media_folders_automatic_downloads">你的下載資料夾會自動納入。</string>
     <string name="settings_local_media_folders_automatic_cache">音樂快取資料夾會自動納入。</string>
     <string name="settings_local_media_folders_saving">儲存中…</string>
     <string name="settings_local_media_folders_save_error">無法儲存資料夾。你的變更仍保留在此，請再試一次。</string>
     <plurals name="settings_local_media_folders_count">
         <item quantity="other">%1$d 個資料夾</item>
     </plurals>
-    <string name="settings_download_format_title">下載音樂格式</string>
-    <string name="settings_download_format_subtitle_current">下載時偏好的編碼與封裝格式。目前：%1$s</string>
-    <string name="settings_download_quality_title">下載音樂品質</string>
 
     <string name="settings_streaming_format_title">串流音樂格式</string>
     <string name="settings_streaming_format_subtitle_current">串流音樂時偏好的編碼與封裝格式。目前：%1$s</string>
@@ -623,7 +599,6 @@
     <string name="track_options_remove_from_favorites">從最愛中移除</string>
     <string name="track_options_save_as_favorite">加入最愛</string>
     <string name="track_options_add_to_playlist">加入播放清單</string>
-    <string name="track_options_download">下載</string>
     <string name="track_options_share">分享</string>
 
     <!-- Track list -->
@@ -636,8 +611,6 @@
     <string name="track_list_no_tracks">找不到曲目</string>
     <string name="track_list_filter_placeholder">篩選</string>
     <string name="track_list_bulk_actions">批次操作</string>
-    <string name="track_list_download_all">全部下載</string>
-    <string name="track_list_download_count">下載 %1$d 首</string>
     <string name="track_list_add_all_to_queue">全部加入待播清單</string>
     <string name="track_list_add_count_to_queue">將 %1$d 首加入待播清單</string>
     <string name="track_list_play_all_next">全部設為下一首播放</string>
@@ -662,10 +635,6 @@
     <string name="blacklist_add">加入封鎖清單</string>
     <string name="blacklist_remove">從封鎖清單移除</string>
 
-    <!-- Downloads -->
-    <string name="downloads_error_no_metadata">沒有曲目中繼資料</string>
-    <string name="downloads_error_stream_unresolved_short">無法解析串流 URL</string>
-    <string name="downloads_error_stream_unresolved">無法解析串流 URL。請先嘗試播放此曲目。</string>
 
     <!-- Saved tracks -->
     <string name="saved_tracks_title">已儲存的曲目</string>
@@ -713,12 +682,6 @@
     <string name="player_lyrics">歌詞</string>
     <string name="player_alternative_source">替代來源</string>
     <string name="player_alternative_source_content_description">替代來源</string>
-    <string name="player_download">下載</string>
-    <string name="player_download_status_downloaded">已下載</string>
-    <string name="player_download_status_downloading">下載中...</string>
-    <string name="player_download_already_downloaded">已經下載過了</string>
-    <string name="player_download_retrying">正在重試下載...</string>
-    <string name="player_download_started">正在下載 %1$s</string>
     <string name="player_sleep_timer_remaining">播放將在 %1$s 後暫停。</string>
     <string name="player_sleep_timer_description">在所選的分鐘數後暫停播放。</string>
     <string name="player_sleep_timer_minutes_label">分鐘</string>

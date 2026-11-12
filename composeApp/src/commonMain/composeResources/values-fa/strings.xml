@@ -32,7 +32,6 @@
     <string name="library_tab_albums">آلبوم‌ها</string>
     <string name="library_tab_artists">هنرمندان</string>
     <string name="library_tab_local_tracks">آهنگ‌های محلی</string>
-    <string name="library_tab_downloads">دانلودها</string>
     <string name="library_filter_playlists">جستجو در پلی‌لیست‌های ذخیره‌شده…</string>
     <string name="library_filter_albums">جستجو در آلبوم‌های ذخیره‌شده…</string>
     <string name="library_filter_artists">جستجو در هنرمندان ذخیره‌شده…</string>
@@ -72,19 +71,6 @@
     <string name="library_local_no_results">هیچ پوشه یا آهنگ مطابقی پیدا نشد</string>
     <string name="library_local_refresh_failed">به‌روزرسانی رسانه‌های محلی ناموفق بود</string>
 
-    <!-- Downloads -->
-    <string name="downloads_summary">%1$d در حال انجام • %2$d تکمیل‌شده</string>
-    <string name="downloads_clear_completed">پاک کردن تکمیل‌شده‌ها</string>
-    <string name="downloads_empty">هنوز دانلودی ندارید</string>
-    <string name="downloads_status_downloading">در حال دانلود %1$d%</string>
-    <string name="downloads_status_queued">در صف</string>
-    <string name="downloads_status_completed">تکمیل شد</string>
-    <string name="downloads_status_cancelled">لغو شد</string>
-    <string name="downloads_status_failed">ناموفق</string>
-    <string name="downloads_status_failed_error">ناموفق: %1$s</string>
-    <string name="downloads_action_cancel">لغو دانلود</string>
-    <string name="downloads_action_retry">تلاش دوباره برای دانلود</string>
-    <string name="downloads_action_remove">حذف دانلود</string>
 
     <!-- Shared media items -->
     <string name="media_artist">هنرمند</string>
@@ -103,7 +89,6 @@
     <string name="settings_section_language_region">زبان و منطقه</string>
     <string name="settings_section_appearance">ظاهر</string>
     <string name="settings_section_playback">پخش</string>
-    <string name="settings_section_downloads">دانلودها</string>
     <string name="settings_section_caching">حافظهٔ پنهان</string>
     <string name="settings_section_desktop">دسکتاپ</string>
     <string name="settings_section_updates">به‌روزرسانی‌ها</string>
@@ -169,10 +154,6 @@
     <string name="settings_palette_orange">نارنجی</string>
     <string name="settings_palette_lime">لیمویی</string>
 
-    <string name="settings_download_folder_title">پوشهٔ دانلود سفارشی</string>
-    <string name="settings_download_folder_current">پوشهٔ فعلی: %1$s</string>
-    <string name="settings_download_folder_description">برای استفاده از پوشهٔ پیش‌فرض موسیقی، این قسمت را خالی بگذارید.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">پوشه‌های رسانهٔ محلی</string>
     <string name="settings_local_media_folders_subtitle_current">پوشه‌های سفارشی برای اسکن در دسکتاپ. افزوده‌شده: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">هنوز پوشهٔ سفارشی‌ای اضافه نشده است</string>
@@ -182,8 +163,6 @@
     <string name="settings_local_media_folders_remove_action">حذف پوشه</string>
     <string name="settings_local_media_folders_none_added">هیچ پوشهٔ سفارشی‌ای اضافه نشده است.</string>
     <string name="settings_local_media_folders_remove_named">حذف %1$s از فهرست اسکن</string>
-    <string name="settings_local_media_folders_automatic_both">پوشه‌های دانلود و حافظهٔ پنهان موسیقی به‌طور خودکار اضافه می‌شوند.</string>
-    <string name="settings_local_media_folders_automatic_downloads">پوشهٔ دانلود شما به‌طور خودکار اضافه می‌شود.</string>
     <string name="settings_local_media_folders_automatic_cache">پوشهٔ حافظهٔ پنهان موسیقی به‌طور خودکار اضافه می‌شود.</string>
     <string name="settings_local_media_folders_saving">در حال ذخیره…</string>
     <string name="settings_local_media_folders_save_error">ذخیرهٔ پوشه‌ها ممکن نشد. تغییرات شما هنوز اینجاست؛ دوباره تلاش کنید.</string>
@@ -191,9 +170,6 @@
         <item quantity="one">%1$d پوشه</item>
         <item quantity="other">%1$d پوشه</item>
     </plurals>
-    <string name="settings_download_format_title">قالب دانلود موسیقی</string>
-    <string name="settings_download_format_subtitle_current">کدک و قالب ترجیحی برای دانلودها. فعلی: %1$s</string>
-    <string name="settings_download_quality_title">کیفیت دانلود موسیقی</string>
 
     <string name="settings_streaming_format_title">قالب پخش آنلاین موسیقی</string>
     <string name="settings_streaming_format_subtitle_current">کدک و قالب ترجیحی برای پخش آنلاین موسیقی. فعلی: %1$s</string>
@@ -628,7 +604,6 @@
     <string name="track_options_remove_from_favorites">حذف از علاقه‌مندی‌ها</string>
     <string name="track_options_save_as_favorite">افزودن به علاقه‌مندی‌ها</string>
     <string name="track_options_add_to_playlist">افزودن به پلی‌لیست</string>
-    <string name="track_options_download">دانلود</string>
     <string name="track_options_share">اشتراک‌گذاری</string>
 
     <!-- Track list -->
@@ -641,8 +616,6 @@
     <string name="track_list_no_tracks">هیچ آهنگی پیدا نشد</string>
     <string name="track_list_filter_placeholder">فیلتر</string>
     <string name="track_list_bulk_actions">کارهای گروهی</string>
-    <string name="track_list_download_all">دانلود همه</string>
-    <string name="track_list_download_count">دانلود %1$d</string>
     <string name="track_list_add_all_to_queue">افزودن همه به صف</string>
     <string name="track_list_add_count_to_queue">افزودن %1$d به صف</string>
     <string name="track_list_play_all_next">پخش همه در ادامه</string>
@@ -667,10 +640,6 @@
     <string name="blacklist_add">افزودن به فهرست سیاه</string>
     <string name="blacklist_remove">حذف از فهرست سیاه</string>
 
-    <!-- Downloads -->
-    <string name="downloads_error_no_metadata">فرادادهٔ آهنگ موجود نیست</string>
-    <string name="downloads_error_stream_unresolved_short">URL جریان پیدا نشد</string>
-    <string name="downloads_error_stream_unresolved">URL جریان پیدا نشد. ابتدا آهنگ را پخش کنید.</string>
 
     <!-- Saved tracks -->
     <string name="saved_tracks_title">آهنگ‌های ذخیره‌شده</string>
@@ -719,12 +688,6 @@
     <string name="player_lyrics">متن آهنگ</string>
     <string name="player_alternative_source">منبع جایگزین</string>
     <string name="player_alternative_source_content_description">منبع جایگزین</string>
-    <string name="player_download">دانلود</string>
-    <string name="player_download_status_downloaded">دانلود شد</string>
-    <string name="player_download_status_downloading">در حال دانلود...</string>
-    <string name="player_download_already_downloaded">قبلاً دانلود شده است</string>
-    <string name="player_download_retrying">تلاش دوباره برای دانلود...</string>
-    <string name="player_download_started">در حال دانلود %1$s</string>
     <string name="player_sleep_timer_remaining">پخش تا %1$s دیگر متوقف می‌شود.</string>
     <string name="player_sleep_timer_description">پخش پس از تعداد دقیقهٔ انتخاب‌شده متوقف شود.</string>
     <string name="player_sleep_timer_minutes_label">دقیقه</string>

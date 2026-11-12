@@ -125,7 +125,6 @@ import org.spotube.spotube.core.ui.theming.AppTheme
 import org.spotube.spotube.getPlatform
 import org.spotube.spotube.isDesktop
 import org.spotube.spotube.modules.blacklist.BlacklistRepository
-import org.spotube.spotube.modules.downloads.DownloadsViewModel
 import org.spotube.spotube.modules.library.LibraryRepository
 import org.spotube.spotube.modules.library.playlist.AddToPlaylistPicker
 import org.spotube.spotube.modules.shell.LocalAppShellBottomInset
@@ -174,7 +173,6 @@ fun SearchScreen(viewModel: SearchScreenViewModel = koinViewModel()) {
     val shareService: ShareService = koinInject()
     val remotePlaybackController: RemotePlaybackController = koinInject()
     val searchResultsTitle = stringResource(Res.string.search_results_title)
-    val downloadsViewModel: DownloadsViewModel = koinViewModel()
     val libraryRepository: LibraryRepository = koinInject()
     val blacklistRepository: BlacklistRepository = koinInject()
     val navigationCommands: NavigationCommands = koinInject()
@@ -267,7 +265,6 @@ fun SearchScreen(viewModel: SearchScreenViewModel = koinViewModel()) {
                 }
 
                 is TrackOptionsAction.ToggleFavorite -> viewModel.toggleTrackIsFavorite(track.id)
-                is TrackOptionsAction.Download -> downloadsViewModel.downloadTrack(track)
                 is TrackOptionsAction.ToggleBlacklist -> toggleTrackBlacklist(track)
                 is TrackOptionsAction.Share -> {
                     val uri = track.externalUri?.takeIf { it.isNotBlank() }
@@ -412,7 +409,6 @@ fun SearchScreen(viewModel: SearchScreenViewModel = koinViewModel()) {
                         onTrackClick = ::playSingleTrack,
                         onTrackOptionsAction = ::handleTrackOptionsAction,
                         onTrackOptionsState = ::getTrackOptionsStateReactive,
-                        onBulkDownload = { tracks -> downloadsViewModel.downloadTracks(tracks) },
                         onBulkAddToQueue = ::bulkAddToQueue,
                         onBulkPlayNext = ::bulkPlayNext,
                         onBulkAddToPlaylist = { tracks ->
@@ -444,7 +440,6 @@ fun SearchScreen(viewModel: SearchScreenViewModel = koinViewModel()) {
                         onTrackClick = ::playSingleTrack,
                         onTrackOptionsAction = ::handleTrackOptionsAction,
                         onTrackOptionsState = ::getTrackOptionsStateReactive,
-                        onBulkDownload = { tracks -> downloadsViewModel.downloadTracks(tracks) },
                         onBulkAddToQueue = ::bulkAddToQueue,
                         onBulkPlayNext = ::bulkPlayNext,
                         onBulkAddToPlaylist = { tracks ->
@@ -659,7 +654,6 @@ private fun SearchAllTab(
     onTrackClick: (MetadataTrack) -> Unit,
     onTrackOptionsAction: (MetadataTrack, TrackOptionsAction) -> Unit,
     onTrackOptionsState: (MetadataTrack) -> TrackOptionsState,
-    onBulkDownload: (List<MetadataTrack>) -> Unit,
     onBulkAddToQueue: (List<MetadataTrack>) -> Unit,
     onBulkPlayNext: (List<MetadataTrack>) -> Unit,
     onBulkAddToPlaylist: (List<MetadataTrack>) -> Unit,
@@ -719,7 +713,6 @@ private fun SearchAllTab(
         onTrackClick = onTrackClick,
         onTrackOptionsAction = onTrackOptionsAction,
         trackOptionsState = onTrackOptionsState,
-        onBulkDownload = onBulkDownload,
         onBulkAddToQueue = onBulkAddToQueue,
         onBulkPlayNext = onBulkPlayNext,
         onBulkAddToPlaylist = onBulkAddToPlaylist,
@@ -805,7 +798,6 @@ private fun SearchTracksTab(
     onTrackClick: (MetadataTrack) -> Unit,
     onTrackOptionsAction: (MetadataTrack, TrackOptionsAction) -> Unit,
     onTrackOptionsState: (MetadataTrack) -> TrackOptionsState,
-    onBulkDownload: (List<MetadataTrack>) -> Unit,
     onBulkAddToQueue: (List<MetadataTrack>) -> Unit,
     onBulkPlayNext: (List<MetadataTrack>) -> Unit,
     onBulkAddToPlaylist: (List<MetadataTrack>) -> Unit,
@@ -837,7 +829,6 @@ private fun SearchTracksTab(
         onTrackClick = onTrackClick,
         onTrackOptionsAction = onTrackOptionsAction,
         trackOptionsState = onTrackOptionsState,
-        onBulkDownload = onBulkDownload,
         onBulkAddToQueue = onBulkAddToQueue,
         onBulkPlayNext = onBulkPlayNext,
         onBulkAddToPlaylist = onBulkAddToPlaylist,

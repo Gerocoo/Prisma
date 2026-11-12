@@ -32,7 +32,6 @@
     <string name="library_tab_albums">Albumy</string>
     <string name="library_tab_artists">Wykonawcy</string>
     <string name="library_tab_local_tracks">Lokalne utwory</string>
-    <string name="library_tab_downloads">Pobrane</string>
     <string name="library_filter_playlists">Szukaj w zapisanych playlistach…</string>
     <string name="library_filter_albums">Szukaj w zapisanych albumach…</string>
     <string name="library_filter_artists">Szukaj wśród zapisanych wykonawców…</string>
@@ -76,19 +75,6 @@
     <string name="library_local_no_results">Brak pasujących folderów lub utworów</string>
     <string name="library_local_refresh_failed">Nie udało się odświeżyć lokalnych multimediów</string>
 
-    <!-- Downloads -->
-    <string name="downloads_summary">Aktywne: %1$d • Ukończone: %2$d</string>
-    <string name="downloads_clear_completed">Wyczyść ukończone</string>
-    <string name="downloads_empty">Nic jeszcze nie pobrano</string>
-    <string name="downloads_status_downloading">Pobieranie %1$d%</string>
-    <string name="downloads_status_queued">W kolejce</string>
-    <string name="downloads_status_completed">Ukończono</string>
-    <string name="downloads_status_cancelled">Anulowano</string>
-    <string name="downloads_status_failed">Niepowodzenie</string>
-    <string name="downloads_status_failed_error">Niepowodzenie: %1$s</string>
-    <string name="downloads_action_cancel">Anuluj pobieranie</string>
-    <string name="downloads_action_retry">Ponów pobieranie</string>
-    <string name="downloads_action_remove">Usuń pobrany plik</string>
 
     <!-- Shared media items -->
     <string name="media_artist">Wykonawca</string>
@@ -107,7 +93,6 @@
     <string name="settings_section_language_region">Język i region</string>
     <string name="settings_section_appearance">Wygląd</string>
     <string name="settings_section_playback">Odtwarzanie</string>
-    <string name="settings_section_downloads">Pobieranie</string>
     <string name="settings_section_caching">Pamięć podręczna</string>
     <string name="settings_section_desktop">Komputer</string>
     <string name="settings_section_updates">Aktualizacje</string>
@@ -173,10 +158,6 @@
     <string name="settings_palette_orange">Pomarańczowa</string>
     <string name="settings_palette_lime">Limonkowa</string>
 
-    <string name="settings_download_folder_title">Własny folder pobierania</string>
-    <string name="settings_download_folder_current">Obecny folder: %1$s</string>
-    <string name="settings_download_folder_description">Pozostaw puste, aby używać domyślnego folderu muzyki.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">Foldery lokalnych multimediów</string>
     <string name="settings_local_media_folders_subtitle_current">Własne foldery skanowane na komputerze. Dodano: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">Nie dodano jeszcze własnego folderu</string>
@@ -186,8 +167,6 @@
     <string name="settings_local_media_folders_remove_action">Usuń folder</string>
     <string name="settings_local_media_folders_none_added">Nie dodano własnych folderów.</string>
     <string name="settings_local_media_folders_remove_named">Usuń %1$s z listy skanowania</string>
-    <string name="settings_local_media_folders_automatic_both">Foldery pobierania i pamięci podręcznej muzyki są uwzględniane automatycznie.</string>
-    <string name="settings_local_media_folders_automatic_downloads">Folder pobierania jest uwzględniany automatycznie.</string>
     <string name="settings_local_media_folders_automatic_cache">Folder pamięci podręcznej muzyki jest uwzględniany automatycznie.</string>
     <string name="settings_local_media_folders_saving">Zapisywanie…</string>
     <string name="settings_local_media_folders_save_error">Nie udało się zapisać folderów. Twoje zmiany nadal tu są – spróbuj ponownie.</string>
@@ -197,9 +176,6 @@
         <item quantity="many">%1$d folderów</item>
         <item quantity="other">%1$d folderu</item>
     </plurals>
-    <string name="settings_download_format_title">Format pobieranej muzyki</string>
-    <string name="settings_download_format_subtitle_current">Preferowany kodek i kontener pobierania. Obecnie: %1$s</string>
-    <string name="settings_download_quality_title">Jakość pobieranej muzyki</string>
 
     <string name="settings_streaming_format_title">Format strumieniowanej muzyki</string>
     <string name="settings_streaming_format_subtitle_current">Preferowany kodek i kontener strumieniowania muzyki. Obecnie: %1$s</string>
@@ -638,7 +614,6 @@
     <string name="track_options_remove_from_favorites">Usuń z ulubionych</string>
     <string name="track_options_save_as_favorite">Dodaj do ulubionych</string>
     <string name="track_options_add_to_playlist">Dodaj do playlisty</string>
-    <string name="track_options_download">Pobierz</string>
     <string name="track_options_share">Udostępnij</string>
 
     <!-- Track list -->
@@ -651,8 +626,6 @@
     <string name="track_list_no_tracks">Nie znaleziono utworów</string>
     <string name="track_list_filter_placeholder">Filtruj</string>
     <string name="track_list_bulk_actions">Działania zbiorcze</string>
-    <string name="track_list_download_all">Pobierz wszystkie</string>
-    <string name="track_list_download_count">Pobierz (%1$d)</string>
     <string name="track_list_add_all_to_queue">Dodaj wszystkie do kolejki</string>
     <string name="track_list_add_count_to_queue">Dodaj do kolejki (%1$d)</string>
     <string name="track_list_play_all_next">Odtwórz wszystkie jako następne</string>
@@ -677,10 +650,6 @@
     <string name="blacklist_add">Dodaj do czarnej listy</string>
     <string name="blacklist_remove">Usuń z czarnej listy</string>
 
-    <!-- Downloads -->
-    <string name="downloads_error_no_metadata">Brak metadanych utworu</string>
-    <string name="downloads_error_stream_unresolved_short">Nie udało się ustalić adresu URL strumienia</string>
-    <string name="downloads_error_stream_unresolved">Nie udało się ustalić adresu URL strumienia. Spróbuj najpierw odtworzyć utwór.</string>
 
     <!-- Saved tracks -->
     <string name="saved_tracks_title">Zapisane utwory</string>
@@ -731,12 +700,6 @@
     <string name="player_lyrics">Tekst</string>
     <string name="player_alternative_source">Alternatywne źródło</string>
     <string name="player_alternative_source_content_description">Alternatywne źródło</string>
-    <string name="player_download">Pobierz</string>
-    <string name="player_download_status_downloaded">Pobrano</string>
-    <string name="player_download_status_downloading">Pobieranie...</string>
-    <string name="player_download_already_downloaded">Już pobrano</string>
-    <string name="player_download_retrying">Ponawianie pobierania...</string>
-    <string name="player_download_started">Pobieranie: %1$s</string>
     <string name="player_sleep_timer_remaining">Odtwarzanie zostanie wstrzymane za %1$s.</string>
     <string name="player_sleep_timer_description">Wstrzymaj odtwarzanie po wybranej liczbie minut.</string>
     <string name="player_sleep_timer_minutes_label">Minuty</string>

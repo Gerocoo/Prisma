@@ -32,7 +32,6 @@
     <string name="library_tab_albums">Albums</string>
     <string name="library_tab_artists">Artists</string>
     <string name="library_tab_local_tracks">Local Tracks</string>
-    <string name="library_tab_downloads">Downloads</string>
     <string name="library_filter_playlists">Search saved playlists…</string>
     <string name="library_filter_albums">Search saved albums…</string>
     <string name="library_filter_artists">Search saved artists…</string>
@@ -74,20 +73,6 @@
     <string name="library_local_no_results">No matching folders or tracks</string>
     <string name="library_local_refresh_failed">Failed to refresh local media</string>
 
-    <!-- Downloads -->
-    <string name="downloads_summary">%1$d active • %2$d completed</string>
-    <string name="downloads_saved_to">Saved to %1$s</string>
-    <string name="downloads_clear_completed">Clear completed</string>
-    <string name="downloads_empty">No downloads yet</string>
-    <string name="downloads_status_downloading">Downloading %1$d%</string>
-    <string name="downloads_status_queued">Queued</string>
-    <string name="downloads_status_completed">Completed</string>
-    <string name="downloads_status_cancelled">Cancelled</string>
-    <string name="downloads_status_failed">Failed</string>
-    <string name="downloads_status_failed_error">Failed: %1$s</string>
-    <string name="downloads_action_cancel">Cancel download</string>
-    <string name="downloads_action_retry">Retry download</string>
-    <string name="downloads_action_remove">Remove download</string>
 
     <!-- Shared media items -->
     <string name="media_artist">Artist</string>
@@ -106,7 +91,6 @@
     <string name="settings_section_language_region">Language and Region</string>
     <string name="settings_section_appearance">Appearance</string>
     <string name="settings_section_playback">Playback</string>
-    <string name="settings_section_downloads">Downloads</string>
     <string name="settings_section_caching">Caching</string>
     <string name="settings_section_desktop">Desktop</string>
     <string name="settings_section_updates">Updates</string>
@@ -174,11 +158,6 @@
     <string name="settings_system_colors_subtitle">Use the Material You palette from your wallpaper</string>
     <string name="settings_palette_lime">Lime</string>
 
-    <string name="settings_download_folder_title">Download folder override</string>
-    <string name="settings_download_folder_current">Current folder: %1$s</string>
-    <string name="settings_download_folder_default_path">Current folder: %1$s (default)</string>
-    <string name="settings_download_folder_description">Leave this empty to use the default music folder.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">Local media folders</string>
     <string name="settings_local_media_folders_subtitle_current">Custom folders to scan on desktop. Added: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">No custom folder added yet</string>
@@ -188,8 +167,6 @@
     <string name="settings_local_media_folders_remove_action">Remove folder</string>
     <string name="settings_local_media_folders_none_added">No custom folders added.</string>
     <string name="settings_local_media_folders_remove_named">Remove %1$s from the scan list</string>
-    <string name="settings_local_media_folders_automatic_both">Download and music cache folders are included automatically.</string>
-    <string name="settings_local_media_folders_automatic_downloads">Your download folder is included automatically.</string>
     <string name="settings_local_media_folders_automatic_cache">The music cache folder is included automatically.</string>
     <string name="settings_local_media_folders_saving">Saving…</string>
     <string name="settings_local_media_folders_save_error">Couldn’t save folders. Your changes are still here; try again.</string>
@@ -197,9 +174,6 @@
         <item quantity="one">%1$d folder</item>
         <item quantity="other">%1$d folders</item>
     </plurals>
-    <string name="settings_download_format_title">Download music format</string>
-    <string name="settings_download_format_subtitle_current">Preferred codec and container for downloads. Current: %1$s</string>
-    <string name="settings_download_quality_title">Download music quality</string>
 
     <string name="settings_streaming_format_title">Streaming music format</string>
     <string name="settings_streaming_format_subtitle_current">Preferred codec and container for music streaming. Current: %1$s</string>
@@ -277,7 +251,7 @@
     <string name="no_metadata_plugin_action_install">Install a plugin</string>
     <string name="no_metadata_plugin_action_select">Choose a plugin</string>
     <string name="no_metadata_plugin_action_local">Play local music</string>
-    <string name="no_metadata_plugin_local_hint">Your local tracks and downloads work without a plugin.</string>
+    <string name="no_metadata_plugin_local_hint">Your local tracks work without a plugin.</string>
     <plurals name="plugin_installed_plugins_count">
         <item quantity="one">%1$d plugin installed</item>
         <item quantity="other">%1$d plugins installed</item>
@@ -412,7 +386,7 @@
     <string name="welcome_guide_search_title">Search and play</string>
     <string name="welcome_guide_search_desc">Find any song, album, or artist, then press play.</string>
     <string name="welcome_guide_offline_title">Listen offline</string>
-    <string name="welcome_guide_offline_desc">Download tracks to keep playing without a connection.</string>
+    <string name="welcome_guide_offline_desc">Your cached and local tracks keep playing without a connection.</string>
     <string name="welcome_guide_lyrics_title">Follow the lyrics</string>
     <string name="welcome_guide_lyrics_desc">Open synced lyrics from the player while a track plays.</string>
 
@@ -487,7 +461,7 @@
     <string name="welcome_how_step_stream_title">2. Direct Stream Resolution</string>
     <string name="welcome_how_step_stream_desc">Audio streams directly from content servers to your machine. No proxy hops or remote data harvesting.</string>
     <string name="welcome_how_step_playback_title">3. Local DSP &amp; Playback</string>
-    <string name="welcome_how_step_playback_desc">Decoded and cached locally with equalizer controls and optional offline download.</string>
+    <string name="welcome_how_step_playback_desc">Decoded and cached locally with equalizer controls.</string>
     <string name="welcome_how_step_lyrics_title">4. Synced Lyrics &amp; Jam</string>
     <string name="welcome_how_step_lyrics_desc">Karaoke lyrics track the playback timestamp, with LAN remote control and Group Jam.</string>
     <string name="welcome_how_footer">No middleman servers. Playback happens right on your device — private by design.</string>
@@ -675,7 +649,6 @@
     <string name="track_options_remove_from_favorites">Remove from favorites</string>
     <string name="track_options_save_as_favorite">Save as favorite</string>
     <string name="track_options_add_to_playlist">Add to playlist</string>
-    <string name="track_options_download">Download</string>
     <string name="track_options_share">Share</string>
 
     <!-- Track list -->
@@ -688,8 +661,6 @@
     <string name="track_list_no_tracks">No tracks found</string>
     <string name="track_list_filter_placeholder">Filter</string>
     <string name="track_list_bulk_actions">Bulk actions</string>
-    <string name="track_list_download_all">Download All</string>
-    <string name="track_list_download_count">Download %1$d</string>
     <string name="track_list_add_all_to_queue">Add All to Queue</string>
     <string name="track_list_add_count_to_queue">Add %1$d to Queue</string>
     <string name="track_list_play_all_next">Play All Next</string>
@@ -714,13 +685,6 @@
     <string name="blacklist_add">Add to blacklist</string>
     <string name="blacklist_remove">Remove from blacklist</string>
 
-    <!-- Downloads -->
-    <string name="downloads_error_no_metadata">No track metadata</string>
-    <string name="downloads_error_stream_unresolved_short">Could not resolve stream URL</string>
-    <string name="downloads_error_stream_unresolved">Could not resolve stream URL. Try playing the track first.</string>
-    <string name="downloads_error_http">The server refused the download (HTTP %1$d)</string>
-    <string name="downloads_error_range_ignored">The server sent an incomplete download. Try again.</string>
-    <string name="downloads_error_video_only">Only a video is available for this track, so it wasn't downloaded</string>
 
     <!-- Saved tracks -->
     <string name="saved_tracks_title">Saved Tracks</string>
@@ -769,12 +733,6 @@
     <string name="player_lyrics">Lyrics</string>
     <string name="player_alternative_source">Alternative Source</string>
     <string name="player_alternative_source_content_description">Alternative source</string>
-    <string name="player_download">Download</string>
-    <string name="player_download_status_downloaded">Downloaded</string>
-    <string name="player_download_status_downloading">Downloading...</string>
-    <string name="player_download_already_downloaded">Already downloaded</string>
-    <string name="player_download_retrying">Retrying download...</string>
-    <string name="player_download_started">Downloading %1$s</string>
     <string name="player_sleep_timer_remaining">Playback will pause in %1$s.</string>
     <string name="player_sleep_timer_description">Pause playback after the selected number of minutes.</string>
     <string name="player_sleep_timer_minutes_label">Minutes</string>

@@ -20,7 +20,6 @@ package org.spotube.spotube.core.paths
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSCachesDirectory
 import platform.Foundation.NSDocumentDirectory
-import platform.Foundation.NSDownloadsDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
@@ -50,17 +49,6 @@ actual class Paths {
             error = null)
 
         return requireNotNull(documentDirectory?.path)
-    }
-
-    actual fun getUserDownloadsDirPath(): String {
-        val downloadsDirectory: NSURL? = NSFileManager.defaultManager.URLForDirectory(
-            directory = NSDownloadsDirectory,
-            inDomain = NSUserDomainMask,
-            appropriateForURL = null,
-            create = false,
-            error = null)
-
-        return (downloadsDirectory?.path ?: getApplicationDataDirPath()) + "/Spotube"
     }
 
     actual fun getMusicCacheDirPath(): String {

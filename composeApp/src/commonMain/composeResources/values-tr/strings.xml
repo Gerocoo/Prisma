@@ -32,7 +32,6 @@
     <string name="library_tab_albums">Albümler</string>
     <string name="library_tab_artists">Sanatçılar</string>
     <string name="library_tab_local_tracks">Yerel parçalar</string>
-    <string name="library_tab_downloads">İndirilenler</string>
     <string name="library_filter_playlists">Kayıtlı çalma listelerinde ara…</string>
     <string name="library_filter_albums">Kayıtlı albümlerde ara…</string>
     <string name="library_filter_artists">Kayıtlı sanatçılarda ara…</string>
@@ -72,19 +71,6 @@
     <string name="library_local_no_results">Eşleşen klasör veya parça yok</string>
     <string name="library_local_refresh_failed">Yerel medya yenilenemedi</string>
 
-    <!-- Downloads -->
-    <string name="downloads_summary">%1$d etkin • %2$d tamamlandı</string>
-    <string name="downloads_clear_completed">Tamamlananları temizle</string>
-    <string name="downloads_empty">Henüz indirme yok</string>
-    <string name="downloads_status_downloading">İndiriliyor: %1$d%</string>
-    <string name="downloads_status_queued">Sırada</string>
-    <string name="downloads_status_completed">Tamamlandı</string>
-    <string name="downloads_status_cancelled">İptal edildi</string>
-    <string name="downloads_status_failed">Başarısız</string>
-    <string name="downloads_status_failed_error">Başarısız: %1$s</string>
-    <string name="downloads_action_cancel">İndirmeyi iptal et</string>
-    <string name="downloads_action_retry">İndirmeyi yeniden dene</string>
-    <string name="downloads_action_remove">İndirmeyi kaldır</string>
 
     <!-- Shared media items -->
     <string name="media_artist">Sanatçı</string>
@@ -103,7 +89,6 @@
     <string name="settings_section_language_region">Dil ve Bölge</string>
     <string name="settings_section_appearance">Görünüm</string>
     <string name="settings_section_playback">Çalma</string>
-    <string name="settings_section_downloads">İndirmeler</string>
     <string name="settings_section_caching">Önbellek</string>
     <string name="settings_section_desktop">Masaüstü</string>
     <string name="settings_section_updates">Güncellemeler</string>
@@ -169,10 +154,6 @@
     <string name="settings_palette_orange">Turuncu</string>
     <string name="settings_palette_lime">Limon yeşili</string>
 
-    <string name="settings_download_folder_title">Özel indirme klasörü</string>
-    <string name="settings_download_folder_current">Geçerli klasör: %1$s</string>
-    <string name="settings_download_folder_description">Varsayılan müzik klasörünü kullanmak için boş bırak.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">Yerel medya klasörleri</string>
     <string name="settings_local_media_folders_subtitle_current">Masaüstünde taranacak özel klasörler. Eklenen: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">Henüz özel klasör eklenmedi</string>
@@ -182,8 +163,6 @@
     <string name="settings_local_media_folders_remove_action">Klasörü kaldır</string>
     <string name="settings_local_media_folders_none_added">Özel klasör eklenmedi.</string>
     <string name="settings_local_media_folders_remove_named">%1$s klasörünü tarama listesinden kaldır</string>
-    <string name="settings_local_media_folders_automatic_both">İndirme ve müzik önbelleği klasörleri otomatik olarak dahil edilir.</string>
-    <string name="settings_local_media_folders_automatic_downloads">İndirme klasörün otomatik olarak dahil edilir.</string>
     <string name="settings_local_media_folders_automatic_cache">Müzik önbelleği klasörü otomatik olarak dahil edilir.</string>
     <string name="settings_local_media_folders_saving">Kaydediliyor…</string>
     <string name="settings_local_media_folders_save_error">Klasörler kaydedilemedi. Değişikliklerin duruyor; tekrar dene.</string>
@@ -191,9 +170,6 @@
         <item quantity="one">%1$d klasör</item>
         <item quantity="other">%1$d klasör</item>
     </plurals>
-    <string name="settings_download_format_title">İndirme müzik biçimi</string>
-    <string name="settings_download_format_subtitle_current">İndirmeler için tercih edilen kodek ve kapsayıcı. Geçerli: %1$s</string>
-    <string name="settings_download_quality_title">İndirme müzik kalitesi</string>
 
     <string name="settings_streaming_format_title">Akış müzik biçimi</string>
     <string name="settings_streaming_format_subtitle_current">Müzik akışı için tercih edilen kodek ve kapsayıcı. Geçerli: %1$s</string>
@@ -628,7 +604,6 @@
     <string name="track_options_remove_from_favorites">Favorilerden kaldır</string>
     <string name="track_options_save_as_favorite">Favorilere kaydet</string>
     <string name="track_options_add_to_playlist">Çalma listesine ekle</string>
-    <string name="track_options_download">İndir</string>
     <string name="track_options_share">Paylaş</string>
 
     <!-- Track list -->
@@ -641,8 +616,6 @@
     <string name="track_list_no_tracks">Parça bulunamadı</string>
     <string name="track_list_filter_placeholder">Filtrele</string>
     <string name="track_list_bulk_actions">Toplu işlemler</string>
-    <string name="track_list_download_all">Tümünü İndir</string>
-    <string name="track_list_download_count">%1$d Parçayı İndir</string>
     <string name="track_list_add_all_to_queue">Tümünü Sıraya Ekle</string>
     <string name="track_list_add_count_to_queue">%1$d Parçayı Sıraya Ekle</string>
     <string name="track_list_play_all_next">Tümünü Sonra Çal</string>
@@ -667,10 +640,6 @@
     <string name="blacklist_add">Kara listeye ekle</string>
     <string name="blacklist_remove">Kara listeden kaldır</string>
 
-    <!-- Downloads -->
-    <string name="downloads_error_no_metadata">Parça meta verisi yok</string>
-    <string name="downloads_error_stream_unresolved_short">Akış URL'si çözümlenemedi</string>
-    <string name="downloads_error_stream_unresolved">Akış URL'si çözümlenemedi. Önce parçayı çalmayı dene.</string>
 
     <!-- Saved tracks -->
     <string name="saved_tracks_title">Kayıtlı Parçalar</string>
@@ -719,12 +688,6 @@
     <string name="player_lyrics">Şarkı Sözleri</string>
     <string name="player_alternative_source">Alternatif Kaynak</string>
     <string name="player_alternative_source_content_description">Alternatif kaynak</string>
-    <string name="player_download">İndir</string>
-    <string name="player_download_status_downloaded">İndirildi</string>
-    <string name="player_download_status_downloading">İndiriliyor...</string>
-    <string name="player_download_already_downloaded">Zaten indirildi</string>
-    <string name="player_download_retrying">İndirme yeniden deneniyor...</string>
-    <string name="player_download_started">%1$s indiriliyor</string>
     <string name="player_sleep_timer_remaining">Çalma %1$s sonra duraklatılacak.</string>
     <string name="player_sleep_timer_description">Seçilen dakika sayısından sonra çalmayı duraklat.</string>
     <string name="player_sleep_timer_minutes_label">Dakika</string>

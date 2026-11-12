@@ -32,7 +32,6 @@
     <string name="library_tab_albums">Alben</string>
     <string name="library_tab_artists">Künstler</string>
     <string name="library_tab_local_tracks">Lokale Titel</string>
-    <string name="library_tab_downloads">Downloads</string>
     <string name="library_filter_playlists">Gespeicherte Playlists durchsuchen…</string>
     <string name="library_filter_albums">Gespeicherte Alben durchsuchen…</string>
     <string name="library_filter_artists">Gespeicherte Künstler durchsuchen…</string>
@@ -72,19 +71,6 @@
     <string name="library_local_no_results">Keine passenden Ordner oder Titel</string>
     <string name="library_local_refresh_failed">Lokale Medien konnten nicht aktualisiert werden</string>
 
-    <!-- Downloads -->
-    <string name="downloads_summary">%1$d aktiv • %2$d abgeschlossen</string>
-    <string name="downloads_clear_completed">Abgeschlossene entfernen</string>
-    <string name="downloads_empty">Noch keine Downloads</string>
-    <string name="downloads_status_downloading">Wird heruntergeladen: %1$d%</string>
-    <string name="downloads_status_queued">In Warteschlange</string>
-    <string name="downloads_status_completed">Abgeschlossen</string>
-    <string name="downloads_status_cancelled">Abgebrochen</string>
-    <string name="downloads_status_failed">Fehlgeschlagen</string>
-    <string name="downloads_status_failed_error">Fehlgeschlagen: %1$s</string>
-    <string name="downloads_action_cancel">Download abbrechen</string>
-    <string name="downloads_action_retry">Download wiederholen</string>
-    <string name="downloads_action_remove">Download entfernen</string>
 
     <!-- Shared media items -->
     <string name="media_artist">Künstler</string>
@@ -103,7 +89,6 @@
     <string name="settings_section_language_region">Sprache und Region</string>
     <string name="settings_section_appearance">Darstellung</string>
     <string name="settings_section_playback">Wiedergabe</string>
-    <string name="settings_section_downloads">Downloads</string>
     <string name="settings_section_caching">Zwischenspeicher</string>
     <string name="settings_section_desktop">Desktop</string>
     <string name="settings_section_updates">Updates</string>
@@ -169,10 +154,6 @@
     <string name="settings_palette_orange">Orange</string>
     <string name="settings_palette_lime">Limette</string>
 
-    <string name="settings_download_folder_title">Eigener Download-Ordner</string>
-    <string name="settings_download_folder_current">Aktueller Ordner: %1$s</string>
-    <string name="settings_download_folder_description">Leer lassen, um den Standard-Musikordner zu verwenden.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">Lokale Medienordner</string>
     <string name="settings_local_media_folders_subtitle_current">Eigene Ordner, die auf dem Desktop durchsucht werden. Hinzugefügt: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">Noch kein eigener Ordner hinzugefügt</string>
@@ -182,8 +163,6 @@
     <string name="settings_local_media_folders_remove_action">Ordner entfernen</string>
     <string name="settings_local_media_folders_none_added">Keine eigenen Ordner hinzugefügt.</string>
     <string name="settings_local_media_folders_remove_named">%1$s aus der Suchliste entfernen</string>
-    <string name="settings_local_media_folders_automatic_both">Download- und Musik-Cache-Ordner werden automatisch einbezogen.</string>
-    <string name="settings_local_media_folders_automatic_downloads">Dein Download-Ordner wird automatisch einbezogen.</string>
     <string name="settings_local_media_folders_automatic_cache">Der Musik-Cache-Ordner wird automatisch einbezogen.</string>
     <string name="settings_local_media_folders_saving">Wird gespeichert…</string>
     <string name="settings_local_media_folders_save_error">Ordner konnten nicht gespeichert werden. Deine Änderungen sind noch da – versuche es erneut.</string>
@@ -191,9 +170,6 @@
         <item quantity="one">%1$d Ordner</item>
         <item quantity="other">%1$d Ordner</item>
     </plurals>
-    <string name="settings_download_format_title">Download-Format</string>
-    <string name="settings_download_format_subtitle_current">Bevorzugter Codec und Container für Downloads. Aktuell: %1$s</string>
-    <string name="settings_download_quality_title">Download-Qualität</string>
 
     <string name="settings_streaming_format_title">Streaming-Format</string>
     <string name="settings_streaming_format_subtitle_current">Bevorzugter Codec und Container für Musik-Streaming. Aktuell: %1$s</string>
@@ -628,7 +604,6 @@
     <string name="track_options_remove_from_favorites">Aus Favoriten entfernen</string>
     <string name="track_options_save_as_favorite">Als Favorit speichern</string>
     <string name="track_options_add_to_playlist">Zur Playlist hinzufügen</string>
-    <string name="track_options_download">Herunterladen</string>
     <string name="track_options_share">Teilen</string>
 
     <!-- Track list -->
@@ -641,8 +616,6 @@
     <string name="track_list_no_tracks">Keine Titel gefunden</string>
     <string name="track_list_filter_placeholder">Filtern</string>
     <string name="track_list_bulk_actions">Sammelaktionen</string>
-    <string name="track_list_download_all">Alle herunterladen</string>
-    <string name="track_list_download_count">%1$d herunterladen</string>
     <string name="track_list_add_all_to_queue">Alle zur Warteschlange hinzufügen</string>
     <string name="track_list_add_count_to_queue">%1$d zur Warteschlange hinzufügen</string>
     <string name="track_list_play_all_next">Alle als Nächstes abspielen</string>
@@ -667,10 +640,6 @@
     <string name="blacklist_add">Zur Sperrliste hinzufügen</string>
     <string name="blacklist_remove">Von der Sperrliste entfernen</string>
 
-    <!-- Downloads -->
-    <string name="downloads_error_no_metadata">Keine Titel-Metadaten</string>
-    <string name="downloads_error_stream_unresolved_short">Stream-URL konnte nicht ermittelt werden</string>
-    <string name="downloads_error_stream_unresolved">Stream-URL konnte nicht ermittelt werden. Spiele den Titel zuerst ab.</string>
 
     <!-- Saved tracks -->
     <string name="saved_tracks_title">Gespeicherte Titel</string>
@@ -719,12 +688,6 @@
     <string name="player_lyrics">Songtext</string>
     <string name="player_alternative_source">Alternative Quelle</string>
     <string name="player_alternative_source_content_description">Alternative Quelle</string>
-    <string name="player_download">Herunterladen</string>
-    <string name="player_download_status_downloaded">Heruntergeladen</string>
-    <string name="player_download_status_downloading">Wird heruntergeladen...</string>
-    <string name="player_download_already_downloaded">Bereits heruntergeladen</string>
-    <string name="player_download_retrying">Download wird wiederholt...</string>
-    <string name="player_download_started">%1$s wird heruntergeladen</string>
     <string name="player_sleep_timer_remaining">Die Wiedergabe wird in %1$s pausiert.</string>
     <string name="player_sleep_timer_description">Wiedergabe nach der ausgewählten Anzahl an Minuten pausieren.</string>
     <string name="player_sleep_timer_minutes_label">Minuten</string>

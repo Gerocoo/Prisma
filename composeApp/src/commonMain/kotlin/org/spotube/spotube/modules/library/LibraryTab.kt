@@ -31,8 +31,7 @@ enum class LibraryTab(val icon: ImageVector) {
     Playlists(Iconsax.IconsaxMusicDashboard),
     Albums(Iconsax.IconsaxCd),
     Artists(Iconsax.User),
-    LocalTracks(Iconsax.IconsaxMusicLibrary),
-    Downloads(Iconsax.IconsaxDirectboxReceive);
+    LocalTracks(Iconsax.IconsaxMusicLibrary);
 
     val titleResource: StringResource
         get() = when (this) {
@@ -40,7 +39,6 @@ enum class LibraryTab(val icon: ImageVector) {
             Albums -> Res.string.library_tab_albums
             Artists -> Res.string.library_tab_artists
             LocalTracks -> Res.string.library_tab_local_tracks
-            Downloads -> Res.string.library_tab_downloads
         }
 
     val filterPlaceholder: StringResource
@@ -49,6 +47,5 @@ enum class LibraryTab(val icon: ImageVector) {
             Albums -> Res.string.library_filter_albums
             Artists -> Res.string.library_filter_artists
             LocalTracks -> Res.string.library_filter_local_tracks
-            Downloads -> Res.string.search_filter_placeholder
         }
 }

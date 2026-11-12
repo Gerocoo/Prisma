@@ -32,7 +32,6 @@
     <string name="library_tab_albums">الألبومات</string>
     <string name="library_tab_artists">الفنانون</string>
     <string name="library_tab_local_tracks">المقاطع المحلية</string>
-    <string name="library_tab_downloads">التنزيلات</string>
     <string name="library_filter_playlists">ابحث في قوائم التشغيل المحفوظة…</string>
     <string name="library_filter_albums">ابحث في الألبومات المحفوظة…</string>
     <string name="library_filter_artists">ابحث في الفنانين المحفوظين…</string>
@@ -80,19 +79,6 @@
     <string name="library_local_no_results">لا توجد مجلدات أو مقاطع مطابقة</string>
     <string name="library_local_refresh_failed">تعذّر تحديث الوسائط المحلية</string>
 
-    <!-- Downloads -->
-    <string name="downloads_summary">%1$d نشط • %2$d مكتمل</string>
-    <string name="downloads_clear_completed">مسح المكتملة</string>
-    <string name="downloads_empty">لا توجد تنزيلات بعد</string>
-    <string name="downloads_status_downloading">جارٍ التنزيل %1$d%</string>
-    <string name="downloads_status_queued">في قائمة الانتظار</string>
-    <string name="downloads_status_completed">مكتمل</string>
-    <string name="downloads_status_cancelled">ملغى</string>
-    <string name="downloads_status_failed">فشل</string>
-    <string name="downloads_status_failed_error">فشل: %1$s</string>
-    <string name="downloads_action_cancel">إلغاء التنزيل</string>
-    <string name="downloads_action_retry">إعادة محاولة التنزيل</string>
-    <string name="downloads_action_remove">إزالة التنزيل</string>
 
     <!-- Shared media items -->
     <string name="media_artist">فنان</string>
@@ -111,7 +97,6 @@
     <string name="settings_section_language_region">اللغة والمنطقة</string>
     <string name="settings_section_appearance">المظهر</string>
     <string name="settings_section_playback">التشغيل</string>
-    <string name="settings_section_downloads">التنزيلات</string>
     <string name="settings_section_caching">التخزين المؤقت</string>
     <string name="settings_section_desktop">سطح المكتب</string>
     <string name="settings_section_updates">التحديثات</string>
@@ -177,10 +162,6 @@
     <string name="settings_palette_orange">برتقالي</string>
     <string name="settings_palette_lime">ليموني</string>
 
-    <string name="settings_download_folder_title">تخصيص مجلد التنزيل</string>
-    <string name="settings_download_folder_current">المجلد الحالي: %1$s</string>
-    <string name="settings_download_folder_description">اتركه فارغًا لاستخدام مجلد الموسيقى الافتراضي.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">مجلدات الوسائط المحلية</string>
     <string name="settings_local_media_folders_subtitle_current">مجلدات مخصصة للفحص على سطح المكتب. المضافة: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">لم تتم إضافة أي مجلد مخصص بعد</string>
@@ -190,8 +171,6 @@
     <string name="settings_local_media_folders_remove_action">إزالة المجلد</string>
     <string name="settings_local_media_folders_none_added">لم تتم إضافة مجلدات مخصصة.</string>
     <string name="settings_local_media_folders_remove_named">إزالة %1$s من قائمة الفحص</string>
-    <string name="settings_local_media_folders_automatic_both">يتم تضمين مجلد التنزيل ومجلد ذاكرة التخزين المؤقت للموسيقى تلقائيًا.</string>
-    <string name="settings_local_media_folders_automatic_downloads">يتم تضمين مجلد التنزيل تلقائيًا.</string>
     <string name="settings_local_media_folders_automatic_cache">يتم تضمين مجلد ذاكرة التخزين المؤقت للموسيقى تلقائيًا.</string>
     <string name="settings_local_media_folders_saving">جارٍ الحفظ…</string>
     <string name="settings_local_media_folders_save_error">تعذّر حفظ المجلدات. لا تزال تغييراتك موجودة؛ حاول مرة أخرى.</string>
@@ -203,9 +182,6 @@
         <item quantity="many">%1$d مجلدًا</item>
         <item quantity="other">%1$d مجلد</item>
     </plurals>
-    <string name="settings_download_format_title">صيغة تنزيل الموسيقى</string>
-    <string name="settings_download_format_subtitle_current">الترميز والحاوية المفضلان للتنزيلات. الحالي: %1$s</string>
-    <string name="settings_download_quality_title">جودة تنزيل الموسيقى</string>
 
     <string name="settings_streaming_format_title">صيغة بث الموسيقى</string>
     <string name="settings_streaming_format_subtitle_current">الترميز والحاوية المفضلان لبث الموسيقى. الحالي: %1$s</string>
@@ -648,7 +624,6 @@
     <string name="track_options_remove_from_favorites">إزالة من المفضلة</string>
     <string name="track_options_save_as_favorite">حفظ في المفضلة</string>
     <string name="track_options_add_to_playlist">إضافة إلى قائمة تشغيل</string>
-    <string name="track_options_download">تنزيل</string>
     <string name="track_options_share">مشاركة</string>
 
     <!-- Track list -->
@@ -661,8 +636,6 @@
     <string name="track_list_no_tracks">لم يتم العثور على مقاطع</string>
     <string name="track_list_filter_placeholder">تصفية</string>
     <string name="track_list_bulk_actions">إجراءات جماعية</string>
-    <string name="track_list_download_all">تنزيل الكل</string>
-    <string name="track_list_download_count">تنزيل %1$d</string>
     <string name="track_list_add_all_to_queue">إضافة الكل إلى قائمة الانتظار</string>
     <string name="track_list_add_count_to_queue">إضافة %1$d إلى قائمة الانتظار</string>
     <string name="track_list_play_all_next">تشغيل الكل تاليًا</string>
@@ -687,10 +660,6 @@
     <string name="blacklist_add">إضافة إلى قائمة الحظر</string>
     <string name="blacklist_remove">إزالة من قائمة الحظر</string>
 
-    <!-- Downloads -->
-    <string name="downloads_error_no_metadata">لا توجد بيانات وصفية للمقطع</string>
-    <string name="downloads_error_stream_unresolved_short">تعذّر تحديد URL البث</string>
-    <string name="downloads_error_stream_unresolved">تعذّر تحديد URL البث. جرّب تشغيل المقطع أولًا.</string>
 
     <!-- Saved tracks -->
     <string name="saved_tracks_title">المقاطع المحفوظة</string>
@@ -743,12 +712,6 @@
     <string name="player_lyrics">كلمات الأغنية</string>
     <string name="player_alternative_source">مصدر بديل</string>
     <string name="player_alternative_source_content_description">مصدر بديل</string>
-    <string name="player_download">تنزيل</string>
-    <string name="player_download_status_downloaded">تم التنزيل</string>
-    <string name="player_download_status_downloading">جارٍ التنزيل...</string>
-    <string name="player_download_already_downloaded">تم التنزيل مسبقًا</string>
-    <string name="player_download_retrying">جارٍ إعادة محاولة التنزيل...</string>
-    <string name="player_download_started">جارٍ تنزيل %1$s</string>
     <string name="player_sleep_timer_remaining">سيتوقف التشغيل مؤقتًا بعد %1$s.</string>
     <string name="player_sleep_timer_description">إيقاف التشغيل مؤقتًا بعد عدد الدقائق المحدد.</string>
     <string name="player_sleep_timer_minutes_label">الدقائق</string>

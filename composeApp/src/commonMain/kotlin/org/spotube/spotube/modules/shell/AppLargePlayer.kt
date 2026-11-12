@@ -69,8 +69,6 @@ import org.spotube.spotube.core.jam.JamRoomService
 import org.spotube.spotube.core.navigation.NavigationCommands
 import org.spotube.spotube.core.navigation.Routes
 import org.spotube.spotube.core.ui.theming.AppTheme
-import org.spotube.spotube.modules.downloads.DownloadProgressIcon
-import org.spotube.spotube.modules.downloads.DownloadsViewModel
 import org.spotube.spotube.modules.saved_tracks.SAVED_TRACKS_COLLECTION_ID
 import org.spotube.spotube.modules.saved_tracks.SavedTracksViewModel
 import org.spotube.spotube.resources.iconsax.Iconsax
@@ -109,7 +107,6 @@ import spotube.composeapp.generated.resources.player_track_details
 import kotlin.time.Duration.Companion.milliseconds
 import spotube.composeapp.generated.resources.player_alternative_source_content_description
 import spotube.composeapp.generated.resources.player_disable_shuffle_content_description
-import spotube.composeapp.generated.resources.player_download
 import spotube.composeapp.generated.resources.player_enable_shuffle_content_description
 import spotube.composeapp.generated.resources.player_loop_mode_all
 import spotube.composeapp.generated.resources.player_loop_mode_none
@@ -144,7 +141,6 @@ fun AppLargePlayer(
     onLyrics: () -> Unit = {},
     audioPlayer: AudioPlayerInterface = koinInject(),
     audioPlayerQueue: AudioPlayerQueue = koinInject(),
-    downloadsViewModel: DownloadsViewModel = koinViewModel(),
     playerOptionsViewModel: PlayerOptionsViewModel = koinViewModel(),
     savedTracksViewModel: SavedTracksViewModel = koinViewModel<SavedTracksViewModel>(
         key = SAVED_TRACKS_COLLECTION_ID,
@@ -404,20 +400,6 @@ fun AppLargePlayer(
                             style = MillenniumIconButtonStyle.Quiet, onClick = onQueue
                         ) {
                             MillenniumIcon(Iconsax.IconsaxMusicFilter, contentDescription = stringResource(Res.string.queue_title))
-                        }
-                        MillenniumIconButton(
-                            style = MillenniumIconButtonStyle.Quiet,
-                            onClick = {
-                                val track = (currentEntry as? QueueEntry.StreamingTrack)?.track
-                                if (track != null) {
-                                    downloadsViewModel.downloadTrack(track)
-                                }
-                            }) {
-                            DownloadProgressIcon(
-                                track = (currentEntry as? QueueEntry.StreamingTrack)?.track,
-                                icon = Iconsax.IconsaxDirectboxReceive,
-                                contentDescription = stringResource(Res.string.player_download)
-                            )
                         }
                         MillenniumIconButton(
                             style = MillenniumIconButtonStyle.Quiet, onClick = onAlternativeSource

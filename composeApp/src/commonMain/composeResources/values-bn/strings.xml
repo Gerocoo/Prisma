@@ -32,7 +32,6 @@
     <string name="library_tab_albums">অ্যালবাম</string>
     <string name="library_tab_artists">শিল্পী</string>
     <string name="library_tab_local_tracks">লোকাল ট্র্যাক</string>
-    <string name="library_tab_downloads">ডাউনলোড</string>
     <string name="library_filter_playlists">সেভ করা প্লেলিস্ট খুঁজুন…</string>
     <string name="library_filter_albums">সেভ করা অ্যালবাম খুঁজুন…</string>
     <string name="library_filter_artists">সেভ করা শিল্পী খুঁজুন…</string>
@@ -72,19 +71,6 @@
     <string name="library_local_no_results">মেলে এমন কোনো ফোল্ডার বা ট্র্যাক নেই</string>
     <string name="library_local_refresh_failed">লোকাল মিডিয়া রিফ্রেশ করা যায়নি</string>
 
-    <!-- Downloads -->
-    <string name="downloads_summary">%1$dটি চলমান • %2$dটি সম্পন্ন</string>
-    <string name="downloads_clear_completed">সম্পন্নগুলো মুছুন</string>
-    <string name="downloads_empty">এখনো কোনো ডাউনলোড নেই</string>
-    <string name="downloads_status_downloading">ডাউনলোড হচ্ছে %1$d%</string>
-    <string name="downloads_status_queued">অপেক্ষমাণ</string>
-    <string name="downloads_status_completed">সম্পন্ন</string>
-    <string name="downloads_status_cancelled">বাতিল</string>
-    <string name="downloads_status_failed">ব্যর্থ</string>
-    <string name="downloads_status_failed_error">ব্যর্থ: %1$s</string>
-    <string name="downloads_action_cancel">ডাউনলোড বাতিল করুন</string>
-    <string name="downloads_action_retry">আবার ডাউনলোড করুন</string>
-    <string name="downloads_action_remove">ডাউনলোড সরান</string>
 
     <!-- Shared media items -->
     <string name="media_artist">শিল্পী</string>
@@ -103,7 +89,6 @@
     <string name="settings_section_language_region">ভাষা ও অঞ্চল</string>
     <string name="settings_section_appearance">অ্যাপিয়ারেন্স</string>
     <string name="settings_section_playback">প্লেব্যাক</string>
-    <string name="settings_section_downloads">ডাউনলোড</string>
     <string name="settings_section_caching">ক্যাশিং</string>
     <string name="settings_section_desktop">ডেস্কটপ</string>
     <string name="settings_section_updates">আপডেট</string>
@@ -169,10 +154,6 @@
     <string name="settings_palette_orange">কমলা</string>
     <string name="settings_palette_lime">লাইম</string>
 
-    <string name="settings_download_folder_title">ডাউনলোড ফোল্ডার পরিবর্তন</string>
-    <string name="settings_download_folder_current">বর্তমান ফোল্ডার: %1$s</string>
-    <string name="settings_download_folder_description">ডিফল্ট মিউজিক ফোল্ডার ব্যবহার করতে এটি ফাঁকা রাখুন।</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">লোকাল মিডিয়া ফোল্ডার</string>
     <string name="settings_local_media_folders_subtitle_current">ডেস্কটপে স্ক্যান করার জন্য কাস্টম ফোল্ডার। যোগ করা হয়েছে: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">এখনো কোনো কাস্টম ফোল্ডার যোগ করা হয়নি</string>
@@ -182,8 +163,6 @@
     <string name="settings_local_media_folders_remove_action">ফোল্ডার সরান</string>
     <string name="settings_local_media_folders_none_added">কোনো কাস্টম ফোল্ডার যোগ করা হয়নি।</string>
     <string name="settings_local_media_folders_remove_named">স্ক্যান তালিকা থেকে %1$s সরান</string>
-    <string name="settings_local_media_folders_automatic_both">ডাউনলোড ও মিউজিক ক্যাশ ফোল্ডার স্বয়ংক্রিয়ভাবে অন্তর্ভুক্ত হয়।</string>
-    <string name="settings_local_media_folders_automatic_downloads">আপনার ডাউনলোড ফোল্ডার স্বয়ংক্রিয়ভাবে অন্তর্ভুক্ত হয়।</string>
     <string name="settings_local_media_folders_automatic_cache">মিউজিক ক্যাশ ফোল্ডার স্বয়ংক্রিয়ভাবে অন্তর্ভুক্ত হয়।</string>
     <string name="settings_local_media_folders_saving">সেভ হচ্ছে…</string>
     <string name="settings_local_media_folders_save_error">ফোল্ডার সেভ করা যায়নি। আপনার পরিবর্তনগুলো রয়ে গেছে; আবার চেষ্টা করুন।</string>
@@ -191,9 +170,6 @@
         <item quantity="one">%1$dটি ফোল্ডার</item>
         <item quantity="other">%1$dটি ফোল্ডার</item>
     </plurals>
-    <string name="settings_download_format_title">ডাউনলোডের মিউজিক ফরম্যাট</string>
-    <string name="settings_download_format_subtitle_current">ডাউনলোডের জন্য পছন্দের কোডেক ও কন্টেইনার। বর্তমান: %1$s</string>
-    <string name="settings_download_quality_title">ডাউনলোডের মিউজিক কোয়ালিটি</string>
 
     <string name="settings_streaming_format_title">স্ট্রিমিংয়ের মিউজিক ফরম্যাট</string>
     <string name="settings_streaming_format_subtitle_current">মিউজিক স্ট্রিমিংয়ের জন্য পছন্দের কোডেক ও কন্টেইনার। বর্তমান: %1$s</string>
@@ -628,7 +604,6 @@
     <string name="track_options_remove_from_favorites">পছন্দের তালিকা থেকে সরান</string>
     <string name="track_options_save_as_favorite">পছন্দের তালিকায় সেভ করুন</string>
     <string name="track_options_add_to_playlist">প্লেলিস্টে যোগ করুন</string>
-    <string name="track_options_download">ডাউনলোড</string>
     <string name="track_options_share">শেয়ার করুন</string>
 
     <!-- Track list -->
@@ -641,8 +616,6 @@
     <string name="track_list_no_tracks">কোনো ট্র্যাক পাওয়া যায়নি</string>
     <string name="track_list_filter_placeholder">ফিল্টার</string>
     <string name="track_list_bulk_actions">একসাথে অ্যাকশন</string>
-    <string name="track_list_download_all">সব ডাউনলোড করুন</string>
-    <string name="track_list_download_count">%1$dটি ডাউনলোড করুন</string>
     <string name="track_list_add_all_to_queue">সব কিউতে যোগ করুন</string>
     <string name="track_list_add_count_to_queue">%1$dটি কিউতে যোগ করুন</string>
     <string name="track_list_play_all_next">সব পরবর্তীতে প্লে করুন</string>
@@ -667,10 +640,6 @@
     <string name="blacklist_add">ব্ল্যাকলিস্টে যোগ করুন</string>
     <string name="blacklist_remove">ব্ল্যাকলিস্ট থেকে সরান</string>
 
-    <!-- Downloads -->
-    <string name="downloads_error_no_metadata">ট্র্যাকের কোনো মেটাডেটা নেই</string>
-    <string name="downloads_error_stream_unresolved_short">স্ট্রিম URL পাওয়া যায়নি</string>
-    <string name="downloads_error_stream_unresolved">স্ট্রিম URL পাওয়া যায়নি। প্রথমে ট্র্যাকটি প্লে করে দেখুন।</string>
 
     <!-- Saved tracks -->
     <string name="saved_tracks_title">সেভ করা ট্র্যাক</string>
@@ -719,12 +688,6 @@
     <string name="player_lyrics">লিরিক্স</string>
     <string name="player_alternative_source">বিকল্প সোর্স</string>
     <string name="player_alternative_source_content_description">বিকল্প সোর্স</string>
-    <string name="player_download">ডাউনলোড</string>
-    <string name="player_download_status_downloaded">ডাউনলোড হয়েছে</string>
-    <string name="player_download_status_downloading">ডাউনলোড হচ্ছে...</string>
-    <string name="player_download_already_downloaded">আগেই ডাউনলোড করা হয়েছে</string>
-    <string name="player_download_retrying">আবার ডাউনলোডের চেষ্টা হচ্ছে...</string>
-    <string name="player_download_started">%1$s ডাউনলোড হচ্ছে</string>
     <string name="player_sleep_timer_remaining">%1$s পর প্লেব্যাক পজ হবে।</string>
     <string name="player_sleep_timer_description">নির্বাচিত মিনিট পরে প্লেব্যাক পজ করুন।</string>
     <string name="player_sleep_timer_minutes_label">মিনিট</string>

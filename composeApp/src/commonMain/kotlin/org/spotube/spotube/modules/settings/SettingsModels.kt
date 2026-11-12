@@ -70,19 +70,8 @@ data class UserSettings(
     val jamBroker: JamBroker = JamBroker(),
     val lastJamCode: String = "",
 
-    // Downloads
-    val overloadedDownloadFolder: String? = null, // When null, uses default music folder
+    // Local media
     val localMediaFolders: List<String> = emptyList(),
-    val downloadMusicFormat: AudioFormat = AudioFormat(
-        codec = "aac",
-        container = "mp4",
-        qualities = listOf(
-            AudioQuality.Lossy(bitrate = 44_000),
-            AudioQuality.Lossy(bitrate = 96_000),
-            AudioQuality.Lossy(bitrate = 128_000),
-            AudioQuality.Lossy(bitrate = 256_000))
-    ),
-    val downloadMusicQuality: AudioQuality = AudioQuality.Lossy(bitrate = 256_000),
 
     // Desktop
     val minimizeToTray: Boolean = false,

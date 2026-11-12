@@ -32,7 +32,6 @@
     <string name="library_tab_albums">Album</string>
     <string name="library_tab_artists">Nghệ sĩ</string>
     <string name="library_tab_local_tracks">Bài hát trên máy</string>
-    <string name="library_tab_downloads">Đã tải xuống</string>
     <string name="library_filter_playlists">Tìm danh sách phát đã lưu…</string>
     <string name="library_filter_albums">Tìm album đã lưu…</string>
     <string name="library_filter_artists">Tìm nghệ sĩ đã lưu…</string>
@@ -70,19 +69,6 @@
     <string name="library_local_no_results">Không có thư mục hoặc bài hát nào khớp</string>
     <string name="library_local_refresh_failed">Không thể làm mới nội dung trên máy</string>
 
-    <!-- Downloads -->
-    <string name="downloads_summary">%1$d đang tải • %2$d đã xong</string>
-    <string name="downloads_clear_completed">Xóa mục đã xong</string>
-    <string name="downloads_empty">Chưa có nội dung tải xuống</string>
-    <string name="downloads_status_downloading">Đang tải xuống %1$d%</string>
-    <string name="downloads_status_queued">Đang chờ</string>
-    <string name="downloads_status_completed">Đã xong</string>
-    <string name="downloads_status_cancelled">Đã hủy</string>
-    <string name="downloads_status_failed">Thất bại</string>
-    <string name="downloads_status_failed_error">Thất bại: %1$s</string>
-    <string name="downloads_action_cancel">Hủy tải xuống</string>
-    <string name="downloads_action_retry">Thử tải lại</string>
-    <string name="downloads_action_remove">Xóa mục tải xuống</string>
 
     <!-- Shared media items -->
     <string name="media_artist">Nghệ sĩ</string>
@@ -101,7 +87,6 @@
     <string name="settings_section_language_region">Ngôn ngữ và khu vực</string>
     <string name="settings_section_appearance">Giao diện</string>
     <string name="settings_section_playback">Phát lại</string>
-    <string name="settings_section_downloads">Tải xuống</string>
     <string name="settings_section_caching">Bộ nhớ đệm</string>
     <string name="settings_section_desktop">Máy tính</string>
     <string name="settings_section_updates">Cập nhật</string>
@@ -167,10 +152,6 @@
     <string name="settings_palette_orange">Cam</string>
     <string name="settings_palette_lime">Xanh chanh</string>
 
-    <string name="settings_download_folder_title">Thư mục tải xuống tùy chỉnh</string>
-    <string name="settings_download_folder_current">Thư mục hiện tại: %1$s</string>
-    <string name="settings_download_folder_description">Để trống để dùng thư mục nhạc mặc định.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">Thư mục nhạc trên máy</string>
     <string name="settings_local_media_folders_subtitle_current">Thư mục tùy chỉnh để quét trên máy tính. Đã thêm: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">Chưa thêm thư mục tùy chỉnh nào</string>
@@ -180,17 +161,12 @@
     <string name="settings_local_media_folders_remove_action">Xóa thư mục</string>
     <string name="settings_local_media_folders_none_added">Chưa thêm thư mục tùy chỉnh nào.</string>
     <string name="settings_local_media_folders_remove_named">Xóa %1$s khỏi danh sách quét</string>
-    <string name="settings_local_media_folders_automatic_both">Thư mục tải xuống và thư mục bộ nhớ đệm nhạc được tự động thêm vào.</string>
-    <string name="settings_local_media_folders_automatic_downloads">Thư mục tải xuống của bạn được tự động thêm vào.</string>
     <string name="settings_local_media_folders_automatic_cache">Thư mục bộ nhớ đệm nhạc được tự động thêm vào.</string>
     <string name="settings_local_media_folders_saving">Đang lưu…</string>
     <string name="settings_local_media_folders_save_error">Không thể lưu thư mục. Các thay đổi của bạn vẫn còn đây; hãy thử lại.</string>
     <plurals name="settings_local_media_folders_count">
         <item quantity="other">%1$d thư mục</item>
     </plurals>
-    <string name="settings_download_format_title">Định dạng nhạc tải xuống</string>
-    <string name="settings_download_format_subtitle_current">Codec và container ưu tiên khi tải xuống. Hiện tại: %1$s</string>
-    <string name="settings_download_quality_title">Chất lượng nhạc tải xuống</string>
 
     <string name="settings_streaming_format_title">Định dạng nhạc phát trực tuyến</string>
     <string name="settings_streaming_format_subtitle_current">Codec và container ưu tiên khi phát trực tuyến. Hiện tại: %1$s</string>
@@ -623,7 +599,6 @@
     <string name="track_options_remove_from_favorites">Xóa khỏi mục yêu thích</string>
     <string name="track_options_save_as_favorite">Lưu vào mục yêu thích</string>
     <string name="track_options_add_to_playlist">Thêm vào danh sách phát</string>
-    <string name="track_options_download">Tải xuống</string>
     <string name="track_options_share">Chia sẻ</string>
 
     <!-- Track list -->
@@ -636,8 +611,6 @@
     <string name="track_list_no_tracks">Không tìm thấy bài hát nào</string>
     <string name="track_list_filter_placeholder">Lọc</string>
     <string name="track_list_bulk_actions">Thao tác hàng loạt</string>
-    <string name="track_list_download_all">Tải xuống tất cả</string>
-    <string name="track_list_download_count">Tải xuống %1$d</string>
     <string name="track_list_add_all_to_queue">Thêm tất cả vào danh sách chờ</string>
     <string name="track_list_add_count_to_queue">Thêm %1$d vào danh sách chờ</string>
     <string name="track_list_play_all_next">Phát tất cả tiếp theo</string>
@@ -662,10 +635,6 @@
     <string name="blacklist_add">Thêm vào danh sách chặn</string>
     <string name="blacklist_remove">Xóa khỏi danh sách chặn</string>
 
-    <!-- Downloads -->
-    <string name="downloads_error_no_metadata">Không có siêu dữ liệu bài hát</string>
-    <string name="downloads_error_stream_unresolved_short">Không thể phân giải URL luồng</string>
-    <string name="downloads_error_stream_unresolved">Không thể phân giải URL luồng. Hãy thử phát bài hát trước.</string>
 
     <!-- Saved tracks -->
     <string name="saved_tracks_title">Bài hát đã lưu</string>
@@ -713,12 +682,6 @@
     <string name="player_lyrics">Lời bài hát</string>
     <string name="player_alternative_source">Nguồn thay thế</string>
     <string name="player_alternative_source_content_description">Nguồn thay thế</string>
-    <string name="player_download">Tải xuống</string>
-    <string name="player_download_status_downloaded">Đã tải xuống</string>
-    <string name="player_download_status_downloading">Đang tải xuống...</string>
-    <string name="player_download_already_downloaded">Đã tải xuống trước đó</string>
-    <string name="player_download_retrying">Đang thử tải lại...</string>
-    <string name="player_download_started">Đang tải xuống %1$s</string>
     <string name="player_sleep_timer_remaining">Nhạc sẽ tạm dừng sau %1$s.</string>
     <string name="player_sleep_timer_description">Tạm dừng phát sau số phút đã chọn.</string>
     <string name="player_sleep_timer_minutes_label">Phút</string>

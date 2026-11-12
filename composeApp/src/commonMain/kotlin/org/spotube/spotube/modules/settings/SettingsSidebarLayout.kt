@@ -69,7 +69,6 @@ import org.spotube.spotube.modules.plugin.PluginScreenContent
 import org.spotube.spotube.modules.settings.sections.appearanceSection
 import org.spotube.spotube.modules.settings.sections.cacheSection
 import org.spotube.spotube.modules.settings.sections.desktopSection
-import org.spotube.spotube.modules.settings.sections.downloadsSection
 import org.spotube.spotube.modules.settings.sections.languageRegionSection
 import org.spotube.spotube.modules.settings.sections.playbackSection
 import org.spotube.spotube.modules.settings.sections.supportSection
@@ -101,7 +100,6 @@ import spotube.composeapp.generated.resources.settings_section_about
 import spotube.composeapp.generated.resources.settings_section_appearance
 import spotube.composeapp.generated.resources.settings_section_caching
 import spotube.composeapp.generated.resources.settings_section_desktop
-import spotube.composeapp.generated.resources.settings_section_downloads
 import spotube.composeapp.generated.resources.settings_section_jam
 import spotube.composeapp.generated.resources.settings_section_language_region
 import spotube.composeapp.generated.resources.settings_section_playback
@@ -126,7 +124,6 @@ internal enum class SettingsTab(
     Blacklist(Res.string.settings_blacklist_title, Iconsax.IconsaxForbidden),
     GroupJam(Res.string.settings_section_jam, Iconsax.IconsaxSoundTwotone),
     Caching(Res.string.settings_section_caching, Iconsax.IconsaxDocumentDownload),
-    Downloads(Res.string.settings_section_downloads, Iconsax.IconsaxDirectboxReceive),
     Desktop(Res.string.settings_section_desktop, Iconsax.IconsaxImportArrow2),
     Support(Res.string.settings_section_support, Iconsax.IconsaxHeart2),
     About(Res.string.settings_section_about, Iconsax.IconsaxInformation),
@@ -316,9 +313,6 @@ private fun SettingsTabContent(
 
                             SettingsTab.Caching ->
                                 cacheSection(settings, settingsViewModel, includeHeader = false)
-
-                            SettingsTab.Downloads ->
-                                downloadsSection(settings, settingsViewModel, includeHeader = false)
 
                             SettingsTab.Desktop ->
                                 desktopSection(settings, settingsViewModel, includeHeader = false)

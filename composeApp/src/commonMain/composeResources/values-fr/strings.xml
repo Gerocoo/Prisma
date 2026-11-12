@@ -32,7 +32,6 @@
     <string name="library_tab_albums">Albums</string>
     <string name="library_tab_artists">Artistes</string>
     <string name="library_tab_local_tracks">Titres locaux</string>
-    <string name="library_tab_downloads">Téléchargements</string>
     <string name="library_filter_playlists">Rechercher dans les playlists enregistrées…</string>
     <string name="library_filter_albums">Rechercher dans les albums enregistrés…</string>
     <string name="library_filter_artists">Rechercher dans les artistes enregistrés…</string>
@@ -74,19 +73,6 @@
     <string name="library_local_no_results">Aucun dossier ou titre correspondant</string>
     <string name="library_local_refresh_failed">Échec de l'actualisation des médias locaux</string>
 
-    <!-- Downloads -->
-    <string name="downloads_summary">%1$d en cours • %2$d terminé(s)</string>
-    <string name="downloads_clear_completed">Effacer les terminés</string>
-    <string name="downloads_empty">Aucun téléchargement pour l'instant</string>
-    <string name="downloads_status_downloading">Téléchargement %1$d%</string>
-    <string name="downloads_status_queued">En attente</string>
-    <string name="downloads_status_completed">Terminé</string>
-    <string name="downloads_status_cancelled">Annulé</string>
-    <string name="downloads_status_failed">Échec</string>
-    <string name="downloads_status_failed_error">Échec : %1$s</string>
-    <string name="downloads_action_cancel">Annuler le téléchargement</string>
-    <string name="downloads_action_retry">Relancer le téléchargement</string>
-    <string name="downloads_action_remove">Supprimer le téléchargement</string>
 
     <!-- Shared media items -->
     <string name="media_artist">Artiste</string>
@@ -105,7 +91,6 @@
     <string name="settings_section_language_region">Langue et région</string>
     <string name="settings_section_appearance">Apparence</string>
     <string name="settings_section_playback">Lecture</string>
-    <string name="settings_section_downloads">Téléchargements</string>
     <string name="settings_section_caching">Cache</string>
     <string name="settings_section_desktop">Bureau</string>
     <string name="settings_section_updates">Mises à jour</string>
@@ -171,10 +156,6 @@
     <string name="settings_palette_orange">Orange</string>
     <string name="settings_palette_lime">Citron vert</string>
 
-    <string name="settings_download_folder_title">Dossier de téléchargement personnalisé</string>
-    <string name="settings_download_folder_current">Dossier actuel : %1$s</string>
-    <string name="settings_download_folder_description">Laissez vide pour utiliser le dossier Musique par défaut.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">Dossiers de médias locaux</string>
     <string name="settings_local_media_folders_subtitle_current">Dossiers personnalisés à analyser sur ordinateur. Ajoutés : %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">Aucun dossier personnalisé ajouté</string>
@@ -184,8 +165,6 @@
     <string name="settings_local_media_folders_remove_action">Supprimer le dossier</string>
     <string name="settings_local_media_folders_none_added">Aucun dossier personnalisé ajouté.</string>
     <string name="settings_local_media_folders_remove_named">Retirer %1$s de la liste d'analyse</string>
-    <string name="settings_local_media_folders_automatic_both">Les dossiers de téléchargement et de cache musical sont inclus automatiquement.</string>
-    <string name="settings_local_media_folders_automatic_downloads">Votre dossier de téléchargement est inclus automatiquement.</string>
     <string name="settings_local_media_folders_automatic_cache">Le dossier de cache musical est inclus automatiquement.</string>
     <string name="settings_local_media_folders_saving">Enregistrement…</string>
     <string name="settings_local_media_folders_save_error">Impossible d'enregistrer les dossiers. Vos modifications sont conservées ; réessayez.</string>
@@ -194,9 +173,6 @@
         <item quantity="many">%1$d dossiers</item>
         <item quantity="other">%1$d dossiers</item>
     </plurals>
-    <string name="settings_download_format_title">Format de téléchargement</string>
-    <string name="settings_download_format_subtitle_current">Codec et conteneur préférés pour les téléchargements. Actuel : %1$s</string>
-    <string name="settings_download_quality_title">Qualité de téléchargement</string>
 
     <string name="settings_streaming_format_title">Format de streaming</string>
     <string name="settings_streaming_format_subtitle_current">Codec et conteneur préférés pour le streaming. Actuel : %1$s</string>
@@ -633,7 +609,6 @@
     <string name="track_options_remove_from_favorites">Retirer des favoris</string>
     <string name="track_options_save_as_favorite">Ajouter aux favoris</string>
     <string name="track_options_add_to_playlist">Ajouter à une playlist</string>
-    <string name="track_options_download">Télécharger</string>
     <string name="track_options_share">Partager</string>
 
     <!-- Track list -->
@@ -646,8 +621,6 @@
     <string name="track_list_no_tracks">Aucun titre trouvé</string>
     <string name="track_list_filter_placeholder">Filtrer</string>
     <string name="track_list_bulk_actions">Actions groupées</string>
-    <string name="track_list_download_all">Tout télécharger</string>
-    <string name="track_list_download_count">Télécharger %1$d</string>
     <string name="track_list_add_all_to_queue">Tout ajouter à la file d'attente</string>
     <string name="track_list_add_count_to_queue">Ajouter %1$d à la file d'attente</string>
     <string name="track_list_play_all_next">Tout lire ensuite</string>
@@ -672,10 +645,6 @@
     <string name="blacklist_add">Ajouter à la liste noire</string>
     <string name="blacklist_remove">Retirer de la liste noire</string>
 
-    <!-- Downloads -->
-    <string name="downloads_error_no_metadata">Aucune métadonnée pour ce titre</string>
-    <string name="downloads_error_stream_unresolved_short">Impossible de résoudre l'URL du flux</string>
-    <string name="downloads_error_stream_unresolved">Impossible de résoudre l'URL du flux. Essayez d'abord de lire le titre.</string>
 
     <!-- Saved tracks -->
     <string name="saved_tracks_title">Titres enregistrés</string>
@@ -725,12 +694,6 @@
     <string name="player_lyrics">Paroles</string>
     <string name="player_alternative_source">Source alternative</string>
     <string name="player_alternative_source_content_description">Source alternative</string>
-    <string name="player_download">Télécharger</string>
-    <string name="player_download_status_downloaded">Téléchargé</string>
-    <string name="player_download_status_downloading">Téléchargement...</string>
-    <string name="player_download_already_downloaded">Déjà téléchargé</string>
-    <string name="player_download_retrying">Nouvelle tentative de téléchargement...</string>
-    <string name="player_download_started">Téléchargement de %1$s</string>
     <string name="player_sleep_timer_remaining">La lecture sera mise en pause dans %1$s.</string>
     <string name="player_sleep_timer_description">Mettre la lecture en pause après le nombre de minutes choisi.</string>
     <string name="player_sleep_timer_minutes_label">Minutes</string>

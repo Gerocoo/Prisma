@@ -32,7 +32,6 @@
     <string name="library_tab_albums">专辑</string>
     <string name="library_tab_artists">艺人</string>
     <string name="library_tab_local_tracks">本地歌曲</string>
-    <string name="library_tab_downloads">下载</string>
     <string name="library_filter_playlists">搜索已收藏的歌单…</string>
     <string name="library_filter_albums">搜索已收藏的专辑…</string>
     <string name="library_filter_artists">搜索已关注的艺人…</string>
@@ -70,19 +69,6 @@
     <string name="library_local_no_results">没有匹配的文件夹或歌曲</string>
     <string name="library_local_refresh_failed">刷新本地媒体失败</string>
 
-    <!-- Downloads -->
-    <string name="downloads_summary">%1$d 个进行中 • %2$d 个已完成</string>
-    <string name="downloads_clear_completed">清除已完成</string>
-    <string name="downloads_empty">暂无下载</string>
-    <string name="downloads_status_downloading">正在下载 %1$d%</string>
-    <string name="downloads_status_queued">排队中</string>
-    <string name="downloads_status_completed">已完成</string>
-    <string name="downloads_status_cancelled">已取消</string>
-    <string name="downloads_status_failed">失败</string>
-    <string name="downloads_status_failed_error">失败：%1$s</string>
-    <string name="downloads_action_cancel">取消下载</string>
-    <string name="downloads_action_retry">重试下载</string>
-    <string name="downloads_action_remove">移除下载</string>
 
     <!-- Shared media items -->
     <string name="media_artist">艺人</string>
@@ -101,7 +87,6 @@
     <string name="settings_section_language_region">语言和地区</string>
     <string name="settings_section_appearance">外观</string>
     <string name="settings_section_playback">播放</string>
-    <string name="settings_section_downloads">下载</string>
     <string name="settings_section_caching">缓存</string>
     <string name="settings_section_desktop">桌面</string>
     <string name="settings_section_updates">更新</string>
@@ -167,10 +152,6 @@
     <string name="settings_palette_orange">橙色</string>
     <string name="settings_palette_lime">青柠</string>
 
-    <string name="settings_download_folder_title">自定义下载文件夹</string>
-    <string name="settings_download_folder_current">当前文件夹：%1$s</string>
-    <string name="settings_download_folder_description">留空则使用默认音乐文件夹。</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">本地媒体文件夹</string>
     <string name="settings_local_media_folders_subtitle_current">桌面端要扫描的自定义文件夹。已添加：%1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">尚未添加自定义文件夹</string>
@@ -180,17 +161,12 @@
     <string name="settings_local_media_folders_remove_action">移除文件夹</string>
     <string name="settings_local_media_folders_none_added">未添加自定义文件夹。</string>
     <string name="settings_local_media_folders_remove_named">从扫描列表中移除 %1$s</string>
-    <string name="settings_local_media_folders_automatic_both">下载文件夹和音乐缓存文件夹会自动包含在内。</string>
-    <string name="settings_local_media_folders_automatic_downloads">你的下载文件夹会自动包含在内。</string>
     <string name="settings_local_media_folders_automatic_cache">音乐缓存文件夹会自动包含在内。</string>
     <string name="settings_local_media_folders_saving">正在保存…</string>
     <string name="settings_local_media_folders_save_error">无法保存文件夹。你的更改仍然保留，请重试。</string>
     <plurals name="settings_local_media_folders_count">
         <item quantity="other">%1$d 个文件夹</item>
     </plurals>
-    <string name="settings_download_format_title">下载音乐格式</string>
-    <string name="settings_download_format_subtitle_current">下载时首选的编解码器和封装格式。当前：%1$s</string>
-    <string name="settings_download_quality_title">下载音质</string>
 
     <string name="settings_streaming_format_title">流媒体音乐格式</string>
     <string name="settings_streaming_format_subtitle_current">在线播放时首选的编解码器和封装格式。当前：%1$s</string>
@@ -623,7 +599,6 @@
     <string name="track_options_remove_from_favorites">从收藏中移除</string>
     <string name="track_options_save_as_favorite">收藏</string>
     <string name="track_options_add_to_playlist">添加到歌单</string>
-    <string name="track_options_download">下载</string>
     <string name="track_options_share">分享</string>
 
     <!-- Track list -->
@@ -636,8 +611,6 @@
     <string name="track_list_no_tracks">未找到歌曲</string>
     <string name="track_list_filter_placeholder">筛选</string>
     <string name="track_list_bulk_actions">批量操作</string>
-    <string name="track_list_download_all">全部下载</string>
-    <string name="track_list_download_count">下载 %1$d 首</string>
     <string name="track_list_add_all_to_queue">全部添加到队列</string>
     <string name="track_list_add_count_to_queue">将 %1$d 首添加到队列</string>
     <string name="track_list_play_all_next">全部下一首播放</string>
@@ -662,10 +635,6 @@
     <string name="blacklist_add">加入黑名单</string>
     <string name="blacklist_remove">从黑名单中移除</string>
 
-    <!-- Downloads -->
-    <string name="downloads_error_no_metadata">没有歌曲元数据</string>
-    <string name="downloads_error_stream_unresolved_short">无法解析音频流 URL</string>
-    <string name="downloads_error_stream_unresolved">无法解析音频流 URL。请先尝试播放这首歌曲。</string>
 
     <!-- Saved tracks -->
     <string name="saved_tracks_title">收藏的歌曲</string>
@@ -713,12 +682,6 @@
     <string name="player_lyrics">歌词</string>
     <string name="player_alternative_source">备用音源</string>
     <string name="player_alternative_source_content_description">备用音源</string>
-    <string name="player_download">下载</string>
-    <string name="player_download_status_downloaded">已下载</string>
-    <string name="player_download_status_downloading">正在下载...</string>
-    <string name="player_download_already_downloaded">已下载过</string>
-    <string name="player_download_retrying">正在重试下载...</string>
-    <string name="player_download_started">正在下载 %1$s</string>
     <string name="player_sleep_timer_remaining">将在 %1$s后暂停播放。</string>
     <string name="player_sleep_timer_description">在选定的分钟数后暂停播放。</string>
     <string name="player_sleep_timer_minutes_label">分钟</string>

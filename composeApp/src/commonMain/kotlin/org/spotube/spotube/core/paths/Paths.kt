@@ -21,6 +21,5 @@ package org.spotube.spotube.core.paths
 expect class Paths() {
     fun getApplicationCacheDirPath(): String
     fun getApplicationDataDirPath(): String
-    fun getUserDownloadsDirPath(): String
     fun getMusicCacheDirPath(): String
 }

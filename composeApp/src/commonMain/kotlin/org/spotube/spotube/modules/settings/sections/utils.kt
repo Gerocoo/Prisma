@@ -78,25 +78,6 @@ internal val streamingFormatPresets = listOf(
         qualities = standardLossyQualities)
 ).filter { isContainerPlayableOn(it.container, currentPlatform) }
 
-internal val downloadFormatPresets = listOf(
-    AudioFormat(
-        codec = "aac",
-        container = "mp4",
-        qualities = standardLossyQualities),
-    AudioFormat(
-        codec = "mp3",
-        container = "mp3",
-        qualities = standardLossyQualities),
-    AudioFormat(
-        codec = "opus",
-        container = "webm",
-        qualities = standardLossyQualities),
-    AudioFormat(
-        codec = "flac",
-        container = "flac",
-        qualities = listOf(
-            AudioQuality.Lossless(sampleRate = 44_100, channels = 2),
-            AudioQuality.Lossless(sampleRate = 48_000, channels = 2))))
 
 internal fun LazyListScope.settingsSectionHeader(title: StringResource) {
     item {

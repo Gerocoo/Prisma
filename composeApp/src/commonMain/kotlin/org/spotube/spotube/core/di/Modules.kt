@@ -56,8 +56,6 @@ import org.spotube.spotube.modules.devices.DevicesViewModel
 import org.spotube.spotube.modules.devices.RemoteControlViewModel
 import org.spotube.spotube.modules.shell.ConnectStatusViewModel
 import org.spotube.spotube.modules.jam.JamViewModel
-import org.spotube.spotube.modules.downloads.DownloadManager
-import org.spotube.spotube.modules.downloads.DownloadsViewModel
 import org.spotube.spotube.modules.home.HomeScreenRepository
 import org.spotube.spotube.modules.home.HomeScreenViewModel
 import org.spotube.spotube.modules.plugin.MetadataAuthViewModel
@@ -177,9 +175,6 @@ val sharedModules = module {
     single { AppUpdateService(get(), get()) } withOptions { createdAtStart() }
     single { PluginUpdateService(get(), get()) } withOptions { createdAtStart() }
 
-    // Downloads
-    singleOf(::DownloadManager)
-    viewModelOf(::DownloadsViewModel)
 
     // Playlist
     singleOf(::PlaylistRepository)

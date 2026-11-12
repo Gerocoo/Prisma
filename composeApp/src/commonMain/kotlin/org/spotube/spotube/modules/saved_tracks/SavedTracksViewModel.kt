@@ -41,7 +41,6 @@ import org.spotube.spotube.core.share.ShareService
 import org.spotube.spotube.core.ui.component.TrackOptionsAction
 import org.spotube.spotube.core.ui.component.TrackOptionsContext
 import org.spotube.spotube.modules.blacklist.BlacklistRepository
-import org.spotube.spotube.modules.downloads.DownloadManager
 import org.spotube.spotube.modules.library.LibraryRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -99,7 +98,6 @@ class SavedTracksViewModel(
     private val blacklistRepository: BlacklistRepository,
     private val libraryRepository: LibraryRepository,
     private val shareService: ShareService,
-    private val downloadManager: DownloadManager,
     private val remotePlaybackController: RemotePlaybackController) : ViewModel(), KoinComponent {
     private val logger by injectLogger<SavedTracksViewModel>()
 
@@ -284,7 +282,6 @@ class SavedTracksViewModel(
                 }
 
                 is TrackOptionsAction.ToggleFavorite -> {}
-                is TrackOptionsAction.Download -> downloadManager.enqueue(track)
                 is TrackOptionsAction.ToggleBlacklist -> toggleTrackBlacklist(track)
                 is TrackOptionsAction.Share -> {
                     val uri = track.externalUri?.takeIf { it.isNotBlank() }
@@ -321,10 +318,6 @@ class SavedTracksViewModel(
 
     fun dismissAddToPlaylistPicker() {
         _showAddToPlaylistPicker.value = false
-    }
-
-    fun downloadTracks(tracks: List<MetadataTrack>) {
-        tracks.forEach { track -> downloadManager.enqueue(track) }
     }
 
     fun isTrackBlacklisted(track: MetadataTrack): Boolean {

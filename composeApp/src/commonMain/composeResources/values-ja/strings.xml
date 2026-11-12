@@ -32,7 +32,6 @@
     <string name="library_tab_albums">アルバム</string>
     <string name="library_tab_artists">アーティスト</string>
     <string name="library_tab_local_tracks">ローカルの曲</string>
-    <string name="library_tab_downloads">ダウンロード</string>
     <string name="library_filter_playlists">保存したプレイリストを検索…</string>
     <string name="library_filter_albums">保存したアルバムを検索…</string>
     <string name="library_filter_artists">保存したアーティストを検索…</string>
@@ -70,19 +69,6 @@
     <string name="library_local_no_results">一致するフォルダや曲はありません</string>
     <string name="library_local_refresh_failed">ローカルメディアを更新できませんでした</string>
 
-    <!-- Downloads -->
-    <string name="downloads_summary">%1$d件進行中 • %2$d件完了</string>
-    <string name="downloads_clear_completed">完了済みを消去</string>
-    <string name="downloads_empty">ダウンロードはまだありません</string>
-    <string name="downloads_status_downloading">ダウンロード中 %1$d%</string>
-    <string name="downloads_status_queued">待機中</string>
-    <string name="downloads_status_completed">完了</string>
-    <string name="downloads_status_cancelled">キャンセル済み</string>
-    <string name="downloads_status_failed">失敗</string>
-    <string name="downloads_status_failed_error">失敗: %1$s</string>
-    <string name="downloads_action_cancel">ダウンロードをキャンセル</string>
-    <string name="downloads_action_retry">ダウンロードを再試行</string>
-    <string name="downloads_action_remove">ダウンロードを削除</string>
 
     <!-- Shared media items -->
     <string name="media_artist">アーティスト</string>
@@ -101,7 +87,6 @@
     <string name="settings_section_language_region">言語と地域</string>
     <string name="settings_section_appearance">外観</string>
     <string name="settings_section_playback">再生</string>
-    <string name="settings_section_downloads">ダウンロード</string>
     <string name="settings_section_caching">キャッシュ</string>
     <string name="settings_section_desktop">デスクトップ</string>
     <string name="settings_section_updates">アップデート</string>
@@ -167,10 +152,6 @@
     <string name="settings_palette_orange">オレンジ</string>
     <string name="settings_palette_lime">ライム</string>
 
-    <string name="settings_download_folder_title">ダウンロードフォルダの変更</string>
-    <string name="settings_download_folder_current">現在のフォルダ: %1$s</string>
-    <string name="settings_download_folder_description">空欄にするとデフォルトの音楽フォルダを使用します。</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">ローカルメディアフォルダ</string>
     <string name="settings_local_media_folders_subtitle_current">デスクトップでスキャンするカスタムフォルダ。追加済み: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">カスタムフォルダはまだ追加されていません</string>
@@ -180,17 +161,12 @@
     <string name="settings_local_media_folders_remove_action">フォルダを削除</string>
     <string name="settings_local_media_folders_none_added">カスタムフォルダは追加されていません。</string>
     <string name="settings_local_media_folders_remove_named">%1$sをスキャン対象から削除</string>
-    <string name="settings_local_media_folders_automatic_both">ダウンロードフォルダと音楽キャッシュフォルダは自動的に含まれます。</string>
-    <string name="settings_local_media_folders_automatic_downloads">ダウンロードフォルダは自動的に含まれます。</string>
     <string name="settings_local_media_folders_automatic_cache">音楽キャッシュフォルダは自動的に含まれます。</string>
     <string name="settings_local_media_folders_saving">保存中…</string>
     <string name="settings_local_media_folders_save_error">フォルダを保存できませんでした。変更内容は保持されていますので、もう一度お試しください。</string>
     <plurals name="settings_local_media_folders_count">
         <item quantity="other">%1$d個のフォルダ</item>
     </plurals>
-    <string name="settings_download_format_title">ダウンロードの音楽フォーマット</string>
-    <string name="settings_download_format_subtitle_current">ダウンロードに使用するコーデックとコンテナ。現在: %1$s</string>
-    <string name="settings_download_quality_title">ダウンロードの音質</string>
 
     <string name="settings_streaming_format_title">ストリーミングの音楽フォーマット</string>
     <string name="settings_streaming_format_subtitle_current">ストリーミング再生に使用するコーデックとコンテナ。現在: %1$s</string>
@@ -623,7 +599,6 @@
     <string name="track_options_remove_from_favorites">お気に入りから削除</string>
     <string name="track_options_save_as_favorite">お気に入りに保存</string>
     <string name="track_options_add_to_playlist">プレイリストに追加</string>
-    <string name="track_options_download">ダウンロード</string>
     <string name="track_options_share">共有</string>
 
     <!-- Track list -->
@@ -636,8 +611,6 @@
     <string name="track_list_no_tracks">曲が見つかりません</string>
     <string name="track_list_filter_placeholder">絞り込み</string>
     <string name="track_list_bulk_actions">一括操作</string>
-    <string name="track_list_download_all">すべてダウンロード</string>
-    <string name="track_list_download_count">%1$d曲をダウンロード</string>
     <string name="track_list_add_all_to_queue">すべてキューに追加</string>
     <string name="track_list_add_count_to_queue">%1$d曲をキューに追加</string>
     <string name="track_list_play_all_next">すべて次に再生</string>
@@ -662,10 +635,6 @@
     <string name="blacklist_add">ブラックリストに追加</string>
     <string name="blacklist_remove">ブラックリストから削除</string>
 
-    <!-- Downloads -->
-    <string name="downloads_error_no_metadata">曲のメタデータがありません</string>
-    <string name="downloads_error_stream_unresolved_short">ストリームURLを解決できませんでした</string>
-    <string name="downloads_error_stream_unresolved">ストリームURLを解決できませんでした。先に曲を再生してみてください。</string>
 
     <!-- Saved tracks -->
     <string name="saved_tracks_title">保存した曲</string>
@@ -713,12 +682,6 @@
     <string name="player_lyrics">歌詞</string>
     <string name="player_alternative_source">代替ソース</string>
     <string name="player_alternative_source_content_description">代替ソース</string>
-    <string name="player_download">ダウンロード</string>
-    <string name="player_download_status_downloaded">ダウンロード済み</string>
-    <string name="player_download_status_downloading">ダウンロード中...</string>
-    <string name="player_download_already_downloaded">ダウンロード済みです</string>
-    <string name="player_download_retrying">ダウンロードを再試行中...</string>
-    <string name="player_download_started">%1$sをダウンロード中</string>
     <string name="player_sleep_timer_remaining">%1$s後に再生を一時停止します。</string>
     <string name="player_sleep_timer_description">選択した時間 (分) が経過したら再生を一時停止します。</string>
     <string name="player_sleep_timer_minutes_label">分</string>

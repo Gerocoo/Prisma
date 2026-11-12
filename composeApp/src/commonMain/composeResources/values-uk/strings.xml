@@ -32,7 +32,6 @@
     <string name="library_tab_albums">Альбоми</string>
     <string name="library_tab_artists">Виконавці</string>
     <string name="library_tab_local_tracks">Локальні треки</string>
-    <string name="library_tab_downloads">Завантаження</string>
     <string name="library_filter_playlists">Пошук у збережених плейлистах…</string>
     <string name="library_filter_albums">Пошук у збережених альбомах…</string>
     <string name="library_filter_artists">Пошук серед збережених виконавців…</string>
@@ -76,19 +75,6 @@
     <string name="library_local_no_results">Немає відповідних папок або треків</string>
     <string name="library_local_refresh_failed">Не вдалося оновити локальні файли</string>
 
-    <!-- Downloads -->
-    <string name="downloads_summary">Активних: %1$d • Завершених: %2$d</string>
-    <string name="downloads_clear_completed">Очистити завершені</string>
-    <string name="downloads_empty">Завантажень поки немає</string>
-    <string name="downloads_status_downloading">Завантаження %1$d%</string>
-    <string name="downloads_status_queued">У черзі</string>
-    <string name="downloads_status_completed">Завершено</string>
-    <string name="downloads_status_cancelled">Скасовано</string>
-    <string name="downloads_status_failed">Помилка</string>
-    <string name="downloads_status_failed_error">Помилка: %1$s</string>
-    <string name="downloads_action_cancel">Скасувати завантаження</string>
-    <string name="downloads_action_retry">Повторити завантаження</string>
-    <string name="downloads_action_remove">Видалити завантаження</string>
 
     <!-- Shared media items -->
     <string name="media_artist">Виконавець</string>
@@ -107,7 +93,6 @@
     <string name="settings_section_language_region">Мова та регіон</string>
     <string name="settings_section_appearance">Оформлення</string>
     <string name="settings_section_playback">Відтворення</string>
-    <string name="settings_section_downloads">Завантаження</string>
     <string name="settings_section_caching">Кешування</string>
     <string name="settings_section_desktop">Комп’ютер</string>
     <string name="settings_section_updates">Оновлення</string>
@@ -173,10 +158,6 @@
     <string name="settings_palette_orange">Помаранчева</string>
     <string name="settings_palette_lime">Лаймова</string>
 
-    <string name="settings_download_folder_title">Власна папка для завантажень</string>
-    <string name="settings_download_folder_current">Поточна папка: %1$s</string>
-    <string name="settings_download_folder_description">Залиште порожнім, щоб використовувати стандартну папку «Музика».</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">Папки з локальною музикою</string>
     <string name="settings_local_media_folders_subtitle_current">Додаткові папки для сканування на комп’ютері. Додано: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">Додаткових папок ще не додано</string>
@@ -186,8 +167,6 @@
     <string name="settings_local_media_folders_remove_action">Видалити папку</string>
     <string name="settings_local_media_folders_none_added">Додаткових папок не додано.</string>
     <string name="settings_local_media_folders_remove_named">Прибрати %1$s зі списку сканування</string>
-    <string name="settings_local_media_folders_automatic_both">Папки завантажень і музичного кешу додаються автоматично.</string>
-    <string name="settings_local_media_folders_automatic_downloads">Папка завантажень додається автоматично.</string>
     <string name="settings_local_media_folders_automatic_cache">Папка музичного кешу додається автоматично.</string>
     <string name="settings_local_media_folders_saving">Збереження…</string>
     <string name="settings_local_media_folders_save_error">Не вдалося зберегти папки. Зміни не втрачено — спробуйте ще раз.</string>
@@ -197,9 +176,6 @@
         <item quantity="many">%1$d папок</item>
         <item quantity="other">%1$d папки</item>
     </plurals>
-    <string name="settings_download_format_title">Формат завантаження музики</string>
-    <string name="settings_download_format_subtitle_current">Бажаний кодек і контейнер для завантажень. Зараз: %1$s</string>
-    <string name="settings_download_quality_title">Якість завантаження музики</string>
 
     <string name="settings_streaming_format_title">Формат стримінгу музики</string>
     <string name="settings_streaming_format_subtitle_current">Бажаний кодек і контейнер для стримінгу. Зараз: %1$s</string>
@@ -638,7 +614,6 @@
     <string name="track_options_remove_from_favorites">Видалити з улюблених</string>
     <string name="track_options_save_as_favorite">Додати в улюблені</string>
     <string name="track_options_add_to_playlist">Додати в плейлист</string>
-    <string name="track_options_download">Завантажити</string>
     <string name="track_options_share">Поділитися</string>
 
     <!-- Track list -->
@@ -651,8 +626,6 @@
     <string name="track_list_no_tracks">Треків не знайдено</string>
     <string name="track_list_filter_placeholder">Фільтр</string>
     <string name="track_list_bulk_actions">Дії з вибраними</string>
-    <string name="track_list_download_all">Завантажити всі</string>
-    <string name="track_list_download_count">Завантажити (%1$d)</string>
     <string name="track_list_add_all_to_queue">Додати всі до черги</string>
     <string name="track_list_add_count_to_queue">Додати до черги (%1$d)</string>
     <string name="track_list_play_all_next">Відтворити всі наступними</string>
@@ -677,10 +650,6 @@
     <string name="blacklist_add">Додати до чорного списку</string>
     <string name="blacklist_remove">Видалити з чорного списку</string>
 
-    <!-- Downloads -->
-    <string name="downloads_error_no_metadata">Немає метаданих треку</string>
-    <string name="downloads_error_stream_unresolved_short">Не вдалося отримати URL потоку</string>
-    <string name="downloads_error_stream_unresolved">Не вдалося отримати URL потоку. Спершу спробуйте відтворити трек.</string>
 
     <!-- Saved tracks -->
     <string name="saved_tracks_title">Збережені треки</string>
@@ -731,12 +700,6 @@
     <string name="player_lyrics">Текст</string>
     <string name="player_alternative_source">Альтернативне джерело</string>
     <string name="player_alternative_source_content_description">Альтернативне джерело</string>
-    <string name="player_download">Завантажити</string>
-    <string name="player_download_status_downloaded">Завантажено</string>
-    <string name="player_download_status_downloading">Завантаження...</string>
-    <string name="player_download_already_downloaded">Уже завантажено</string>
-    <string name="player_download_retrying">Повторне завантаження...</string>
-    <string name="player_download_started">Завантаження: %1$s</string>
     <string name="player_sleep_timer_remaining">Відтворення призупиниться через %1$s.</string>
     <string name="player_sleep_timer_description">Призупинити відтворення через вибрану кількість хвилин.</string>
     <string name="player_sleep_timer_minutes_label">Хвилини</string>

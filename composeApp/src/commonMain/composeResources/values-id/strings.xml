@@ -32,7 +32,6 @@
     <string name="library_tab_albums">Album</string>
     <string name="library_tab_artists">Artis</string>
     <string name="library_tab_local_tracks">Lagu Lokal</string>
-    <string name="library_tab_downloads">Unduhan</string>
     <string name="library_filter_playlists">Cari playlist tersimpan…</string>
     <string name="library_filter_albums">Cari album tersimpan…</string>
     <string name="library_filter_artists">Cari artis tersimpan…</string>
@@ -70,19 +69,6 @@
     <string name="library_local_no_results">Tidak ada folder atau lagu yang cocok</string>
     <string name="library_local_refresh_failed">Gagal memuat ulang media lokal</string>
 
-    <!-- Downloads -->
-    <string name="downloads_summary">%1$d aktif • %2$d selesai</string>
-    <string name="downloads_clear_completed">Hapus yang selesai</string>
-    <string name="downloads_empty">Belum ada unduhan</string>
-    <string name="downloads_status_downloading">Mengunduh %1$d%</string>
-    <string name="downloads_status_queued">Dalam antrean</string>
-    <string name="downloads_status_completed">Selesai</string>
-    <string name="downloads_status_cancelled">Dibatalkan</string>
-    <string name="downloads_status_failed">Gagal</string>
-    <string name="downloads_status_failed_error">Gagal: %1$s</string>
-    <string name="downloads_action_cancel">Batalkan unduhan</string>
-    <string name="downloads_action_retry">Coba unduh lagi</string>
-    <string name="downloads_action_remove">Hapus unduhan</string>
 
     <!-- Shared media items -->
     <string name="media_artist">Artis</string>
@@ -101,7 +87,6 @@
     <string name="settings_section_language_region">Bahasa dan Wilayah</string>
     <string name="settings_section_appearance">Tampilan</string>
     <string name="settings_section_playback">Pemutaran</string>
-    <string name="settings_section_downloads">Unduhan</string>
     <string name="settings_section_caching">Cache</string>
     <string name="settings_section_desktop">Desktop</string>
     <string name="settings_section_updates">Pembaruan</string>
@@ -167,10 +152,6 @@
     <string name="settings_palette_orange">Jingga</string>
     <string name="settings_palette_lime">Hijau Limau</string>
 
-    <string name="settings_download_folder_title">Ganti folder unduhan</string>
-    <string name="settings_download_folder_current">Folder saat ini: %1$s</string>
-    <string name="settings_download_folder_description">Biarkan kosong untuk memakai folder musik bawaan.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">Folder media lokal</string>
     <string name="settings_local_media_folders_subtitle_current">Folder kustom untuk dipindai di desktop. Ditambahkan: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">Belum ada folder kustom</string>
@@ -180,17 +161,12 @@
     <string name="settings_local_media_folders_remove_action">Hapus folder</string>
     <string name="settings_local_media_folders_none_added">Belum ada folder kustom yang ditambahkan.</string>
     <string name="settings_local_media_folders_remove_named">Hapus %1$s dari daftar pindai</string>
-    <string name="settings_local_media_folders_automatic_both">Folder unduhan dan cache musik disertakan secara otomatis.</string>
-    <string name="settings_local_media_folders_automatic_downloads">Folder unduhanmu disertakan secara otomatis.</string>
     <string name="settings_local_media_folders_automatic_cache">Folder cache musik disertakan secara otomatis.</string>
     <string name="settings_local_media_folders_saving">Menyimpan…</string>
     <string name="settings_local_media_folders_save_error">Gagal menyimpan folder. Perubahanmu masih ada; coba lagi.</string>
     <plurals name="settings_local_media_folders_count">
         <item quantity="other">%1$d folder</item>
     </plurals>
-    <string name="settings_download_format_title">Format unduhan musik</string>
-    <string name="settings_download_format_subtitle_current">Codec dan kontainer pilihan untuk unduhan. Saat ini: %1$s</string>
-    <string name="settings_download_quality_title">Kualitas unduhan musik</string>
 
     <string name="settings_streaming_format_title">Format streaming musik</string>
     <string name="settings_streaming_format_subtitle_current">Codec dan kontainer pilihan untuk streaming musik. Saat ini: %1$s</string>
@@ -623,7 +599,6 @@
     <string name="track_options_remove_from_favorites">Hapus dari favorit</string>
     <string name="track_options_save_as_favorite">Simpan sebagai favorit</string>
     <string name="track_options_add_to_playlist">Tambahkan ke playlist</string>
-    <string name="track_options_download">Unduh</string>
     <string name="track_options_share">Bagikan</string>
 
     <!-- Track list -->
@@ -636,8 +611,6 @@
     <string name="track_list_no_tracks">Tidak ada lagu ditemukan</string>
     <string name="track_list_filter_placeholder">Filter</string>
     <string name="track_list_bulk_actions">Tindakan massal</string>
-    <string name="track_list_download_all">Unduh Semua</string>
-    <string name="track_list_download_count">Unduh %1$d</string>
     <string name="track_list_add_all_to_queue">Tambahkan Semua ke Antrean</string>
     <string name="track_list_add_count_to_queue">Tambahkan %1$d ke Antrean</string>
     <string name="track_list_play_all_next">Putar Semua Berikutnya</string>
@@ -662,10 +635,6 @@
     <string name="blacklist_add">Tambahkan ke daftar blokir</string>
     <string name="blacklist_remove">Hapus dari daftar blokir</string>
 
-    <!-- Downloads -->
-    <string name="downloads_error_no_metadata">Tidak ada metadata lagu</string>
-    <string name="downloads_error_stream_unresolved_short">Tidak dapat menemukan URL stream</string>
-    <string name="downloads_error_stream_unresolved">Tidak dapat menemukan URL stream. Coba putar lagunya terlebih dahulu.</string>
 
     <!-- Saved tracks -->
     <string name="saved_tracks_title">Lagu Tersimpan</string>
@@ -713,12 +682,6 @@
     <string name="player_lyrics">Lirik</string>
     <string name="player_alternative_source">Sumber Alternatif</string>
     <string name="player_alternative_source_content_description">Sumber alternatif</string>
-    <string name="player_download">Unduh</string>
-    <string name="player_download_status_downloaded">Diunduh</string>
-    <string name="player_download_status_downloading">Mengunduh...</string>
-    <string name="player_download_already_downloaded">Sudah diunduh</string>
-    <string name="player_download_retrying">Mencoba mengunduh lagi...</string>
-    <string name="player_download_started">Mengunduh %1$s</string>
     <string name="player_sleep_timer_remaining">Pemutaran akan dijeda dalam %1$s.</string>
     <string name="player_sleep_timer_description">Jeda pemutaran setelah jumlah menit yang dipilih.</string>
     <string name="player_sleep_timer_minutes_label">Menit</string>

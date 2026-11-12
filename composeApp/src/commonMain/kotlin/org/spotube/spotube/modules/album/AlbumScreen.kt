@@ -114,7 +114,6 @@ fun AlbumScreen(
         onAlbumClick = { navigationCommands.navigateTo(Routes.Album(it.id)) },
         onTrackOptionsAction = viewModel::handleTrackOptionsAction,
         trackOptionsState = trackOptionsContext::stateFor,
-        onBulkDownload = viewModel::downloadTracks,
         onBulkAddToQueue = viewModel::addTracksToQueue,
         onBulkPlayNext = viewModel::playTracksNext,
         onBulkAddToPlaylist = viewModel::showAddToPlaylistPicker,

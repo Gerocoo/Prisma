@@ -31,7 +31,7 @@ class LocalMediaFoldersConfig(
         } else {
             emptyList()
         }
-        (listOfNotNull(settings.overloadedDownloadFolder) + settings.localMediaFolders + cacheRoot)
+        (settings.localMediaFolders + cacheRoot)
             .map { it.trim() }
             .filter { it.isNotBlank() }
             .distinct()

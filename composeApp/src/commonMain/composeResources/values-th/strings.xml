@@ -32,7 +32,6 @@
     <string name="library_tab_albums">อัลบั้ม</string>
     <string name="library_tab_artists">ศิลปิน</string>
     <string name="library_tab_local_tracks">เพลงในเครื่อง</string>
-    <string name="library_tab_downloads">ดาวน์โหลด</string>
     <string name="library_filter_playlists">ค้นหาเพลย์ลิสต์ที่บันทึกไว้…</string>
     <string name="library_filter_albums">ค้นหาอัลบั้มที่บันทึกไว้…</string>
     <string name="library_filter_artists">ค้นหาศิลปินที่บันทึกไว้…</string>
@@ -70,19 +69,6 @@
     <string name="library_local_no_results">ไม่มีโฟลเดอร์หรือเพลงที่ตรงกัน</string>
     <string name="library_local_refresh_failed">รีเฟรชสื่อในเครื่องไม่สำเร็จ</string>
 
-    <!-- Downloads -->
-    <string name="downloads_summary">กำลังดำเนินการ %1$d • เสร็จสิ้น %2$d</string>
-    <string name="downloads_clear_completed">ล้างรายการที่เสร็จแล้ว</string>
-    <string name="downloads_empty">ยังไม่มีการดาวน์โหลด</string>
-    <string name="downloads_status_downloading">กำลังดาวน์โหลด %1$d%</string>
-    <string name="downloads_status_queued">อยู่ในคิว</string>
-    <string name="downloads_status_completed">เสร็จสิ้น</string>
-    <string name="downloads_status_cancelled">ยกเลิกแล้ว</string>
-    <string name="downloads_status_failed">ล้มเหลว</string>
-    <string name="downloads_status_failed_error">ล้มเหลว: %1$s</string>
-    <string name="downloads_action_cancel">ยกเลิกการดาวน์โหลด</string>
-    <string name="downloads_action_retry">ลองดาวน์โหลดอีกครั้ง</string>
-    <string name="downloads_action_remove">ลบการดาวน์โหลด</string>
 
     <!-- Shared media items -->
     <string name="media_artist">ศิลปิน</string>
@@ -101,7 +87,6 @@
     <string name="settings_section_language_region">ภาษาและภูมิภาค</string>
     <string name="settings_section_appearance">รูปลักษณ์</string>
     <string name="settings_section_playback">การเล่น</string>
-    <string name="settings_section_downloads">การดาวน์โหลด</string>
     <string name="settings_section_caching">แคช</string>
     <string name="settings_section_desktop">เดสก์ท็อป</string>
     <string name="settings_section_updates">อัปเดต</string>
@@ -167,10 +152,6 @@
     <string name="settings_palette_orange">ส้ม</string>
     <string name="settings_palette_lime">เขียวมะนาว</string>
 
-    <string name="settings_download_folder_title">กำหนดโฟลเดอร์ดาวน์โหลดเอง</string>
-    <string name="settings_download_folder_current">โฟลเดอร์ปัจจุบัน: %1$s</string>
-    <string name="settings_download_folder_description">เว้นว่างไว้เพื่อใช้โฟลเดอร์เพลงเริ่มต้น</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">โฟลเดอร์สื่อในเครื่อง</string>
     <string name="settings_local_media_folders_subtitle_current">โฟลเดอร์ที่กำหนดเองเพื่อสแกนบนเดสก์ท็อป เพิ่มแล้ว: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">ยังไม่ได้เพิ่มโฟลเดอร์ที่กำหนดเอง</string>
@@ -180,17 +161,12 @@
     <string name="settings_local_media_folders_remove_action">ลบโฟลเดอร์</string>
     <string name="settings_local_media_folders_none_added">ยังไม่ได้เพิ่มโฟลเดอร์ที่กำหนดเอง</string>
     <string name="settings_local_media_folders_remove_named">ลบ %1$s ออกจากรายการสแกน</string>
-    <string name="settings_local_media_folders_automatic_both">โฟลเดอร์ดาวน์โหลดและโฟลเดอร์แคชเพลงจะถูกรวมโดยอัตโนมัติ</string>
-    <string name="settings_local_media_folders_automatic_downloads">โฟลเดอร์ดาวน์โหลดของคุณจะถูกรวมโดยอัตโนมัติ</string>
     <string name="settings_local_media_folders_automatic_cache">โฟลเดอร์แคชเพลงจะถูกรวมโดยอัตโนมัติ</string>
     <string name="settings_local_media_folders_saving">กำลังบันทึก…</string>
     <string name="settings_local_media_folders_save_error">บันทึกโฟลเดอร์ไม่ได้ การเปลี่ยนแปลงของคุณยังอยู่ โปรดลองอีกครั้ง</string>
     <plurals name="settings_local_media_folders_count">
         <item quantity="other">%1$d โฟลเดอร์</item>
     </plurals>
-    <string name="settings_download_format_title">รูปแบบเพลงที่ดาวน์โหลด</string>
-    <string name="settings_download_format_subtitle_current">โคเดกและคอนเทนเนอร์ที่ต้องการสำหรับการดาวน์โหลด ปัจจุบัน: %1$s</string>
-    <string name="settings_download_quality_title">คุณภาพเพลงที่ดาวน์โหลด</string>
 
     <string name="settings_streaming_format_title">รูปแบบการสตรีมเพลง</string>
     <string name="settings_streaming_format_subtitle_current">โคเดกและคอนเทนเนอร์ที่ต้องการสำหรับการสตรีมเพลง ปัจจุบัน: %1$s</string>
@@ -623,7 +599,6 @@
     <string name="track_options_remove_from_favorites">นำออกจากรายการโปรด</string>
     <string name="track_options_save_as_favorite">บันทึกเป็นรายการโปรด</string>
     <string name="track_options_add_to_playlist">เพิ่มลงในเพลย์ลิสต์</string>
-    <string name="track_options_download">ดาวน์โหลด</string>
     <string name="track_options_share">แชร์</string>
 
     <!-- Track list -->
@@ -636,8 +611,6 @@
     <string name="track_list_no_tracks">ไม่พบเพลง</string>
     <string name="track_list_filter_placeholder">กรอง</string>
     <string name="track_list_bulk_actions">การดำเนินการแบบกลุ่ม</string>
-    <string name="track_list_download_all">ดาวน์โหลดทั้งหมด</string>
-    <string name="track_list_download_count">ดาวน์โหลด %1$d เพลง</string>
     <string name="track_list_add_all_to_queue">เพิ่มทั้งหมดลงในคิว</string>
     <string name="track_list_add_count_to_queue">เพิ่ม %1$d เพลงลงในคิว</string>
     <string name="track_list_play_all_next">เล่นทั้งหมดถัดไป</string>
@@ -662,10 +635,6 @@
     <string name="blacklist_add">เพิ่มลงในบัญชีดำ</string>
     <string name="blacklist_remove">นำออกจากบัญชีดำ</string>
 
-    <!-- Downloads -->
-    <string name="downloads_error_no_metadata">ไม่มีเมทาดาทาของเพลง</string>
-    <string name="downloads_error_stream_unresolved_short">ไม่สามารถระบุ URL ของสตรีมได้</string>
-    <string name="downloads_error_stream_unresolved">ไม่สามารถระบุ URL ของสตรีมได้ ลองเล่นเพลงนี้ก่อน</string>
 
     <!-- Saved tracks -->
     <string name="saved_tracks_title">เพลงที่บันทึกไว้</string>
@@ -713,12 +682,6 @@
     <string name="player_lyrics">เนื้อเพลง</string>
     <string name="player_alternative_source">แหล่งที่มาสำรอง</string>
     <string name="player_alternative_source_content_description">แหล่งที่มาสำรอง</string>
-    <string name="player_download">ดาวน์โหลด</string>
-    <string name="player_download_status_downloaded">ดาวน์โหลดแล้ว</string>
-    <string name="player_download_status_downloading">กำลังดาวน์โหลด...</string>
-    <string name="player_download_already_downloaded">ดาวน์โหลดไว้แล้ว</string>
-    <string name="player_download_retrying">กำลังลองดาวน์โหลดอีกครั้ง...</string>
-    <string name="player_download_started">กำลังดาวน์โหลด %1$s</string>
     <string name="player_sleep_timer_remaining">การเล่นจะหยุดชั่วคราวในอีก %1$s</string>
     <string name="player_sleep_timer_description">หยุดการเล่นชั่วคราวหลังจากจำนวนนาทีที่เลือก</string>
     <string name="player_sleep_timer_minutes_label">นาที</string>

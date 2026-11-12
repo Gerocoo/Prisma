@@ -198,7 +198,6 @@ fun ArtistScreen(
                                 onLoadNextPage = {},
                                 simplified = true,
                                 scrollable = false,
-                                onBulkDownload = viewModel::downloadTracks,
                                 onBulkAddToQueue = viewModel::addTracksToQueue,
                                 onBulkPlayNext = viewModel::playTracksNext,
                                 onBulkAddToPlaylist = viewModel::showAddToPlaylistPicker,

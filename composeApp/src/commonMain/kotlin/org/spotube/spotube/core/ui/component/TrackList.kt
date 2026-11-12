@@ -166,7 +166,6 @@ fun TrackList(
     onArtistClick: (MetadataArtist.Basic) -> Unit = {},
     onAlbumClick: (MetadataAlbum.Detailed) -> Unit = {},
     onArtistsOverflowClick: (MetadataTrack) -> Unit = {},
-    onBulkDownload: (List<MetadataTrack>) -> Unit = {},
     onBulkAddToQueue: (List<MetadataTrack>) -> Unit = {},
     onBulkPlayNext: (List<MetadataTrack>) -> Unit = {},
     onBulkAddToPlaylist: (List<MetadataTrack>) -> Unit = {},
@@ -437,11 +436,6 @@ fun TrackList(
                         selectedTrackIds.isEmpty() || trackCount == visibleTracks.size
                     AdaptiveDropdownBottomSheet(
                         items = buildList {
-                            add(
-                                AdaptiveMenuItem(
-                                    icon = Iconsax.IconsaxDirectboxReceive,
-                                    label = if (isAll) stringResource(Res.string.track_list_download_all) else stringResource(Res.string.track_list_download_count, trackCount),
-                                    onClick = { onBulkDownload(targetTracks) }))
                             if (!isJamGuest) {
                                 add(
                                     AdaptiveMenuItem(

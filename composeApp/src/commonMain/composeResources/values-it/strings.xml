@@ -32,7 +32,6 @@
     <string name="library_tab_albums">Album</string>
     <string name="library_tab_artists">Artisti</string>
     <string name="library_tab_local_tracks">Brani locali</string>
-    <string name="library_tab_downloads">Download</string>
     <string name="library_filter_playlists">Cerca nelle playlist salvate…</string>
     <string name="library_filter_albums">Cerca negli album salvati…</string>
     <string name="library_filter_artists">Cerca negli artisti salvati…</string>
@@ -74,19 +73,6 @@
     <string name="library_local_no_results">Nessuna cartella o brano corrispondente</string>
     <string name="library_local_refresh_failed">Impossibile aggiornare i contenuti locali</string>
 
-    <!-- Downloads -->
-    <string name="downloads_summary">%1$d attivi • %2$d completati</string>
-    <string name="downloads_clear_completed">Rimuovi completati</string>
-    <string name="downloads_empty">Ancora nessun download</string>
-    <string name="downloads_status_downloading">Download in corso %1$d%</string>
-    <string name="downloads_status_queued">In coda</string>
-    <string name="downloads_status_completed">Completato</string>
-    <string name="downloads_status_cancelled">Annullato</string>
-    <string name="downloads_status_failed">Non riuscito</string>
-    <string name="downloads_status_failed_error">Non riuscito: %1$s</string>
-    <string name="downloads_action_cancel">Annulla download</string>
-    <string name="downloads_action_retry">Riprova download</string>
-    <string name="downloads_action_remove">Rimuovi download</string>
 
     <!-- Shared media items -->
     <string name="media_artist">Artista</string>
@@ -105,7 +91,6 @@
     <string name="settings_section_language_region">Lingua e area geografica</string>
     <string name="settings_section_appearance">Aspetto</string>
     <string name="settings_section_playback">Riproduzione</string>
-    <string name="settings_section_downloads">Download</string>
     <string name="settings_section_caching">Cache</string>
     <string name="settings_section_desktop">Desktop</string>
     <string name="settings_section_updates">Aggiornamenti</string>
@@ -173,10 +158,6 @@
     <string name="settings_system_colors_subtitle">Usa la palette Material You ricavata dallo sfondo</string>
     <string name="settings_palette_lime">Lime</string>
 
-    <string name="settings_download_folder_title">Cartella di download personalizzata</string>
-    <string name="settings_download_folder_current">Cartella attuale: %1$s</string>
-    <string name="settings_download_folder_description">Lascia vuoto per usare la cartella Musica predefinita.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">Cartelle multimediali locali</string>
     <string name="settings_local_media_folders_subtitle_current">Cartelle personalizzate da analizzare sul desktop. Aggiunte: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">Nessuna cartella personalizzata aggiunta</string>
@@ -186,8 +167,6 @@
     <string name="settings_local_media_folders_remove_action">Rimuovi cartella</string>
     <string name="settings_local_media_folders_none_added">Nessuna cartella personalizzata aggiunta.</string>
     <string name="settings_local_media_folders_remove_named">Rimuovi %1$s dall'elenco di analisi</string>
-    <string name="settings_local_media_folders_automatic_both">Le cartelle di download e della cache musicale sono incluse automaticamente.</string>
-    <string name="settings_local_media_folders_automatic_downloads">La tua cartella di download è inclusa automaticamente.</string>
     <string name="settings_local_media_folders_automatic_cache">La cartella della cache musicale è inclusa automaticamente.</string>
     <string name="settings_local_media_folders_saving">Salvataggio…</string>
     <string name="settings_local_media_folders_save_error">Impossibile salvare le cartelle. Le modifiche sono ancora qui; riprova.</string>
@@ -196,9 +175,6 @@
         <item quantity="many">%1$d cartelle</item>
         <item quantity="other">%1$d cartelle</item>
     </plurals>
-    <string name="settings_download_format_title">Formato musica scaricata</string>
-    <string name="settings_download_format_subtitle_current">Codec e contenitore preferiti per i download. Attuale: %1$s</string>
-    <string name="settings_download_quality_title">Qualità musica scaricata</string>
 
     <string name="settings_streaming_format_title">Formato musica in streaming</string>
     <string name="settings_streaming_format_subtitle_current">Codec e contenitore preferiti per lo streaming musicale. Attuale: %1$s</string>
@@ -398,7 +374,7 @@
     <string name="welcome_guide_search_title">Cerca e riproduci</string>
     <string name="welcome_guide_search_desc">Trova qualsiasi brano, album o artista, poi premi play.</string>
     <string name="welcome_guide_offline_title">Ascolta offline</string>
-    <string name="welcome_guide_offline_desc">Scarica i brani per continuare ad ascoltarli senza connessione.</string>
+    <string name="welcome_guide_offline_desc">I brani in cache e quelli locali continuano a suonare senza connessione.</string>
     <string name="welcome_guide_lyrics_title">Segui il testo</string>
     <string name="welcome_guide_lyrics_desc">Apri i testi sincronizzati dal player mentre ascolti un brano.</string>
 
@@ -473,7 +449,7 @@
     <string name="welcome_how_step_stream_title">2. Risoluzione diretta degli stream</string>
     <string name="welcome_how_step_stream_desc">L'audio arriva direttamente dai server dei contenuti al tuo dispositivo. Nessun proxy intermedio né raccolta remota di dati.</string>
     <string name="welcome_how_step_playback_title">3. DSP e riproduzione in locale</string>
-    <string name="welcome_how_step_playback_desc">Decodificato e salvato in cache in locale, con equalizzatore e download offline facoltativo.</string>
+    <string name="welcome_how_step_playback_desc">Decodificato e salvato in cache in locale, con equalizzatore.</string>
     <string name="welcome_how_step_lyrics_title">4. Testi sincronizzati e Jam</string>
     <string name="welcome_how_step_lyrics_desc">I testi karaoke seguono il tempo di riproduzione, con controllo remoto via LAN e Jam di gruppo.</string>
     <string name="welcome_how_footer">Nessun server intermediario. La riproduzione avviene direttamente sul tuo dispositivo: privacy by design.</string>
@@ -640,7 +616,6 @@
     <string name="track_options_remove_from_favorites">Rimuovi dai preferiti</string>
     <string name="track_options_save_as_favorite">Salva nei preferiti</string>
     <string name="track_options_add_to_playlist">Aggiungi alla playlist</string>
-    <string name="track_options_download">Scarica</string>
     <string name="track_options_share">Condividi</string>
 
     <!-- Track list -->
@@ -653,8 +628,6 @@
     <string name="track_list_no_tracks">Nessun brano trovato</string>
     <string name="track_list_filter_placeholder">Filtra</string>
     <string name="track_list_bulk_actions">Azioni multiple</string>
-    <string name="track_list_download_all">Scarica tutto</string>
-    <string name="track_list_download_count">Scarica %1$d</string>
     <string name="track_list_add_all_to_queue">Aggiungi tutto alla coda</string>
     <string name="track_list_add_count_to_queue">Aggiungi %1$d alla coda</string>
     <string name="track_list_play_all_next">Riproduci tutto dopo</string>
@@ -679,10 +652,6 @@
     <string name="blacklist_add">Aggiungi alla blacklist</string>
     <string name="blacklist_remove">Rimuovi dalla blacklist</string>
 
-    <!-- Downloads -->
-    <string name="downloads_error_no_metadata">Nessun metadato del brano</string>
-    <string name="downloads_error_stream_unresolved_short">Impossibile risolvere l'URL dello stream</string>
-    <string name="downloads_error_stream_unresolved">Impossibile risolvere l'URL dello stream. Prova prima a riprodurre il brano.</string>
 
     <!-- Saved tracks -->
     <string name="saved_tracks_title">Brani salvati</string>
@@ -732,12 +701,6 @@
     <string name="player_lyrics">Testo</string>
     <string name="player_alternative_source">Fonte alternativa</string>
     <string name="player_alternative_source_content_description">Fonte alternativa</string>
-    <string name="player_download">Scarica</string>
-    <string name="player_download_status_downloaded">Scaricato</string>
-    <string name="player_download_status_downloading">Download in corso...</string>
-    <string name="player_download_already_downloaded">Già scaricato</string>
-    <string name="player_download_retrying">Nuovo tentativo di download...</string>
-    <string name="player_download_started">Download di %1$s</string>
     <string name="player_sleep_timer_remaining">La riproduzione si interromperà tra %1$s.</string>
     <string name="player_sleep_timer_description">Metti in pausa la riproduzione dopo il numero di minuti selezionato.</string>
     <string name="player_sleep_timer_minutes_label">Minuti</string>
@@ -941,8 +904,6 @@
     <!-- Prisma: traduzioni mancanti -->
     <string name="library_local_empty_folders_description">Aggiungi una cartella con la tua musica per ascoltarla qui. Non serve nessun plugin.</string>
     <string name="library_local_add_folder">Aggiungi cartella</string>
-    <string name="downloads_saved_to">Salvato in %1$s</string>
-    <string name="settings_download_folder_default_path">Cartella attuale: %1$s (predefinita)</string>
     <string name="no_metadata_plugin_title">Nessun plugin dei metadati selezionato</string>
     <string name="no_metadata_plugin_description_install">Prisma ha bisogno di un plugin dei metadati per sfogliare, cercare e mostrare la tua musica. Installane uno per iniziare.</string>
     <string name="no_metadata_plugin_description_select">Hai già dei plugin installati, ma nessuno è impostato come fonte dei metadati. Scegline uno per iniziare a sfogliare.</string>
@@ -952,7 +913,7 @@
     <string name="no_metadata_plugin_action_install">Installa un plugin</string>
     <string name="no_metadata_plugin_action_select">Scegli un plugin</string>
     <string name="no_metadata_plugin_action_local">Ascolta la musica locale</string>
-    <string name="no_metadata_plugin_local_hint">I brani locali e i download funzionano anche senza plugin.</string>
+    <string name="no_metadata_plugin_local_hint">I brani locali funzionano anche senza plugin.</string>
     <string name="plugin_install_sheet_subtitle">Aggiungi un plugin da un link o da un file sul dispositivo.</string>
     <string name="plugin_install_file_hint">Scegli un file .smplug dal dispositivo</string>
     <string name="plugin_install_or">oppure</string>
@@ -977,9 +938,6 @@
     <string name="login_required_description">Questa sezione di Prisma richiede l'accesso al tuo servizio musicale. Accedi una volta e qui comparirà tutto.</string>
     <string name="login_required_description_plugin">%1$s richiede l'accesso prima di mostrare questi contenuti. Accedi una volta e qui comparirà tutto.</string>
     <string name="login_required_action">Accedi</string>
-    <string name="downloads_error_http">Il server ha rifiutato il download (HTTP %1$d)</string>
-    <string name="downloads_error_range_ignored">Il server ha inviato un download incompleto. Riprova.</string>
-    <string name="downloads_error_video_only">Per questo brano è disponibile solo un video, quindi non è stato scaricato</string>
     <string name="plugin_discover_repository_host">github.com</string>
     <plurals name="connect_jam_hosting">
         <item quantity="one">In hosting · %1$d ascoltatore</item>

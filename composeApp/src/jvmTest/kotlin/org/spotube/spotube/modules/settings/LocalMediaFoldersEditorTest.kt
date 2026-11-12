@@ -91,7 +91,7 @@ class LocalMediaFoldersEditorTest {
         val editor = model(source)
         editor.open()
         editor.addFolder("/new-music")
-        source.value = source.value.copy(overloadedDownloadFolder = "/downloads")
+        source.value = source.value.copy(enableMusicCaching = !source.value.enableMusicCaching)
         runCurrent()
         assertEquals(listOf("/music", "/new-music"), editor.uiState.value.folders.map { it.path })
         assertTrue(editor.uiState.value.canSave)

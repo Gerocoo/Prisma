@@ -32,7 +32,6 @@
     <string name="library_tab_albums">앨범</string>
     <string name="library_tab_artists">아티스트</string>
     <string name="library_tab_local_tracks">로컬 트랙</string>
-    <string name="library_tab_downloads">다운로드</string>
     <string name="library_filter_playlists">저장한 플레이리스트 검색…</string>
     <string name="library_filter_albums">저장한 앨범 검색…</string>
     <string name="library_filter_artists">저장한 아티스트 검색…</string>
@@ -70,19 +69,6 @@
     <string name="library_local_no_results">일치하는 폴더나 트랙이 없어요</string>
     <string name="library_local_refresh_failed">로컬 미디어를 새로고침하지 못했어요</string>
 
-    <!-- Downloads -->
-    <string name="downloads_summary">진행 중 %1$d개 • 완료 %2$d개</string>
-    <string name="downloads_clear_completed">완료된 항목 지우기</string>
-    <string name="downloads_empty">아직 다운로드한 항목이 없어요</string>
-    <string name="downloads_status_downloading">다운로드 중 %1$d%</string>
-    <string name="downloads_status_queued">대기 중</string>
-    <string name="downloads_status_completed">완료됨</string>
-    <string name="downloads_status_cancelled">취소됨</string>
-    <string name="downloads_status_failed">실패</string>
-    <string name="downloads_status_failed_error">실패: %1$s</string>
-    <string name="downloads_action_cancel">다운로드 취소</string>
-    <string name="downloads_action_retry">다운로드 다시 시도</string>
-    <string name="downloads_action_remove">다운로드 삭제</string>
 
     <!-- Shared media items -->
     <string name="media_artist">아티스트</string>
@@ -101,7 +87,6 @@
     <string name="settings_section_language_region">언어 및 지역</string>
     <string name="settings_section_appearance">화면 스타일</string>
     <string name="settings_section_playback">재생</string>
-    <string name="settings_section_downloads">다운로드</string>
     <string name="settings_section_caching">캐시</string>
     <string name="settings_section_desktop">데스크톱</string>
     <string name="settings_section_updates">업데이트</string>
@@ -167,10 +152,6 @@
     <string name="settings_palette_orange">오렌지</string>
     <string name="settings_palette_lime">라임</string>
 
-    <string name="settings_download_folder_title">다운로드 폴더 지정</string>
-    <string name="settings_download_folder_current">현재 폴더: %1$s</string>
-    <string name="settings_download_folder_description">기본 음악 폴더를 사용하려면 비워 두세요.</string>
-    <string name="settings_download_folder_placeholder">C:\Music\Prisma</string>
     <string name="settings_local_media_folders_title">로컬 미디어 폴더</string>
     <string name="settings_local_media_folders_subtitle_current">데스크톱에서 검색할 사용자 지정 폴더. 추가됨: %1$d</string>
     <string name="settings_local_media_folders_subtitle_empty">아직 추가한 사용자 지정 폴더가 없어요</string>
@@ -180,17 +161,12 @@
     <string name="settings_local_media_folders_remove_action">폴더 삭제</string>
     <string name="settings_local_media_folders_none_added">추가한 사용자 지정 폴더가 없습니다.</string>
     <string name="settings_local_media_folders_remove_named">검색 목록에서 %1$s 삭제</string>
-    <string name="settings_local_media_folders_automatic_both">다운로드 폴더와 음악 캐시 폴더는 자동으로 포함돼요.</string>
-    <string name="settings_local_media_folders_automatic_downloads">다운로드 폴더는 자동으로 포함돼요.</string>
     <string name="settings_local_media_folders_automatic_cache">음악 캐시 폴더는 자동으로 포함돼요.</string>
     <string name="settings_local_media_folders_saving">저장 중…</string>
     <string name="settings_local_media_folders_save_error">폴더를 저장하지 못했어요. 변경 사항은 그대로 남아 있으니 다시 시도하세요.</string>
     <plurals name="settings_local_media_folders_count">
         <item quantity="other">폴더 %1$d개</item>
     </plurals>
-    <string name="settings_download_format_title">다운로드 음악 형식</string>
-    <string name="settings_download_format_subtitle_current">다운로드에 사용할 코덱 및 컨테이너. 현재: %1$s</string>
-    <string name="settings_download_quality_title">다운로드 음질</string>
 
     <string name="settings_streaming_format_title">스트리밍 음악 형식</string>
     <string name="settings_streaming_format_subtitle_current">음악 스트리밍에 사용할 코덱 및 컨테이너. 현재: %1$s</string>
@@ -623,7 +599,6 @@
     <string name="track_options_remove_from_favorites">즐겨찾기에서 삭제</string>
     <string name="track_options_save_as_favorite">즐겨찾기에 저장</string>
     <string name="track_options_add_to_playlist">플레이리스트에 추가</string>
-    <string name="track_options_download">다운로드</string>
     <string name="track_options_share">공유</string>
 
     <!-- Track list -->
@@ -636,8 +611,6 @@
     <string name="track_list_no_tracks">트랙을 찾을 수 없어요</string>
     <string name="track_list_filter_placeholder">필터</string>
     <string name="track_list_bulk_actions">일괄 작업</string>
-    <string name="track_list_download_all">모두 다운로드</string>
-    <string name="track_list_download_count">%1$d곡 다운로드</string>
     <string name="track_list_add_all_to_queue">모두 대기열에 추가</string>
     <string name="track_list_add_count_to_queue">%1$d곡 대기열에 추가</string>
     <string name="track_list_play_all_next">모두 다음에 재생</string>
@@ -662,10 +635,6 @@
     <string name="blacklist_add">차단 목록에 추가</string>
     <string name="blacklist_remove">차단 목록에서 삭제</string>
 
-    <!-- Downloads -->
-    <string name="downloads_error_no_metadata">트랙 메타데이터 없음</string>
-    <string name="downloads_error_stream_unresolved_short">스트림 URL을 확인할 수 없어요</string>
-    <string name="downloads_error_stream_unresolved">스트림 URL을 확인할 수 없어요. 먼저 트랙을 재생해 보세요.</string>
 
     <!-- Saved tracks -->
     <string name="saved_tracks_title">저장한 트랙</string>
@@ -713,12 +682,6 @@
     <string name="player_lyrics">가사</string>
     <string name="player_alternative_source">대체 소스</string>
     <string name="player_alternative_source_content_description">대체 소스</string>
-    <string name="player_download">다운로드</string>
-    <string name="player_download_status_downloaded">다운로드 완료</string>
-    <string name="player_download_status_downloading">다운로드 중...</string>
-    <string name="player_download_already_downloaded">이미 다운로드됨</string>
-    <string name="player_download_retrying">다운로드 다시 시도 중...</string>
-    <string name="player_download_started">%1$s 다운로드 중</string>
     <string name="player_sleep_timer_remaining">%1$s 후 재생이 일시정지돼요.</string>
     <string name="player_sleep_timer_description">선택한 시간(분)이 지나면 재생을 일시정지해요.</string>
     <string name="player_sleep_timer_minutes_label">분</string>

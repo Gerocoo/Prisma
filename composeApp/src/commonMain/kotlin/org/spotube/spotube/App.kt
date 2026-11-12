@@ -82,7 +82,6 @@ import spotube.composeapp.generated.resources.nav_your_library
 import spotube.composeapp.generated.resources.jam_screen_title
 import spotube.composeapp.generated.resources.library_tab_albums
 import spotube.composeapp.generated.resources.library_tab_artists
-import spotube.composeapp.generated.resources.library_tab_downloads
 import spotube.composeapp.generated.resources.library_tab_local_tracks
 import spotube.composeapp.generated.resources.library_tab_playlists
 import spotube.composeapp.generated.resources.library_toolbar_compact_title
@@ -131,12 +130,6 @@ val sidebarTabs = tabs + listOf(
                 Iconsax.IconsaxMusicLibrary,
                 Routes.Library,
                 LibraryTab.LocalTracks
-            ),
-            NavigationItem.Tab(
-                Res.string.library_tab_downloads,
-                Iconsax.IconsaxDirectboxReceive,
-                Routes.Library,
-                LibraryTab.Downloads
             )
         )
     ),

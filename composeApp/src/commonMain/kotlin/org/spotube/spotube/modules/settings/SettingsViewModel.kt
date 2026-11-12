@@ -35,9 +35,6 @@ class SettingsViewModel(
 ) : ViewModel(), SettingsProvider {
     override val settingsState = repository.userSettings
 
-    /** Where downloads go when no override folder is set. */
-    val defaultDownloadFolder: String = paths.getUserDownloadsDirPath()
-
     fun updateSettings(transform: UserSettings.() -> UserSettings) {
         viewModelScope.launch {
             // Get current state, apply transform, and save
