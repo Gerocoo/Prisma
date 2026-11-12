@@ -160,6 +160,8 @@ import spotube.composeapp.generated.resources.welcome_plugins_sources
 import spotube.composeapp.generated.resources.plugin_action_download
 import spotube.composeapp.generated.resources.plugin_action_install_from_file
 import spotube.composeapp.generated.resources.plugin_configure_title
+import spotube.composeapp.generated.resources.plugin_use_for_ability
+import spotube.composeapp.generated.resources.plugin_available_to_download
 import spotube.composeapp.generated.resources.plugin_empty_subtitle
 import spotube.composeapp.generated.resources.plugin_empty_title
 import spotube.composeapp.generated.resources.plugin_error_download_failed
@@ -324,55 +326,22 @@ internal fun PluginScreenContent(
                                         color = AppTheme.colors.onSurfaceVariant)
                                 }
                             }
-                            item {
-                                MillenniumSegmentedButtonRow(
-                                    modifier = Modifier.padding(bottom = 12.dp)) {
-                                    MillenniumSegmentedButton(
-                                        selected = data.onboardingDiscover,
-                                        onClick = { viewModel.showOnboardingDiscovery(true) },
-                                        shape = MillenniumSegmentedButtonDefaults.itemShape(0, 2)) {
-                                        Text(stringResource(Res.string.welcome_plugins_discover))
-                                    }
-                                    MillenniumSegmentedButton(
-                                        selected = !data.onboardingDiscover,
-                                        onClick = { viewModel.showOnboardingDiscovery(false) },
-                                        shape = MillenniumSegmentedButtonDefaults.itemShape(1, 2)) {
-                                        Text(stringResource(Res.string.welcome_plugins_sources))
-                                    }
-                                }
-                            }
                         }
-                        if (!onboarding || !data.onboardingDiscover) {
-
-                            item {
-                                DefaultAbilityPluginGrid(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 4.dp),
-                                    selections = data.abilitySelections,
-                                    onSelected = { ability, plugin ->
-                                        viewModel.selectPlugin(ability, plugin)
-                                    })
-                            }
-
+                        run {
                             item {
                                 Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = 4.dp, vertical = 4.dp),
+                                    modifier = Modifier.fillMaxWidth().padding(horizontal = 4.dp),
                                     horizontalArrangement = Arrangement.SpaceBetween,
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Text(
                                         stringResource(Res.string.plugin_configure_title),
                                         style = AppTheme.typography.titleLarge,
-                                        fontWeight = FontWeight.SemiBold
-                                    )
+                                        fontWeight = FontWeight.SemiBold)
                                     MillenniumButton(onClick = { viewModel.showInstallSheet() }) {
                                         Row(
                                             verticalAlignment = Alignment.CenterVertically,
-                                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                                        ) {
+                                            horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                             MillenniumIcon(
                                                 Iconsax.IconsaxAdd,
                                                 contentDescription = stringResource(Res.string.plugin_install_section_title))
@@ -381,190 +350,120 @@ internal fun PluginScreenContent(
                                     }
                                 }
                             }
-
-                            if (data.plugins.isEmpty()) {
-                                item {
-                                    Box(
-                                        modifier = Modifier.fillMaxWidth()
-                                            .padding(vertical = 48.dp),
-                                        contentAlignment = Alignment.Center
+                            listOf(
+                                PluginAbility.METADATA,
+                                PluginAbility.AUDIO,
+                                PluginAbility.LYRICS,
+                                PluginAbility.SCROBBLE
+                            ).forEach { ability ->
+                                val active = data.abilitySelections
+                                    .firstOrNull { it.ability == ability }?.selectedPlugin
+                                val installed = data.plugins
+                                    .filter { ability in it.plugin.abilities }
+                                    .sortedByDescending { active != null && it.plugin.id == active.id }
+                                val available = data.discover.repos
+                                    .filter { repoMatchesAbility(it, ability) }
+                                item(key = "header-$ability") {
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 4.dp, vertical = 12.dp),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(10.dp)
                                     ) {
-                                        Column(
-                                            horizontalAlignment = Alignment.CenterHorizontally,
-                                            verticalArrangement = Arrangement.spacedBy(12.dp)
-                                        ) {
-                                            Box(
-                                                modifier = Modifier.size(72.dp)
-                                                    .clip(RoundedCornerShape(18.dp))
-                                                    .background(AppTheme.colors.primary.copy(alpha = 0.1f))
-                                            ) {
-                                                Box(contentAlignment = Alignment.Center) {
-                                                    MillenniumIcon(
-                                                        Iconsax.IconsaxBox,
-                                                        contentDescription = null,
-                                                        modifier = Modifier.size(32.dp),
-                                                        tint = AppTheme.colors.primary
-                                                    )
-                                                }
-                                            }
-                                            Text(
-                                                stringResource(Res.string.plugin_empty_title),
-                                                style = AppTheme.typography.titleSmall,
-                                                fontWeight = FontWeight.SemiBold
-                                            )
-                                            Text(
-                                                stringResource(Res.string.plugin_empty_subtitle),
-                                                style = AppTheme.typography.bodySmall,
-                                                color = AppTheme.colors.onSurfaceVariant
-                                            )
-                                        }
+                                        MillenniumIcon(
+                                            ability.abilityIcon(),
+                                            contentDescription = null,
+                                            modifier = Modifier.size(20.dp),
+                                            tint = ability.accentColor())
+                                        Text(
+                                            ability.displayLabel(),
+                                            style = AppTheme.typography.titleMedium,
+                                            fontWeight = FontWeight.SemiBold)
                                     }
                                 }
-                            } else {
-                                item {
-                                    Text(
-                                        pluralStringResource(
-                                            Res.plurals.plugin_installed_plugins_count,
-                                            data.plugins.size,
-                                            data.plugins.size
-                                        ),
-                                        style = AppTheme.typography.labelMedium,
-                                        color = AppTheme.colors.onSurfaceVariant,
-                                        modifier = Modifier.padding(
-                                            horizontal = 4.dp,
-                                            vertical = 4.dp
-                                        )
-                                    )
+                                if (installed.isEmpty()) {
+                                    item(key = "empty-$ability") {
+                                        Text(
+                                            stringResource(Res.string.settings_plugins_no_plugins),
+                                            style = AppTheme.typography.bodySmall,
+                                            color = AppTheme.colors.onSurfaceVariant,
+                                            modifier = Modifier.padding(horizontal = 4.dp))
+                                    }
                                 }
-                                item {
+                                items(installed, key = { "inst-$ability-${it.plugin.id}" }) { item ->
+                                    val isActive = active != null && item.plugin.id == active.id
                                     Box(
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .padding(vertical = 4.dp)
                                             .materialSurface(
                                                 background = materialPanelBrush(MillenniumTheme.colors),
                                                 shape = RoundedCornerShape(12.dp),
                                                 borderColor = AppTheme.colors.outlineVariant,
                                                 borderWidth = 0.dp,
                                                 shadowElevation = 6.dp)) {
-                                        Column(
-                                            modifier = Modifier.fillMaxWidth()
-                                        ) {
-                                            data.plugins.forEachIndexed { index, item ->
-                                                if (index > 0) {
-                                                    MillenniumSeparator()
+                                        Column {
+                                            PluginCard(
+                                                plugin = item.plugin,
+                                                isSelected = isActive,
+                                                onRemove = { viewModel.removePlugin(item.plugin) },
+                                                isLoggedIn = item.authState.isLoggedIn,
+                                                logoPath = item.logoPath,
+                                                isAuthInProgress = item.isAuthInProgress,
+                                                isRemoving = item.isRemoving,
+                                                onInfo = { viewModel.showPluginInfo(item.plugin) },
+                                                onSupport = if (isActive) {
+                                                    { viewModel.loadSupport(item.plugin) }
+                                                } else null,
+                                                onLogin = if (isActive && item.authState.requiresAuth) {
+                                                    { viewModel.login(item.plugin) }
+                                                } else null,
+                                                onLogout = if (isActive && item.authState.requiresAuth) {
+                                                    { viewModel.logout(item.plugin) }
+                                                } else null)
+                                            if (!isActive) {
+                                                MillenniumButton(
+                                                    onClick = { viewModel.selectPlugin(ability, item.plugin) },
+                                                    style = MillenniumButtonStyle.Secondary,
+                                                    modifier = Modifier.padding(start = 14.dp, end = 14.dp, bottom = 12.dp)) {
+                                                    Text(stringResource(Res.string.plugin_use_for_ability))
                                                 }
-                                                PluginCard(
-                                                    plugin = item.plugin,
-                                                    isSelected = item.isSelected,
-                                                    onRemove = { viewModel.removePlugin(item.plugin) },
-                                                    isLoggedIn = item.authState.isLoggedIn,
-                                                    logoPath = item.logoPath,
-                                                    isAuthInProgress = item.isAuthInProgress,
-                                                    isRemoving = item.isRemoving,
-                                                    onInfo = { viewModel.showPluginInfo(item.plugin) },
-                                                    onSupport = if (item.isSelected) {
-                                                        { viewModel.loadSupport(item.plugin) }
-                                                    } else null,
-                                                    onLogin = if (item.isSelected && item.authState.requiresAuth) {
-                                                        { viewModel.login(item.plugin) }
-                                                    } else null,
-                                                    onLogout = if (item.isSelected && item.authState.requiresAuth) {
-                                                        { viewModel.logout(item.plugin) }
-                                                    } else null)
                                             }
                                         }
                                     }
                                 }
-                            }
-
-                        }
-                        if ((!onboarding || data.onboardingDiscover) && (onboarding || data.discover.isLoading || data.discover.repos.isNotEmpty() || data.discover.error != null)) {
-                            if (onboarding) {
-                                item {
-                                    MillenniumButton(
-                                        onClick = viewModel::showInstallSheet,
-                                        style = MillenniumButtonStyle.Secondary) {
-                                        Text(stringResource(Res.string.plugin_install_section_title))
+                                if (available.isNotEmpty()) {
+                                    item(key = "avail-title-$ability") {
+                                        Text(
+                                            stringResource(Res.string.plugin_available_to_download),
+                                            style = AppTheme.typography.labelMedium,
+                                            color = AppTheme.colors.onSurfaceVariant,
+                                            modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp))
+                                    }
+                                    items(available, key = { "avail-$ability-${it.id}" }) { repo ->
+                                        DiscoverRepoCard(
+                                            repo = repo,
+                                            isInstalling = data.discover.installingRepoId == repo.id,
+                                            onInstall = { viewModel.showInstallDialog(repo) })
                                     }
                                 }
                             }
-                            item {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = 4.dp, vertical = 12.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                                ) {
-                                    MillenniumIcon(
-                                        Iconsax.IconsaxGlobe,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(18.dp),
-                                        tint = AppTheme.colors.primary
-                                    )
-                                    Text(
-                                        stringResource(Res.string.welcome_plugins_discover),
-                                        style = AppTheme.typography.titleLarge,
-                                        fontWeight = FontWeight.SemiBold
-                                    )
-                                }
-                            }
-                            if (data.discover.isLoading) {
+                            if (data.discover.isLoading || data.discover.isLoadingMore) {
                                 item {
                                     Box(
                                         Modifier.fillMaxWidth().padding(16.dp),
                                         contentAlignment = Alignment.Center
-                                    ) {
-                                        ExpressiveLoadingIndicator(size = 28.dp)
-                                    }
+                                    ) { ExpressiveLoadingIndicator(size = 28.dp) }
                                 }
                             }
-                            if (onboarding && data.discover.isInitialLoaded && !data.discover.isLoading && data.discover.repos.isEmpty() && data.discover.error == null) {
-                                item {
-                                    Text(
-                                        stringResource(Res.string.welcome_plugins_discovery_empty),
-                                        color = AppTheme.colors.onSurfaceVariant,
-                                        modifier = Modifier.padding(12.dp)
-                                    )
-                                }
-                            }
-                            items(
-                                data.discover.repos,
-                                key = { it.id }
-                            ) { repo ->
-                                DiscoverRepoCard(
-                                    repo = repo,
-                                    isInstalling = data.discover.installingRepoId == repo.id,
-                                    onInstall = { viewModel.showInstallDialog(repo) }
-                                )
-                            }
-
-                            if (data.discover.isLoadingMore) {
-                                item {
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(vertical = 16.dp),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        ExpressiveLoadingIndicator(size = 28.dp)
-                                    }
-                                }
-                            }
-
-                            data.discover.error?.let { error ->
+                            data.discover.error?.let {
                                 item {
                                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                         Text(
                                             stringResource(Res.string.welcome_plugins_discovery_error),
                                             style = AppTheme.typography.bodySmall,
                                             color = AppTheme.colors.error,
-                                            modifier = Modifier.padding(
-                                                horizontal = 4.dp,
-                                                vertical = 8.dp
-                                            )
-                                        )
+                                            modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp))
                                         MillenniumButton(
                                             onClick = viewModel::retryDiscovery,
                                             style = MillenniumButtonStyle.Secondary) {
@@ -573,7 +472,8 @@ internal fun PluginScreenContent(
                                     }
                                 }
                             }
-                            if (onboarding && data.discover.hasMore && !data.discover.isLoading && !data.discover.isLoadingMore && data.discover.error == null) {
+                            if (onboarding && data.discover.hasMore && !data.discover.isLoading &&
+                                !data.discover.isLoadingMore && data.discover.error == null) {
                                 item {
                                     MillenniumButton(
                                         onClick = viewModel::loadNextDiscoverPage,
@@ -1253,3 +1153,18 @@ fun DefaultAbilityPluginSelector(
     }
 }
 
+
+
+private fun repoMatchesAbility(repo: org.spotube.spotube.modules.plugin.GitHubRepo, ability: PluginAbility): Boolean {
+    val text = (repo.fullName + " " + (repo.description ?: "")).lowercase()
+    fun has(vararg k: String) = k.any { it in text }
+    val lyrics = has("lyric", "testi")
+    val scrobble = has("scrobbl", "last.fm", "lastfm", "listenbrainz")
+    val audio = has("audio", "youtube", "piped", "invidious", "stream", "newpipe", "soundcloud")
+    return when (ability) {
+        PluginAbility.LYRICS -> lyrics
+        PluginAbility.SCROBBLE -> scrobble
+        PluginAbility.AUDIO -> audio && !lyrics && !scrobble
+        PluginAbility.METADATA -> !lyrics && !scrobble && !audio
+    }
+}

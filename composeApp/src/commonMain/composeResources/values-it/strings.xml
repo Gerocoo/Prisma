@@ -1070,4 +1070,6 @@
     <string name="settings_accent_hue">Tonalità</string>
     <string name="settings_accent_saturation">Saturazione</string>
     <string name="settings_accent_brightness">Luminosità</string>
+    <string name="plugin_use_for_ability">Usa per questa sezione</string>
+    <string name="plugin_available_to_download">Disponibili da scaricare</string>
 </resources>

@@ -1065,4 +1065,6 @@
     <string name="settings_accent_hue">Hue</string>
     <string name="settings_accent_saturation">Saturation</string>
     <string name="settings_accent_brightness">Brightness</string>
+    <string name="plugin_use_for_ability">Use for this section</string>
+    <string name="plugin_available_to_download">Available to download</string>
 </resources>
