@@ -105,6 +105,7 @@ import org.spotube.spotube.modules.shell.player_queue.QueueSheet
 import kotlinx.coroutines.launch
 import org.spotube.spotube.core.ui.component.PlatformBackHandler
 import org.koin.compose.koinInject
+import org.spotube.spotube.core.audioplayer.AudioPlayerQueue
 import org.koin.compose.viewmodel.koinViewModel
 import org.spotube.millennium.composables.MillenniumSeparator
 import org.spotube.millennium.composables.MillenniumSnackbarHost
@@ -424,6 +425,16 @@ internal fun CompactPlayerOverlay(
     var expandedPlayerComposed by remember { mutableStateOf(false) }
     if (expandedPlayerVisible) expandedPlayerComposed = true
 
+    // With nothing queued there is nothing to show in the full player: it stays closed.
+    val playerQueue = koinInject<AudioPlayerQueue>()
+    val queueEntries by playerQueue.queueFlow.collectAsState()
+    val hasQueue = queueEntries.isNotEmpty()
+    LaunchedEffect(hasQueue, sheetState.currentDetent) {
+        if (!hasQueue && sheetState.currentDetent == SheetDetent.FullyExpanded) {
+            sheetState.animateTo(partialDetent)
+        }
+    }
+
     // Back closes the full-screen player (back to the page underneath) instead of leaving the app.
     // Predictive back: swiping back shrinks the full player into a card, releasing collapses it.
     var playerBack by remember { mutableFloatStateOf(0f) }
@@ -512,7 +523,7 @@ internal fun CompactPlayerOverlay(
                                 }
                                 // A tap opens the full player too, not only an upward swipe;
                                 // the play/next/like buttons inside keep their own clicks.
-                                .clickable(role = Role.Button) {
+                                .clickable(enabled = hasQueue, role = Role.Button) {
                                     scope.launch { sheetState.animateTo(SheetDetent.FullyExpanded) }
                                 })
                     }
