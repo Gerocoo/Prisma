@@ -23,6 +23,7 @@ import org.spotube.spotube.modules.recap.RecapViewModel
 import org.koin.core.module.dsl.onClose
 import org.spotube.spotube.core.network.HttpClientFactory
 import co.touchlab.kermit.Logger
+import org.spotube.spotube.core.audioplayer.AudioPlayerInterface
 import org.spotube.spotube.core.audioplayer.AudioPlayerQueue
 import org.spotube.spotube.core.audioplayer.AudioPlayerQueueRepository
 import org.spotube.spotube.core.audioplayer.DeviceAudioPlayerQueue
@@ -104,6 +105,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.module.dsl.withOptions
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 expect val platformModules: Module
@@ -121,7 +123,7 @@ val sharedModules = module {
     // Shell
     viewModelOf(::AppShellViewModel)
     viewModelOf(::PlayerOptionsViewModel)
-    viewModelOf(::SpotifyConnectViewModel)
+    single { SpotifyConnectViewModel(get(), get(named("local")), get(named("local"))) }
     viewModelOf(::PlayerQueueContentViewModel)
     viewModelOf(::AlternativeTrackContentViewModel)
 
@@ -292,8 +294,14 @@ val sharedModules = module {
     singleOf(::JamRoomClient)
     single { JamRoomService(get(), get(), get(), get()) }
     singleOf(::AudioPlayerQueueRepository) { bind<QueueStateRepository>() }
+    single<AudioPlayerQueue>(named("local")) {
+        DeviceAudioPlayerQueue(get(named("local")), get(), get(), get(), get())
+    }
+    single<AudioPlayerInterface> {
+        org.spotube.spotube.core.spotify.ConnectAudioPlayer(get(named("local")), get())
+    }
     single<AudioPlayerQueue> {
-        DeviceAudioPlayerQueue(get(), get(), get(), get(), get())
+        org.spotube.spotube.core.spotify.ConnectAudioPlayerQueue(get(named("local")), get())
     }
 
     single { DiscordRpcService(get(), get()) } withOptions { createdAtStart() }

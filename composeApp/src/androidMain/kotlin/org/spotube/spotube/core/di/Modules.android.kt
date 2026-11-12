@@ -30,7 +30,7 @@ import org.koin.dsl.module
 
 actual val platformModules = module {
     single { Paths() }
-    single<AudioPlayerInterface> { AudioPlayer(get<Context>()) }
+    single<AudioPlayerInterface>(org.koin.core.qualifier.named("local")) { AudioPlayer(get<Context>()) }
     single<LocalMediaDiscoveryService> { AndroidLocalMediaDiscoveryService(get()) }
     single<ShareService> { AndroidShareService(get()) }
     single {

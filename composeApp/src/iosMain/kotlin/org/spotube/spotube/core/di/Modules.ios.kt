@@ -31,7 +31,7 @@ import org.koin.dsl.module
 actual val platformModules = module {
     singleOf(::Paths)
     singleOf(::WebViewController)
-    single<AudioPlayerInterface> { AudioPlayer(Unit) }
+    single<AudioPlayerInterface>(org.koin.core.qualifier.named("local")) { AudioPlayer(Unit) }
     single<LocalMediaDiscoveryService> { IosLocalMediaDiscoveryService() }
     single<ShareService> { IosShareService() }
 }

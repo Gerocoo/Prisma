@@ -58,6 +58,8 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.longOrNull
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonObject
+import kotlinx.serialization.json.putJsonArray
+import kotlinx.serialization.json.addJsonObject
 import org.spotube.spotube.core.network.HttpClientFactory
 import kotlin.random.Random
 import kotlin.time.Clock
@@ -346,6 +348,40 @@ class SpotifyConnectApi(
         activeDeviceId = deviceId
     }
 
+    /** Plays the list [trackUris] on [deviceId] starting at [startIndex]. */
+    suspend fun playTracks(deviceId: String, trackUris: List<String>, startIndex: Int, positionMs: Long = 0L) {
+        val index = startIndex.coerceIn(0, (trackUris.size - 1).coerceAtLeast(0))
+        command(deviceId) {
+            putJsonObject("context") {
+                put("uri", "spotify:internal:prisma")
+                put("url", "context://spotify:internal:prisma")
+                putJsonObject("metadata") {}
+                putJsonArray("pages") {
+                    addJsonObject {
+                        putJsonArray("tracks") {
+                            trackUris.take(MAX_LIST).forEach { uri -> addJsonObject { put("uri", uri) } }
+                        }
+                    }
+                }
+            }
+            putJsonObject("play_origin") {
+                put("feature_identifier", "harmony")
+                put("feature_version", "4.43.2-a61ecaf5")
+            }
+            putJsonObject("options") {
+                put("license", "on-demand")
+                putJsonObject("skip_to") {
+                    put("track_index", index)
+                    put("track_uri", trackUris[index])
+                }
+                put("seek_to", positionMs.coerceAtLeast(0L))
+                putJsonObject("player_options_override") {}
+            }
+            put("endpoint", "play")
+        }
+        activeDeviceId = deviceId
+    }
+
     /** Moves whatever Spotify is playing to [deviceId]. */
     suspend fun transfer(deviceId: String, play: Boolean = true) {
         connection()
@@ -400,5 +436,6 @@ class SpotifyConnectApi(
 
     private companion object {
         const val SPCLIENT = "https://spclient.wg.spotify.com"
+        const val MAX_LIST = 500
     }
 }

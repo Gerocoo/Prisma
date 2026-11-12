@@ -218,7 +218,7 @@ fun AppExpandedPlayer(
     audioPlayer: AudioPlayerInterface = koinInject(),
     audioPlayerQueue: AudioPlayerQueue = koinInject(),
     playerOptionsViewModel: PlayerOptionsViewModel = koinViewModel(),
-    spotifyConnectViewModel: SpotifyConnectViewModel = koinViewModel(),
+    spotifyConnectViewModel: SpotifyConnectViewModel = koinInject(),
     savedTracksViewModel: SavedTracksViewModel = koinViewModel<SavedTracksViewModel>(
         key = SAVED_TRACKS_COLLECTION_ID,
         parameters = { parametersOf() }

@@ -36,7 +36,7 @@ import org.spotube.spotube.core.window.WindowStateRepository
 actual val platformModules = module {
     singleOf(::Paths)
     single { WindowStateRepository(get<Database>()) }
-    single<AudioPlayerInterface> { AudioPlayer(Unit) }
+    single<AudioPlayerInterface>(org.koin.core.qualifier.named("local")) { AudioPlayer(Unit) }
     single<LocalMediaDiscoveryService> { JvmLocalMediaDiscoveryService() }
     single<ShareService> { JvmShareService() }
     single { SystemTrayService(get(), get(), get()) }

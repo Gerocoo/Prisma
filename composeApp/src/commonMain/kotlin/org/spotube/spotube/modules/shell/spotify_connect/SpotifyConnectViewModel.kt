@@ -35,6 +35,7 @@ import org.spotube.spotube.core.spotify.SpotifyConnectException
 import org.spotube.spotube.core.spotify.SpotifyDevice
 import org.spotube.spotube.core.spotify.SpotifyPlayback
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Clock
 
 enum class SpotifyConnectError { NotLoggedIn, PremiumRequired, NoDevices, Failed }
 
@@ -48,6 +49,8 @@ data class SpotifyConnectUiState(
     val errorDetail: String? = null,
     /** Device id Prisma handed playback to; null while Prisma plays itself. */
     val remoteDeviceId: String? = null,
+    /** When [playback] was fetched (epoch ms), to extrapolate its position while playing. */
+    val playbackAtMs: Long = 0L,
 ) {
     val remoteDevice: SpotifyDevice? get() = devices.firstOrNull { it.id == remoteDeviceId } ?: playback?.device
     val isRemoteActive: Boolean get() = remoteDeviceId != null
@@ -114,11 +117,29 @@ class SpotifyConnectViewModel(
                     isLoading = false,
                     devices = devices,
                     playback = playback,
+                    playbackAtMs = Clock.System.now().toEpochMilliseconds(),
                     error = if (devices.isEmpty()) SpotifyConnectError.NoDevices else null,
                     errorDetail = null
                 )
             }
+            followRemote()
         }.onFailure { e -> report(e) }
+    }
+
+    /** Keeps Prisma's player in step with what the remote device does (skips, other devices...). */
+    private suspend fun followRemote() {
+        val state = _uiState.value
+        if (!state.isRemoteActive) return
+        val active = state.playback?.device?.id
+        if (state.playback != null && active != null && active != state.remoteDeviceId) {
+            // Playback was moved to another of the account's devices: follow it.
+            _uiState.update { it.copy(remoteDeviceId = active) }
+        }
+        val remoteId = state.playback?.item?.id ?: return
+        val currentId = (queue.currentQueueEntryFlow.value as? QueueEntry.StreamingTrack)?.track?.id
+        if (remoteId == currentId) return
+        val index = queue.getQueue().indexOfFirst { (it as? QueueEntry.StreamingTrack)?.track?.id == remoteId }
+        if (index >= 0) queue.jumpTo(index, autoPlay = false)
     }
 
     private fun report(e: Throwable) {
@@ -150,8 +171,18 @@ class SpotifyConnectViewModel(
             val entry = queue.currentQueueEntryFlow.value as? QueueEntry.StreamingTrack
             val trackId = entry?.track?.id?.takeIf { SPOTIFY_ID.matches(it) }
             val position = audioPlayer.positionFlow.value.inWholeMilliseconds
-            if (trackId != null) api.playOn(deviceId, "spotify:track:$trackId", position)
-            else api.transfer(deviceId, play = true)
+            val uris = queue.getQueue()
+                .mapNotNull { (it as? QueueEntry.StreamingTrack)?.track?.id?.takeIf { id -> SPOTIFY_ID.matches(id) } }
+                .map { "spotify:track:$it" }
+            val index = uris.indexOf("spotify:track:$trackId")
+            when {
+                trackId != null && uris.size > 1 && index >= 0 -> {
+                    runCatching { api.playTracks(deviceId, uris, index, position) }
+                        .onFailure { api.playOn(deviceId, "spotify:track:$trackId", position) }
+                }
+                trackId != null -> api.playOn(deviceId, "spotify:track:$trackId", position)
+                else -> api.transfer(deviceId, play = true)
+            }
             if (audioPlayer.playerStateFlow.value == PlayerState.PLAYING) audioPlayer.pause()
             _uiState.update { it.copy(remoteDeviceId = deviceId) }
             startPolling()
@@ -171,6 +202,27 @@ class SpotifyConnectViewModel(
             if (!_uiState.value.isOpen) stopPolling()
         }
     }
+
+    /** True while Prisma hands playback to another Spotify device. */
+    val isRemoteActive: Boolean get() = _uiState.value.isRemoteActive
+
+    /** Plays [uris] on the connected device from [startIndex]; falls back to the first track alone. */
+    suspend fun playTracksOnRemote(uris: List<String>, startIndex: Int) {
+        val deviceId = _uiState.value.remoteDeviceId ?: return
+        runCatching { api.playTracks(deviceId, uris, startIndex) }
+            .onFailure {
+                runCatching { api.playOn(deviceId, uris.getOrNull(startIndex), 0L) }
+                    .onFailure { e -> report(e) }
+            }
+        delay(400)
+        refreshOnce()
+    }
+
+    suspend fun remoteResume() = runCatching { api.resume() }.onFailure { report(it) }.let { delay(300); refreshOnce() }
+    suspend fun remotePause() = runCatching { api.pause() }.onFailure { report(it) }.let { delay(300); refreshOnce() }
+    suspend fun remoteNext() = runCatching { api.next() }.onFailure { report(it) }.let { delay(300); refreshOnce() }
+    suspend fun remotePrevious() = runCatching { api.previous() }.onFailure { report(it) }.let { delay(300); refreshOnce() }
+    suspend fun remoteSeek(positionMs: Long) = runCatching { api.seek(positionMs) }.onFailure { report(it) }.let { delay(300); refreshOnce() }
 
     fun togglePlay() = action {
         if (_uiState.value.playback?.isPlaying == true) api.pause() else api.resume()
