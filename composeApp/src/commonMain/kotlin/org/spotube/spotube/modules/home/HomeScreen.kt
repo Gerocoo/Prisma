@@ -91,6 +91,14 @@ import androidx.compose.ui.graphics.Color
 import spotube.composeapp.generated.resources.recap_title
 import spotube.composeapp.generated.resources.recap_entry_subtitle
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.window.Dialog
+import org.spotube.spotube.core.zipline.host_apis.SpotifyWebClientHints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
@@ -556,7 +564,29 @@ private fun currentDayPart(): DayPart {
     }
 }
 
+/** Long press on the profile circle: what Spotify's last home response held (for support). */
+@Composable
+private fun HomeDiagnosticDialog(onDismiss: () -> Unit) {
+    val summary by SpotifyWebClientHints.lastHomeSummary.collectAsStateWithLifecycle()
+    Dialog(onDismissRequest = onDismiss) {
+        Box(
+            modifier = Modifier
+                .clip(RoundedCornerShape(28.dp))
+                .background(AppTheme.colors.surfaceContainerHigh)
+                .padding(20.dp)
+        ) {
+            Text(
+                text = summary ?: "Nessuna risposta della home ancora ricevuta.",
+                style = AppTheme.typography.labelMedium,
+                color = AppTheme.colors.onSurface,
+                modifier = Modifier.verticalScroll(rememberScrollState())
+            )
+        }
+    }
+}
+
 /** Phone Home header: profile circle (Settings) + scrolling genre chips on one row. */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun CompactHomeHeader(
     genres: List<MetadataBrowseGenre>,
@@ -565,6 +595,8 @@ private fun CompactHomeHeader(
     onProfileClick: () -> Unit
 ) {
     val rowState = rememberLazyListState()
+    var showDiagnostic by remember { mutableStateOf(false) }
+    if (showDiagnostic) HomeDiagnosticDialog(onDismiss = { showDiagnostic = false })
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -579,7 +611,12 @@ private fun CompactHomeHeader(
                 .size(36.dp)
                 .clip(CircleShape)
                 .background(AppTheme.colors.primary)
-                .clickable(role = Role.Button, onClickLabel = settingsLabel, onClick = onProfileClick),
+                .combinedClickable(
+                    role = Role.Button,
+                    onClickLabel = settingsLabel,
+                    onClick = onProfileClick,
+                    onLongClick = { showDiagnostic = true }
+                ),
             contentAlignment = Alignment.Center
         ) {
             MillenniumIcon(

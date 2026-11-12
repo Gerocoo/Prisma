@@ -72,10 +72,12 @@ class RealHttpClientAPI : HttpClientAPI, KoinComponent {
             body?.let { setBody(it) }
         }
 
+        val responseText = res.bodyAsText()
+        SpotifyWebClientHints.inspect(url, body, responseText)
         return HttpResponse(
             statusCode = res.status.value,
             headers = res.headers.entries().associate { it.key to it.value.joinToString(",") },
-            body = res.bodyAsText()
+            body = responseText
         )
     }
 }

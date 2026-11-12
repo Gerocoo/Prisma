@@ -17,6 +17,15 @@
 
 package org.spotube.spotube.core.zipline.host_apis
 
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import okio.FileSystem
 import okio.Path.Companion.toPath
 import okio.SYSTEM
@@ -72,5 +81,41 @@ internal object SpotifyWebClientHints {
             }
             result to newBody
         }.getOrDefault(headers to body)
+    }
+
+    private val _lastHomeSummary = MutableStateFlow<String?>(null)
+
+    /** What Spotify last returned for the home: one line per section, for the diagnostic dialog. */
+    val lastHomeSummary: StateFlow<String?> = _lastHomeSummary.asStateFlow()
+
+    /** Summarizes a home response (section type, title, kinds of items) to see what the feed holds. */
+    fun inspect(url: String, requestBody: String?, responseBody: String) {
+        if (requestBody == null || !url.contains(GQL_HOST) || !requestBody.contains("\"sp_t\"")) return
+        if (requestBody.contains("\"operationName\":\"homeSection\"")) return
+        runCatching {
+            val root = Json.parseToJsonElement(responseBody).jsonObject
+            val sections = root["data"]?.jsonObject?.get("home")?.jsonObject
+                ?.get("sectionContainer")?.jsonObject?.get("sections")?.jsonObject
+                ?.get("items")?.jsonArray
+            val errors = (root["errors"] as? JsonArray)?.firstOrNull()?.toString()?.take(160)
+            _lastHomeSummary.value = buildString {
+                append("sp_t: ").append(if (emptySpT.containsMatchIn(requestBody)) "vuoto" else "presente").append('\n')
+                if (errors != null) append("errore: ").append(errors).append('\n')
+                append("sezioni: ").append(sections?.size ?: 0).append("\n\n")
+                sections?.forEachIndexed { index, section ->
+                    val obj = section.jsonObject
+                    val data = obj["data"] as? JsonObject
+                    val type = data?.get("__typename")?.jsonPrimitive?.content ?: "?"
+                    val title = (data?.get("title") as? JsonObject)?.get("transformedLabel")?.jsonPrimitive?.content
+                    val items = (obj["sectionItems"] as? JsonObject)?.get("items") as? JsonArray
+                    val kinds = items?.groupingBy {
+                        ((it as? JsonObject)?.get("content") as? JsonObject)?.get("__typename")?.jsonPrimitive?.content ?: "?"
+                    }?.eachCount()?.entries?.joinToString(",") { "${it.key.removeSuffix("ResponseWrapper")}:${it.value}" }
+                    append(index + 1).append(". ").append(type.removePrefix("Home").removeSuffix("SectionData"))
+                    append(" | ").append(title ?: "(senza titolo)")
+                    append(" | ").append(kinds ?: "-").append('\n')
+                }
+            }
+        }
     }
 }
