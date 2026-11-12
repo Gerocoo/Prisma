@@ -127,12 +127,21 @@ class DeviceAudioPlayerQueue(
         startPosition: Int,
         collectionEntry: QueueCollectionEntry?) {
         logger.i { "Loading queue with ${entries.size} entries, autoPlay=$autoPlay, startPosition=$startPosition" }
-        val mediaItems = entries.mapNotNull { it.toMediaItem() }
-        if (mediaItems.isEmpty()) {
+        val allItems = entries.mapNotNull { it.toMediaItem() }
+        if (allItems.isEmpty()) {
             logger.w { "load: no valid media items after filtering blanks" }
         }
-        val normalizedStartPosition =
-            if (mediaItems.isEmpty()) 0 else startPosition.coerceIn(0, mediaItems.lastIndex)
+        val fullStart = if (allItems.isEmpty()) 0 else startPosition.coerceIn(0, allItems.lastIndex)
+        // Google Cast refuses queues over 500 items (the receiver then keeps playing the previous
+        // track), so a long list such as the liked songs is loaded as a window that starts at the
+        // chosen track.
+        val windowStart = if (allItems.size > MAX_QUEUE_SIZE) {
+            fullStart.coerceAtMost(allItems.size - MAX_QUEUE_SIZE)
+        } else 0
+        val mediaItems =
+            if (allItems.size > MAX_QUEUE_SIZE) allItems.subList(windowStart, windowStart + MAX_QUEUE_SIZE)
+            else allItems
+        val normalizedStartPosition = fullStart - windowStart
         logger.d { "Normalized start position: $startPosition -> $normalizedStartPosition" }
         entryByMediaUrl.value = mediaItems.associate { it.url to entries.firstOrNull { e -> e.toMediaItem()?.url == it.url }!! }
         updateCollectionContext(collectionEntry)
@@ -502,3 +511,5 @@ class DeviceAudioPlayerQueue(
         }
     }
 }
+
+private const val MAX_QUEUE_SIZE = 500
