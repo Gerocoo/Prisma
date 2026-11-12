@@ -635,7 +635,7 @@ class PluginManager(
         withContext(Dispatchers.IO) {
             try {
                 val url = GitHubPluginRepository(httpClientFactory.json)
-                    .getLatestReleaseSmplugUrl("Gerocoo", "spotube-plugin-spotify")
+                    .getLatestReleaseSmplugUrl("sonic-liberation", "spotube-plugin-spotify")
                     ?: return@withContext
                 val bytes = httpClient.get(url).bodyAsChannel().readRemaining().readByteArray()
                 addPluginFromByteArray(bytes = bytes, allowReplacingInstalled = true)
