@@ -1057,4 +1057,7 @@
     <string name="home_section_your_albums">Albums you like</string>
     <string name="home_section_your_artists">Your artists</string>
     <string name="home_section_your_playlists">Your playlists</string>
+    <string name="settings_account_title">Account</string>
+    <string name="settings_account_signed_out">Signed out</string>
+    <string name="settings_account_logout">Sign out</string>
 </resources>

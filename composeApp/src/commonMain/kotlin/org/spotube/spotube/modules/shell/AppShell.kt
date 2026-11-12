@@ -494,7 +494,7 @@ internal fun CompactPlayerOverlay(
                             }
                             .background(cardColor)
                     )
-                    if (expandedPlayerComposed) {
+                    if (expandedPlayerComposed) CompositionLocalProvider(LocalExpandedPlayerVisible provides expandedPlayerVisible) {
                         expandedPlayer(
                             Modifier
                                 .fillMaxSize()

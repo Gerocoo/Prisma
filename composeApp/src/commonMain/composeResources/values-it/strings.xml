@@ -1062,4 +1062,7 @@
     <string name="home_section_your_albums">Album che ti piacciono</string>
     <string name="home_section_your_artists">I tuoi artisti</string>
     <string name="home_section_your_playlists">Le tue playlist</string>
+    <string name="settings_account_title">Account Spotify</string>
+    <string name="settings_account_signed_out">Non hai effettuato l'accesso</string>
+    <string name="settings_account_logout">Esci</string>
 </resources>

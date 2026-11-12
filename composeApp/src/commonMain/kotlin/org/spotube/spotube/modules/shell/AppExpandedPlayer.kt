@@ -213,6 +213,9 @@ import spotube.composeapp.generated.resources.queue_title
 // below that we have the playback controls and the progress bar, which should be similar to the
 // large player but with a different layout to fit the smaller screen
 // And at the very end we will have the volume slider
+/** False while the full player is folded into the mini player: its canvas video must not run then. */
+val LocalExpandedPlayerVisible = androidx.compose.runtime.compositionLocalOf { true }
+
 @Composable
 fun AppExpandedPlayer(
     modifier: Modifier = Modifier,
@@ -375,7 +378,7 @@ fun AppExpandedPlayer(
         modifier = modifier.fillMaxSize().background(coverArt.container)
             .onGloballyPositioned { canvasBackdrop.container = it }
     ) {
-        if (canvasUrl != null) {
+        if (canvasUrl != null && LocalExpandedPlayerVisible.current) {
             // Dark ground under the video, so nothing of the cover's colors flashes before it.
             Box(Modifier.fillMaxSize().graphicsLayer { alpha = canvasProgress }.background(Color.Black))
             CanvasVideo(

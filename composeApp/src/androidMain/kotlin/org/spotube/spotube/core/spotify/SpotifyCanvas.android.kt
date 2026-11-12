@@ -22,6 +22,9 @@ import android.widget.FrameLayout
 import androidx.annotation.OptIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -135,13 +138,27 @@ actual fun CanvasVideo(
             player.release()
         }
     }
+    // In the background there is no surface to draw on and nobody to watch: the video stops and
+    // starts again when the app comes back (a decoder left running there is a crash and a drain).
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(player, lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_STOP -> player.pause()
+                Lifecycle.Event.ON_START -> player.play()
+                else -> Unit
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
     // Small copies of the frame for the blurred backdrop: 28 px wide is plenty once stretched.
     LaunchedEffect(player, layout, showing) {
         val view = layout ?: return@LaunchedEffect
         if (!showing) return@LaunchedEffect
         while (isActive) {
             val texture = view.texture
-            if (texture.isAvailable && texture.width > 0 && texture.height > 0) {
+            if (player.isPlaying && texture.isAvailable && texture.width > 0 && texture.height > 0) {
                 val width = 28
                 val height = (width / view.aspect).toInt().coerceIn(16, 96)
                 runCatching { texture.getBitmap(width, height) }.getOrNull()?.let { bitmap ->
