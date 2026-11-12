@@ -30,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -80,6 +81,10 @@ import org.koin.core.annotation.KoinExperimentalAPI
 import org.jetbrains.compose.resources.StringResource
 import spotube.composeapp.generated.resources.Res
 import spotube.composeapp.generated.resources.nav_your_library
+import spotube.composeapp.generated.resources.default_plugin_title
+import spotube.composeapp.generated.resources.default_plugin_message
+import spotube.composeapp.generated.resources.default_plugin_not_now
+import spotube.composeapp.generated.resources.plugin_action_install
 import spotube.composeapp.generated.resources.jam_screen_title
 import spotube.composeapp.generated.resources.library_tab_albums
 import spotube.composeapp.generated.resources.library_tab_artists
@@ -173,8 +178,11 @@ fun App(
 
     val pluginManager: PluginManager = koinInject()
     LaunchedEffect(showOnboarding) {
-        if (!showOnboarding) pluginManager.ensureDefaultMetadataPlugin()
+        if (!showOnboarding) pluginManager.checkDefaultMetadataPlugin()
     }
+
+    val suggestPlugin by pluginManager.suggestDefaultPlugin.collectAsStateWithLifecycle()
+    val suggestScope = androidx.compose.runtime.rememberCoroutineScope()
 
     var showSupportDialog by remember { mutableStateOf(false) }
     var supportDialogIsReminder by remember { mutableStateOf(false) }
@@ -280,6 +288,22 @@ fun App(
                 PluginUpdatedBanner(
                     notice = pluginUpdatedNotice,
                     onDismiss = pluginUpdateService::dismissUpdatedNotice)
+                if (suggestPlugin) {
+                    androidx.compose.material3.AlertDialog(
+                        onDismissRequest = pluginManager::declineDefaultPlugin,
+                        title = { androidx.compose.material3.Text(org.jetbrains.compose.resources.stringResource(Res.string.default_plugin_title)) },
+                        text = { androidx.compose.material3.Text(org.jetbrains.compose.resources.stringResource(Res.string.default_plugin_message)) },
+                        confirmButton = {
+                            androidx.compose.material3.TextButton(onClick = {
+                                suggestScope.launch { pluginManager.acceptDefaultPlugin() }
+                            }) { androidx.compose.material3.Text(org.jetbrains.compose.resources.stringResource(Res.string.plugin_action_install)) }
+                        },
+                        dismissButton = {
+                            androidx.compose.material3.TextButton(onClick = pluginManager::declineDefaultPlugin) {
+                                androidx.compose.material3.Text(org.jetbrains.compose.resources.stringResource(Res.string.default_plugin_not_now))
+                            }
+                        })
+                }
                 SupportDialog(
                     visible = showSupportDialog,
                     onDismissRequest = { showSupportDialog = false },

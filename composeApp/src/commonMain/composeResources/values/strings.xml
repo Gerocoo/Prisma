@@ -1060,4 +1060,7 @@
     <string name="settings_account_title">Account</string>
     <string name="settings_account_signed_out">Signed out</string>
     <string name="settings_account_logout">Sign out</string>
+    <string name="default_plugin_title">Install the Spotify plugin?</string>
+    <string name="default_plugin_message">Prisma needs a plugin to browse and play your music. Install the recommended Spotify plugin now, or choose another one later from Plugins.</string>
+    <string name="default_plugin_not_now">Not now</string>
 </resources>

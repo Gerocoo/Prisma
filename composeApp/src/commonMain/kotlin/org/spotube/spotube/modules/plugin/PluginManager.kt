@@ -598,42 +598,55 @@ class PluginManager(
         }
     }
 
-    /**
-     * On the first launch, installs the Spotify plugin maintained for Prisma so that a new
-     * user already has a working music source. It runs once: if the user later removes the
-     * plugin, it is not installed again.
-     */
-    suspend fun ensureDefaultMetadataPlugin() {
+    private val defaultPluginMarker get() =
+        "${paths.getApplicationDataDirPath()}/default_metadata_plugin_done".toPath()
+
+    /** True when the user should be offered the recommended Spotify plugin (asked only once). */
+    val suggestDefaultPlugin = MutableStateFlow(false)
+
+    /** On first launch, offers the recommended Spotify plugin if no music plugin is installed. */
+    suspend fun checkDefaultMetadataPlugin() {
+        withContext(Dispatchers.IO) {
+            if (FileSystem.SYSTEM.exists(defaultPluginMarker)) return@withContext
+            val current = state.first { it is PluginManagerStates.Data } as PluginManagerStates.Data
+            val alreadyHasMetadata = current.plugins.any {
+                it !in BUILT_IN_PLUGINS && PluginAbility.METADATA in it.abilities
+            }
+            if (alreadyHasMetadata) markDefaultPluginDone() else suggestDefaultPlugin.value = true
+        }
+    }
+
+    private fun markDefaultPluginDone() {
+        try {
+            FileSystem.SYSTEM.createDirectories(defaultPluginMarker.parent!!)
+            FileSystem.SYSTEM.write(defaultPluginMarker) { writeUtf8("1") }
+        } catch (_: Exception) {
+        }
+    }
+
+    fun declineDefaultPlugin() {
+        suggestDefaultPlugin.value = false
+        markDefaultPluginDone()
+    }
+
+    /** Installs the recommended plugin after the user accepted it. */
+    suspend fun acceptDefaultPlugin() {
+        suggestDefaultPlugin.value = false
         withContext(Dispatchers.IO) {
             try {
-                val markerPath = "${paths.getApplicationDataDirPath()}/default_metadata_plugin_done".toPath()
-                if (FileSystem.SYSTEM.exists(markerPath)) return@withContext
-
-                val current = state.first { it is PluginManagerStates.Data } as PluginManagerStates.Data
-                val alreadyHasMetadata = current.plugins.any {
+                val url = GitHubPluginRepository(httpClientFactory.json)
+                    .getLatestReleaseSmplugUrl("Gerocoo", "spotube-plugin-spotify")
+                    ?: return@withContext
+                val bytes = httpClient.get(url).bodyAsChannel().readRemaining().readByteArray()
+                addPluginFromByteArray(bytes = bytes, allowReplacingInstalled = true)
+                val after = state.value as? PluginManagerStates.Data
+                val installed = after?.plugins?.firstOrNull {
                     it !in BUILT_IN_PLUGINS && PluginAbility.METADATA in it.abilities
                 }
-                if (!alreadyHasMetadata) {
-                    val url = GitHubPluginRepository(httpClientFactory.json)
-                        .getLatestReleaseSmplugUrl("Gerocoo", "spotube-plugin-spotify")
-                        ?: return@withContext
-                    val bytes = httpClient.get(url).bodyAsChannel().readRemaining().readByteArray()
-                    addPluginFromByteArray(bytes = bytes, allowReplacingInstalled = true)
-
-                    val after = state.value as? PluginManagerStates.Data
-                    val installed = after?.plugins?.firstOrNull {
-                        it !in BUILT_IN_PLUGINS && PluginAbility.METADATA in it.abilities
-                    }
-                    if (installed != null) {
-                        setSelectedPlugin(PluginAbility.METADATA, installed)
-                    }
-                }
-
-                FileSystem.SYSTEM.createDirectories(markerPath.parent!!)
-                FileSystem.SYSTEM.write(markerPath) { writeUtf8("1") }
+                if (installed != null) setSelectedPlugin(PluginAbility.METADATA, installed)
+                markDefaultPluginDone()
             } catch (e: Exception) {
-                // Offline or GitHub unreachable: try again on the next launch.
-                logger.w(e) { "Default metadata plugin install skipped" }
+                logger.w(e) { "Default metadata plugin install failed" }
             }
         }
     }
