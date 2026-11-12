@@ -19,6 +19,7 @@ package org.spotube.spotube.core.zipline.host_apis
 
 import org.spotube.plugin_interfaces.host_apis.SystemInformationAPI
 import org.spotube.spotube.getPlatform
+import androidx.compose.ui.text.intl.Locale
 import kotlinx.datetime.TimeZone
 
 class RealSystemInformationAPI: SystemInformationAPI {
@@ -28,7 +29,8 @@ class RealSystemInformationAPI: SystemInformationAPI {
     }
 
     override fun getLocale(): String {
-        return "en-US" // TODO: Implement locale retrieval
+        // The device language (e.g. "it-IT"), so plugins ask their service for localized titles.
+        return runCatching { Locale.current.toLanguageTag() }.getOrNull()?.takeIf { it.isNotBlank() } ?: "en-US"
     }
 
     override fun getOperatingSystem(): String {

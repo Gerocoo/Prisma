@@ -40,6 +40,7 @@ class RealHttpClientAPI : HttpClientAPI, KoinComponent {
         requestHeaders: Map<String, String>?,
         body: String?
     ): HttpResponse {
+        val (requestHeaders, body) = SpotifyWebClientHints.adapt(url, requestHeaders, body)
         logger.i {
             buildString {
                 append("[${method.name.uppercase()}] $url\n")
