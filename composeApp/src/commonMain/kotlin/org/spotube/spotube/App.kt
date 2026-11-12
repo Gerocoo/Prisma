@@ -30,7 +30,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import kotlinx.coroutines.launch
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -58,7 +57,6 @@ import org.spotube.spotube.modules.update.AppUpdateDialog
 import org.spotube.spotube.modules.update.AppUpdateService
 import org.spotube.spotube.modules.update.PluginUpdateDialog
 import org.spotube.spotube.modules.update.PluginUpdatedBanner
-import org.spotube.spotube.modules.plugin.PluginManager
 import org.spotube.spotube.modules.update.PluginUpdateService
 import org.spotube.spotube.modules.webview.WebViewScreen
 import org.spotube.spotube.modules.welcome.WelcomeRepository
@@ -81,10 +79,6 @@ import org.koin.core.annotation.KoinExperimentalAPI
 import org.jetbrains.compose.resources.StringResource
 import spotube.composeapp.generated.resources.Res
 import spotube.composeapp.generated.resources.nav_your_library
-import spotube.composeapp.generated.resources.default_plugin_title
-import spotube.composeapp.generated.resources.default_plugin_message
-import spotube.composeapp.generated.resources.default_plugin_not_now
-import spotube.composeapp.generated.resources.plugin_action_install
 import spotube.composeapp.generated.resources.jam_screen_title
 import spotube.composeapp.generated.resources.library_tab_albums
 import spotube.composeapp.generated.resources.library_tab_artists
@@ -175,14 +169,6 @@ fun App(
 
     val welcomeRepository: WelcomeRepository = koinInject()
     val showOnboarding by welcomeRepository.shouldShowOnboarding.collectAsStateWithLifecycle()
-
-    val pluginManager: PluginManager = koinInject()
-    LaunchedEffect(showOnboarding) {
-        if (!showOnboarding) pluginManager.checkDefaultMetadataPlugin()
-    }
-
-    val suggestPlugin by pluginManager.suggestDefaultPlugin.collectAsStateWithLifecycle()
-    val suggestScope = androidx.compose.runtime.rememberCoroutineScope()
 
     var showSupportDialog by remember { mutableStateOf(false) }
     var supportDialogIsReminder by remember { mutableStateOf(false) }
@@ -288,22 +274,6 @@ fun App(
                 PluginUpdatedBanner(
                     notice = pluginUpdatedNotice,
                     onDismiss = pluginUpdateService::dismissUpdatedNotice)
-                if (suggestPlugin) {
-                    androidx.compose.material3.AlertDialog(
-                        onDismissRequest = pluginManager::declineDefaultPlugin,
-                        title = { androidx.compose.material3.Text(org.jetbrains.compose.resources.stringResource(Res.string.default_plugin_title)) },
-                        text = { androidx.compose.material3.Text(org.jetbrains.compose.resources.stringResource(Res.string.default_plugin_message)) },
-                        confirmButton = {
-                            androidx.compose.material3.TextButton(onClick = {
-                                suggestScope.launch { pluginManager.acceptDefaultPlugin() }
-                            }) { androidx.compose.material3.Text(org.jetbrains.compose.resources.stringResource(Res.string.plugin_action_install)) }
-                        },
-                        dismissButton = {
-                            androidx.compose.material3.TextButton(onClick = pluginManager::declineDefaultPlugin) {
-                                androidx.compose.material3.Text(org.jetbrains.compose.resources.stringResource(Res.string.default_plugin_not_now))
-                            }
-                        })
-                }
                 SupportDialog(
                     visible = showSupportDialog,
                     onDismissRequest = { showSupportDialog = false },

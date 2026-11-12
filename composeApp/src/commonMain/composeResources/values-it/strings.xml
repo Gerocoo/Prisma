@@ -1065,7 +1065,4 @@
     <string name="settings_account_title">Account Spotify</string>
     <string name="settings_account_signed_out">Non hai effettuato l'accesso</string>
     <string name="settings_account_logout">Esci</string>
-    <string name="default_plugin_title">Installare il plugin Spotify?</string>
-    <string name="default_plugin_message">Prisma ha bisogno di un plugin per mostrare e riprodurre la tua musica. Installa quello Spotify consigliato adesso, oppure scegline un altro più tardi da Plugin.</string>
-    <string name="default_plugin_not_now">Non ora</string>
 </resources>
