@@ -151,6 +151,8 @@ jobs:
 
   ios:
     name: iPhone IPA (unsigned, for sideloading)
+    # Disattivato: per ora si builda solo Android.
+    if: ${{ false }}
     runs-on: macos-latest
     timeout-minutes: 150
     steps:
