@@ -46,7 +46,7 @@ class RealHttpClientAPI : HttpClientAPI, KoinComponent {
             val init = runCatching {
                 send(method, url.replace("reason=transport", "reason=init"), requestHeaders, body)
             }.getOrNull()
-            if (init != null && init.statusCode == 200 && init.body.contains("accessToken")) {
+            if (init != null && init.statusCode == 200 && init.body?.contains("accessToken") == true) {
                 SpotifyWebClientHints.tokenMode = "init"
                 return init
             }
