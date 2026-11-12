@@ -1055,4 +1055,8 @@
     <string name="settings_updates_auto_plugins_title">Aggiorna i plugin automaticamente</string>
     <string name="settings_updates_auto_plugins_subtitle">Le nuove versioni dei plugin si installano da sole; un banner ti avvisa quando succede.</string>
     <string name="plugin_updated_banner">%1$s aggiornato alla versione %2$s</string>
+    <string name="home_chip_all">Tutti</string>
+    <string name="home_chip_music">Musica</string>
+    <string name="home_chip_podcasts">Podcast</string>
+    <string name="home_chip_audiobooks">Audiolibri</string>
 </resources>

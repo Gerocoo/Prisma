@@ -40,8 +40,21 @@ import org.koin.core.component.inject
 import org.spotube.spotube.modules.library.LibraryRepository
 import org.spotube.plugin_interfaces.plugin_apis.metadata.playlist.MetadataPlaylist
 import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.StringResource
 import spotube.composeapp.generated.resources.Res
 import spotube.composeapp.generated.resources.common_unknown_error
+import spotube.composeapp.generated.resources.home_chip_all
+import spotube.composeapp.generated.resources.home_chip_audiobooks
+import spotube.composeapp.generated.resources.home_chip_music
+import spotube.composeapp.generated.resources.home_chip_podcasts
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import okio.FileSystem
+import okio.Path.Companion.toPath
+import okio.SYSTEM
+import org.spotube.spotube.core.paths.Paths
 
 sealed interface HomeScreenState {
     data object Loading : HomeScreenState
@@ -101,7 +114,53 @@ class HomeScreenViewModel(
         }
     }
 
+    private val _isRefreshing = MutableStateFlow(false)
+
+    /** True only while the user pulls to refresh: the first load never shows the spinner. */
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
+
+    private val json = Json { ignoreUnknownKeys = true }
+    private val snapshotPath by lazy { "${Paths().getApplicationCacheDirPath()}/home_snapshot.json".toPath() }
+
+    /** Last home the user saw, kept on disk so the next start shows it instantly. */
+    @Serializable
+    private data class HomeSnapshot(
+        val genres: List<MetadataBrowseGenre> = emptyList(),
+        val sections: List<MetadataBrowseSection> = emptyList(),
+        val quickAccess: List<MetadataPlaylist> = emptyList(),
+    )
+
+    private suspend fun restoreSnapshot() {
+        val snapshot = withContext(Dispatchers.Default) {
+            runCatching {
+                if (!FileSystem.SYSTEM.exists(snapshotPath)) return@runCatching null
+                json.decodeFromString<HomeSnapshot>(FileSystem.SYSTEM.read(snapshotPath) { readUtf8() })
+            }.getOrNull()
+        } ?: return
+        val homeId = snapshot.genres.firstOrNull()?.id ?: return
+        if (state.value !is HomeScreenState.Loading || snapshot.sections.isEmpty()) return
+        if (_quickAccess.value.isEmpty()) _quickAccess.value = snapshot.quickAccess
+        state.value = HomeScreenState.Data.Loaded(
+            featuredItems = emptyList(),
+            genres = snapshot.genres,
+            selectedGenreId = homeId,
+            browseSections = mapOf(homeId to snapshot.sections),
+            paginationStrategies = emptyMap())
+    }
+
+    private suspend fun saveSnapshot(genres: List<MetadataBrowseGenre>, sections: List<MetadataBrowseSection>) {
+        val homeId = genres.firstOrNull()?.id ?: return
+        if (sections.isEmpty()) return
+        withContext(Dispatchers.Default) {
+            runCatching {
+                val snapshot = HomeSnapshot(genres, sections, _quickAccess.value)
+                FileSystem.SYSTEM.write(snapshotPath) { writeUtf8(json.encodeToString(snapshot)) }
+            }.onFailure { e -> logger.e(e) { "Failed to save home snapshot for $homeId" } }
+        }
+    }
+
     init {
+        viewModelScope.launch { restoreSnapshot() }
         viewModelScope.launch {
             pluginManager.selectedMetadataPlugin
                 .filterNotNull()
@@ -115,9 +174,10 @@ class HomeScreenViewModel(
     }
 
     private suspend fun loadInitialData() = runCatching {
-        state.value = HomeScreenState.Loading
+        // With a saved home already on screen the update happens silently behind it.
+        val hasContent = state.value is HomeScreenState.Data
+        if (!hasContent) state.value = HomeScreenState.Loading
         loadQuickAccess()
-        val featuredItems = repository.featuredItems() ?: emptyList()
         val genres = (repository.genres() ?: emptyList()).shortList()
         val firstGenreId = genres.firstOrNull()?.id
         val browseSections = mutableMapOf<String, List<MetadataBrowseSection>?>()
@@ -127,15 +187,20 @@ class HomeScreenViewModel(
             browseSections[firstGenreId] = (result?.items ?: emptyList()).cleaned()
             paginationStrategies[firstGenreId] = result?.nextPagination
         }
+        // Spotify's home is only the personal feed: no generic "featured" carousel on top of it.
         state.value = HomeScreenState.Data.Loaded(
-            featuredItems = featuredItems,
+            featuredItems = emptyList(),
             genres = genres,
             selectedGenreId = firstGenreId,
             browseSections = browseSections,
             paginationStrategies = paginationStrategies)
+        if (firstGenreId != null) saveSnapshot(genres, browseSections[firstGenreId].orEmpty())
     }.onFailure { e ->
         logger.e(e) { "Failed to load home screen data" }
-        state.value = HomeScreenState.Error(e.message ?: getString(Res.string.common_unknown_error))
+        // A failed update must not replace the saved home with an error page.
+        if (state.value !is HomeScreenState.Data) {
+            state.value = HomeScreenState.Error(e.message ?: getString(Res.string.common_unknown_error))
+        }
     }
 
     fun selectGenre(genreId: String) {
@@ -187,27 +252,43 @@ class HomeScreenViewModel(
 
     fun refresh() {
         viewModelScope.launch {
+            _isRefreshing.value = true
             repository.invalidateCaches()
             loadInitialData()
+            _isRefreshing.value = false
         }
     }
 }
 
 /**
- * Like Spotify's home, the chip row stays short: the home feed first, then only the three main
- * pages (made for you, new releases, charts) instead of every browse category.
+ * Like Spotify's home, the chip row is only "All / Music / Podcasts / Audiobooks": the home feed
+ * first, then the browse pages with those names (matched in English and Italian). Chips the
+ * account has no page for are left out.
  */
+private val ChipPages: List<Pair<StringResource, List<String>>> = listOf(
+    Res.string.home_chip_music to listOf("music", "musica"),
+    Res.string.home_chip_podcasts to listOf("podcast", "podcasts"),
+    Res.string.home_chip_audiobooks to listOf("audiobook", "audiobooks", "audiolibro", "audiolibri"),
+)
+
+/** Fallback when the browse pages above are not found: the three main Spotify pages. */
 private val MainBrowsePageIds = listOf(
     "0JQ5DAt0tbjZptfcdMSKl3", // Made For You
     "0JQ5DAqbMKFz6FAsUtgAab", // New Releases
     "0JQ5DAudkNjCgYMM0TZXDw", // Charts
 )
 
-private fun List<MetadataBrowseGenre>.shortList(): List<MetadataBrowseGenre> {
-    if (size <= 4) return this
-    val home = first()
-    val main = MainBrowsePageIds.mapNotNull { pageId -> drop(1).firstOrNull { it.id.endsWith(pageId) } }
-    return listOf(home) + main
+private suspend fun List<MetadataBrowseGenre>.shortList(): List<MetadataBrowseGenre> {
+    val home = firstOrNull() ?: return emptyList()
+    val rest = drop(1)
+    val all = MetadataBrowseGenre(home.id, getString(Res.string.home_chip_all))
+    val named = ChipPages.mapNotNull { (label, names) ->
+        rest.firstOrNull { it.name.trim().lowercase() in names }
+            ?.let { MetadataBrowseGenre(it.id, getString(label)) }
+    }
+    if (named.isNotEmpty()) return listOf(all) + named
+    val main = MainBrowsePageIds.mapNotNull { pageId -> rest.firstOrNull { it.id.endsWith(pageId) } }
+    return listOf(all) + main
 }
 
 /** Drops cards with no id or no title (they open a broken page) and the sections left empty. */

@@ -135,6 +135,7 @@ fun HomeScreen(viewModel: HomeScreenViewModel) {
     val openSupport = LocalSupportPrompt.current
     val isSmallScreen = currentWindowWidthBreakpoint() isBelow WindowBreakpoints.Medium
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
 
     val selectedGenreId = when (val s = state) {
@@ -261,7 +262,7 @@ fun HomeScreen(viewModel: HomeScreenViewModel) {
                     onGenreSelected = { viewModel.selectGenre(it) })
             } else {
                 ExpressivePullToRefreshBox(
-                    isRefreshing = state is HomeScreenState.Loading,
+                    isRefreshing = isRefreshing,
                     onRefresh = {
                         viewModel.refresh()
                     },
@@ -306,6 +307,10 @@ private fun HomeContent(
         contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
+        // Own music first, like Spotify: it is on screen even before the feed has loaded.
+        if (compact && state !is HomeScreenState.Error) {
+            item { QuickAccessGrid(playlists = quickAccess) }
+        }
         when (state) {
             is HomeScreenState.Loading -> {
                 item {
@@ -354,9 +359,6 @@ private fun HomeContent(
             }
 
             is HomeScreenState.Data -> {
-                if (compact) {
-                    item { QuickAccessGrid(playlists = quickAccess) }
-                }
                 // Shown only during the recap season (from early December to the end of January).
                 RecapSchedule.activeYear()?.let { year -> item { RecapBanner(year) } }
                 if (state.featuredItems.isNotEmpty()) {
