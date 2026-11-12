@@ -113,7 +113,6 @@ jobs:
             echo
             echo "## Installazione"
             echo "- **Android:** aggiorna dall'app (Impostazioni → Cerca aggiornamenti) oppure installa **Prisma-arm64-v8a.apk** (o **Prisma-universal.apk** se il primo non si installa)."
-            echo "- **iPhone:** **Prisma-ios.ipa** (arriva fino a un'ora dopo) non è firmato: installalo con SideStore o AltStore."
           } > "$GITHUB_WORKSPACE/release-notes.md"
           cat "$GITHUB_WORKSPACE/release-notes.md"
       # Blocks the release if the APK is not signed with the expected certificate.
@@ -148,78 +147,3 @@ jobs:
             out/Prisma-armeabi-v7a.apk
             out/Prisma-x86_64.apk
             out/Prisma-universal.apk
-
-  ios:
-    name: iPhone IPA (unsigned, for sideloading)
-    # Disattivato: per ora si builda solo Android.
-    if: ${{ false }}
-    runs-on: macos-latest
-    timeout-minutes: 150
-    steps:
-      - name: Checkout Prisma
-        uses: actions/checkout@v7
-        with:
-          path: app
-      - name: Checkout ComposeNativeWebview
-        uses: actions/checkout@v7
-        with:
-          repository: ${{ env.COMPOSE_WEBVIEW_REPO }}
-          ref: ${{ env.COMPOSE_WEBVIEW_COMMIT }}
-          path: compose-webview
-      - name: Set up JDK 21
-        uses: actions/setup-java@v6
-        with:
-          distribution: temurin
-          java-version: 21
-      - name: Set up Rust
-        uses: dtolnay/rust-toolchain@stable
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v6
-      - name: Publish compose-webview to mavenLocal
-        working-directory: compose-webview
-        run: |
-          chmod +x gradlew
-          ./gradlew publishToMavenLocal --no-configuration-cache
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v4
-      - name: Build the UI component library (flat, no overlays)
-        run: app/.github/scripts/build-ui-library.sh ui-library-src
-      # Unsigned on purpose: SideStore / AltStore re-sign it with the user's Apple ID.
-      - name: Build unsigned app
-        working-directory: app
-        env:
-          ORG_GRADLE_PROJECT_buildNumber: ${{ github.run_number }}
-        run: |
-          chmod +x gradlew
-          xcodebuild \
-            -project iosApp/iosApp.xcodeproj \
-            -scheme iosApp \
-            -configuration Release \
-            -sdk iphoneos \
-            -destination 'generic/platform=iOS' \
-            -derivedDataPath build/ios \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" \
-            DEVELOPMENT_TEAM="" \
-            build
-      - name: Package IPA
-        working-directory: app
-        run: |
-          APP=$(find build/ios/Build/Products/Release-iphoneos -maxdepth 1 -name "*.app" -type d | head -1)
-          test -n "$APP" || { echo "::error::No .app produced"; exit 1; }
-          mkdir Payload
-          cp -R "$APP" Payload/
-          zip -qry "$GITHUB_WORKSPACE/Prisma-ios.ipa" Payload
-      - name: Upload IPA
-        uses: actions/upload-artifact@v7
-        with:
-          name: tubify-ios-ipa
-          path: Prisma-ios.ipa
-          retention-days: 30
-      - name: Attach IPA to release
-        if: github.ref == 'refs/heads/master'
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: build-${{ github.run_number }}
-          files: Prisma-ios.ipa
