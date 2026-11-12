@@ -183,13 +183,13 @@ class HomeScreenViewModel(
         val playlists = runCatching { libraryRepository.savedPlaylists()?.items }.getOrNull().orEmpty()
             .drop(7).take(20).map { MetadataBrowseItem.Playlist(it) }
         return listOfNotNull(
-            albums.takeIf { it.isNotEmpty() }?.let {
+            albums.takeIf { it.size >= 3 }?.let {
                 MetadataBrowseSection(getString(Res.string.home_section_your_albums), null, it)
             },
-            artists.takeIf { it.isNotEmpty() }?.let {
+            artists.takeIf { it.size >= 3 }?.let {
                 MetadataBrowseSection(getString(Res.string.home_section_your_artists), null, it)
             },
-            playlists.takeIf { it.isNotEmpty() }?.let {
+            playlists.takeIf { it.size >= 3 }?.let {
                 MetadataBrowseSection(getString(Res.string.home_section_your_playlists), null, it)
             },
         )

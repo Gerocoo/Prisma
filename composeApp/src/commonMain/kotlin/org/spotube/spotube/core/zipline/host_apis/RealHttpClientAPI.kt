@@ -40,6 +40,27 @@ class RealHttpClientAPI : HttpClientAPI, KoinComponent {
         requestHeaders: Map<String, String>?,
         body: String?
     ): HttpResponse {
+        // Spotify's token for the plugin is asked in "transport" mode; the web player's own
+        // ("init") gives the full account session. Tried first, the original request is the fallback.
+        if (url.contains("open.spotify.com/api/token") && url.contains("reason=transport")) {
+            val init = runCatching {
+                send(method, url.replace("reason=transport", "reason=init"), requestHeaders, body)
+            }.getOrNull()
+            if (init != null && init.statusCode == 200 && init.body.contains("accessToken")) {
+                SpotifyWebClientHints.tokenMode = "init"
+                return init
+            }
+            SpotifyWebClientHints.tokenMode = "transport (init non riuscito)"
+        }
+        return send(method, url, requestHeaders, body)
+    }
+
+    private suspend fun send(
+        method: HttpMethod,
+        url: String,
+        requestHeaders: Map<String, String>?,
+        body: String?
+    ): HttpResponse {
         val (requestHeaders, body) = SpotifyWebClientHints.adapt(url, requestHeaders, body)
         logger.i {
             buildString {

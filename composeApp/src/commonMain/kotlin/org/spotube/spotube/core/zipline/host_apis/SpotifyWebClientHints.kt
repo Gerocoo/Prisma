@@ -88,6 +88,9 @@ internal object SpotifyWebClientHints {
         }.getOrDefault(headers to body)
     }
 
+    /** Mode of the last access token the plugin got ("init" tried first, "transport" as fallback). */
+    var tokenMode: String = "?"
+
     private val _lastHomeSummary = MutableStateFlow<String?>(null)
 
     /** What Spotify last returned for the home: one line per section, for the diagnostic dialog. */
@@ -104,6 +107,7 @@ internal object SpotifyWebClientHints {
                 ?.get("items")?.jsonArray
             val errors = (root["errors"] as? JsonArray)?.firstOrNull()?.toString()?.take(160)
             _lastHomeSummary.value = buildString {
+                append("token: ").append(tokenMode).append('\n')
                 append("sp_t: ").append(if (emptySpT.containsMatchIn(requestBody)) "vuoto" else "presente").append('\n')
                 if (errors != null) append("errore: ").append(errors).append('\n')
                 append("sezioni: ").append(sections?.size ?: 0).append("\n\n")
