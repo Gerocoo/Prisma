@@ -534,12 +534,24 @@ fun SpotubeTheme(
     // Material You: when enabled and available, the system palette replaces every accent family.
     val systemDark = if (settings.useSystemColors) systemDynamicColors(dark = true) else null
     val systemLight = if (settings.useSystemColors) systemDynamicColors(dark = false) else null
-    val colorSchemes = remember(systemDark, systemLight) {
+    val customAccent = settings.accentColor
+    val colorSchemes = remember(systemDark, systemLight, customAccent) {
         if (systemDark != null && systemLight != null) {
             MillenniumColorSchemes(
                 light = systemLight, dark = systemDark,
                 orangeLight = systemLight, orangeDark = systemDark,
                 limeLight = systemLight, limeDark = systemDark
+            )
+        } else if (customAccent != null) {
+            val accent = Color(customAccent.toInt())
+            // Dark surfaces need a lighter accent to stay readable on near-black.
+            val darkAccent = if (accent.luminance() < 0.3f) lerp(accent, Color.White, 0.35f) else accent
+            val light = lightSurface(accent = accent, onAccent = readableOn(accent))
+            val dark = darkSurface(accent = darkAccent, onAccent = readableOn(darkAccent))
+            MillenniumColorSchemes(
+                light = light, dark = dark,
+                orangeLight = light, orangeDark = dark,
+                limeLight = light, limeDark = dark
             )
         } else AppColorSchemes
     }
@@ -590,6 +602,10 @@ fun SpotubeTheme(
         }
     }
 }
+
+/** Black or white, whichever reads better on [background]. */
+private fun readableOn(background: Color): Color =
+    if (background.luminance() > 0.5f) Color(0xFF111111) else Color.White
 
 /** Whether the active Millennium appearance is light. */
 @Composable

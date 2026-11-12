@@ -22,6 +22,22 @@ import org.spotube.millennium.composables.MillenniumDialogTitle
 import org.spotube.millennium.composables.MillenniumDialogClose
 import org.spotube.millennium.composables.MillenniumDialogBody
 import org.spotube.millennium.composables.MillenniumDialogFooter
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.IntOffset
+import org.spotube.spotube.core.ui.component.AdaptiveDialogBottomSheet
+import com.composeunstyled.Text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -122,16 +138,17 @@ internal fun LazyListScope.appearanceSection(
             }
             if (!(showSystemColors && settings.useSystemColors)) add {
                 AppearanceSettingCard(
-                    selectedPalette = settings.palette,
+                    selectedAccent = settings.accentColor?.let { Color(it.toInt()) }
+                        ?: presetAccent(settings.palette),
                     icon = {
                         SettingsItemIcon(
                             Iconsax.IconsaxMagic,
                             stringResource(Res.string.settings_appearance_title)
                         )
                     },
-                    onSaved = { palette ->
+                    onSaved = { color ->
                         settingsViewModel.updateSettings {
-                            copy(palette = palette)
+                            copy(accentColor = color.toArgb().toLong() and 0xFFFFFFFFL)
                         }
                     })
             }
@@ -148,144 +165,213 @@ private fun Theme.displayLabel(): String {
     }
 }
 
+/** The accent of a built-in palette, used as the starting colour of the picker. */
 @Composable
-private fun MillenniumPalette.displayLabel(): String = when (this) {
-    MillenniumPalette.Blue -> stringResource(Res.string.settings_palette_blue)
-    MillenniumPalette.Orange -> stringResource(Res.string.settings_palette_orange)
-    MillenniumPalette.Lime -> stringResource(Res.string.settings_palette_lime)
+private fun presetAccent(palette: MillenniumPalette): Color {
+    val dark = !isLightAppearance()
+    return remember(palette, dark) { MillenniumColorSchemes().resolve(palette, dark = dark).accent }
 }
+
+private val AccentPresets = listOf(
+    Color(0xFF3F51E0), Color(0xFFB45F00), Color(0xFF00796B), Color(0xFFD81B60),
+    Color(0xFF8E24AA), Color(0xFF2E7D32), Color(0xFFE53935), Color(0xFF0288D1)
+)
 
 @Composable
 private fun AppearanceSettingCard(
-    selectedPalette: MillenniumPalette,
+    selectedAccent: Color,
     icon: (@Composable () -> Unit)? = null,
-    onSaved: (MillenniumPalette) -> Unit) {
-    var isDialogOpen by remember { mutableStateOf(false) }
+    onSaved: (Color) -> Unit) {
+    var isSheetOpen by remember { mutableStateOf(false) }
 
     SettingCardItem(
         title = stringResource(Res.string.settings_appearance_title),
-        subtitle = stringResource(
-            Res.string.settings_appearance_subtitle_palette,
-            selectedPalette.displayLabel()),
+        subtitle = stringResource(Res.string.settings_accent_subtitle),
         icon = icon,
         trailingContent = {
-            PaletteTrailingSwatch(selectedPalette)
+            Box(
+                Modifier
+                    .size(28.dp)
+                    .clip(CircleShape)
+                    .background(selectedAccent)
+                    .border(1.dp, AppTheme.colors.outlineVariant, CircleShape))
         },
-        onClick = { isDialogOpen = true })
+        onClick = { isSheetOpen = true })
 
-    if (isDialogOpen) {
-        var draftPalette by remember(selectedPalette, isDialogOpen) {
-            mutableStateOf(selectedPalette)
-        }
-
-        MillenniumDialog(visible = true, onDismissRequest = { isDialogOpen = false }) {
-            MillenniumDialogHeader {
-                MillenniumDialogTitle(stringResource(Res.string.settings_palette_dialog_title))
-                MillenniumDialogClose()
-            }
-            MillenniumDialogBody {
-            MillenniumText(
-                stringResource(Res.string.settings_palette_dialog_description),
-                color = AppTheme.colors.onSurfaceVariant)
-            MillenniumText(
-                stringResource(Res.string.settings_palette_label),
-                color = AppTheme.colors.onSurface)
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                MillenniumPalette.entries.forEach { palette ->
-                    PaletteSwatch(
-                        palette = palette,
-                        label = palette.displayLabel(),
-                        selected = palette == draftPalette,
-                        onClick = { draftPalette = palette })
-                }
-            }
-
-            PalettePreview(draftPalette)
-            }
-            MillenniumDialogFooter {
-                MillenniumButton(
-                    onClick = { isDialogOpen = false },
-                    style = MillenniumButtonStyle.Secondary) {
-                    MillenniumText(stringResource(Res.string.common_cancel))
-                }
-                MillenniumButton(
-                    onClick = {
-                        onSaved(draftPalette)
-                        isDialogOpen = false
+    if (isSheetOpen) {
+        var draft by remember(selectedAccent) { mutableStateOf(selectedAccent) }
+        val title = stringResource(Res.string.settings_appearance_title)
+        AdaptiveDialogBottomSheet(
+            onDismiss = { isSheetOpen = false },
+            dialogTitle = title,
+            title = { Text(title, style = AppTheme.typography.headlineSmall) },
+            actions = {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)) {
+                    MillenniumButton(
+                        onClick = { isSheetOpen = false },
+                        style = MillenniumButtonStyle.Secondary) {
+                        Text(stringResource(Res.string.common_cancel))
+                    }
+                    MillenniumButton(onClick = {
+                        onSaved(draft)
+                        isSheetOpen = false
                     }) {
-                    MillenniumText(stringResource(Res.string.common_save))
+                        Text(stringResource(Res.string.common_save))
+                    }
                 }
+            }) {
+            Column(
+                modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                Text(
+                    stringResource(Res.string.settings_accent_description),
+                    style = AppTheme.typography.bodyMedium,
+                    color = AppTheme.colors.onSurfaceVariant)
+                AccentPreview(draft)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    AccentPresets.forEach { preset ->
+                        Box(
+                            Modifier
+                                .weight(1f)
+                                .aspectRatio(1f)
+                                .clip(CircleShape)
+                                .background(preset)
+                                .border(
+                                    width = if (preset == draft) 3.dp else 1.dp,
+                                    color = if (preset == draft) AppTheme.colors.onSurface else AppTheme.colors.outlineVariant,
+                                    shape = CircleShape)
+                                .clickable { draft = preset })
+                    }
+                }
+                AccentPicker(draft) { draft = it }
             }
         }
     }
 }
 
 @Composable
-private fun PaletteSwatch(
-    palette: MillenniumPalette,
-    label: String,
-    selected: Boolean,
-    onClick: () -> Unit) {
-    val dark = !isLightAppearance()
-    val scheme = remember(palette, dark) { MillenniumColorSchemes().resolve(palette, dark = dark) }
-    Box(
-        modifier = Modifier
-            .size(40.dp)
-            .clip(CircleShape)
-            .background(scheme.accent)
-            .border(
-                width = if (selected) 3.dp else 1.dp,
-                color = if (selected) AppTheme.colors.onSurface else AppTheme.colors.outlineVariant,
-                shape = CircleShape)
-            .clickable(onClick = onClick)
-            .semantics { contentDescription = label })
-}
-
-@Composable
-private fun PaletteTrailingSwatch(palette: MillenniumPalette) {
-    val dark = !isLightAppearance()
-    val scheme = remember(palette, dark) { MillenniumColorSchemes().resolve(palette, dark = dark) }
+private fun AccentPreview(color: Color) {
+    val onColor = if (color.luminance() > 0.5f) Color(0xFF111111) else Color.White
     Row(
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(24.dp))
+            .background(AppTheme.colors.surfaceContainer)
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically) {
         Box(
             Modifier
-                .size(width = 46.dp, height = 28.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(scheme.accent.copy(alpha = 0.35f)))
+                .clip(RoundedCornerShape(50))
+                .background(color)
+                .padding(horizontal = 20.dp, vertical = 10.dp)) {
+            Text(stringResource(Res.string.settings_preview_button), color = onColor)
+        }
         Box(
             Modifier
-                .size(18.dp)
-                .clip(CircleShape)
-                .background(scheme.accent))
+                .clip(RoundedCornerShape(50))
+                .background(color.copy(alpha = 0.2f))
+                .padding(horizontal = 20.dp, vertical = 10.dp)) {
+            Text(stringResource(Res.string.settings_preview_secondary), color = AppTheme.colors.onSurface)
+        }
     }
 }
 
+/** Free colour selection: hue, saturation and brightness bars. */
 @Composable
-private fun PalettePreview(palette: MillenniumPalette) {
-    val dark = !isLightAppearance()
-    MillenniumTheme(dark = dark, config = MillenniumThemeConfig(palette = palette)) {
-        Column(
-            modifier = Modifier
+private fun AccentPicker(color: Color, onChange: (Color) -> Unit) {
+    val hsv = remember(color) {
+        val hsvArray = FloatArray(3)
+        rgbToHsv(color.red, color.green, color.blue, hsvArray)
+        hsvArray
+    }
+    val hue = hsv[0]
+    val saturation = hsv[1]
+    val value = hsv[2]
+    ColorBar(
+        label = stringResource(Res.string.settings_accent_hue),
+        fraction = hue / 360f,
+        colors = List(7) { hsvToColor(it * 60f, 1f, 1f) },
+        onFraction = { onChange(hsvToColor(it * 360f, maxOf(saturation, 0.35f), maxOf(value, 0.5f))) })
+    ColorBar(
+        label = stringResource(Res.string.settings_accent_saturation),
+        fraction = saturation,
+        colors = listOf(hsvToColor(hue, 0f, value), hsvToColor(hue, 1f, value)),
+        onFraction = { onChange(hsvToColor(hue, it, value)) })
+    ColorBar(
+        label = stringResource(Res.string.settings_accent_brightness),
+        fraction = value,
+        colors = listOf(Color.Black, hsvToColor(hue, saturation, 1f)),
+        onFraction = { onChange(hsvToColor(hue, saturation, maxOf(it, 0.15f))) })
+}
+
+@Composable
+private fun ColorBar(
+    label: String,
+    fraction: Float,
+    colors: List<Color>,
+    onFraction: (Float) -> Unit) {
+    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        Text(label, style = AppTheme.typography.labelLarge, color = AppTheme.colors.onSurface)
+        var widthPx by remember { mutableStateOf(1f) }
+        Box(
+            Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(14.dp))
-                .background(MillenniumTheme.colors.surface)
-                
-                .padding(14.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            MillenniumText(
-                stringResource(Res.string.settings_preview_label),
-                color = MillenniumTheme.colors.muted)
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                MillenniumButton(onClick = {}) {
-                    MillenniumText(stringResource(Res.string.settings_preview_button))
+                .height(32.dp)
+                .onSizeChanged { widthPx = it.width.toFloat().coerceAtLeast(1f) }
+                .clip(RoundedCornerShape(50))
+                .background(Brush.horizontalGradient(colors))
+                .pointerInput(Unit) {
+                    detectTapGestures { onFraction((it.x / widthPx).coerceIn(0f, 1f)) }
                 }
-                MillenniumButton(onClick = {}, style = MillenniumButtonStyle.Secondary) {
-                    MillenniumText(stringResource(Res.string.settings_preview_secondary))
-                }
-            }
+                .pointerInput(Unit) {
+                    detectHorizontalDragGestures { change, _ ->
+                        onFraction((change.position.x / widthPx).coerceIn(0f, 1f))
+                    }
+                }) {
+            Box(
+                Modifier
+                    .align(Alignment.CenterStart)
+                    .offset { IntOffset(((widthPx - 28.dp.toPx()) * fraction.coerceIn(0f, 1f)).toInt(), 0) }
+                    .padding(2.dp)
+                    .size(28.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .border(2.dp, Color(0x33000000), CircleShape))
         }
     }
+}
+
+private fun hsvToColor(h: Float, s: Float, v: Float): Color {
+    val c = v * s
+    val x = c * (1 - kotlin.math.abs((h / 60f) % 2 - 1))
+    val m = v - c
+    val (r, g, b) = when {
+        h < 60f -> Triple(c, x, 0f)
+        h < 120f -> Triple(x, c, 0f)
+        h < 180f -> Triple(0f, c, x)
+        h < 240f -> Triple(0f, x, c)
+        h < 300f -> Triple(x, 0f, c)
+        else -> Triple(c, 0f, x)
+    }
+    return Color(r + m, g + m, b + m)
+}
+
+private fun rgbToHsv(r: Float, g: Float, b: Float, out: FloatArray) {
+    val max = maxOf(r, g, b)
+    val min = minOf(r, g, b)
+    val d = max - min
+    val h = when {
+        d == 0f -> 0f
+        max == r -> 60f * (((g - b) / d) % 6f)
+        max == g -> 60f * ((b - r) / d + 2f)
+        else -> 60f * ((r - g) / d + 4f)
+    }
+    out[0] = if (h < 0f) h + 360f else h
+    out[1] = if (max == 0f) 0f else d / max
+    out[2] = max
 }

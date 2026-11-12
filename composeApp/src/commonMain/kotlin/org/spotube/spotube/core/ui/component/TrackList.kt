@@ -241,6 +241,18 @@ fun TrackList(
     val showAlbum = !isCompact
     val useDropdownForOptions = isDesktop && !isCompact
 
+    // The tapped track pulses until it is actually playing, so the tap is acknowledged while it loads.
+    var pendingTrackId by remember { mutableStateOf<String?>(null) }
+    LaunchedEffect(pendingTrackId, currentTrackId, isCurrentTrackPlaying) {
+        val pending = pendingTrackId ?: return@LaunchedEffect
+        if (currentTrackId == pending && isCurrentTrackPlaying) {
+            pendingTrackId = null
+        } else {
+            kotlinx.coroutines.delay(10_000)
+            if (pendingTrackId == pending) pendingTrackId = null
+        }
+    }
+
     val trackCardContent: @Composable () -> Unit = {
         // Each track is its own rounded tonal card, separated by a small gap (Expressive lists).
         Box(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
@@ -254,7 +266,7 @@ fun TrackList(
                     TrackListRow(
                         modifier = Modifier
                             .clip(RoundedCornerShape(20.dp))
-                            .background(playingRowColor(track.id == currentTrackId)),
+                            .background(playingRowColor(track.id == currentTrackId, track.id == pendingTrackId)),
                         index = displayedIndex + 1,
                         track = track,
                         showIndex = showIndex,
@@ -275,6 +287,7 @@ fun TrackList(
                             } else if (isJamGuest) {
                                 onTrackOptionsAction(track, TrackOptionsAction.AddToJam)
                             } else {
+                                pendingTrackId = track.id
                                 onTrackClick(track)
                             }
                         },
@@ -987,13 +1000,22 @@ private fun TrackListPreview() {
 
 /** Row fill: the playing track glows in the accent tint, the others stay on the tonal surface. */
 @Composable
-private fun playingRowColor(isCurrent: Boolean): Color {
+private fun playingRowColor(isCurrent: Boolean, isPending: Boolean = false): Color {
     val base = AppTheme.colors.surfaceContainer
     val color by animateColorAsState(
         if (isCurrent) lerp(base, AppTheme.colors.primary, 0.32f) else base,
         tween(350),
         label = "playingRow"
     )
+    if (isPending && !isCurrent) {
+        val pulse by rememberInfiniteTransition(label = "pendingRow").animateFloat(
+            initialValue = 0.10f,
+            targetValue = 0.36f,
+            animationSpec = infiniteRepeatable(tween(600, easing = FastOutSlowInEasing), RepeatMode.Reverse),
+            label = "pendingRowPulse"
+        )
+        return lerp(base, AppTheme.colors.primary, pulse)
+    }
     return color
 }
 

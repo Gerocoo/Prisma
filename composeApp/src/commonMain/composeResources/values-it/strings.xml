@@ -162,11 +162,11 @@
     <string name="settings_preview_secondary">Secondario</string>
 
     <string name="settings_palette_title">Tavolozza</string>
-    <string name="settings_palette_subtitle_current">Palette di accento Millennium. Attuale: %1$s</string>
+    <string name="settings_palette_subtitle_current">Palette di accento. Attuale: %1$s</string>
     <string name="settings_palette_dialog_title">Tavolozza</string>
-    <string name="settings_palette_dialog_description">Scegli una palette di accento Millennium e visualizzane l'anteprima in chiaro e scuro.</string>
+    <string name="settings_palette_dialog_description">Scegli una palette di accento e visualizzane l'anteprima in chiaro e scuro.</string>
     <string name="settings_palette_label">Tavolozza</string>
-    <string name="settings_appearance_subtitle_palette">Palette e accento Millennium. Attuale: %1$s</string>
+    <string name="settings_appearance_subtitle_palette">Palette e accento. Attuale: %1$s</string>
     <string name="settings_palette_blue">Blu</string>
     <string name="settings_palette_orange">Ambra</string>
     <string name="settings_system_colors_title">Colori di sistema</string>
@@ -1065,4 +1065,9 @@
     <string name="settings_account_title">Account Spotify</string>
     <string name="settings_account_signed_out">Non hai effettuato l'accesso</string>
     <string name="settings_account_logout">Esci</string>
+    <string name="settings_accent_subtitle">Colore di accento e aspetto dell'app</string>
+    <string name="settings_accent_description">Scegli un colore di accento qualsiasi. Viene applicato a pulsanti, evidenziazioni e alle superfici chiare e scure.</string>
+    <string name="settings_accent_hue">Tonalità</string>
+    <string name="settings_accent_saturation">Saturazione</string>
+    <string name="settings_accent_brightness">Luminosità</string>
 </resources>
