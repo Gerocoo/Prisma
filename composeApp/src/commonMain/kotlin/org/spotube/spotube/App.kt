@@ -57,6 +57,7 @@ import org.spotube.spotube.modules.update.AppUpdateDialog
 import org.spotube.spotube.modules.update.AppUpdateService
 import org.spotube.spotube.modules.update.PluginUpdateDialog
 import org.spotube.spotube.modules.update.PluginUpdatedBanner
+import org.spotube.spotube.modules.plugin.PluginManager
 import org.spotube.spotube.modules.update.PluginUpdateService
 import org.spotube.spotube.modules.webview.WebViewScreen
 import org.spotube.spotube.modules.welcome.WelcomeRepository
@@ -169,6 +170,11 @@ fun App(
 
     val welcomeRepository: WelcomeRepository = koinInject()
     val showOnboarding by welcomeRepository.shouldShowOnboarding.collectAsStateWithLifecycle()
+
+    val pluginManager: PluginManager = koinInject()
+    LaunchedEffect(showOnboarding) {
+        if (!showOnboarding) pluginManager.ensureDefaultMetadataPlugin()
+    }
 
     var showSupportDialog by remember { mutableStateOf(false) }
     var supportDialogIsReminder by remember { mutableStateOf(false) }

@@ -49,6 +49,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import kotlinx.io.readByteArray
 import kotlinx.serialization.json.Json
@@ -594,6 +595,46 @@ class PluginManager(
             )
             logger.d { "addPlugin: bumped generation to ${newState.generation} for plugin ${plugin.id}" }
             updatePluginsState(newState)
+        }
+    }
+
+    /**
+     * On the first launch, installs the Spotify plugin maintained for Prisma so that a new
+     * user already has a working music source. It runs once: if the user later removes the
+     * plugin, it is not installed again.
+     */
+    suspend fun ensureDefaultMetadataPlugin() {
+        withContext(Dispatchers.IO) {
+            try {
+                val markerPath = "${paths.getApplicationDataDirPath()}/default_metadata_plugin_done".toPath()
+                if (FileSystem.SYSTEM.exists(markerPath)) return@withContext
+
+                val current = state.first { it is PluginManagerStates.Data } as PluginManagerStates.Data
+                val alreadyHasMetadata = current.plugins.any {
+                    it !in BUILT_IN_PLUGINS && PluginAbility.METADATA in it.abilities
+                }
+                if (!alreadyHasMetadata) {
+                    val url = GitHubPluginRepository(httpClientFactory.json)
+                        .getLatestReleaseSmplugUrl("Gerocoo", "spotube-plugin-spotify")
+                        ?: return@withContext
+                    val bytes = httpClient.get(url).bodyAsChannel().readRemaining().readByteArray()
+                    addPluginFromByteArray(bytes = bytes, allowReplacingInstalled = true)
+
+                    val after = state.value as? PluginManagerStates.Data
+                    val installed = after?.plugins?.firstOrNull {
+                        it !in BUILT_IN_PLUGINS && PluginAbility.METADATA in it.abilities
+                    }
+                    if (installed != null) {
+                        setSelectedPlugin(PluginAbility.METADATA, installed)
+                    }
+                }
+
+                FileSystem.SYSTEM.createDirectories(markerPath.parent!!)
+                FileSystem.SYSTEM.write(markerPath) { writeUtf8("1") }
+            } catch (e: Exception) {
+                // Offline or GitHub unreachable: try again on the next launch.
+                logger.w(e) { "Default metadata plugin install skipped" }
+            }
         }
     }
 
