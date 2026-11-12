@@ -44,6 +44,8 @@ import kotlin.random.Random
  */
 internal object SpotifyWebClientHints {
     private const val GQL_HOST = "api-partner.spotify.com"
+    private const val WEB_PLAYER_USER_AGENT =
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15"
     private val emptySpT = Regex("\"sp_t\"\\s*:\\s*\"\"")
     private val cookieSpT = Regex("(^|;\\s*)sp_t=[^;]+")
 
@@ -71,6 +73,9 @@ internal object SpotifyWebClientHints {
                 result["Accept-Language"] = RealSystemInformationAPI().getLocale() + ",en;q=0.8"
             }
             if (!has("app-platform")) result["app-platform"] = "WebPlayer"
+            // The plugin sends a different random User-Agent each time; the web player has one.
+            result.keys.firstOrNull { it.equals("User-Agent", ignoreCase = true) }?.let { result.remove(it) }
+            result["User-Agent"] = WEB_PLAYER_USER_AGENT
             var newBody: String = body
             val cookieKey = result.keys.firstOrNull { it.equals("Cookie", ignoreCase = true) } ?: "Cookie"
             val cookie = result[cookieKey].orEmpty()

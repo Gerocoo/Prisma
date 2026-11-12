@@ -39,6 +39,11 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.spotube.spotube.modules.library.LibraryRepository
 import org.spotube.plugin_interfaces.plugin_apis.metadata.playlist.MetadataPlaylist
+import org.spotube.plugin_interfaces.plugin_apis.metadata.album.MetadataAlbum
+import org.spotube.plugin_interfaces.plugin_apis.metadata.artist.MetadataArtist
+import spotube.composeapp.generated.resources.home_section_your_artists
+import spotube.composeapp.generated.resources.home_section_your_albums
+import spotube.composeapp.generated.resources.home_section_your_playlists
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.StringResource
 import spotube.composeapp.generated.resources.Res
@@ -159,6 +164,37 @@ class HomeScreenViewModel(
         }
     }
 
+    /**
+     * Personal rows built from the user's library, shown above Spotify's feed: Spotify's home
+     * request does not always return the personalized sections, the library always is the user's own.
+     */
+    private suspend fun personalSections(): List<MetadataBrowseSection> {
+        val artists = runCatching { libraryRepository.savedArtists()?.items }.getOrNull().orEmpty()
+            .take(20).map { a ->
+                MetadataBrowseItem.Artist(
+                    MetadataArtist.Basic(a.id, a.name, a.thumbnails, a.externalUri))
+            }
+        val albums = runCatching { libraryRepository.savedAlbums()?.items }.getOrNull().orEmpty()
+            .take(20).map { a ->
+                MetadataBrowseItem.Album(
+                    MetadataAlbum.Basic(
+                        a.id, a.title, a.description, a.thumbnails, a.albumType, a.artists, a.externalUri))
+            }
+        val playlists = runCatching { libraryRepository.savedPlaylists()?.items }.getOrNull().orEmpty()
+            .drop(7).take(20).map { MetadataBrowseItem.Playlist(it) }
+        return listOfNotNull(
+            albums.takeIf { it.isNotEmpty() }?.let {
+                MetadataBrowseSection(getString(Res.string.home_section_your_albums), null, it)
+            },
+            artists.takeIf { it.isNotEmpty() }?.let {
+                MetadataBrowseSection(getString(Res.string.home_section_your_artists), null, it)
+            },
+            playlists.takeIf { it.isNotEmpty() }?.let {
+                MetadataBrowseSection(getString(Res.string.home_section_your_playlists), null, it)
+            },
+        )
+    }
+
     init {
         viewModelScope.launch { restoreSnapshot() }
         viewModelScope.launch {
@@ -184,7 +220,8 @@ class HomeScreenViewModel(
         val paginationStrategies = mutableMapOf<String, PaginationStrategy?>()
         if (firstGenreId != null) {
             val result = repository.list(firstGenreId)
-            browseSections[firstGenreId] = (result?.items ?: emptyList()).cleaned()
+            browseSections[firstGenreId] =
+                (personalSections() + (result?.items ?: emptyList())).cleaned()
             paginationStrategies[firstGenreId] = result?.nextPagination
         }
         // Spotify's home is only the personal feed: no generic "featured" carousel on top of it.

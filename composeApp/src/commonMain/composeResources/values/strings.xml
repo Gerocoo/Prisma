@@ -1054,4 +1054,7 @@
     <string name="home_chip_music">Music</string>
     <string name="home_chip_podcasts">Podcasts</string>
     <string name="home_chip_audiobooks">Audiobooks</string>
+    <string name="home_section_your_albums">Albums you like</string>
+    <string name="home_section_your_artists">Your artists</string>
+    <string name="home_section_your_playlists">Your playlists</string>
 </resources>
