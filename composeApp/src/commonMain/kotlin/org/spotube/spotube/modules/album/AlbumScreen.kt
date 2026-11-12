@@ -17,6 +17,8 @@
 
 package org.spotube.spotube.modules.album
 
+import spotube.composeapp.generated.resources.library_local_tracks_count
+import org.jetbrains.compose.resources.pluralStringResource
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -76,7 +78,13 @@ fun AlbumScreen(
         isShuffleLoading = playbackUiState.isShuffleLoading,
         isAddToQueueLoading = playbackUiState.isAddToQueueLoading,
         title = album?.title ?: stringResource(Res.string.album_loading_title),
-        description = album?.description ?: "${album?.albumType?.name.orEmpty()} • ${album?.releaseDate.orEmpty()}",
+        description = (album?.description ?: "${album?.albumType?.name.orEmpty()} • ${album?.releaseDate.orEmpty()}")
+            .let { base ->
+                val count = maxOf(album?.trackCount ?: 0, dataState?.tracks?.size ?: 0)
+                if (count > 0) {
+                    pluralStringResource(Res.plurals.library_local_tracks_count, count, count) + " • " + base
+                } else base
+            },
         imageURL = artworkUrl,
         ownerName = ownerName,
         ownerImageURL = ownerImageURL,

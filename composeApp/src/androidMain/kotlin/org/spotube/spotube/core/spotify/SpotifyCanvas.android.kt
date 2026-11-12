@@ -152,17 +152,43 @@ actual fun CanvasVideo(
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
-    // Small copies of the frame for the blurred backdrop: 28 px wide is plenty once stretched.
+    // Tiny copies of the frame for the blurred backdrop: only a handful of pixels, so just the
+    // colour tones survive once stretched, and each new frame is mixed into the previous one so
+    // fast videos change gently instead of flickering.
     LaunchedEffect(player, layout, showing) {
         val view = layout ?: return@LaunchedEffect
         if (!showing) return@LaunchedEffect
+        var smoothed: IntArray? = null
+        var smoothedSize = 0 to 0
         while (isActive) {
             val texture = view.texture
             if (player.isPlaying && texture.isAvailable && texture.width > 0 && texture.height > 0) {
-                val width = 28
-                val height = (width / view.aspect).toInt().coerceIn(16, 96)
+                val width = 6
+                val height = (width / view.aspect).toInt().coerceIn(6, 16)
                 runCatching { texture.getBitmap(width, height) }.getOrNull()?.let { bitmap ->
-                    backdrop(bitmap.asImageBitmap())
+                    val pixels = IntArray(width * height)
+                    bitmap.getPixels(pixels, 0, width, 0, 0, width, height)
+                    val previous = smoothed
+                    if (previous == null || smoothedSize != width to height) {
+                        smoothed = pixels
+                        smoothedSize = width to height
+                    } else {
+                        for (i in pixels.indices) {
+                            val a = previous[i]
+                            val b = pixels[i]
+                            fun mix(shift: Int): Int {
+                                val x = (a shr shift) and 0xFF
+                                val y = (b shr shift) and 0xFF
+                                return (x * 80 + y * 20) / 100
+                            }
+                            previous[i] = (0xFF shl 24) or (mix(16) shl 16) or (mix(8) shl 8) or mix(0)
+                        }
+                    }
+                    val out = android.graphics.Bitmap.createBitmap(
+                        width, height, android.graphics.Bitmap.Config.ARGB_8888
+                    )
+                    out.setPixels(smoothed!!, 0, width, 0, 0, width, height)
+                    backdrop(out.asImageBitmap())
                 }
             }
             delay(110)

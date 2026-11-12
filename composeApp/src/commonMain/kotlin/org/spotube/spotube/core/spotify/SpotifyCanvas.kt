@@ -257,6 +257,6 @@ fun Modifier.canvasBlur(): Modifier {
                 alpha = amount,
                 filterQuality = FilterQuality.High
             )
-            drawRect(Color.Black.copy(alpha = 0.28f * amount))
+            drawRect(Color.Black.copy(alpha = 0.34f * amount))
         }
 }

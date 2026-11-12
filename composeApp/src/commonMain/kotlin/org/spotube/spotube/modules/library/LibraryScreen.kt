@@ -91,6 +91,21 @@ fun LibraryScreen(libraryState: LibraryState = koinInject()) {
         return
     }
 
+    val closeSearch = {
+        focusManager.clearFocus()
+        keyboard?.hide()
+        libraryState.closeSearch()
+    }
+    // Back closes the search; leaving the library also closes it, so coming back never
+    // reopens the keyboard.
+    androidx.compose.runtime.DisposableEffect(Unit) {
+        onDispose { libraryState.closeSearch() }
+    }
+    org.spotube.spotube.core.ui.component.PlatformBackHandler(
+        enabled = !expandedDesktop && state.searchMode,
+        onBack = closeSearch
+    )
+
     Column(Modifier.fillMaxSize()) {
         ApplicationMainBar(
             backButton = false,
@@ -189,13 +204,7 @@ internal fun RowScope.LibraryToolbarActions(
 ) {
     val actionModifier = Modifier.size(if (compactDesktop) 32.dp else 40.dp)
     if (!expandedDesktop && state.searchMode) {
-        MillenniumIconButton(
-            icon = Iconsax.IconsaxCloseSquare,
-            contentDescription = stringResource(Res.string.library_action_close_search),
-            onClick = onCloseSearch,
-            modifier = actionModifier,
-            style = MillenniumIconButtonStyle.Quiet
-        )
+        // The search field already has its own clear button; back closes the search.
     } else {
         if (state.canFilter) {
             if (expandedDesktop) {

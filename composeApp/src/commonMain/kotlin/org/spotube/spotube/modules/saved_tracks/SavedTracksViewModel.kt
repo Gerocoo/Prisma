@@ -127,6 +127,9 @@ class SavedTracksViewModel(
     private val _currentUserId = MutableStateFlow<String?>(null)
     val currentUserId: StateFlow<String?> = _currentUserId.asStateFlow()
 
+    private val _currentUser = MutableStateFlow<org.spotube.plugin_interfaces.plugin_apis.metadata.user.MetadataUser?>(null)
+    val currentUser: StateFlow<org.spotube.plugin_interfaces.plugin_apis.metadata.user.MetadataUser?> = _currentUser.asStateFlow()
+
     private val _blacklistedTrackIds = MutableStateFlow<Set<String>>(emptySet())
     val blacklistedTrackIds: StateFlow<Set<String>> = _blacklistedTrackIds.asStateFlow()
 
@@ -175,7 +178,9 @@ class SavedTracksViewModel(
 
     private suspend fun loadCurrentUser() {
         runCatching {
-            _currentUserId.value = libraryRepository.currentUser()?.id
+            val user = libraryRepository.currentUser()
+            _currentUserId.value = user?.id
+            _currentUser.value = user
         }.onFailure { e ->
             logger.e(e) { "Failed to load current user" }
         }

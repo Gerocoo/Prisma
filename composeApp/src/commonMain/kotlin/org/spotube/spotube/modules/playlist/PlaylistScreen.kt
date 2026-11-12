@@ -18,6 +18,8 @@
 package org.spotube.spotube.modules.playlist
 
 
+import spotube.composeapp.generated.resources.library_local_tracks_count
+import org.jetbrains.compose.resources.pluralStringResource
 import androidx.compose.ui.Alignment
 import org.spotube.millennium.composables.MillenniumIcon
 import org.spotube.millennium.composables.MillenniumButton
@@ -81,6 +83,7 @@ fun PlaylistScreen(
     val editPlaylistFormState by viewModel.editPlaylistFormState.collectAsStateWithLifecycle()
     var showAddTracksDialog by remember { mutableStateOf(false) }
 
+    val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
     val dataState = state as? PlaylistScreenState.Data
     val playlist = dataState?.playlist
     val owner = playlist?.owner
@@ -122,11 +125,23 @@ fun PlaylistScreen(
         isShuffleLoading = playbackUiState.isShuffleLoading,
         isAddToQueueLoading = playbackUiState.isAddToQueueLoading,
         title = playlist?.title ?: stringResource(Res.string.playlist_loading_title),
-        description = playlist?.description.orEmpty(),
+        description = listOfNotNull(
+            playlist?.let {
+                val count = maxOf(it.trackCount, dataState?.tracks?.size ?: 0)
+                if (count > 0) pluralStringResource(Res.plurals.library_local_tracks_count, count, count) else null
+            },
+            playlist?.description?.takeIf { it.isNotBlank() }
+        ).joinToString(" • "),
         imageURL = artworkUrl,
         ownerName = ownerName,
         ownerImageURL = ownerImageURL,
-        onOwnerClick = {},
+        onOwnerClick = {
+            owner?.let { o ->
+                runCatching {
+                    uriHandler.openUri(o.externalUri ?: "https://open.spotify.com/user/${o.id}")
+                }
+            }
+        },
         onPlay = viewModel::playPlaylist,
         onShufflePlay = viewModel::shufflePlayPlaylist,
         onAddToQueue = viewModel::addPlaylistToQueue,

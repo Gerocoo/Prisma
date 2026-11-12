@@ -34,6 +34,7 @@ import org.spotube.spotube.core.ui.component.CollectionView
 import org.spotube.spotube.modules.library.playlist.AddToPlaylistPicker
 import spotube.composeapp.generated.resources.Res
 import spotube.composeapp.generated.resources.liked_tracks
+import spotube.composeapp.generated.resources.media_liked_tracks
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 import spotube.composeapp.generated.resources.*
@@ -58,6 +59,8 @@ fun SavedTracksScreen(
     val trackOptionsContext by viewModel.trackOptionsContext.collectAsStateWithLifecycle()
     val showAddToPlaylistPicker by viewModel.showAddToPlaylistPicker.collectAsStateWithLifecycle()
 
+    val currentUser by viewModel.currentUser.collectAsStateWithLifecycle()
+    val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
     val dataState = state as? SavedTracksScreenState.Data
     val isPlaying = currentCollectionEntry is QueueCollectionEntry.SavedTracks &&
         playerState == PlayerState.PLAYING
@@ -69,13 +72,20 @@ fun SavedTracksScreen(
         isPlayLoading = playbackUiState.isPlayLoading,
         isShuffleLoading = playbackUiState.isShuffleLoading,
         isAddToQueueLoading = playbackUiState.isAddToQueueLoading,
-        title = stringResource(Res.string.saved_tracks_title),
+        title = stringResource(Res.string.media_liked_tracks),
         description = dataState?.let { pluralStringResource(Res.plurals.library_local_tracks_count, it.totalCount, it.totalCount) } ?: "",
         imageURL = "",
         imageResource = Res.drawable.liked_tracks,
-        ownerName = stringResource(Res.string.saved_tracks_owner_you),
-        ownerImageURL = null,
-        onOwnerClick = {},
+        ownerName = currentUser?.let { it.displayName ?: it.username }
+            ?: stringResource(Res.string.saved_tracks_owner_you),
+        ownerImageURL = currentUser?.thumbnails?.firstOrNull()?.url,
+        onOwnerClick = {
+            currentUser?.let { user ->
+                runCatching {
+                    uriHandler.openUri(user.externalUri ?: "https://open.spotify.com/user/${user.id}")
+                }
+            }
+        },
         onPlay = viewModel::playSavedTracks,
         onShufflePlay = viewModel::shufflePlaySavedTracks,
         onAddToQueue = viewModel::addSavedTracksToQueue,

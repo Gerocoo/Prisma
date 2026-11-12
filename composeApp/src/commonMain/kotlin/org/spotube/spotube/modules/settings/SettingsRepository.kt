@@ -24,6 +24,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.*
 import kotlinx.serialization.json.Json
 
@@ -37,6 +38,7 @@ interface UserSettingsSource {
 class SettingsRepository(private val database: Database) : UserSettingsSource {
     companion object {
         private val SETTINGS_KEY = stringPreferencesKey("user_settings")
+        private val COUNTRY_AUTO_SET_KEY = stringPreferencesKey("country_auto_set")
 
         /**
          * Lenient so settings written by older builds (which stored `accentColor` /
@@ -50,6 +52,29 @@ class SettingsRepository(private val database: Database) : UserSettingsSource {
     }
 
     val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    init {
+        // First launch: use the country of the device instead of the built-in default.
+        scope.launch {
+            runCatching {
+                database.settingsDataStore.edit { prefs ->
+                    if (prefs[COUNTRY_AUTO_SET_KEY] != null) return@edit
+                    prefs[COUNTRY_AUTO_SET_KEY] = "1"
+                    val deviceCountry = androidx.compose.ui.text.intl.Locale.current.region
+                        .let { CountryCode.fromCode(it) } ?: return@edit
+                    val json = prefs[SETTINGS_KEY]
+                    val current = if (json != null) {
+                        settingsJson.decodeFromString<UserSettings>(json as String)
+                    } else UserSettings()
+                    // Only replace the untouched default.
+                    if (current.country == UserSettings().country) {
+                        prefs[SETTINGS_KEY] =
+                            settingsJson.encodeToString(current.copy(country = deviceCountry))
+                    }
+                }
+            }
+        }
+    }
 
     override val userSettings: StateFlow<UserSettings> = database.settingsDataStore.data.map { prefs ->
         val json = prefs[SETTINGS_KEY]
