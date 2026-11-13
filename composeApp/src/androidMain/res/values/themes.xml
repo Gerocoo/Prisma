@@ -20,4 +20,11 @@
     <style name="Theme.Prisma" parent="@android:style/Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@color/splash_background</item>
     </style>
+    <!-- Used before Android 12 when the app theme overrides the system one. -->
+    <style name="Theme.Prisma.ForceDark" parent="@android:style/Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/splash_dark</item>
+    </style>
+    <style name="Theme.Prisma.ForceLight" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/splash_light</item>
+    </style>
 </resources>

@@ -20,4 +20,6 @@
     <color name="ic_launcher_background">#020D07</color>
     <!-- Window shown while the app starts: light by day, dark when the system is in dark mode. -->
     <color name="splash_background">#FBF7FF</color>
+    <color name="splash_dark">#020D07</color>
+    <color name="splash_light">#FBF7FF</color>
 </resources>

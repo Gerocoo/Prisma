@@ -1160,11 +1160,14 @@ private fun repoMatchesAbility(repo: org.spotube.spotube.modules.plugin.GitHubRe
     fun has(vararg k: String) = k.any { it in text }
     val lyrics = has("lyric", "testi")
     val scrobble = has("scrobbl", "last.fm", "lastfm", "listenbrainz")
-    val audio = has("audio", "youtube", "piped", "invidious", "stream", "newpipe", "soundcloud")
+    // An explicit "metadata" wins over service names: "youtube-metadata" is not an audio source.
+    val metadata = has("metadata", "metadati")
+    val audio = !metadata && has("audio", "youtube", "piped", "invidious", "stream", "newpipe", "soundcloud") ||
+        has("audio source", "audio-source", "audio plugin", "-audio")
     return when (ability) {
         PluginAbility.LYRICS -> lyrics
         PluginAbility.SCROBBLE -> scrobble
         PluginAbility.AUDIO -> audio && !lyrics && !scrobble
-        PluginAbility.METADATA -> !lyrics && !scrobble && !audio
+        PluginAbility.METADATA -> !lyrics && !scrobble && (metadata || !audio)
     }
 }

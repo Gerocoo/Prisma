@@ -37,6 +37,13 @@ import io.github.vinceglb.filekit.dialogs.init
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Before Android 12 the app theme (not the system one) picks the launch window colour.
+        if (android.os.Build.VERSION.SDK_INT < 31) {
+            when (org.spotube.spotube.core.ui.theming.savedSplashTheme(this)) {
+                "dark" -> setTheme(R.style.Theme_Prisma_ForceDark)
+                "light" -> setTheme(R.style.Theme_Prisma_ForceLight)
+            }
+        }
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         FileKit.init(this)
