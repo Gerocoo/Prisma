@@ -176,7 +176,6 @@ import spotube.composeapp.generated.resources.player_go_to_album
 import spotube.composeapp.generated.resources.player_loop_mode_all
 import spotube.composeapp.generated.resources.player_loop_mode_none
 import spotube.composeapp.generated.resources.player_loop_mode_one
-import spotube.composeapp.generated.resources.player_lyrics
 import spotube.composeapp.generated.resources.player_next_content_description
 import spotube.composeapp.generated.resources.player_now_playing
 import spotube.composeapp.generated.resources.player_options_content_description
@@ -780,57 +779,52 @@ private fun LyricsPreviewCard(
     val uiState by viewModel.uiState.collectAsState()
     val syncedLyrics = uiState.syncedLyrics ?: emptyList()
     val isLoading = uiState.isLoading
-    if (syncedLyrics.isEmpty() || isLoading) return
+    // The slot keeps its height even without lyrics, so the player never jumps between tracks.
+    if (syncedLyrics.isEmpty() || isLoading) {
+        Spacer(modifier = modifier.height(PreviewCardHeight))
+        return
+    }
 
     // Same cover-tinted colors as the player and the full lyrics page.
-    Column(
+    Box(
         modifier = modifier
+            .height(PreviewCardHeight)
             .clip(RoundedCornerShape(28.dp))
             .canvasBlur()
             .background(colors.containerHigh)
             .clickable(onClick = onExpand)
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = stringResource(Res.string.player_lyrics),
-                style = AppTheme.typography.titleSmall,
-                color = colors.onContainer
-            )
-            Box(
-                modifier = Modifier
-                    .size(36.dp)
-                    .clip(CircleShape)
-                    .background(colors.tonal)
-                    .clickable(role = Role.Button, onClick = onExpand),
-                contentAlignment = Alignment.Center
-            ) {
-                MillenniumIcon(
-                    Iconsax.IconsaxArrowSquareUp,
-                    contentDescription = stringResource(Res.string.player_expand_lyrics_content_description),
-                    tint = colors.onContainer,
-                    modifier = Modifier.size(18.dp)
-                )
-            }
-        }
-
         // Passive preview: no onLineClick, so lines never seek playback.
         SyncedLyricsList(
             lines = syncedLyrics,
             currentIndex = uiState.currentIndex,
             modifier = Modifier
-                .fillMaxWidth()
-                .height(120.dp),
+                .fillMaxSize()
+                .padding(start = 16.dp, end = 52.dp, top = 8.dp, bottom = 8.dp),
             textColor = colors.onContainerMuted,
             activeColor = colors.onContainer
         )
+        Box(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(10.dp)
+                .size(32.dp)
+                .clip(CircleShape)
+                .background(colors.tonal)
+                .clickable(role = Role.Button, onClick = onExpand),
+            contentAlignment = Alignment.Center
+        ) {
+            MillenniumIcon(
+                Iconsax.IconsaxArrowSquareUp,
+                contentDescription = stringResource(Res.string.player_expand_lyrics_content_description),
+                tint = colors.onContainer,
+                modifier = Modifier.size(16.dp)
+            )
+        }
     }
 }
+
+private val PreviewCardHeight = 150.dp
 
 @Composable
 private fun OptionTile(
