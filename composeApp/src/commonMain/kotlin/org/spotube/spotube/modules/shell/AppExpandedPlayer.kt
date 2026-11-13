@@ -446,7 +446,6 @@ fun AppExpandedPlayer(
             modifier = Modifier
                 .fillMaxSize()
                 .windowInsetsPadding(WindowInsets.safeDrawing)
-                .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -503,7 +502,8 @@ fun AppExpandedPlayer(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 20.dp, end = 20.dp, top = 28.dp, bottom = 28.dp),
+                    .weight(1f)
+                    .padding(start = 20.dp, end = 20.dp, top = 12.dp, bottom = 12.dp),
                 contentAlignment = Alignment.Center
             ) {
                 // Cover carousel: the cover follows a horizontal swipe; letting go past a third of
@@ -513,7 +513,6 @@ fun AppExpandedPlayer(
                 var coverWidth by remember { mutableIntStateOf(1) }
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
                         .aspectRatio(1f)
                         .then(albumArtModifier)
                         .graphicsLayer { alpha = 1f - canvasProgress }
@@ -591,7 +590,7 @@ fun AppExpandedPlayer(
                 textAlign = TextAlign.Center
             )
 
-            Column(modifier = Modifier.padding(top = 20.dp, start = 4.dp, end = 4.dp)) {
+            Column(modifier = Modifier.padding(top = 8.dp, start = 4.dp, end = 4.dp)) {
                 WavySlider(
                     value = seekProgress,
                     onValueChange = {
@@ -629,7 +628,7 @@ fun AppExpandedPlayer(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 18.dp),
+                        .padding(top = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -683,7 +682,7 @@ fun AppExpandedPlayer(
                 Row(
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
-                        .padding(top = 14.dp, bottom = 16.dp)
+                        .padding(top = 8.dp, bottom = 4.dp)
                         .clip(RoundedCornerShape(50))
                         .canvasBlur()
                         .background(art.containerHigh)
@@ -740,7 +739,7 @@ fun AppExpandedPlayer(
                 colors = art,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 16.dp),
+                    .padding(top = 10.dp, bottom = 12.dp),
                 onExpand = onExpandLyrics
             )
         }
@@ -790,8 +789,8 @@ private fun LyricsPreviewCard(
             .canvasBlur()
             .background(colors.containerHigh)
             .clickable(onClick = onExpand)
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -826,7 +825,7 @@ private fun LyricsPreviewCard(
             currentIndex = uiState.currentIndex,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(168.dp),
+                .height(120.dp),
             textColor = colors.onContainerMuted,
             activeColor = colors.onContainer
         )
