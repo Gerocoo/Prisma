@@ -73,6 +73,9 @@ class PlaybackService : MediaLibraryService(), KoinComponent {
 
     private val audioPlayer = inject<AudioPlayerInterface>(org.koin.core.qualifier.named("local")).value as AudioPlayer
     private val audioPlayerQueue: AudioPlayerQueue by inject()
+    private val connectPlayer: AudioPlayerInterface by inject()
+    private val connectViewModel: org.spotube.spotube.modules.shell.spotify_connect.SpotifyConnectViewModel by inject()
+    private lateinit var sessionPlayer: ConnectForwardingPlayer
     private val mediaBrowseHelper: MediaBrowseHelper by inject()
     private val savedTracksRepository: SavedTracksRepository by inject()
     private lateinit var librarySession: MediaLibrarySession
@@ -124,14 +127,21 @@ class PlaybackService : MediaLibraryService(), KoinComponent {
             Log.w(TAG, "startForeground not allowed; continuing without notification", e)
         }
 
+        sessionPlayer = ConnectForwardingPlayer(
+            audioPlayer.player, connectViewModel, connectPlayer, audioPlayerQueue, serviceScope
+        )
         librarySession =
-            MediaLibrarySession.Builder(this, audioPlayer.player, LibrarySessionCallback())
+            MediaLibrarySession.Builder(this, sessionPlayer, LibrarySessionCallback())
                 .setSessionActivity(sessionActivity)
                 .setCustomLayout(ImmutableList.of(likeButton(liked = false)))
                 .build()
 
         addSession(librarySession)
         observeLikeState()
+        // Spotify Connect: refresh the notification whenever the connected device's state moves.
+        serviceScope.launch(Dispatchers.Main) {
+            connectViewModel.uiState.collect { sessionPlayer.notifyRemoteChanged() }
+        }
 
         Log.i(TAG, "Library session created")
     }

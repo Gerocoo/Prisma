@@ -69,6 +69,8 @@ class SpotifyConnectViewModel(
     private val _uiState = MutableStateFlow(SpotifyConnectUiState())
     val uiState: StateFlow<SpotifyConnectUiState> = _uiState.asStateFlow()
     private var pollJob: Job? = null
+    /** Consecutive refreshes in which the connected device was gone from the account's list. */
+    private var missingDeviceCount = 0
 
     fun open() {
         _uiState.update { it.copy(isOpen = true, isLoading = true, error = null) }
@@ -122,8 +124,33 @@ class SpotifyConnectViewModel(
                     errorDetail = null
                 )
             }
-            followRemote()
+            if (!disconnectIfDeviceGone(devices)) followRemote()
         }.onFailure { e -> report(e) }
+    }
+
+    /**
+     * When the connected device closes or drops off the account, Prisma lets go of it: it stays
+     * paused on the same track and point, as after "continue on this phone".
+     */
+    private suspend fun disconnectIfDeviceGone(devices: List<SpotifyDevice>): Boolean {
+        val state = _uiState.value
+        val deviceId = state.remoteDeviceId ?: run { missingDeviceCount = 0; return false }
+        if (devices.any { it.id == deviceId }) {
+            missingDeviceCount = 0
+            return false
+        }
+        // Two misses in a row, so a single flaky answer does not drop a working connection.
+        if (++missingDeviceCount < 2) return false
+        missingDeviceCount = 0
+        val playback = state.playback
+        val entry = queue.currentQueueEntryFlow.value as? QueueEntry.StreamingTrack
+        if (playback?.item?.id != null && playback.item.id == entry?.track?.id) {
+            playback.progressMs?.let { runCatching { audioPlayer.seekTo(it.milliseconds) } }
+        }
+        if (audioPlayer.playerStateFlow.value == PlayerState.PLAYING) audioPlayer.pause()
+        _uiState.update { it.copy(remoteDeviceId = null) }
+        if (!_uiState.value.isOpen) stopPolling()
+        return true
     }
 
     /** Keeps Prisma's player in step with what the remote device does (skips, other devices...). */

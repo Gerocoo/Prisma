@@ -48,6 +48,10 @@ import spotube.composeapp.generated.resources.player_next_content_description
 import org.spotube.spotube.core.ui.theming.AppTheme
 import com.composeunstyled.Text
 import androidx.compose.runtime.Composable
+import spotube.composeapp.generated.resources.devices_remote_playing_on
+import org.spotube.spotube.modules.shell.spotify_connect.SpotifyConnectViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,6 +64,7 @@ import org.spotube.spotube.core.audioplayer.AudioPlayerQueue
 import org.spotube.spotube.modules.saved_tracks.SavedTracksViewModel
 import org.spotube.spotube.modules.saved_tracks.SAVED_TRACKS_COLLECTION_ID
 import org.spotube.spotube.resources.iconsax.Iconsax
+import org.spotube.spotube.resources.iconsax.IconsaxMirroringScreen
 import org.spotube.spotube.resources.iconsax.IconsaxPause
 import org.spotube.spotube.resources.iconsax.IconsaxPlay
 import org.spotube.spotube.resources.iconsax.IconsaxMusic
@@ -93,6 +98,7 @@ fun AppFloatingPlayer(
     animatedVisibilityScope: AnimatedVisibilityScope? = null,
     audioPlayer: AudioPlayerInterface = koinInject(),
     audioPlayerQueue: AudioPlayerQueue = koinInject(),
+    spotifyConnectViewModel: SpotifyConnectViewModel = koinInject(),
     savedTracksViewModel: SavedTracksViewModel = koinViewModel<SavedTracksViewModel>(
         key = SAVED_TRACKS_COLLECTION_ID,
         parameters = { parametersOf() }
@@ -113,8 +119,11 @@ fun AppFloatingPlayer(
         }
     }
 
+    val connectState by spotifyConnectViewModel.uiState.collectAsStateWithLifecycle()
+
     FloatingPlayerContent(
         playerUiState = playerUiState,
+        connectDeviceName = if (connectState.isRemoteActive) connectState.remoteDevice?.name?.ifBlank { null } else null,
         modifier = modifier,
         albumArtModifier = albumArtModifier,
         onPlayPause = ::onPlayPause,
@@ -133,6 +142,7 @@ fun AppFloatingPlayer(
 internal fun FloatingPlayerContent(
     playerUiState: PlayerUiState,
     modifier: Modifier = Modifier,
+    connectDeviceName: String? = null,
     albumArtModifier: Modifier = Modifier,
     onPlayPause: () -> Unit,
     onPrevious: () -> Unit = {},
@@ -188,7 +198,28 @@ internal fun FloatingPlayerContent(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                if (hasQueue) Text(
+                if (hasQueue && connectDeviceName != null) Row(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(50))
+                        .background(colors.accent)
+                        .padding(horizontal = 8.dp, vertical = 2.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    MillenniumIcon(
+                        Iconsax.IconsaxMirroringScreen,
+                        contentDescription = null,
+                        tint = colors.onAccent,
+                        modifier = Modifier.size(12.dp)
+                    )
+                    Text(
+                        text = stringResource(Res.string.devices_remote_playing_on, connectDeviceName),
+                        style = AppTheme.typography.labelSmall,
+                        color = colors.onAccent,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                } else if (hasQueue) Text(
                     text = playerUiState.artists,
                     style = AppTheme.typography.bodySmall,
                     color = colors.onContainerMuted,

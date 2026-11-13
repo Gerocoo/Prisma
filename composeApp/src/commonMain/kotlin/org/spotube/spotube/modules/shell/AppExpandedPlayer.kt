@@ -539,8 +539,10 @@ fun AppExpandedPlayer(
                         .clip(RoundedCornerShape(32.dp))
                         .background(art.containerHigh)
                 ) {
+                    // Keyed on the track, not just the image: tracks of one album share a cover
+                    // and would otherwise skip the slide.
                     AnimatedContent(
-                        targetState = coverModel,
+                        targetState = playerUiState.currentQueueEntry to coverModel,
                         transitionSpec = {
                             val dir = skipDirection
                             val slide = spring<IntOffset>(dampingRatio = 0.86f, stiffness = 340f)
@@ -549,7 +551,7 @@ fun AppExpandedPlayer(
                         },
                         modifier = Modifier.fillMaxSize().graphicsLayer { translationX = dragOffset.value },
                         label = "coverCarousel"
-                    ) { model ->
+                    ) { (_, model) ->
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
