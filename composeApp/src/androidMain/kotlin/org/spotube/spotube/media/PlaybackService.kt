@@ -71,7 +71,7 @@ class PlaybackService : MediaLibraryService(), KoinComponent {
     private var taskRemoved = false
 
 
-    private val audioPlayer = inject<AudioPlayerInterface>().value as AudioPlayer
+    private val audioPlayer = inject<AudioPlayerInterface>(org.koin.core.qualifier.named("local")).value as AudioPlayer
     private val audioPlayerQueue: AudioPlayerQueue by inject()
     private val mediaBrowseHelper: MediaBrowseHelper by inject()
     private val savedTracksRepository: SavedTracksRepository by inject()
