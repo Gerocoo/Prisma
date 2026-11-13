@@ -190,7 +190,6 @@ val sharedModules = module {
             audioPlayerQueue = get(),
             blacklistRepository = get(),
             shareService = get(),
-            downloadManager = get(),
             remotePlaybackController = get())
     }
     viewModel { (playlistId: String) -> AddTracksToPlaylistViewModel(playlistId, get(), get()) }
@@ -205,7 +204,6 @@ val sharedModules = module {
             blacklistRepository = get(),
             libraryRepository = get(),
             shareService = get(),
-            downloadManager = get(),
             remotePlaybackController = get())
     }
 
@@ -220,7 +218,6 @@ val sharedModules = module {
             audioPlayerQueue = get(),
             blacklistRepository = get(),
             shareService = get(),
-            downloadManager = get(),
             remotePlaybackController = get())
     }
 
@@ -249,7 +246,6 @@ val sharedModules = module {
             audioPlayerQueue = get(),
             blacklistRepository = get(),
             shareService = get(),
-            downloadManager = get(),
             remotePlaybackController = get())
     }
 
