@@ -136,22 +136,6 @@ internal fun LazyListScope.appearanceSection(
                     }
                 )
             }
-            if (!(showSystemColors && settings.useSystemColors)) add {
-                AppearanceSettingCard(
-                    selectedAccent = settings.accentColor?.let { Color(it.toInt()) }
-                        ?: presetAccent(settings.palette),
-                    icon = {
-                        SettingsItemIcon(
-                            Iconsax.IconsaxMagic,
-                            stringResource(Res.string.settings_appearance_title)
-                        )
-                    },
-                    onSaved = { color ->
-                        settingsViewModel.updateSettings {
-                            copy(accentColor = color.toArgb().toLong() and 0xFFFFFFFFL)
-                        }
-                    })
-            }
         }
     )
 }

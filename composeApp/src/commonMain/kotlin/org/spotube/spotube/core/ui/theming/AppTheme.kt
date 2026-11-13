@@ -534,26 +534,23 @@ fun SpotubeTheme(
     // Material You: when enabled and available, the system palette replaces every accent family.
     val systemDark = if (settings.useSystemColors) systemDynamicColors(dark = true) else null
     val systemLight = if (settings.useSystemColors) systemDynamicColors(dark = false) else null
-    val customAccent = settings.accentColor
-    val colorSchemes = remember(systemDark, systemLight, customAccent) {
+    val colorSchemes = remember(systemDark, systemLight) {
         if (systemDark != null && systemLight != null) {
             MillenniumColorSchemes(
                 light = systemLight, dark = systemDark,
                 orangeLight = systemLight, orangeDark = systemDark,
                 limeLight = systemLight, limeDark = systemDark
             )
-        } else if (customAccent != null) {
-            val accent = Color(customAccent.toInt())
-            // Dark surfaces need a lighter accent to stay readable on near-black.
-            val darkAccent = if (accent.luminance() < 0.3f) lerp(accent, Color.White, 0.35f) else accent
-            val light = lightSurface(accent = accent, onAccent = readableOn(accent))
-            val dark = darkSurface(accent = darkAccent, onAccent = readableOn(darkAccent))
+        } else {
+            // No system palette (or turned off): one fixed purple accent.
+            val light = lightSurface(accent = Color(0xFF6750A4), onAccent = Color.White)
+            val dark = darkSurface(accent = Color(0xFFD0BCFF), onAccent = Color(0xFF381E72))
             MillenniumColorSchemes(
                 light = light, dark = dark,
                 orangeLight = light, orangeDark = dark,
                 limeLight = light, limeDark = dark
             )
-        } else AppColorSchemes
+        }
     }
     val fontFamily = rememberAppFontFamily()
     val typography = remember(fontFamily) { appTypography(fontFamily) }
