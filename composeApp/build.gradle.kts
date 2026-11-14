@@ -383,7 +383,7 @@ android {
 
     defaultConfig {
         // Prisma's own id, so it installs next to the official Spotube app.
-        applicationId = "io.github.gerocoo.tubify"
+        applicationId = "com.prisma.music"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = appBuildNumber
