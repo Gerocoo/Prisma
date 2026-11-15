@@ -104,7 +104,7 @@ class RemoteControlService(
             settingsRepository.userSettings.value.remoteControlDeviceId
         }
         val configured = settingsRepository.userSettings.value.remoteControlDeviceName
-        return configured.ifBlank { "Spotube-${deviceId.take(6)}" }
+        return configured.ifBlank { "Prisma-${deviceId.take(6)}" }
     }
 
     /**
@@ -127,7 +127,7 @@ class RemoteControlService(
     private suspend fun registerLoop(name: String, port: Int) {
         val deviceId = resolveDeviceId()
         _localDeviceId.value = deviceId
-        val serviceName = name.ifBlank { "Spotube-${deviceId.take(6)}" }
+        val serviceName = name.ifBlank { "Prisma-${deviceId.take(6)}" }
 
         var attempt = 0
         while (advertisedService == null && coroutineContext.isActive) {
