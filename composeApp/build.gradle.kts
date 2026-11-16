@@ -468,11 +468,25 @@ android {
         isCoreLibraryDesugaringEnabled = true
     }
 
+        // Renaming via output.outputFileName inside applicationVariants.all raced with
+        // PackageAndroidArtifact's IncrementalSplitterRunnable (it mutates the APK's expected
+        // path while AGP's internal split-merging workers are still writing to it), causing
+        // intermittent/always "Failed to create '...apk'" IOExceptions on packaging, both
+        // locally and in CI. Renaming the finished file after the packaging task fully
+        // completes avoids touching AGP's internal state entirely.
         applicationVariants.all {
             val variant = this
-            variant.outputs.forEach { output ->
-                if (output is com.android.build.gradle.internal.api.BaseVariantOutputImpl) {
-                    output.outputFileName = "Prisma-${variant.baseName}-${variant.versionName}.apk"
+            variant.packageApplicationProvider?.configure {
+                doLast {
+                    val outDir = outputDirectory.get().asFile
+                    outDir.listFiles { f -> f.extension == "apk" }?.forEach { f ->
+                        val newName = "Prisma-${variant.baseName}-${variant.versionName}.apk"
+                        if (f.name != newName) {
+                            val newFile = f.resolveSibling(newName)
+                            f.copyTo(newFile, overwrite = true)
+                            f.delete()
+                        }
+                    }
                 }
             }
         }
