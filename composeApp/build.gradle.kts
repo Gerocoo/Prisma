@@ -484,10 +484,23 @@ android {
             packageApplicationProvider?.configure {
                 doLast {
                     val outDir = outputDirectory.get().asFile
+                    // AGP produces one "universal" APK plus one ABI-specific split per
+                    // architecture (armeabi-v7a, x86_64, arm64-v8a) in the same directory.
+                    // Renaming every *.apk to the same targetName let the ABI splits
+                    // overwrite the universal one in an arbitrary (listFiles) order, so the
+                    // file that survived could end up containing only one architecture's
+                    // native libs - installable only on a matching device/emulator, and
+                    // "App not installed" everywhere else. Only the universal APK (the one
+                    // whose own filename contains "universal") is renamed/kept; the
+                    // ABI-specific splits are removed instead of being left stale.
                     outDir.listFiles { f -> f.extension == "apk" }?.forEach { f ->
-                        if (f.name != targetName) {
-                            val newFile = f.resolveSibling(targetName)
-                            f.copyTo(newFile, overwrite = true)
+                        if (f.name.contains("universal")) {
+                            if (f.name != targetName) {
+                                val newFile = f.resolveSibling(targetName)
+                                f.copyTo(newFile, overwrite = true)
+                                f.delete()
+                            }
+                        } else {
                             f.delete()
                         }
                     }
