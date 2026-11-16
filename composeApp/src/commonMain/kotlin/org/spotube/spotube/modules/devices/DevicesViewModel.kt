@@ -270,8 +270,8 @@ class DevicesViewModel(
             try {
                 val settings = settingsProvider.settingsState.value
                 val deviceId = settings?.remoteControlDeviceId ?: ""
-                val deviceName = settings?.remoteControlDeviceName?.ifBlank { "Spotube Controller" }
-                    ?: "Spotube Controller"
+                val deviceName = settings?.remoteControlDeviceName?.ifBlank { "Prisma Controller" }
+                    ?: "Prisma Controller"
 
                 remoteControlClient.connect(
                     host = device.host,

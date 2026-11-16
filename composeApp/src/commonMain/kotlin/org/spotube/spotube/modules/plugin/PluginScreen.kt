@@ -1160,14 +1160,20 @@ private fun repoMatchesAbility(repo: org.spotube.spotube.modules.plugin.GitHubRe
     fun has(vararg k: String) = k.any { it in text }
     val lyrics = has("lyric", "testi")
     val scrobble = has("scrobbl", "last.fm", "lastfm", "listenbrainz")
-    // An explicit "metadata" wins over service names: "youtube-metadata" is not an audio source.
-    val metadata = has("metadata", "metadati")
-    val audio = !metadata && has("audio", "youtube", "piped", "invidious", "stream", "newpipe", "soundcloud") ||
-        has("audio source", "audio-source", "audio plugin", "-audio")
+    val metadata = has("metadata", "metadati", "music info", "track info", "ytmusic", "yt-music", "yt music")
+    // A bare service name like "youtube" or the generic word "audio" is not a reliable signal:
+    // YouTube and similar services back both audio-streaming plugins and metadata-only ones
+    // (this is exactly what miscategorized YouTube metadata plugins as "audio" before). Audio
+    // is only matched on an actual streaming backend/protocol name or an explicit audio-source
+    // phrase, never from the service name alone.
+    val audio = !metadata && has(
+        "piped", "invidious", "newpipe", "soundcloud",
+        "audio source", "audio-source", "audio plugin", "-audio", "stream source", "streaming source"
+    )
     return when (ability) {
         PluginAbility.LYRICS -> lyrics
         PluginAbility.SCROBBLE -> scrobble
         PluginAbility.AUDIO -> audio && !lyrics && !scrobble
-        PluginAbility.METADATA -> !lyrics && !scrobble && (metadata || !audio)
+        PluginAbility.METADATA -> !lyrics && !scrobble && !audio
     }
 }

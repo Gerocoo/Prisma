@@ -88,6 +88,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.runtime.mutableStateOf
 
 import org.spotube.spotube.core.ui.theming.AppTheme
 
@@ -113,6 +117,19 @@ import spotube.composeapp.generated.resources.lyrics_mode_synced
 import spotube.composeapp.generated.resources.lyrics_no_plain
 import spotube.composeapp.generated.resources.lyrics_no_synced
 import spotube.composeapp.generated.resources.common_close
+import spotube.composeapp.generated.resources.lyrics_tab_lyrics
+import spotube.composeapp.generated.resources.lyrics_tab_track
+import spotube.composeapp.generated.resources.lyrics_tab_artist
+import spotube.composeapp.generated.resources.lyrics_tab_related
+import spotube.composeapp.generated.resources.lyrics_track_album
+import spotube.composeapp.generated.resources.lyrics_track_release_date
+import spotube.composeapp.generated.resources.lyrics_track_duration
+import spotube.composeapp.generated.resources.lyrics_track_no_info
+import spotube.composeapp.generated.resources.lyrics_artist_followers
+import spotube.composeapp.generated.resources.lyrics_artist_no_bio
+import spotube.composeapp.generated.resources.lyrics_related_empty
+import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun LyricsScreen(
@@ -127,6 +144,18 @@ fun LyricsScreen(
     val audioPlayerQueue = koinInject<AudioPlayerQueue>()
     val playerUiState = rememberPlayerUiState(audioPlayer, audioPlayerQueue)
     val scope = rememberCoroutineScope()
+
+    // The four carousel pages: lyrics, track info, artist info, related tracks.
+    val pagerState = rememberPagerState(pageCount = { 4 })
+    var autoPageChosen by remember { mutableStateOf(false) }
+    LaunchedEffect(uiState.isLoading, uiState.syncedLyrics, uiState.plainLyrics) {
+        if (!autoPageChosen && !uiState.isLoading) {
+            autoPageChosen = true
+            val hasLyrics = !uiState.syncedLyrics.isNullOrEmpty() || !uiState.plainLyrics.isNullOrBlank()
+            // No lyrics for this track: open straight on "Brano" instead of an empty page.
+            if (!hasLyrics) pagerState.scrollToPage(1)
+        }
+    }
 
     CompositionLocalProvider(LocalLyricsColors provides pal) {
     BoxWithConstraints(
@@ -160,22 +189,41 @@ fun LyricsScreen(
                         ApplicationBackButton()
                     }
                 }
-                Box(Modifier.weight(1f), contentAlignment = Alignment.Center) {
-                    ExpressiveToggle(
-                        options = listOf(
-                            stringResource(Res.string.lyrics_mode_synced),
-                            stringResource(Res.string.lyrics_mode_plain)
-                        ),
-                        selectedIndex = if (uiState.mode == LyricType.SYNCED) 0 else 1,
-                        onSelect = { viewModel.setMode(if (it == 0) LyricType.SYNCED else LyricType.STATIC) },
-                        modifier = Modifier.widthIn(max = 280.dp),
-                        container = pal.tonal,
-                        accent = pal.accent,
-                        onAccent = pal.onAccent,
-                        content = pal.onContainer
-                    )
-                }
+                Spacer(Modifier.weight(1f))
                 Spacer(Modifier.width(48.dp))
+            }
+
+            val tabLabels = listOf(
+                stringResource(Res.string.lyrics_tab_lyrics),
+                stringResource(Res.string.lyrics_tab_track),
+                stringResource(Res.string.lyrics_tab_artist),
+                stringResource(Res.string.lyrics_tab_related)
+            )
+            ExpressiveToggle(
+                options = tabLabels,
+                selectedIndex = pagerState.currentPage,
+                onSelect = { index -> scope.launch { pagerState.animateScrollToPage(index) } },
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+                container = pal.tonal,
+                accent = pal.accent,
+                onAccent = pal.onAccent,
+                content = pal.onContainer
+            )
+
+            val pagerContent: @Composable ColumnScope.() -> Unit = {
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier.weight(1f).fillMaxWidth()
+                ) { page ->
+                    Column(Modifier.fillMaxSize()) {
+                        when (page) {
+                            0 -> LyricsBody(uiState, viewModel)
+                            1 -> TrackInfoTab(uiState)
+                            2 -> ArtistInfoTab(uiState)
+                            else -> RelatedTracksTab(uiState)
+                        }
+                    }
+                }
             }
 
             if (isWide) {
@@ -188,9 +236,7 @@ fun LyricsScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     TrackPane(uiState, Modifier.weight(0.38f))
-                    Column(Modifier.weight(0.62f).fillMaxHeight()) {
-                        LyricsBody(uiState, viewModel)
-                    }
+                    Column(Modifier.weight(0.62f).fillMaxHeight(), content = pagerContent)
                 }
             } else {
                 CompactTrackHeader(
@@ -201,10 +247,9 @@ fun LyricsScreen(
                     Modifier
                         .weight(1f)
                         .fillMaxWidth()
-                        .padding(horizontal = 8.dp)
-                ) {
-                    LyricsBody(uiState, viewModel)
-                }
+                        .padding(horizontal = 8.dp),
+                    content = pagerContent
+                )
             }
             val playTap = rememberPlayTapState(playerUiState.isPlaying)
             LyricsControls(
@@ -464,5 +509,181 @@ private fun LyricsControls(
                 tint = pal.onContainer, modifier = Modifier.size(26.dp)
             )
         }
+    }
+}
+
+/** "Brano" tab: album, release date, duration and other metadata for the current track. */
+@Composable
+private fun TrackInfoTab(uiState: LyricsUiState) {
+    val track = uiState.track
+    if (track == null) {
+        CenteredLyricsMessage { Text(text = stringResource(Res.string.lyrics_track_no_info), color = lyricsMuted()) }
+        return
+    }
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp)
+    ) {
+        item {
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                track.album?.title?.takeIf { it.isNotBlank() }?.let {
+                    LyricsInfoRow(stringResource(Res.string.lyrics_track_album), it)
+                }
+                track.album?.releaseDate?.takeIf { it.isNotBlank() }?.let {
+                    LyricsInfoRow(stringResource(Res.string.lyrics_track_release_date), it)
+                }
+                LyricsInfoRow(
+                    stringResource(Res.string.lyrics_track_duration),
+                    org.spotube.spotube.modules.shell.formatPlayerTime(track.durationMs.milliseconds)
+                )
+                val genres = track.album?.genres.orEmpty()
+                if (genres.isNotEmpty()) {
+                    LyricsInfoRow(stringResource(Res.string.lyrics_track_album), genres.joinToString(", "))
+                }
+            }
+        }
+    }
+}
+
+/** "Artista" tab: biography and basics for the track's main artist. */
+@Composable
+private fun ArtistInfoTab(uiState: LyricsUiState) {
+    val overview = uiState.artistOverview
+    when {
+        uiState.artistOverviewLoading -> CenteredLyricsMessage { ExpressiveLoadingIndicator(size = 40.dp) }
+        overview == null -> CenteredLyricsMessage {
+            Text(text = stringResource(Res.string.lyrics_artist_no_bio), color = lyricsMuted())
+        }
+        else -> {
+            val artist = overview.artist
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp)
+            ) {
+                item {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    ) {
+                        Box(
+                            Modifier.size(72.dp).clip(CircleShape).background(LocalLyricsColors.current?.tonal ?: MillenniumTheme.colors.raised)
+                        ) {
+                            AsyncImage(
+                                model = artist.thumbnails.firstOrNull()?.url,
+                                contentDescription = null,
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                        Column {
+                            Text(text = artist.name, style = AppTheme.typography.titleLarge, color = lyricsText())
+                            artist.followersCount?.let {
+                                Text(
+                                    text = stringResource(Res.string.lyrics_artist_followers, formatLyricsCount(it)),
+                                    style = AppTheme.typography.bodyMedium,
+                                    color = lyricsMuted()
+                                )
+                            }
+                        }
+                    }
+                    if (artist.genres.isNotEmpty()) {
+                        Text(
+                            text = artist.genres.joinToString(" · "),
+                            style = AppTheme.typography.bodyMedium,
+                            color = lyricsMuted(),
+                            modifier = Modifier.padding(bottom = 12.dp)
+                        )
+                    }
+                    artist.biography?.takeIf { it.isNotBlank() }?.let {
+                        Text(
+                            text = it,
+                            style = AppTheme.typography.bodyLarge,
+                            color = lyricsText()
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+/** "Correlate" tab: tracks recommended from the one currently playing. */
+@Composable
+private fun RelatedTracksTab(uiState: LyricsUiState) {
+    val tracks = uiState.relatedTracks
+    when {
+        uiState.relatedTracksLoading -> CenteredLyricsMessage { ExpressiveLoadingIndicator(size = 40.dp) }
+        tracks.isNullOrEmpty() -> CenteredLyricsMessage {
+            Text(text = stringResource(Res.string.lyrics_related_empty), color = lyricsMuted())
+        }
+        else -> LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 12.dp)
+        ) {
+            items(tracks, key = { it.id }) { track ->
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        Modifier.size(48.dp).clip(RoundedCornerShape(10.dp))
+                            .background(LocalLyricsColors.current?.tonal ?: MillenniumTheme.colors.raised)
+                    ) {
+                        AsyncImage(
+                            model = (track.album?.thumbnails ?: track.thumbnails)?.firstOrNull()?.url,
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                    Column(Modifier.weight(1f)) {
+                        Text(
+                            text = track.title,
+                            style = AppTheme.typography.titleMedium,
+                            color = lyricsText(),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        Text(
+                            text = track.artists.joinToString(", ") { it.name },
+                            style = AppTheme.typography.bodyMedium,
+                            color = lyricsMuted(),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun LyricsInfoRow(label: String, value: String) {
+    Column {
+        Text(text = label, style = AppTheme.typography.labelLarge, color = lyricsMuted())
+        Text(text = value, style = AppTheme.typography.bodyLarge, color = lyricsText())
+    }
+}
+
+@Composable
+private fun CenteredLyricsMessage(content: @Composable () -> Unit) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { content() }
+}
+
+/** 1_234_567 -> "1.2M", 12_345 -> "12.3K". Below 1000 the raw number is shown. */
+private fun formatLyricsCount(count: Int): String {
+    fun scaled(divisor: Int, suffix: String): String {
+        val tenths = (count / divisor.toDouble() * 10).roundToInt()
+        val whole = tenths / 10
+        val fraction = tenths % 10
+        return "$whole.$fraction$suffix"
+    }
+    return when {
+        count >= 1_000_000 -> scaled(1_000_000, "M")
+        count >= 1_000 -> scaled(1_000, "K")
+        else -> count.toString()
     }
 }

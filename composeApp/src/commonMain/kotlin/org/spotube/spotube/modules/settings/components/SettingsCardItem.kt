@@ -22,6 +22,8 @@ import com.composeunstyled.Text
 import org.spotube.spotube.core.ui.component.MillenniumListTile
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.ui.text.style.TextAlign
 
 /**
  * Reusable setting card item component for consistent styling
@@ -46,6 +48,8 @@ fun SettingCardItem(
         title = {
             Text(
                 title,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Start,
                 style = AppTheme.typography.labelLarge,
                 color = AppTheme.colors.onSurface
             )
@@ -54,6 +58,8 @@ fun SettingCardItem(
             {
                 Text(
                     it,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Start,
                     style = AppTheme.typography.bodySmall,
                     color = AppTheme.colors.onSurfaceVariant
                 )

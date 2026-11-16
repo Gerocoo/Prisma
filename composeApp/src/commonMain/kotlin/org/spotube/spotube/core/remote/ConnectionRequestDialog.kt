@@ -62,33 +62,48 @@ fun ConnectionRequestDialogHost() {
                 handler.resolveConnectionRequest(request.sessionId, ConnectionRequestResponse.Deny)
                 pendingRequest = null
             },
-            title = { Text(stringResource(Res.string.remote_request_title)) },
+            title = {
+                Text(
+                    text = stringResource(Res.string.remote_request_title),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Start
+                )
+            },
             description = {
-                Text(stringResource(Res.string.remote_request_message, request.deviceName))
+                Text(
+                    text = stringResource(Res.string.remote_request_message, request.deviceName),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Start
+                )
             },
             ) {
-                MillenniumButton(
-                    onClick = {
-                        handler.resolveConnectionRequest(request.sessionId, ConnectionRequestResponse.AllowAlways)
-                        pendingRequest = null
-                    },
-                    style = MillenniumButtonStyle.Quiet) {
-                    Text(stringResource(Res.string.remote_request_allow_always))
-                }
-                MillenniumButton(
-                    onClick = {
-                        handler.resolveConnectionRequest(request.sessionId, ConnectionRequestResponse.Deny)
-                        pendingRequest = null
-                    },
-                    style = MillenniumButtonStyle.Secondary) {
-                    Text(stringResource(Res.string.remote_request_deny))
-                }
-                MillenniumButton(
-                    onClick = {
-                        handler.resolveConnectionRequest(request.sessionId, ConnectionRequestResponse.Allow)
-                        pendingRequest = null
-                    }) {
-                    Text(stringResource(Res.string.remote_request_allow))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
+                ) {
+                    MillenniumButton(
+                        onClick = {
+                            handler.resolveConnectionRequest(request.sessionId, ConnectionRequestResponse.AllowAlways)
+                            pendingRequest = null
+                        },
+                        style = MillenniumButtonStyle.Quiet) {
+                        Text(stringResource(Res.string.remote_request_allow_always), textAlign = TextAlign.Center)
+                    }
+                    MillenniumButton(
+                        onClick = {
+                            handler.resolveConnectionRequest(request.sessionId, ConnectionRequestResponse.Deny)
+                            pendingRequest = null
+                        },
+                        style = MillenniumButtonStyle.Secondary) {
+                        Text(stringResource(Res.string.remote_request_deny), textAlign = TextAlign.Center)
+                    }
+                    MillenniumButton(
+                        onClick = {
+                            handler.resolveConnectionRequest(request.sessionId, ConnectionRequestResponse.Allow)
+                            pendingRequest = null
+                        }) {
+                        Text(stringResource(Res.string.remote_request_allow), textAlign = TextAlign.Center)
+                    }
                 }
             }
     }

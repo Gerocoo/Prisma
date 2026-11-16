@@ -598,6 +598,17 @@
     <string name="lyrics_mode_plain">Plain</string>
     <string name="lyrics_no_synced">No synced lyrics available</string>
     <string name="lyrics_no_plain">No plain lyrics available</string>
+    <string name="lyrics_tab_lyrics">Lyrics</string>
+    <string name="lyrics_tab_track">Track</string>
+    <string name="lyrics_tab_artist">Artist</string>
+    <string name="lyrics_tab_related">Related</string>
+    <string name="lyrics_track_album">Album</string>
+    <string name="lyrics_track_release_date">Release date</string>
+    <string name="lyrics_track_duration">Duration</string>
+    <string name="lyrics_track_no_info">No track info available</string>
+    <string name="lyrics_artist_followers">%1$s followers</string>
+    <string name="lyrics_artist_no_bio">No artist info available</string>
+    <string name="lyrics_related_empty">No related tracks found</string>
 
     <!-- Settings: audio format/quality labels -->
     <string name="settings_audio_format_label">%1$s in %2$s</string>

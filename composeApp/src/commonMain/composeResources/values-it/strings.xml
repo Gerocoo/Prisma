@@ -571,6 +571,17 @@
     <string name="lyrics_mode_plain">Statico</string>
     <string name="lyrics_no_synced">Nessun testo sincronizzato disponibile</string>
     <string name="lyrics_no_plain">Nessun testo semplice disponibile</string>
+    <string name="lyrics_tab_lyrics">Testo</string>
+    <string name="lyrics_tab_track">Brano</string>
+    <string name="lyrics_tab_artist">Artista</string>
+    <string name="lyrics_tab_related">Correlate</string>
+    <string name="lyrics_track_album">Album</string>
+    <string name="lyrics_track_release_date">Data di uscita</string>
+    <string name="lyrics_track_duration">Durata</string>
+    <string name="lyrics_track_no_info">Nessuna informazione sul brano disponibile</string>
+    <string name="lyrics_artist_followers">%1$s follower</string>
+    <string name="lyrics_artist_no_bio">Nessuna informazione sull'artista disponibile</string>
+    <string name="lyrics_related_empty">Nessuna traccia correlata trovata</string>
 
     <!-- Settings: audio format/quality labels -->
     <string name="settings_audio_format_label">%1$s in %2$s</string>

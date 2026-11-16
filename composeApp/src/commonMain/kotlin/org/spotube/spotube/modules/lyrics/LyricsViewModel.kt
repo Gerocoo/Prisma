@@ -20,9 +20,12 @@ package org.spotube.spotube.modules.lyrics
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import org.spotube.plugin_interfaces.plugin_apis.lyrics.LyricsLine
+import org.spotube.plugin_interfaces.plugin_apis.metadata.artist.MetadataArtistOverview
+import org.spotube.plugin_interfaces.plugin_apis.metadata.track.MetadataTrack
 import org.spotube.spotube.core.audioplayer.AudioPlayerInterface
 import org.spotube.spotube.core.audioplayer.AudioPlayerQueue
 import org.spotube.spotube.core.audioplayer.QueueEntry
+import org.spotube.spotube.modules.artist.ArtistRepository
 import org.spotube.spotube.modules.plugin.PluginManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -51,12 +54,19 @@ data class LyricsUiState(
     val currentIndex: Int = -1,
     val trackTitle: String = "",
     val trackArtists: String = "",
-    val coverUrl: String = "")
+    val coverUrl: String = "",
+    /** Full metadata for the "info brano" tab (album, duration, popularity...). */
+    val track: MetadataTrack? = null,
+    val artistOverview: MetadataArtistOverview? = null,
+    val artistOverviewLoading: Boolean = false,
+    val relatedTracks: List<MetadataTrack>? = null,
+    val relatedTracksLoading: Boolean = false)
 
 class LyricsViewModel(
     private val pluginManager: PluginManager,
     private val audioPlayer: AudioPlayerInterface,
-    private val audioPlayerQueue: AudioPlayerQueue) : ViewModel() {
+    private val audioPlayerQueue: AudioPlayerQueue,
+    private val artistRepository: ArtistRepository) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LyricsUiState())
 
@@ -112,6 +122,8 @@ class LyricsViewModel(
         }
     }
 
+    private var currentArtistId: String? = null
+
     init {
         viewModelScope.launch {
             audioPlayerQueue.currentQueueEntryFlow.collect { entry ->
@@ -126,14 +138,48 @@ class LyricsViewModel(
                             trackTitle = track.title,
                             trackArtists = track.artists.joinToString(", ") { artist -> artist.name },
                             coverUrl = (track.album?.thumbnails ?: track.thumbnails)
-                                ?.firstOrNull()?.url.orEmpty()
+                                ?.firstOrNull()?.url.orEmpty(),
+                            track = track
                         )
+                    }
+                    if (trackId != null && trackId != currentTrackId) {
+                        loadArtistOverview(track.artists.firstOrNull()?.id)
+                        loadRelatedTracks(trackId)
                     }
                 }
                 if (trackId != null && trackId != currentTrackId) {
                     loadLyrics()
                 }
             }
+        }
+    }
+
+    /** "Info artista" tab: biography, genres, related artists, etc. for the track's main artist. */
+    private fun loadArtistOverview(artistId: String?) {
+        if (artistId == null) {
+            _uiState.update { it.copy(artistOverview = null, artistOverviewLoading = false) }
+            return
+        }
+        if (artistId == currentArtistId) return
+        currentArtistId = artistId
+        viewModelScope.launch {
+            _uiState.update { it.copy(artistOverviewLoading = true) }
+            val overview = runCatching { artistRepository.artistOverview(artistId) }.getOrNull()
+            _uiState.update { it.copy(artistOverview = overview, artistOverviewLoading = false) }
+        }
+    }
+
+    /** "Tracce correlate" tab: recommendations seeded by the currently playing track. */
+    private fun loadRelatedTracks(trackId: String) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(relatedTracksLoading = true, relatedTracks = null) }
+            val plugin = pluginManager.selectedMetadataPlugin.value
+            val tracks = plugin?.let {
+                runCatching {
+                    it.use { metadataTrackAPI.recommendationsBasedOnTracks(listOf(trackId), limit = 15) }
+                }.getOrNull()
+            }
+            _uiState.update { it.copy(relatedTracks = tracks, relatedTracksLoading = false) }
         }
     }
 
