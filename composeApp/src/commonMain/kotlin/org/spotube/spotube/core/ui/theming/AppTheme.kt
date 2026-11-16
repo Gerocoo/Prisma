@@ -567,7 +567,6 @@ fun SpotubeTheme(
     }
 
     SystemBarsAppearance(darkTheme = isDarkTheme)
-    SplashThemeSync(settings.theme)
     MillenniumTheme(
         dark = isDarkTheme,
         config = MillenniumThemeConfig(
