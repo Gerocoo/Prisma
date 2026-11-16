@@ -475,14 +475,18 @@ android {
         // locally and in CI. Renaming the finished file after the packaging task fully
         // completes avoids touching AGP's internal state entirely.
         applicationVariants.all {
-            val variant = this
-            variant.packageApplicationProvider?.configure {
+            // Capture only plain Strings here, never the variant/task objects themselves:
+            // referencing them inside doLast breaks the configuration cache (CI serializes
+            // task actions, and AGP's internal variant/artifact objects aren't serializable -
+            // this caused the "ConcurrentModificationException... error writing value of type
+            // LinkedHashMap" configuration-cache failure).
+            val targetName = "Prisma-${baseName}-${versionName}.apk"
+            packageApplicationProvider?.configure {
                 doLast {
                     val outDir = outputDirectory.get().asFile
                     outDir.listFiles { f -> f.extension == "apk" }?.forEach { f ->
-                        val newName = "Prisma-${variant.baseName}-${variant.versionName}.apk"
-                        if (f.name != newName) {
-                            val newFile = f.resolveSibling(newName)
+                        if (f.name != targetName) {
+                            val newFile = f.resolveSibling(targetName)
                             f.copyTo(newFile, overwrite = true)
                             f.delete()
                         }
