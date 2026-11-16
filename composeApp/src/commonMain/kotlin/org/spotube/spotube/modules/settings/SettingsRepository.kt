@@ -25,6 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.flow.*
 import kotlinx.serialization.json.Json
 
@@ -76,18 +77,35 @@ class SettingsRepository(private val database: Database) : UserSettingsSource {
         }
     }
 
-    override val userSettings: StateFlow<UserSettings> = database.settingsDataStore.data.map { prefs ->
+    /**
+     * Decodes the settings the same way for the synchronous first read and every later
+     * DataStore emission, so both agree on what "no stored value yet" means.
+     */
+    private fun decodeSettings(prefs: androidx.datastore.preferences.core.Preferences): UserSettings {
         val json = prefs[SETTINGS_KEY]
-        if (json != null) {
+        return if (json != null) {
             settingsJson.decodeFromString<UserSettings>(json as String).withPlayableStreamingFormat()
         } else {
             UserSettings() // Default value
         }
-    }.stateIn(
-        scope,
-        started = SharingStarted.Eagerly,
-        initialValue = UserSettings() // Default value
-    )
+    }
+
+    /**
+     * Reads the settings already on disk, synchronously, so the very first Compose frame
+     * (theme included) matches what the user actually chose instead of a hardcoded default
+     * that would otherwise flash for a moment on every cold start.
+     */
+    private val initialSettings: UserSettings = runCatching {
+        runBlocking { decodeSettings(database.settingsDataStore.data.first()) }
+    }.getOrDefault(UserSettings())
+
+    override val userSettings: StateFlow<UserSettings> = database.settingsDataStore.data
+        .map(::decodeSettings)
+        .stateIn(
+            scope,
+            started = SharingStarted.Eagerly,
+            initialValue = initialSettings
+        )
 
     suspend fun updateSettings(newSettings: UserSettings) {
         database.settingsDataStore.edit { prefs ->
