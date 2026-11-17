@@ -31,6 +31,7 @@ import org.spotube.spotube.modules.library.local_tracks.LocalFolderScreen
 import org.spotube.spotube.modules.library.local_tracks.LocalFolderViewModel
 import org.spotube.spotube.modules.lyrics.LyricsScreen
 import org.spotube.spotube.modules.playlist.PlaylistScreen
+import org.spotube.spotube.core.webview.ExternalProfileScreen
 import org.spotube.spotube.modules.plugin.PluginScreen
 import org.spotube.spotube.modules.plugin.guard.MetadataPluginGuard
 import org.spotube.spotube.modules.saved_tracks.SAVED_TRACKS_COLLECTION_ID
@@ -105,6 +106,11 @@ sealed interface Routes : NavKey {
 
     @Serializable
     data class LocalFolder(val folderPath: String) : Routes
+
+    // A read-only in-app page for an external profile (e.g. a playlist creator's Spotify
+    // profile), so opening it doesn't leave Prisma for the Spotify app.
+    @Serializable
+    data class ExternalProfile(val url: String, val title: String) : Routes
 }
 
 @OptIn(KoinExperimentalAPI::class)
@@ -142,6 +148,9 @@ val navigationModule = module {
         PluginScreen(viewModel = koinViewModel())
     }
     navigation<Routes.WebView> {}
+    navigation<Routes.ExternalProfile> {
+        ExternalProfileScreen(url = it.url, title = it.title)
+    }
     navigation<Routes.Playlist> {
         MetadataPluginGuard(backButton = true) {
             PlaylistScreen(

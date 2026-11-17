@@ -83,7 +83,6 @@ fun PlaylistScreen(
     val editPlaylistFormState by viewModel.editPlaylistFormState.collectAsStateWithLifecycle()
     var showAddTracksDialog by remember { mutableStateOf(false) }
 
-    val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
     val dataState = state as? PlaylistScreenState.Data
     val playlist = dataState?.playlist
     val owner = playlist?.owner
@@ -137,9 +136,12 @@ fun PlaylistScreen(
         ownerImageURL = ownerImageURL,
         onOwnerClick = {
             owner?.let { o ->
-                runCatching {
-                    uriHandler.openUri(o.externalUri ?: "https://open.spotify.com/user/${o.id}")
-                }
+                navigationCommands.navigateTo(
+                    org.spotube.spotube.core.navigation.Routes.ExternalProfile(
+                        url = o.externalUri ?: "https://open.spotify.com/user/${o.id}",
+                        title = ownerName
+                    )
+                )
             }
         },
         onPlay = viewModel::playPlaylist,

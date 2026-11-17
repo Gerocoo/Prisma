@@ -349,13 +349,32 @@ fun AppExpandedPlayer(
     )
     val art = if (canvasProgress > 0f) coverArt.overVideo(canvasProgress) else coverArt
     val canvasBackdrop = remember { CanvasBackdrop() }
-    SideEffect { canvasBackdrop.amount = videoAlpha }
+    // Tied to canvasProgress (active as soon as a canvas is known), not videoAlpha: the frosted
+    // glass on the controls shouldn't wait for the video's own first-frame fade-in to finish.
+    SideEffect { canvasBackdrop.amount = canvasProgress }
     LaunchedEffect(canvasUrl) { if (canvasUrl == null) canvasBackdrop.image = null }
+
+    // Tapping the screen while a Canvas plays compresses the chrome (title/artist down to one
+    // line, playback controls pushed down, secondary toggles hidden) so more of the video shows,
+    // like Spotify. Resets whenever the canvas itself changes.
+    var isCanvasCompressed by remember(canvasUrl) { mutableStateOf(false) }
+    val coverAreaWeight by animateFloatAsState(
+        if (isCanvasCompressed) 1.7f else 1f, tween(260), label = "coverAreaWeight"
+    )
+    val compressTapInteractionSource = remember { MutableInteractionSource() }
 
     CompositionLocalProvider(LocalCanvasBackdrop provides canvasBackdrop) {
     Box(
         modifier = modifier.fillMaxSize().background(coverArt.container)
             .onGloballyPositioned { canvasBackdrop.container = it }
+            .then(
+                if (canvasUrl != null) {
+                    Modifier.clickable(
+                        interactionSource = compressTapInteractionSource,
+                        indication = null
+                    ) { isCanvasCompressed = !isCanvasCompressed }
+                } else Modifier
+            )
     ) {
         if (canvasUrl != null && LocalExpandedPlayerVisible.current) {
             // Dark ground under the video, so nothing of the cover's colors flashes before it.
@@ -501,7 +520,7 @@ fun AppExpandedPlayer(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f)
+                    .weight(coverAreaWeight)
                     .padding(start = 20.dp, end = 20.dp, top = 12.dp, bottom = 12.dp),
                 contentAlignment = Alignment.Center
             ) {
@@ -579,17 +598,20 @@ fun AppExpandedPlayer(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
                     .basicMarquee(iterations = Int.MAX_VALUE, initialDelayMillis = 1500)
             )
-            PlayerArtistsText(
-                artists = playerUiState.artistList,
-                onArtistClick = { artistId ->
-                    navigationCommands.navigateTo(Routes.Artist(artistId))
-                    // The page opens beneath the player, so get out of the way
-                    onCollapse()
-                },
-                style = AppTheme.typography.bodyLarge,
-                color = art.onContainerMuted,
-                textAlign = TextAlign.Center
-            )
+            // Compressed mode keeps only the title line visible, per the tap-to-compress gesture.
+            if (!isCanvasCompressed) {
+                PlayerArtistsText(
+                    artists = playerUiState.artistList,
+                    onArtistClick = { artistId ->
+                        navigationCommands.navigateTo(Routes.Artist(artistId))
+                        // The page opens beneath the player, so get out of the way
+                        onCollapse()
+                    },
+                    style = AppTheme.typography.bodyLarge,
+                    color = art.onContainerMuted,
+                    textAlign = TextAlign.Center
+                )
+            }
 
             Column(modifier = Modifier.padding(top = 8.dp, start = 4.dp, end = 4.dp)) {
                 WavySlider(
@@ -679,59 +701,62 @@ fun AppExpandedPlayer(
                     }
                 }
 
-                // Secondary toggles in one pill: shuffle, repeat, like.
-                Row(
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(top = 8.dp, bottom = 4.dp)
-                        .clip(RoundedCornerShape(50))
-                        .canvasBlur()
-                        .background(art.containerHigh)
-                        .padding(6.dp),
-                    horizontalArrangement = Arrangement.spacedBy(6.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    PlayerToggleSegment(
-                        onClick = ::onShuffleToggle,
-                        enabled = !isJamGuest,
-                        active = playerUiState.isShuffling,
-                        colors = art
-                    ) {
-                        MillenniumIcon(
-                            Iconsax.IconsaxShuffle,
-                            contentDescription = stringResource(if (playerUiState.isShuffling) Res.string.player_disable_shuffle_content_description else Res.string.player_enable_shuffle_content_description),
-                            tint = if (playerUiState.isShuffling) art.onAccent else art.onContainer
-                        )
-                    }
-                    PlayerToggleSegment(
-                        onClick = ::onLoopToggle,
-                        enabled = !isJamGuest,
-                        active = playerUiState.loopState != LoopState.NONE,
-                        colors = art
-                    ) {
-                        MillenniumIcon(
-                            imageVector = when (playerUiState.loopState) {
-                                LoopState.NONE -> Iconsax.IconsaxRepeateMusic
-                                LoopState.ONE -> Iconsax.IconsaxRepeateOne
-                                LoopState.ALL -> Iconsax.IconsaxRepeatMusic
-                            },
-                            contentDescription = stringResource(when (playerUiState.loopState) { LoopState.NONE -> Res.string.player_loop_mode_none; LoopState.ONE -> Res.string.player_loop_mode_one; LoopState.ALL -> Res.string.player_loop_mode_all }),
-                            tint = if (playerUiState.loopState != LoopState.NONE) art.onAccent else art.onContainer
-                        )
-                    }
-                    Box(
+                // Secondary toggles in one pill: shuffle, repeat, like. Hidden while the
+                // canvas is compressed, so the video has more room to show.
+                if (!isCanvasCompressed) {
+                    Row(
                         modifier = Modifier
-                            .size(width = 64.dp, height = 44.dp)
+                            .align(Alignment.CenterHorizontally)
+                            .padding(top = 8.dp, bottom = 4.dp)
                             .clip(RoundedCornerShape(50))
-                            .background(art.tonal),
-                        contentAlignment = Alignment.Center
+                            .canvasBlur()
+                            .background(art.containerHigh)
+                            .padding(6.dp),
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        PlayerHeartButton(
-                            audioPlayerQueue = audioPlayerQueue,
-                            savedTracksViewModel = savedTracksViewModel,
-                            likedTint = art.accent,
-                            tint = art.onContainer
-                        )
+                        PlayerToggleSegment(
+                            onClick = ::onShuffleToggle,
+                            enabled = !isJamGuest,
+                            active = playerUiState.isShuffling,
+                            colors = art
+                        ) {
+                            MillenniumIcon(
+                                Iconsax.IconsaxShuffle,
+                                contentDescription = stringResource(if (playerUiState.isShuffling) Res.string.player_disable_shuffle_content_description else Res.string.player_enable_shuffle_content_description),
+                                tint = if (playerUiState.isShuffling) art.onAccent else art.onContainer
+                            )
+                        }
+                        PlayerToggleSegment(
+                            onClick = ::onLoopToggle,
+                            enabled = !isJamGuest,
+                            active = playerUiState.loopState != LoopState.NONE,
+                            colors = art
+                        ) {
+                            MillenniumIcon(
+                                imageVector = when (playerUiState.loopState) {
+                                    LoopState.NONE -> Iconsax.IconsaxRepeateMusic
+                                    LoopState.ONE -> Iconsax.IconsaxRepeateOne
+                                    LoopState.ALL -> Iconsax.IconsaxRepeatMusic
+                                },
+                                contentDescription = stringResource(when (playerUiState.loopState) { LoopState.NONE -> Res.string.player_loop_mode_none; LoopState.ONE -> Res.string.player_loop_mode_one; LoopState.ALL -> Res.string.player_loop_mode_all }),
+                                tint = if (playerUiState.loopState != LoopState.NONE) art.onAccent else art.onContainer
+                            )
+                        }
+                        Box(
+                            modifier = Modifier
+                                .size(width = 64.dp, height = 44.dp)
+                                .clip(RoundedCornerShape(50))
+                                .background(art.tonal),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            PlayerHeartButton(
+                                audioPlayerQueue = audioPlayerQueue,
+                                savedTracksViewModel = savedTracksViewModel,
+                                likedTint = art.accent,
+                                tint = art.onContainer
+                            )
+                        }
                     }
                 }
             }

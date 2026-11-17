@@ -57,7 +57,6 @@ import androidx.compose.foundation.verticalScroll
 
 import org.spotube.spotube.core.ui.theming.AppTheme
 import com.composeunstyled.Text
-import com.composeunstyled.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -77,6 +76,9 @@ import coil3.compose.AsyncImage
 import org.spotube.spotube.core.remote.ConnectionState
 import org.spotube.spotube.core.ui.component.ApplicationMainBar
 import org.spotube.spotube.modules.shell.LocalAppShellBottomInset
+import org.spotube.spotube.modules.shell.PlayPauseGlyph
+import org.spotube.spotube.modules.shell.PlayerControlButton
+import org.spotube.spotube.modules.shell.controlWeight
 import org.spotube.spotube.modules.shell.player_queue.QueueSheet
 import org.spotube.spotube.resources.iconsax.Iconsax
 import org.spotube.spotube.resources.iconsax.Iconsax3DotsMore
@@ -507,87 +509,129 @@ private fun PlaybackControls(
     onCycleLoopMode: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        MillenniumIconButton(
-            onClick = onToggleShuffle,
-            style = MillenniumIconButtonStyle.Quiet
+    // Mirrors the in-app expanded player: three big rounded buttons (play accented and
+    // shape-morphing), shuffle/repeat gathered into a secondary pill underneath.
+    var pulsingControl by remember { mutableStateOf(-1) }
+    Column(modifier = modifier) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            MillenniumIcon(
-                imageVector = Iconsax.IconsaxShuffle,
-                contentDescription = stringResource(
-                    if (state.isShuffling) {
-                        Res.string.player_disable_shuffle_content_description
+            PlayerControlButton(
+                onClick = onSkipPrevious,
+                background = AppTheme.colors.surfaceContainerHigh,
+                shape = RoundedCornerShape(40.dp),
+                modifier = Modifier.weight(controlWeight(0, 1f, pulsingControl)),
+                onPress = { pulsingControl = 0 }
+            ) {
+                MillenniumIcon(
+                    imageVector = Iconsax.IconsaxPrevious,
+                    contentDescription = stringResource(Res.string.player_previous_content_description),
+                    modifier = Modifier.size(28.dp),
+                    tint = AppTheme.colors.onSurface
+                )
+            }
+            PlayerControlButton(
+                onClick = onTogglePlayPause,
+                background = AppTheme.colors.primary,
+                shape = RoundedCornerShape(if (state.isPlaying) 28.dp else 40.dp),
+                modifier = Modifier.weight(controlWeight(1, 1.25f, pulsingControl)),
+                onPress = { pulsingControl = 1 }
+            ) {
+                PlayPauseGlyph(
+                    isPlaying = state.isPlaying,
+                    busy = false,
+                    tint = AppTheme.colors.onPrimary,
+                    size = 32.dp
+                )
+            }
+            PlayerControlButton(
+                onClick = onSkipNext,
+                background = AppTheme.colors.surfaceContainerHigh,
+                shape = RoundedCornerShape(40.dp),
+                modifier = Modifier.weight(controlWeight(2, 1f, pulsingControl)),
+                onPress = { pulsingControl = 2 }
+            ) {
+                MillenniumIcon(
+                    imageVector = Iconsax.IconsaxNext,
+                    contentDescription = stringResource(Res.string.player_next_content_description),
+                    modifier = Modifier.size(28.dp),
+                    tint = AppTheme.colors.onSurface
+                )
+            }
+        }
+
+        // Secondary toggles in one pill: shuffle, repeat.
+        Row(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 10.dp)
+                .clip(RoundedCornerShape(50))
+                .background(AppTheme.colors.surfaceContainerHighest)
+                .padding(6.dp),
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            RemoteToggleSegment(
+                onClick = onToggleShuffle,
+                active = state.isShuffling
+            ) {
+                MillenniumIcon(
+                    imageVector = Iconsax.IconsaxShuffle,
+                    contentDescription = stringResource(
+                        if (state.isShuffling) {
+                            Res.string.player_disable_shuffle_content_description
+                        } else {
+                            Res.string.player_enable_shuffle_content_description
+                        }
+                    ),
+                    tint = if (state.isShuffling) AppTheme.colors.onPrimary else AppTheme.colors.onSurfaceVariant
+                )
+            }
+            RemoteToggleSegment(
+                onClick = onCycleLoopMode,
+                active = state.loopMode != RemoteLoopMode.NONE
+            ) {
+                MillenniumIcon(
+                    imageVector = when (state.loopMode) {
+                        RemoteLoopMode.NONE -> Iconsax.IconsaxRepeateMusic
+                        RemoteLoopMode.ONE -> Iconsax.IconsaxRepeateOne
+                        RemoteLoopMode.ALL -> Iconsax.IconsaxRepeatMusic
+                    },
+                    contentDescription = stringResource(
+                        when (state.loopMode) {
+                            RemoteLoopMode.NONE -> Res.string.player_loop_mode_none
+                            RemoteLoopMode.ONE -> Res.string.player_loop_mode_one
+                            RemoteLoopMode.ALL -> Res.string.player_loop_mode_all
+                        }
+                    ),
+                    tint = if (state.loopMode != RemoteLoopMode.NONE) {
+                        AppTheme.colors.onPrimary
                     } else {
-                        Res.string.player_enable_shuffle_content_description
+                        AppTheme.colors.onSurfaceVariant
                     }
-                ),
-                tint = if (state.isShuffling) AppTheme.colors.primary else AppTheme.colors.onSurfaceVariant
-            )
-        }
-        MillenniumIconButton(
-            onClick = onSkipPrevious,
-            style = MillenniumIconButtonStyle.Quiet
-        ) {
-            MillenniumIcon(
-                imageVector = Iconsax.IconsaxPrevious,
-                contentDescription = stringResource(Res.string.player_previous_content_description)
-            )
-        }
-        MillenniumIconButton(
-            onClick = onTogglePlayPause,
-            style = MillenniumIconButtonStyle.Primary
-        ) {
-            MillenniumIcon(
-                imageVector = if (state.isPlaying) Iconsax.IconsaxPause else Iconsax.IconsaxPlay,
-                contentDescription = stringResource(
-                    if (state.isPlaying) {
-                        Res.string.player_pause_content_description
-                    } else {
-                        Res.string.player_play_content_description
-                    }
-                ),
-                modifier = Modifier.size(30.dp),
-                tint = LocalTextStyle.current.color
-            )
-        }
-        MillenniumIconButton(
-            onClick = onSkipNext,
-            style = MillenniumIconButtonStyle.Quiet
-        ) {
-            MillenniumIcon(
-                imageVector = Iconsax.IconsaxNext,
-                contentDescription = stringResource(Res.string.player_next_content_description)
-            )
-        }
-        MillenniumIconButton(
-            onClick = onCycleLoopMode,
-            style = MillenniumIconButtonStyle.Quiet
-        ) {
-            MillenniumIcon(
-                imageVector = when (state.loopMode) {
-                    RemoteLoopMode.NONE -> Iconsax.IconsaxRepeateMusic
-                    RemoteLoopMode.ONE -> Iconsax.IconsaxRepeateOne
-                    RemoteLoopMode.ALL -> Iconsax.IconsaxRepeatMusic
-                },
-                contentDescription = stringResource(
-                    when (state.loopMode) {
-                        RemoteLoopMode.NONE -> Res.string.player_loop_mode_none
-                        RemoteLoopMode.ONE -> Res.string.player_loop_mode_one
-                        RemoteLoopMode.ALL -> Res.string.player_loop_mode_all
-                    }
-                ),
-                tint = if (state.loopMode == RemoteLoopMode.NONE) {
-                    AppTheme.colors.onSurfaceVariant
-                } else {
-                    AppTheme.colors.primary
-                }
-            )
+                )
+            }
         }
     }
+}
+
+/** One segment of the shuffle / repeat pill: filled with the primary color while active. */
+@Composable
+private fun RemoteToggleSegment(
+    onClick: () -> Unit,
+    active: Boolean,
+    content: @Composable () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .size(width = 64.dp, height = 44.dp)
+            .clip(RoundedCornerShape(50))
+            .background(if (active) AppTheme.colors.primary else AppTheme.colors.surfaceContainerHigh)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) { content() }
 }
 
 @Composable
