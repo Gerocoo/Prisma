@@ -113,10 +113,13 @@ fun SpotifyConnectSheet(viewModel: SpotifyConnectViewModel) {
                 }
             }
 
-            // Now playing on Spotify, with remote controls.
+            // Now playing on Spotify, with remote controls. Hidden once playback has been
+            // brought back here: Spotify's own last-known state can linger stale for a while,
+            // and its play/pause here always targets the remote device, which would otherwise
+            // let a tap resume the PC right after "Continue on this phone".
             val playback = state.playback
             val item = playback?.item
-            if (item != null) {
+            if (item != null && state.isRemoteActive) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()

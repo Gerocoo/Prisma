@@ -216,14 +216,22 @@ class SpotifyConnectViewModel(
         }
     }
 
-    /** Stops Spotify and resumes here; same track: from Spotify's position. */
+    /** Stops Spotify and resumes here, at the same track and position Spotify was at. */
     fun bringBack() {
         action {
             val playback = _uiState.value.playback
             runCatching { api.pause() }
+            val remoteTrackId = playback?.item?.id
             val entry = queue.currentQueueEntryFlow.value as? QueueEntry.StreamingTrack
-            val sameTrack = playback?.item?.id != null && playback.item.id == entry?.track?.id
-            if (sameTrack) playback?.progressMs?.let { audioPlayer.seekTo(it.milliseconds) }
+            // The periodic follow-sync can lag behind (or never ran, if this device wasn't
+            // the one that started the remote playback): don't trust the local queue is on
+            // the right track already, jump it there explicitly before resuming.
+            if (remoteTrackId != null && remoteTrackId != entry?.track?.id) {
+                val index = queue.getQueue()
+                    .indexOfFirst { (it as? QueueEntry.StreamingTrack)?.track?.id == remoteTrackId }
+                if (index >= 0) queue.jumpTo(index, autoPlay = false)
+            }
+            playback?.progressMs?.let { audioPlayer.seekTo(it.milliseconds) }
             audioPlayer.play()
             _uiState.update { it.copy(remoteDeviceId = null) }
             if (!_uiState.value.isOpen) stopPolling()

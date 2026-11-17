@@ -134,6 +134,7 @@ import org.spotube.spotube.core.jam.JamRole
 import org.spotube.spotube.core.jam.JamRoomService
 import org.spotube.spotube.core.navigation.NavigationCommands
 import org.spotube.spotube.core.navigation.Routes
+import org.spotube.plugin_interfaces.plugin_apis.metadata.track.MetadataTrack
 import org.spotube.spotube.modules.lyrics.LyricsViewModel
 import org.spotube.spotube.modules.lyrics.SyncedLyricsList
 import org.spotube.spotube.modules.saved_tracks.SAVED_TRACKS_COLLECTION_ID
@@ -805,9 +806,13 @@ private fun LyricsPreviewCard(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val syncedLyrics = uiState.syncedLyrics ?: emptyList()
+    val hasLyrics = syncedLyrics.isNotEmpty()
     val isLoading = uiState.isLoading
-    // The slot keeps its height even without lyrics, so the player never jumps between tracks.
-    if (syncedLyrics.isEmpty() || isLoading) {
+    val track = uiState.track
+    // The slot keeps its height even with nothing to show, so the player never jumps between
+    // tracks. With no lyrics but track metadata in hand, fall back to a preview of that instead
+    // of leaving the card empty — same fallback the expanded lyrics page lands on.
+    if (isLoading || (!hasLyrics && track == null)) {
         Spacer(modifier = modifier.height(PreviewCardHeight))
         return
     }
@@ -821,16 +826,27 @@ private fun LyricsPreviewCard(
             .background(colors.containerHigh)
             .clickable(onClick = onExpand)
     ) {
-        // Passive preview: no onLineClick, so lines never seek playback.
-        SyncedLyricsList(
-            lines = syncedLyrics,
-            currentIndex = uiState.currentIndex,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 16.dp, end = 52.dp, top = 8.dp, bottom = 8.dp),
-            textColor = colors.onContainerMuted,
-            activeColor = colors.onContainer
-        )
+        if (hasLyrics) {
+            // Passive preview: no onLineClick, so lines never seek playback.
+            SyncedLyricsList(
+                lines = syncedLyrics,
+                currentIndex = uiState.currentIndex,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 16.dp, end = 52.dp, top = 8.dp, bottom = 8.dp),
+                textColor = colors.onContainerMuted,
+                activeColor = colors.onContainer
+            )
+        } else if (track != null) {
+            TrackInfoPreview(
+                track = track,
+                mutedColor = colors.onContainerMuted,
+                textColor = colors.onContainer,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 16.dp, end = 52.dp, top = 8.dp, bottom = 8.dp)
+            )
+        }
         Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
@@ -848,6 +864,37 @@ private fun LyricsPreviewCard(
                 modifier = Modifier.size(16.dp)
             )
         }
+    }
+}
+
+/** Compact "Brano" fallback shown in the preview card when the track has no lyrics. */
+@Composable
+private fun TrackInfoPreview(
+    track: MetadataTrack,
+    mutedColor: Color,
+    textColor: Color,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier, verticalArrangement = Arrangement.Center) {
+        track.album?.title?.takeIf { it.isNotBlank() }?.let {
+            Text(text = it, style = AppTheme.typography.titleMedium, color = textColor, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        }
+        track.album?.releaseDate?.takeIf { it.isNotBlank() }?.let {
+            Text(
+                text = it,
+                style = AppTheme.typography.bodyMedium,
+                color = mutedColor,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+        }
+        Text(
+            text = formatPlayerTime(track.durationMs.milliseconds),
+            style = AppTheme.typography.bodyMedium,
+            color = mutedColor,
+            modifier = Modifier.padding(top = 4.dp)
+        )
     }
 }
 

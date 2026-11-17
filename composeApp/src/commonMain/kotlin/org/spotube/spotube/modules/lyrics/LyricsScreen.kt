@@ -203,6 +203,10 @@ fun LyricsScreen(
                 options = tabLabels,
                 selectedIndex = pagerState.currentPage,
                 onSelect = { index -> scope.launch { pagerState.animateScrollToPage(index) } },
+                // Follow the pager's own continuous position (drag or programmatic scroll
+                // alike): a single pill slides smoothly instead of flashing through every
+                // tab it passes over.
+                progress = pagerState.currentPage + pagerState.currentPageOffsetFraction,
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
                 container = pal.tonal,
                 accent = pal.accent,
