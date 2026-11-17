@@ -187,6 +187,18 @@ import spotube.composeapp.generated.resources.player_seek_label
 import spotube.composeapp.generated.resources.player_sleep_timer
 import spotube.composeapp.generated.resources.player_track_details
 import spotube.composeapp.generated.resources.queue_title
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import org.spotube.spotube.core.ui.component.ExpressiveLoadingIndicator
+import org.spotube.spotube.modules.lyrics.LyricsUiState
+import kotlin.math.roundToInt
+import spotube.composeapp.generated.resources.lyrics_no_synced
+import spotube.composeapp.generated.resources.lyrics_artist_no_bio
+import spotube.composeapp.generated.resources.lyrics_artist_followers
+import spotube.composeapp.generated.resources.lyrics_related_empty
 
 // The expanded player on small screens
 // on the top left it has a angle/chevron down that can be used to collapse the player back to the
@@ -762,7 +774,7 @@ fun AppExpandedPlayer(
                 }
             }
 
-            LyricsPreviewCard(
+            PlayerInfoCarousel(
                 colors = art,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -798,55 +810,58 @@ private fun rememberSharedAlbumArtModifier(
 }
 
 @Composable
-private fun LyricsPreviewCard(
+private fun PlayerInfoCarousel(
     colors: ArtworkColors,
     modifier: Modifier = Modifier,
     onExpand: () -> Unit,
     viewModel: LyricsViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val syncedLyrics = uiState.syncedLyrics ?: emptyList()
-    val hasLyrics = syncedLyrics.isNotEmpty()
-    val isLoading = uiState.isLoading
-    val track = uiState.track
-    // The slot keeps its height even with nothing to show, so the player never jumps between
-    // tracks. With no lyrics but track metadata in hand, fall back to a preview of that instead
-    // of leaving the card empty — same fallback the expanded lyrics page lands on.
-    if (isLoading || (!hasLyrics && track == null)) {
+    // The slot keeps its height even with nothing to show yet, so the player never jumps
+    // around while the track's metadata is still loading.
+    if (uiState.isLoading && uiState.track == null) {
         Spacer(modifier = modifier.height(PreviewCardHeight))
         return
     }
 
-    // Same cover-tinted colors as the player and the full lyrics page.
+    val pagerState = rememberPagerState(pageCount = { 4 })
+
+    // Same cover-tinted colors as the player and the full lyrics page. Four swipeable pages -
+    // lyrics, track info, artist info, related tracks - the compact counterpart of the tabs in
+    // the full lyrics screen that onExpand opens.
     Box(
         modifier = modifier
             .height(PreviewCardHeight)
             .clip(RoundedCornerShape(28.dp))
             .canvasBlur()
             .background(colors.containerHigh)
-            .clickable(onClick = onExpand)
     ) {
-        if (hasLyrics) {
-            // Passive preview: no onLineClick, so lines never seek playback.
-            SyncedLyricsList(
-                lines = syncedLyrics,
-                currentIndex = uiState.currentIndex,
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.fillMaxSize()
+        ) { page ->
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 16.dp, end = 52.dp, top = 8.dp, bottom = 8.dp),
-                textColor = colors.onContainerMuted,
-                activeColor = colors.onContainer
-            )
-        } else if (track != null) {
-            TrackInfoPreview(
-                track = track,
-                mutedColor = colors.onContainerMuted,
-                textColor = colors.onContainer,
-                modifier = Modifier
-                    .fillMaxSize()
+                    .clickable(onClick = onExpand)
                     .padding(start = 16.dp, end = 52.dp, top = 8.dp, bottom = 8.dp)
-            )
+            ) {
+                when (page) {
+                    0 -> LyricsPreviewPage(uiState, colors)
+                    1 -> uiState.track?.let {
+                        TrackInfoPreview(
+                            track = it,
+                            mutedColor = colors.onContainerMuted,
+                            textColor = colors.onContainer,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
+                    2 -> ArtistInfoPreviewPage(uiState, colors)
+                    else -> RelatedTracksPreviewPage(uiState, colors)
+                }
+            }
         }
+
         Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
@@ -864,6 +879,179 @@ private fun LyricsPreviewCard(
                 modifier = Modifier.size(16.dp)
             )
         }
+
+        // Four dots, same spirit as the recap story progress dashes.
+        Row(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            repeat(4) { i ->
+                Box(
+                    modifier = Modifier
+                        .size(6.dp)
+                        .clip(CircleShape)
+                        .background(
+                            if (i == pagerState.currentPage) colors.accent
+                            else colors.onContainerMuted.copy(alpha = 0.35f)
+                        )
+                )
+            }
+        }
+    }
+}
+
+/** Carousel page 1/4: passive lyrics preview, same content the old single-page card showed. */
+@Composable
+private fun LyricsPreviewPage(uiState: LyricsUiState, colors: ArtworkColors) {
+    val syncedLyrics = uiState.syncedLyrics ?: emptyList()
+    when {
+        uiState.isLoading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.CenterStart) {
+            ExpressiveLoadingIndicator(size = 28.dp)
+        }
+        syncedLyrics.isNotEmpty() -> SyncedLyricsList(
+            lines = syncedLyrics,
+            currentIndex = uiState.currentIndex,
+            modifier = Modifier.fillMaxSize(),
+            textColor = colors.onContainerMuted,
+            activeColor = colors.onContainer
+        )
+        else -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.CenterStart) {
+            Text(
+                text = stringResource(Res.string.lyrics_no_synced),
+                style = AppTheme.typography.bodyMedium,
+                color = colors.onContainerMuted
+            )
+        }
+    }
+}
+
+/** Carousel page 3/4: compact bio card for the track's main artist. */
+@Composable
+private fun ArtistInfoPreviewPage(uiState: LyricsUiState, colors: ArtworkColors) {
+    val overview = uiState.artistOverview
+    when {
+        uiState.artistOverviewLoading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.CenterStart) {
+            ExpressiveLoadingIndicator(size = 28.dp)
+        }
+        overview == null -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.CenterStart) {
+            Text(
+                text = stringResource(Res.string.lyrics_artist_no_bio),
+                style = AppTheme.typography.bodyMedium,
+                color = colors.onContainerMuted
+            )
+        }
+        else -> {
+            val artist = overview.artist
+            Row(
+                modifier = Modifier.fillMaxSize(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    Modifier.size(56.dp).clip(CircleShape).background(colors.tonal)
+                ) {
+                    AsyncImage(
+                        model = artist.thumbnails.firstOrNull()?.url,
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+                Column(Modifier.weight(1f)) {
+                    Text(
+                        text = artist.name,
+                        style = AppTheme.typography.titleMedium,
+                        color = colors.onContainer,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    artist.followersCount?.let {
+                        Text(
+                            text = stringResource(Res.string.lyrics_artist_followers, formatCompactCount(it)),
+                            style = AppTheme.typography.bodyMedium,
+                            color = colors.onContainerMuted,
+                            maxLines = 1
+                        )
+                    }
+                    artist.biography?.takeIf { it.isNotBlank() }?.let {
+                        Text(
+                            text = it,
+                            style = AppTheme.typography.bodySmall,
+                            color = colors.onContainerMuted,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.padding(top = 2.dp)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+/** Carousel page 4/4: horizontally scrollable strip of tracks recommended from this one. */
+@Composable
+private fun RelatedTracksPreviewPage(uiState: LyricsUiState, colors: ArtworkColors) {
+    val tracks = uiState.relatedTracks
+    when {
+        uiState.relatedTracksLoading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.CenterStart) {
+            ExpressiveLoadingIndicator(size = 28.dp)
+        }
+        tracks.isNullOrEmpty() -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.CenterStart) {
+            Text(
+                text = stringResource(Res.string.lyrics_related_empty),
+                style = AppTheme.typography.bodyMedium,
+                color = colors.onContainerMuted
+            )
+        }
+        else -> LazyRow(
+            modifier = Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            items(tracks.take(10), key = { it.id }) { track ->
+                Column(
+                    modifier = Modifier.width(84.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Box(
+                        Modifier.size(64.dp).clip(RoundedCornerShape(10.dp)).background(colors.tonal)
+                    ) {
+                        AsyncImage(
+                            model = (track.album?.thumbnails ?: track.thumbnails)?.firstOrNull()?.url,
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                    Text(
+                        text = track.title,
+                        style = AppTheme.typography.labelMedium,
+                        color = colors.onContainer,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+/** 1_234_567 -> "1.2M", 12_345 -> "12.3K". Below 1000 the raw number is shown. */
+private fun formatCompactCount(count: Int): String {
+    fun scaled(divisor: Int, suffix: String): String {
+        val tenths = (count / divisor.toDouble() * 10).roundToInt()
+        val whole = tenths / 10
+        val fraction = tenths % 10
+        return "$whole.$fraction$suffix"
+    }
+    return when {
+        count >= 1_000_000 -> scaled(1_000_000, "M")
+        count >= 1_000 -> scaled(1_000, "K")
+        else -> count.toString()
     }
 }
 
