@@ -157,15 +157,18 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
     init {
         activePlayer.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
-                syncPlaybackState(playbackState)
+                runCatching { syncPlaybackState(playbackState) }
+                    .onFailure { e -> Log.w("AudioPlayer", "onPlaybackStateChanged failed", e) }
             }
 
             override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
-                syncPlayWhenReady(playWhenReady)
+                runCatching { syncPlayWhenReady(playWhenReady) }
+                    .onFailure { e -> Log.w("AudioPlayer", "onPlayWhenReadyChanged failed", e) }
             }
 
             override fun onMediaItemTransition(mediaItem: androidx.media3.common.MediaItem?, reason: Int) {
-                syncCurrentItem()
+                runCatching { syncCurrentItem() }
+                    .onFailure { e -> Log.w("AudioPlayer", "onMediaItemTransition failed", e) }
             }
 
             override fun onPlayerError(error: PlaybackException) {
@@ -188,13 +191,20 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
             }
         })
 
+        // This polls activePlayer every 250ms regardless of whether the app is foregrounded.
+        // While casting, a RemoteCastPlayer's getters can throw if the Cast session hiccups
+        // (e.g. Android throttling Wi-Fi/mDNS while the app is backgrounded drops the receiver
+        // connection) - previously that uncaught exception took the whole app down a few seconds
+        // into playback, which matches "crashes when I switch app or minimize it" while casting.
         scope.launch {
             while (isActive && !disposed) {
-                _position.tryEmit(activePlayer.currentPosition.milliseconds)
-                _duration.tryEmit(
-                    if (activePlayer.duration > 0) activePlayer.duration.milliseconds else Duration.ZERO
-                )
-                _bufferingPosition.tryEmit(activePlayer.bufferedPosition.milliseconds)
+                runCatching {
+                    _position.tryEmit(activePlayer.currentPosition.milliseconds)
+                    _duration.tryEmit(
+                        if (activePlayer.duration > 0) activePlayer.duration.milliseconds else Duration.ZERO
+                    )
+                    _bufferingPosition.tryEmit(activePlayer.bufferedPosition.milliseconds)
+                }.onFailure { e -> Log.w("AudioPlayer", "Position poll failed", e) }
                 delay(250)
             }
         }
@@ -254,33 +264,38 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
     actual override suspend fun play() {
         withContext(Dispatchers.Main) {
             ensureServiceStarted()
-            activePlayer.play()
+            runCatching { activePlayer.play() }
+                .onFailure { e -> Log.w("AudioPlayer", "play() failed", e) }
         }
     }
 
     actual override suspend fun pause() {
         withContext(Dispatchers.Main) {
-            activePlayer.pause()
+            runCatching { activePlayer.pause() }
+                .onFailure { e -> Log.w("AudioPlayer", "pause() failed", e) }
         }
     }
 
     actual override suspend fun stop() {
         withContext(Dispatchers.Main) {
-            activePlayer.stop()
+            runCatching { activePlayer.stop() }
+                .onFailure { e -> Log.w("AudioPlayer", "stop() failed", e) }
             _playerState.tryEmit(PlayerState.IDLE)
         }
     }
 
     actual override suspend fun seekTo(position: Duration) {
         withContext(Dispatchers.Main) {
-            val duration = activePlayer.duration
-            val targetMs = if (duration > 0) {
-                position.inWholeMilliseconds.coerceIn(0, duration)
-            } else {
-                position.inWholeMilliseconds.coerceAtLeast(0)
-            }
-            activePlayer.seekTo(targetMs)
-            _position.tryEmit(activePlayer.currentPosition.milliseconds)
+            runCatching {
+                val duration = activePlayer.duration
+                val targetMs = if (duration > 0) {
+                    position.inWholeMilliseconds.coerceIn(0, duration)
+                } else {
+                    position.inWholeMilliseconds.coerceAtLeast(0)
+                }
+                activePlayer.seekTo(targetMs)
+                _position.tryEmit(activePlayer.currentPosition.milliseconds)
+            }.onFailure { e -> Log.w("AudioPlayer", "seekTo() failed", e) }
         }
     }
 
