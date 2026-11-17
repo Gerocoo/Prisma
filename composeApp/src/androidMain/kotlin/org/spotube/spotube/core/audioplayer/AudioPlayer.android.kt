@@ -22,6 +22,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
+import androidx.media3.common.DeviceInfo
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
@@ -51,6 +52,9 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface {
+
+    // See the comment in load() for why this exists.
+    private val CAST_QUEUE_WINDOW_SIZE = 120
 
     actual val context: Any = context
 
@@ -334,19 +338,13 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
         startPosition: Int
     ) {
         withContext(Dispatchers.Main) {
-            currentPlaylist.clear()
-            currentPlaylist.addAll(playlist)
-            originalPlaylist.clear()
-            originalPlaylist.addAll(playlist)
-            shuffleEnabled = false
-            _shuffleMode.tryEmit(false)
-            urlIndexMap.clear()
-            playlist.forEachIndexed { index, item ->
-                urlIndexMap[item.url] = index
-            }
-            _playlist.tryEmit(currentPlaylist.toList())
-
             if (playlist.isEmpty()) {
+                currentPlaylist.clear()
+                originalPlaylist.clear()
+                shuffleEnabled = false
+                _shuffleMode.tryEmit(false)
+                urlIndexMap.clear()
+                _playlist.tryEmit(emptyList())
                 _playerState.tryEmit(PlayerState.IDLE)
                 _currentMediaItem.tryEmit(null)
                 _position.tryEmit(Duration.ZERO)
@@ -354,19 +352,80 @@ actual class AudioPlayer actual constructor(context: Any) : AudioPlayerInterface
                 return@withContext
             }
 
-            val exoItems = playlist.map { it.toExoMediaItem() }
-            val safeIndex = startPosition.coerceIn(0, exoItems.lastIndex)
+            // Chromecast's receiver rejects (or silently drops) a queue load once it gets too
+            // big: real-world ceilings other music apps have hit this the same way sit around
+            // 120-200 items. A big collection like "Liked Songs" can easily blow past that while
+            // a normal playlist never does, so an unconditional full-list load is fine locally
+            // but needs windowing while actually casting, or the receiver just shows nothing and
+            // the unguarded setMediaItems below can throw and crash the app.
+            val isCasting = activePlayer.deviceInfo.playbackType == DeviceInfo.PLAYBACK_TYPE_REMOTE
+            val (effectivePlaylist, effectiveStartPosition) = if (isCasting && playlist.size > CAST_QUEUE_WINDOW_SIZE) {
+                windowAroundIndex(playlist, startPosition, CAST_QUEUE_WINDOW_SIZE).also {
+                    Log.w(
+                        "AudioPlayer",
+                        "Casting: windowing queue from ${playlist.size} to ${it.first.size} items " +
+                            "around index $startPosition to stay under Cast's queue limit"
+                    )
+                }
+            } else {
+                playlist to startPosition
+            }
 
-            activePlayer.setMediaItems(exoItems, safeIndex, 0L)
-            activePlayer.prepare()
+            currentPlaylist.clear()
+            currentPlaylist.addAll(effectivePlaylist)
+            originalPlaylist.clear()
+            originalPlaylist.addAll(effectivePlaylist)
+            shuffleEnabled = false
+            _shuffleMode.tryEmit(false)
+            urlIndexMap.clear()
+            effectivePlaylist.forEachIndexed { index, item ->
+                urlIndexMap[item.url] = index
+            }
+            _playlist.tryEmit(currentPlaylist.toList())
+
+            val exoItems = effectivePlaylist.map { it.toExoMediaItem() }
+            val safeIndex = effectiveStartPosition.coerceIn(0, exoItems.lastIndex)
+
+            try {
+                activePlayer.setMediaItems(exoItems, safeIndex, 0L)
+                activePlayer.prepare()
+            } catch (e: Exception) {
+                // Never let a rejected/oversized Cast queue load crash the app: log it and leave
+                // the player idle rather than taking down the session (and every later call with
+                // it) the way an uncaught exception here used to.
+                Log.w("AudioPlayer", "Failed to load ${exoItems.size} media items (casting=$isCasting)", e)
+                _playerState.tryEmit(PlayerState.IDLE)
+                _currentMediaItem.tryEmit(null)
+                return@withContext
+            }
 
             if (autoPlay) {
                 ensureServiceStarted()
                 activePlayer.playWhenReady = true
             }
 
-            _currentMediaItem.tryEmit(playlist[safeIndex])
+            _currentMediaItem.tryEmit(effectivePlaylist[safeIndex])
         }
+    }
+
+    /**
+     * Returns a sub-window of [items] of at most [limit] entries that still contains
+     * [startIndex], together with that index remapped into the returned sublist. Keeps up to 10
+     * items of preceding context (for "previous track") and fills the rest forward, so playing
+     * from the middle of a huge collection doesn't just load a dead end.
+     */
+    private fun windowAroundIndex(
+        items: List<MediaItem>,
+        startIndex: Int,
+        limit: Int
+    ): Pair<List<MediaItem>, Int> {
+        val safeStart = startIndex.coerceIn(0, items.lastIndex)
+        val before = minOf(safeStart, 10)
+        val afterAvailable = items.size - safeStart - 1
+        val after = minOf(afterAvailable, (limit - before - 1).coerceAtLeast(0))
+        val from = safeStart - before
+        val to = safeStart + after
+        return items.subList(from, to + 1) to before
     }
 
     actual override suspend fun addMediaItem(mediaItem: MediaItem) {
