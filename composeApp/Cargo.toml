@@ -23,3 +23,15 @@ path = "src/commonMain/rust/lib.rs"
 strip = true
 lto = true
 codegen-units = 1
+
+# librespot-core 0.6.0 on crates.io has a broken dependency pin: it pulls
+# `vergen` 9.x (needs vergen-lib 9.x) AND `vergen-gitcl` 1.0.8 (which still
+# needs vergen-lib 0.1.x) at the same time, so two incompatible copies of
+# vergen-lib end up in the tree and build.rs fails to compile. This is a
+# bug in librespot-core's own Cargo.toml, not something we can fix from our
+# side with a normal version bump. Pointing at the upstream git branch in
+# case it has already been fixed there since the 0.6.0 release on crates.io.
+[patch.crates-io]
+librespot-core = { git = "https://github.com/librespot-org/librespot", branch = "dev" }
+librespot-connect = { git = "https://github.com/librespot-org/librespot", branch = "dev" }
+librespot-playback = { git = "https://github.com/librespot-org/librespot", branch = "dev" }
