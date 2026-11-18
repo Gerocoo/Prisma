@@ -62,7 +62,7 @@ plugins.withType<YarnPlugin> {
 fun registerPackageTask(flavor: String, compileTaskName: String) {
     val capitalizedFlavor = flavor.replaceFirstChar { it.uppercase() }
 
-    tasks.register<Zip>("package${capitalizedFlavor}Plugin") {
+    tasks.register<Zip>("package${capitalizedFlavor}Smplug") {
         group = "distribution"
         description = "Packages the $flavor Zipline executable and plugin.json into a smplug."
 
