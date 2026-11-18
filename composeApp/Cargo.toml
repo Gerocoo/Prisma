@@ -11,9 +11,16 @@ thiserror = "2.0"
 parking_lot = "0.12"
 log = "0.4"
 tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros", "sync"] }
-librespot-core = "0.6"
-librespot-connect = "0.6"
-librespot-playback = "0.6"
+# Puntiamo direttamente al branch dev su GitHub (versione 0.8.0 li') invece
+# che alla release 0.6.0 su crates.io: quella release ha un conflitto rotto
+# tra vergen e vergen-gitcl che le impedisce di compilare (vedi nota piu'
+# sotto). Il tentativo precedente con [patch.crates-io] non ha funzionato
+# perche' il vincolo di versione "0.6" qui sopra scartava la patch (0.8.0
+# non soddisfa "^0.6"): dichiarare direttamente la dipendenza git risolve
+# il problema alla radice.
+librespot-core = { git = "https://github.com/librespot-org/librespot", branch = "dev" }
+librespot-connect = { git = "https://github.com/librespot-org/librespot", branch = "dev" }
+librespot-playback = { git = "https://github.com/librespot-org/librespot", branch = "dev" }
 
 [lib]
 crate-type = ["cdylib", "staticlib"]
@@ -23,15 +30,3 @@ path = "src/commonMain/rust/lib.rs"
 strip = true
 lto = true
 codegen-units = 1
-
-# librespot-core 0.6.0 on crates.io has a broken dependency pin: it pulls
-# `vergen` 9.x (needs vergen-lib 9.x) AND `vergen-gitcl` 1.0.8 (which still
-# needs vergen-lib 0.1.x) at the same time, so two incompatible copies of
-# vergen-lib end up in the tree and build.rs fails to compile. This is a
-# bug in librespot-core's own Cargo.toml, not something we can fix from our
-# side with a normal version bump. Pointing at the upstream git branch in
-# case it has already been fixed there since the 0.6.0 release on crates.io.
-[patch.crates-io]
-librespot-core = { git = "https://github.com/librespot-org/librespot", branch = "dev" }
-librespot-connect = { git = "https://github.com/librespot-org/librespot", branch = "dev" }
-librespot-playback = { git = "https://github.com/librespot-org/librespot", branch = "dev" }
