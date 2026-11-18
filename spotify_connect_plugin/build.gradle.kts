@@ -17,6 +17,7 @@
 
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
+import org.gradle.api.tasks.bundling.Zip
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -54,3 +55,30 @@ zipline {
 plugins.withType<YarnPlugin> {
     the<YarnRootExtension>().yarnLockAutoReplace = true
 }
+
+// Packages the Zipline compiler output (manifest.zipline.json + compiled modules) together with
+// plugin.json into the .smplug zip the app's "Installa un plugin" flow expects: it unzips this
+// straight into the plugin's own folder and requires both files at the root.
+fun registerPackageTask(flavor: String, compileTaskName: String) {
+    val capitalizedFlavor = flavor.replaceFirstChar { it.uppercase() }
+
+    tasks.register<Zip>("package${capitalizedFlavor}Plugin") {
+        group = "distribution"
+        description = "Packages the $flavor Zipline executable and plugin.json into a smplug."
+
+        dependsOn(tasks.named(compileTaskName))
+
+        archiveFileName.set("spotify-connect-plugin-$flavor.smplug")
+        destinationDirectory.set(layout.buildDirectory.dir("distributions"))
+
+        from(layout.buildDirectory.dir("zipline/$capitalizedFlavor")) {
+            include("**/*")
+        }
+        from(layout.projectDirectory.file("plugin.json"))
+
+        inputs.file(layout.projectDirectory.file("plugin.json"))
+    }
+}
+
+registerPackageTask("development", "compileDevelopmentExecutableKotlinJsZipline")
+registerPackageTask("production", "compileProductionExecutableKotlinJsZipline")
