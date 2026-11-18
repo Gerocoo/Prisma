@@ -278,6 +278,8 @@
     <string name="plugin_permissions_capability_webview_desc">Mostrare contenuti web all'interno dell'app</string>
     <string name="plugin_permissions_capability_websocket_title">Connessione in tempo reale</string>
     <string name="plugin_permissions_capability_websocket_desc">Mantiene una connessione persistente aperta verso il backend del plugin</string>
+    <string name="plugin_permissions_capability_spotify_auth_title">Account Spotify</string>
+    <string name="plugin_permissions_capability_spotify_auth_desc">Usa l'account Spotify già collegato tramite il plugin Spotify</string>
     <string name="settings_section_jam">Jam di gruppo</string>
     <string name="settings_jam_broker_title">Broker MQTT</string>
     <string name="settings_jam_broker_host">Host del broker</string>

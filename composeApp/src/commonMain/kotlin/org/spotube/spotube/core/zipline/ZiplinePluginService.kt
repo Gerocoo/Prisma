@@ -31,6 +31,8 @@ import org.spotube.plugin_interfaces.host_apis.HttpClientAPI
 import org.spotube.plugin_interfaces.host_apis.HttpClientAPI_SERVICE_NAME
 import org.spotube.plugin_interfaces.host_apis.PersistedStorageAPI
 import org.spotube.plugin_interfaces.host_apis.PersistedStorageAPI_SERVICE_NAME
+import org.spotube.plugin_interfaces.host_apis.SpotifyAuthAPI
+import org.spotube.plugin_interfaces.host_apis.SpotifyAuthAPI_SERVICE_NAME
 import org.spotube.plugin_interfaces.host_apis.SystemInformationAPI
 import org.spotube.plugin_interfaces.host_apis.SystemInformationAPI_SERVICE_NAME
 import org.spotube.plugin_interfaces.host_apis.WebSocketAPI
@@ -63,10 +65,12 @@ import org.spotube.plugin_interfaces.plugin_apis.scrobble.ScrobbleAPI
 import org.spotube.plugin_interfaces.plugin_apis.scrobble.ScrobbleAPI_SERVICE_NAME
 import org.spotube.spotube.core.di.injectLogger
 import org.spotube.spotube.core.network.HttpClientFactory
+import org.spotube.spotube.core.spotify.SpotifyPluginAuth
 import org.spotube.spotube.core.webview.WebViewController
 import org.spotube.spotube.core.zipline.host_apis.RealCryptoAPI
 import org.spotube.spotube.core.zipline.host_apis.RealHttpClientAPI
 import org.spotube.spotube.core.zipline.host_apis.RealPersistedStorageAPI
+import org.spotube.spotube.core.zipline.host_apis.RealSpotifyAuthAPI
 import org.spotube.spotube.core.zipline.host_apis.RealSystemInformationAPI
 import org.spotube.spotube.core.zipline.host_apis.RealWebSocketAPI
 import org.spotube.spotube.core.zipline.host_apis.RealWebViewAPI
@@ -150,6 +154,8 @@ open class ZiplinePluginService(
     private val realHttpClientAPI = RealHttpClientAPI()
     private val realWebViewAPI = RealWebViewAPI(scope, webViewController, pluginInfo.id, pluginInfo.cookieDomains)
     private val realWebSocketAPI = RealWebSocketAPI(scope, httpClientFactory)
+    private val spotifyPluginAuth: SpotifyPluginAuth by inject()
+    private val realSpotifyAuthAPI = RealSpotifyAuthAPI(spotifyPluginAuth)
 
     private val persistedStorageAPI = RealPersistedStorageAPI(pluginInfo)
     private val cryptoAPI = RealCryptoAPI(scope.coroutineContext)
@@ -187,6 +193,9 @@ open class ZiplinePluginService(
                     PersistedStorageAPI_SERVICE_NAME,
                     persistedStorageAPI
                 )
+            }
+            if (PluginCapability.SPOTIFY_AUTH in pluginInfo.capabilities) {
+                zipline.bind<SpotifyAuthAPI>(SpotifyAuthAPI_SERVICE_NAME, realSpotifyAuthAPI)
             }
         } catch (e: Exception) {
             logger.e(e) { "[$applicationName] Failed to bind host APIs: ${e.message}" }

@@ -56,3 +56,4 @@ plugins {
 include(":composeApp")
 include(":plugin_interfaces")
 include(":js_plugin_example")
+include(":spotify_connect_plugin")

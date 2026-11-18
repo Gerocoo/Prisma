@@ -39,7 +39,10 @@ enum class PluginCapability {
     WEBVIEW,
     /** A persistent websocket to the plugin's own backend, via WebSocketAPI. */
     @SerialName("websocket")
-    WEBSOCKET
+    WEBSOCKET,
+    /** Reads the Spotify metadata plugin's access token, via SpotifyAuthAPI. */
+    @SerialName("spotify_auth")
+    SPOTIFY_AUTH
 }
 
 //Set naming strategy to snake_case for better interoperability with JavaScript plugins

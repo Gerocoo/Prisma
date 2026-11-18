@@ -1,0 +1,19 @@
+{
+  "name": "Spotify Connect",
+  "version": "0.1.0",
+  "description": "Control playback on other devices signed into the same Spotify account, using the Spotify plugin's own login.",
+  "apiVersion": "0.0.1",
+  "author": "Prisma",
+  "capabilities": [
+    "network_requests",
+    "websocket",
+    "spotify_auth"
+  ],
+  "abilities": [
+    "device_control"
+  ],
+  "contact": "",
+  "repository": "https://github.com/Gerocoo/Prisma",
+  "bugs": "https://github.com/Gerocoo/Prisma/issues",
+  "license": "AGPL-3.0"
+}

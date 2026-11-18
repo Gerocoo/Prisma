@@ -59,6 +59,8 @@ import spotube.composeapp.generated.resources.plugin_permissions_capability_webv
 import spotube.composeapp.generated.resources.plugin_permissions_capability_webview_title
 import spotube.composeapp.generated.resources.plugin_permissions_capability_websocket_desc
 import spotube.composeapp.generated.resources.plugin_permissions_capability_websocket_title
+import spotube.composeapp.generated.resources.plugin_permissions_capability_spotify_auth_desc
+import spotube.composeapp.generated.resources.plugin_permissions_capability_spotify_auth_title
 import spotube.composeapp.generated.resources.plugin_permissions_compare_title
 import spotube.composeapp.generated.resources.plugin_permissions_installed_label
 import spotube.composeapp.generated.resources.plugin_permissions_none
@@ -233,6 +235,10 @@ private fun CapabilityRow(capability: PluginCapability) {
             Iconsax.IconsaxLink,
             stringResource(Res.string.plugin_permissions_capability_websocket_title),
             stringResource(Res.string.plugin_permissions_capability_websocket_desc))
+        PluginCapability.SPOTIFY_AUTH -> Triple(
+            Iconsax.User,
+            stringResource(Res.string.plugin_permissions_capability_spotify_auth_title),
+            stringResource(Res.string.plugin_permissions_capability_spotify_auth_desc))
     }
 
     Row(
