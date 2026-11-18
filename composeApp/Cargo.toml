@@ -21,6 +21,14 @@ tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros", "sync"] 
 librespot-core = { git = "https://github.com/librespot-org/librespot", branch = "dev" }
 librespot-connect = { git = "https://github.com/librespot-org/librespot", branch = "dev" }
 librespot-playback = { git = "https://github.com/librespot-org/librespot", branch = "dev" }
+# Qualcosa dentro librespot tira dentro openssl-sys, che cercando di
+# compilare per Android prova a trovare un OpenSSL di sistema via
+# pkg-config e fallisce (non esiste un OpenSSL "per Android" installato su
+# Windows). La feature "vendored" fa compilare OpenSSL da sorgente per ogni
+# target invece di cercarlo sul sistema: essendo la stessa versione di
+# openssl-sys gia' nel grafo (0.9.x), Cargo unifica le feature e la
+# compilazione vendored si applica automaticamente ovunque sia usata.
+openssl-sys = { version = "0.9", features = ["vendored"] }
 
 [lib]
 crate-type = ["cdylib", "staticlib"]
