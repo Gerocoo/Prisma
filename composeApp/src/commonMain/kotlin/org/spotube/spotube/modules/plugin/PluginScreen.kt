@@ -1170,10 +1170,15 @@ private fun repoMatchesAbility(repo: org.spotube.spotube.modules.plugin.GitHubRe
         "piped", "invidious", "newpipe", "soundcloud",
         "audio source", "audio-source", "audio plugin", "-audio", "stream source", "streaming source"
     )
+    val deviceControl = has(
+        "device control", "device-control", "remote control", "remote-control",
+        "spotify connect", "cast", "chromecast"
+    )
     return when (ability) {
         PluginAbility.LYRICS -> lyrics
         PluginAbility.SCROBBLE -> scrobble
         PluginAbility.AUDIO -> audio && !lyrics && !scrobble
-        PluginAbility.METADATA -> !lyrics && !scrobble && !audio
+        PluginAbility.DEVICE_CONTROL -> deviceControl && !lyrics && !scrobble
+        PluginAbility.METADATA -> !lyrics && !scrobble && !audio && !deviceControl
     }
 }

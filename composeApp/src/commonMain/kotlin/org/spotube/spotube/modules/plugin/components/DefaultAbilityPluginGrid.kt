@@ -60,6 +60,7 @@ import org.spotube.spotube.modules.plugin.PluginEntry
 import org.spotube.spotube.resources.iconsax.Iconsax
 import org.spotube.spotube.resources.iconsax.IconsaxArrowDown4
 import org.spotube.spotube.resources.iconsax.IconsaxDocumentText
+import org.spotube.spotube.resources.iconsax.IconsaxMirroringScreen
 import org.spotube.spotube.resources.iconsax.IconsaxMusic
 import org.spotube.spotube.resources.iconsax.IconsaxSound
 import org.spotube.spotube.resources.iconsax.IconsaxTextalignLeft
@@ -68,6 +69,7 @@ import org.jetbrains.compose.resources.stringResource
 import spotube.composeapp.generated.resources.Res
 import spotube.composeapp.generated.resources.plugin_version_label
 import spotube.composeapp.generated.resources.settings_plugins_ability_audio
+import spotube.composeapp.generated.resources.settings_plugins_ability_device_control
 import spotube.composeapp.generated.resources.settings_plugins_ability_lyrics
 import spotube.composeapp.generated.resources.settings_plugins_ability_metadata
 import spotube.composeapp.generated.resources.settings_plugins_ability_scrobble
@@ -82,6 +84,7 @@ internal fun PluginAbility.accentColor(): Color = when (this) {
     PluginAbility.AUDIO -> Color(0xFF1E88E5)
     PluginAbility.LYRICS -> Color(0xFFF9A825)
     PluginAbility.SCROBBLE -> Color(0xFF8E24AA)
+    PluginAbility.DEVICE_CONTROL -> Color(0xFF00897B)
 }
 
 /** The icon used to represent a plugin ability. */
@@ -90,6 +93,7 @@ internal fun PluginAbility.abilityIcon(): ImageVector = when (this) {
     PluginAbility.AUDIO -> Iconsax.IconsaxMusic
     PluginAbility.LYRICS -> Iconsax.IconsaxTextalignLeft
     PluginAbility.SCROBBLE -> Iconsax.IconsaxSound
+    PluginAbility.DEVICE_CONTROL -> Iconsax.IconsaxMirroringScreen
 }
 
 /**
@@ -100,6 +104,7 @@ internal fun PluginAbility.aeroGradient(): List<Color> = when (this) {
     PluginAbility.AUDIO -> listOf(Color(0xFF56CCF2), Color(0xFF2F80ED), Color(0xFF6A11CB))
     PluginAbility.LYRICS -> listOf(Color(0xFFFFE259), Color(0xFFFFA751), Color(0xFFFF5E62))
     PluginAbility.SCROBBLE -> listOf(Color(0xFFFF6FD8), Color(0xFF9D50BB), Color(0xFF3F0D7A))
+    PluginAbility.DEVICE_CONTROL -> listOf(Color(0xFF56F2C2), Color(0xFF00BFA5), Color(0xFF00695C))
 }
 
 @Composable
@@ -108,6 +113,7 @@ internal fun PluginAbility.displayLabel(): String = when (this) {
     PluginAbility.AUDIO -> stringResource(Res.string.settings_plugins_ability_audio)
     PluginAbility.LYRICS -> stringResource(Res.string.settings_plugins_ability_lyrics)
     PluginAbility.SCROBBLE -> stringResource(Res.string.settings_plugins_ability_scrobble)
+    PluginAbility.DEVICE_CONTROL -> stringResource(Res.string.settings_plugins_ability_device_control)
 }
 
 /** A short "v1.2.3 · Author" summary shown under a plugin in the picker. */

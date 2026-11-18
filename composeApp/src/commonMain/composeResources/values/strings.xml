@@ -226,6 +226,7 @@
     <string name="settings_plugins_ability_audio">Audio</string>
     <string name="settings_plugins_ability_lyrics">Lyrics</string>
     <string name="settings_plugins_ability_scrobble">Scrobble</string>
+    <string name="settings_plugins_ability_device_control">Device Control</string>
     <string name="settings_plugins_no_selection">No plugin selected</string>
     <string name="settings_plugins_action_change">Change</string>
     <string name="settings_plugins_action_select">Select</string>
@@ -287,6 +288,8 @@
     <string name="plugin_permissions_capability_network_desc">Send and receive data over the internet</string>
     <string name="plugin_permissions_capability_webview_title">WebView</string>
     <string name="plugin_permissions_capability_webview_desc">Display web content inside the app</string>
+    <string name="plugin_permissions_capability_websocket_title">Realtime Connection</string>
+    <string name="plugin_permissions_capability_websocket_desc">Keep a persistent connection open to the plugin's backend</string>
     <string name="settings_section_jam">Group Jam</string>
     <string name="settings_jam_broker_title">MQTT Broker</string>
     <string name="settings_jam_broker_host">Broker host</string>

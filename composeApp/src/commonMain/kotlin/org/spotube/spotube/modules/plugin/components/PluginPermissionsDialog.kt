@@ -39,6 +39,7 @@ import org.spotube.spotube.modules.plugin.PluginEntry
 import org.spotube.spotube.resources.iconsax.Iconsax
 import org.spotube.spotube.resources.iconsax.IconsaxCheckCircle
 import org.spotube.spotube.resources.iconsax.IconsaxEye
+import org.spotube.spotube.resources.iconsax.IconsaxLink
 import org.spotube.spotube.resources.iconsax.IconsaxWifiSquare
 import org.spotube.spotube.resources.iconsax.PhosphorDatabaseDuotone
 import org.spotube.spotube.resources.iconsax.User
@@ -56,6 +57,8 @@ import spotube.composeapp.generated.resources.plugin_permissions_capability_stor
 import spotube.composeapp.generated.resources.plugin_permissions_capability_storage_title
 import spotube.composeapp.generated.resources.plugin_permissions_capability_webview_desc
 import spotube.composeapp.generated.resources.plugin_permissions_capability_webview_title
+import spotube.composeapp.generated.resources.plugin_permissions_capability_websocket_desc
+import spotube.composeapp.generated.resources.plugin_permissions_capability_websocket_title
 import spotube.composeapp.generated.resources.plugin_permissions_compare_title
 import spotube.composeapp.generated.resources.plugin_permissions_installed_label
 import spotube.composeapp.generated.resources.plugin_permissions_none
@@ -226,6 +229,10 @@ private fun CapabilityRow(capability: PluginCapability) {
             Iconsax.IconsaxEye,
             stringResource(Res.string.plugin_permissions_capability_webview_title),
             stringResource(Res.string.plugin_permissions_capability_webview_desc))
+        PluginCapability.WEBSOCKET -> Triple(
+            Iconsax.IconsaxLink,
+            stringResource(Res.string.plugin_permissions_capability_websocket_title),
+            stringResource(Res.string.plugin_permissions_capability_websocket_desc))
     }
 
     Row(
