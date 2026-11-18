@@ -18,17 +18,13 @@ tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros", "sync"] 
 # perche' il vincolo di versione "0.6" qui sopra scartava la patch (0.8.0
 # non soddisfa "^0.6"): dichiarare direttamente la dipendenza git risolve
 # il problema alla radice.
-librespot-core = { git = "https://github.com/librespot-org/librespot", branch = "dev" }
-librespot-connect = { git = "https://github.com/librespot-org/librespot", branch = "dev" }
-librespot-playback = { git = "https://github.com/librespot-org/librespot", branch = "dev" }
-# Qualcosa dentro librespot tira dentro openssl-sys, che cercando di
-# compilare per Android prova a trovare un OpenSSL di sistema via
-# pkg-config e fallisce (non esiste un OpenSSL "per Android" installato su
-# Windows). La feature "vendored" fa compilare OpenSSL da sorgente per ogni
-# target invece di cercarlo sul sistema: essendo la stessa versione di
-# openssl-sys gia' nel grafo (0.9.x), Cargo unifica le feature e la
-# compilazione vendored si applica automaticamente ovunque sia usata.
-openssl-sys = { version = "0.9", features = ["vendored"] }
+# TLS: rustls (Rust puro) invece di native-tls/OpenSSL, che da Windows non
+# si riesce a cross-compilare per Android. webpki-roots = certificati Mozilla
+# inclusi nel binario, adatti ad Android. Va messo su TUTTI e tre i crate
+# librespot: connect e playback hanno native-tls nei default e lo riattivano.
+librespot-core = { git = "https://github.com/librespot-org/librespot", branch = "dev", default-features = false, features = ["rustls-tls-webpki-roots"] }
+librespot-connect = { git = "https://github.com/librespot-org/librespot", branch = "dev", default-features = false, features = ["rustls-tls-webpki-roots"] }
+librespot-playback = { git = "https://github.com/librespot-org/librespot", branch = "dev", default-features = false, features = ["rustls-tls-webpki-roots"] }
 
 [lib]
 crate-type = ["cdylib", "staticlib"]

@@ -12,8 +12,7 @@
 //! Kotlin build errors earlier: paste the compiler error back and we fix
 //! it against the real signature.
 
-use librespot_connect::config::ConnectConfig;
-use librespot_connect::spirc::Spirc;
+use librespot_connect::{ConnectConfig, Spirc};
 use librespot_core::authentication::Credentials;
 use librespot_core::config::DeviceType;
 use librespot_core::session::Session;
@@ -142,19 +141,20 @@ impl SpotifyConnectReceiver {
             let session_config = SessionConfig::default();
             let credentials = Credentials::with_access_token(access_token);
 
+            // La sessione la collega Spirc::new (dopo aver registrato i listener),
+            // quindi qui la creiamo soltanto.
             let session = Session::new(session_config, None);
-            session
-                .connect(credentials, false)
-                .await
-                .map_err(|e| SpotifyConnectError::LoginFailed { reason: e.to_string() })?;
 
-            let mixer = Box::new(SoftMixer::open(MixerConfig::default()));
+            let mixer: Arc<dyn Mixer> = Arc::new(
+                SoftMixer::open(MixerConfig::default())
+                    .map_err(|e| SpotifyConnectError::LoginFailed { reason: e.to_string() })?,
+            );
             let soft_volume = mixer.get_soft_volume();
 
             let player_config = PlayerConfig::default();
             let format = AudioFormat::S16;
             let sink_audio = audio_sink.clone();
-            let (player, _player_event_channel) = Player::new(
+            let player = Player::new(
                 player_config,
                 session.clone(),
                 soft_volume,
@@ -172,7 +172,7 @@ impl SpotifyConnectReceiver {
                 ..ConnectConfig::default()
             };
 
-            let (spirc, spirc_task) = Spirc::new(connect_config, session, player, mixer)
+            let (spirc, spirc_task) = Spirc::new(connect_config, session, credentials, player, mixer)
                 .await
                 .map_err(|e| SpotifyConnectError::LoginFailed { reason: e.to_string() })?;
 
