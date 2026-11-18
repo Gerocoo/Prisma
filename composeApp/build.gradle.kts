@@ -52,7 +52,7 @@ val version = "6.0.0"
 // Installer metadata (packageVersion) must stay numeric, so it keeps using plain `version`.
 val betaNumber: Int? = 0
 // Betas share the stable app id, so bump this for every beta: Android only updates to a higher versionCode.
-val buildNumber = 201
+val buildNumber = 202
 // Desktop icon channel; Android picks its icons via the stable/nightly product flavor. Use -Pnightly=true.
 val isNightly = providers.gradleProperty("nightly").map { it.toBoolean() }.getOrElse(false)
 val desktopIconDir = if (isNightly) "icons/nightly" else "icons/stable"
@@ -387,7 +387,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = appBuildNumber
-        versionName = "$appVersionName (build-$appBuildNumber)"
+        versionName = "build-$appBuildNumber"
     }
     // stable = production channel, nightly = beta channel (own icon, name and installable side by side)
     flavorDimensions += "channel"
