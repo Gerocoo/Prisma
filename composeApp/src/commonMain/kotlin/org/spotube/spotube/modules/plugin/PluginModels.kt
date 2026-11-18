@@ -36,7 +36,10 @@ enum class PluginCapability {
     @SerialName("network_requests")
     NETWORK_REQUESTS,
     @SerialName("webview")
-    WEBVIEW
+    WEBVIEW,
+    /** A persistent websocket to the plugin's own backend, via WebSocketAPI. */
+    @SerialName("websocket")
+    WEBSOCKET
 }
 
 //Set naming strategy to snake_case for better interoperability with JavaScript plugins
@@ -50,6 +53,9 @@ enum class PluginAbility {
     LYRICS,
     @SerialName("scrobble")
     SCROBBLE,
+    /** Controls playback on other devices signed into the same account (DeviceControlAPI). */
+    @SerialName("device_control")
+    DEVICE_CONTROL,
 }
 
 /**

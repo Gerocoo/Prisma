@@ -33,12 +33,16 @@ import org.spotube.plugin_interfaces.host_apis.PersistedStorageAPI
 import org.spotube.plugin_interfaces.host_apis.PersistedStorageAPI_SERVICE_NAME
 import org.spotube.plugin_interfaces.host_apis.SystemInformationAPI
 import org.spotube.plugin_interfaces.host_apis.SystemInformationAPI_SERVICE_NAME
+import org.spotube.plugin_interfaces.host_apis.WebSocketAPI
+import org.spotube.plugin_interfaces.host_apis.WebSocketAPI_SERVICE_NAME
 import org.spotube.plugin_interfaces.host_apis.WebViewAPI
 import org.spotube.plugin_interfaces.host_apis.WebViewAPI_SERVICE_NAME
 import org.spotube.plugin_interfaces.plugin_apis.audio.AudioAPI
 import org.spotube.plugin_interfaces.plugin_apis.audio.AudioAPI_SERVICE_NAME
 import org.spotube.plugin_interfaces.plugin_apis.core.CoreAPI
 import org.spotube.plugin_interfaces.plugin_apis.core.CoreAPI_SERVICE_NAME
+import org.spotube.plugin_interfaces.plugin_apis.device_control.DeviceControlAPI
+import org.spotube.plugin_interfaces.plugin_apis.device_control.DeviceControlAPI_SERVICE_NAME
 import org.spotube.plugin_interfaces.plugin_apis.lyrics.LyricsAPI
 import org.spotube.plugin_interfaces.plugin_apis.lyrics.LyricsAPI_SERVICE_NAME
 import org.spotube.plugin_interfaces.plugin_apis.metadata.album.MetadataAlbumAPI
@@ -58,11 +62,13 @@ import org.spotube.plugin_interfaces.plugin_apis.metadata.user.MetadataUserAPI_S
 import org.spotube.plugin_interfaces.plugin_apis.scrobble.ScrobbleAPI
 import org.spotube.plugin_interfaces.plugin_apis.scrobble.ScrobbleAPI_SERVICE_NAME
 import org.spotube.spotube.core.di.injectLogger
+import org.spotube.spotube.core.network.HttpClientFactory
 import org.spotube.spotube.core.webview.WebViewController
 import org.spotube.spotube.core.zipline.host_apis.RealCryptoAPI
 import org.spotube.spotube.core.zipline.host_apis.RealHttpClientAPI
 import org.spotube.spotube.core.zipline.host_apis.RealPersistedStorageAPI
 import org.spotube.spotube.core.zipline.host_apis.RealSystemInformationAPI
+import org.spotube.spotube.core.zipline.host_apis.RealWebSocketAPI
 import org.spotube.spotube.core.zipline.host_apis.RealWebViewAPI
 import org.spotube.spotube.modules.plugin.PluginAbility
 import org.spotube.spotube.modules.plugin.PluginCapability
@@ -140,8 +146,10 @@ open class ZiplinePluginService(
         )
     }
 
+    private val httpClientFactory: HttpClientFactory by inject()
     private val realHttpClientAPI = RealHttpClientAPI()
     private val realWebViewAPI = RealWebViewAPI(scope, webViewController, pluginInfo.id, pluginInfo.cookieDomains)
+    private val realWebSocketAPI = RealWebSocketAPI(scope, httpClientFactory)
 
     private val persistedStorageAPI = RealPersistedStorageAPI(pluginInfo)
     private val cryptoAPI = RealCryptoAPI(scope.coroutineContext)
@@ -170,6 +178,9 @@ open class ZiplinePluginService(
             }
             if (PluginCapability.WEBVIEW in pluginInfo.capabilities) {
                 zipline.bind<WebViewAPI>(WebViewAPI_SERVICE_NAME, realWebViewAPI)
+            }
+            if (PluginCapability.WEBSOCKET in pluginInfo.capabilities) {
+                zipline.bind<WebSocketAPI>(WebSocketAPI_SERVICE_NAME, realWebSocketAPI)
             }
             if (PluginCapability.PERSISTENT_STORAGE in pluginInfo.capabilities) {
                 zipline.bind<PersistedStorageAPI>(
@@ -249,6 +260,12 @@ open class ZiplinePluginService(
                     put(
                         ScrobbleAPI::class,
                         result.zipline.take<ScrobbleAPI>(ScrobbleAPI_SERVICE_NAME)
+                    )
+                }
+                if (PluginAbility.DEVICE_CONTROL in pluginInfo.abilities) {
+                    put(
+                        DeviceControlAPI::class,
+                        result.zipline.take<DeviceControlAPI>(DeviceControlAPI_SERVICE_NAME)
                     )
                 }
             }

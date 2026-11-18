@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.transformLatest
 import app.cash.zipline.ZiplineService
 import org.spotube.plugin_interfaces.plugin_apis.audio.AudioAPI
 import org.spotube.plugin_interfaces.plugin_apis.core.CoreAPI
+import org.spotube.plugin_interfaces.plugin_apis.device_control.DeviceControlAPI
 import org.spotube.plugin_interfaces.plugin_apis.lyrics.LyricsAPI
 import org.spotube.plugin_interfaces.plugin_apis.metadata.album.MetadataAlbumAPI
 import org.spotube.plugin_interfaces.plugin_apis.metadata.artist.MetadataArtistAPI
@@ -46,6 +47,7 @@ class PluginServiceScope(private val registry: Map<KClass<*>, ZiplineService>) {
     val audioAPI: AudioAPI get() = getService()
     val lyricsAPI: LyricsAPI get() = getService()
     val scrobbleAPI: ScrobbleAPI get() = getService()
+    val deviceControlAPI: DeviceControlAPI get() = getService()
 
     private inline fun <reified T : ZiplineService> getService(): T {
         return registry[T::class] as? T
