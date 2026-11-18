@@ -52,7 +52,7 @@ val version = "6.0.0"
 // Installer metadata (packageVersion) must stay numeric, so it keeps using plain `version`.
 val betaNumber: Int? = 0
 // Betas share the stable app id, so bump this for every beta: Android only updates to a higher versionCode.
-val buildNumber = 200
+val buildNumber = 201
 // Desktop icon channel; Android picks its icons via the stable/nightly product flavor. Use -Pnightly=true.
 val isNightly = providers.gradleProperty("nightly").map { it.toBoolean() }.getOrElse(false)
 val desktopIconDir = if (isNightly) "icons/nightly" else "icons/stable"
@@ -480,7 +480,7 @@ android {
             // task actions, and AGP's internal variant/artifact objects aren't serializable -
             // this caused the "ConcurrentModificationException... error writing value of type
             // LinkedHashMap" configuration-cache failure).
-            val targetName = "Prisma-${baseName}-${versionName}.apk"
+            val targetName = "Prisma-${baseName}-build-${appBuildNumber}.apk"
             packageApplicationProvider?.configure {
                 doLast {
                     val outDir = outputDirectory.get().asFile
