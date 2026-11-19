@@ -24,8 +24,18 @@ use librespot_playback::mixer::softmixer::SoftMixer;
 use librespot_playback::mixer::{Mixer, MixerConfig};
 use librespot_playback::player::Player;
 use std::sync::Arc;
+use std::time::Duration;
 use tokio::runtime::Runtime;
 use tokio::sync::Mutex as AsyncMutex;
+
+/// Without this, a dropped/filtered connection (flaky Wi-Fi, a firewalled
+/// port, ...) leaves `Spirc::new().await` hanging forever: since `start()`
+/// runs on `runtime.block_on`, that blocks the Kotlin caller's thread
+/// indefinitely. On Android this has been observed to end with the OS
+/// killing the whole app process outright (no exception, no crash log -
+/// just gone) once it decides the process is misbehaving in the
+/// background, instead of the login attempt failing cleanly and visibly.
+const CONNECT_TIMEOUT: Duration = Duration::from_secs(15);
 
 #[derive(Debug, uniffi::Error)]
 pub enum SpotifyConnectError {
@@ -172,9 +182,15 @@ impl SpotifyConnectReceiver {
                 ..ConnectConfig::default()
             };
 
-            let (spirc, spirc_task) = Spirc::new(connect_config, session, credentials, player, mixer)
-                .await
-                .map_err(|e| SpotifyConnectError::LoginFailed { reason: e.to_string() })?;
+            let (spirc, spirc_task) = tokio::time::timeout(
+                CONNECT_TIMEOUT,
+                Spirc::new(connect_config, session, credentials, player, mixer),
+            )
+            .await
+            .map_err(|_| SpotifyConnectError::LoginFailed {
+                reason: "connection timed out".to_string(),
+            })?
+            .map_err(|e| SpotifyConnectError::LoginFailed { reason: e.to_string() })?;
 
             let listener_for_task = event_listener.clone();
             let task_handle = tokio::spawn(async move {
