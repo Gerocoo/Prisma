@@ -35,7 +35,15 @@ use tokio::sync::Mutex as AsyncMutex;
 /// killing the whole app process outright (no exception, no crash log -
 /// just gone) once it decides the process is misbehaving in the
 /// background, instead of the login attempt failing cleanly and visibly.
-const CONNECT_TIMEOUT: Duration = Duration::from_secs(8);
+///
+/// 8s was too slow: a bugreport from a rapid off/on toggle cycle showed 5
+/// consecutive EXIT_SELF process deaths each 5-9s apart, none of them
+/// preceded by our own LoginFailed log line - i.e. the OS killed the whole
+/// process before our own timeout even got a chance to fire. Android seems
+/// to get more aggressive about killing a process that keeps dying/
+/// restarting quickly, so this needs real margin, not just "shorter than
+/// what we saw once".
+const CONNECT_TIMEOUT: Duration = Duration::from_secs(4);
 
 #[derive(Debug, uniffi::Error)]
 pub enum SpotifyConnectError {
