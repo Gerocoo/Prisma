@@ -484,6 +484,12 @@ android {
             // LinkedHashMap" configuration-cache failure).
             val targetName = "Prisma-${baseName}-build-${appBuildNumber}.apk"
             packageApplicationProvider?.configure {
+                // AGP doesn't treat appBuildNumber (baked into versionCode/versionName) as a
+                // tracked input of this task, so bumping only the build number can leave the
+                // task UP-TO-DATE - meaning this doLast never runs and a stale APK from an
+                // earlier build number is left behind under the old build's name. Forcing it
+                // to always run keeps the renamed output in sync with appBuildNumber every time.
+                outputs.upToDateWhen { false }
                 doLast {
                     val outDir = outputDirectory.get().asFile
                     // AGP produces one "universal" APK plus one ABI-specific split per
