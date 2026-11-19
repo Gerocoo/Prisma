@@ -129,6 +129,10 @@ impl SpotifyConnectReceiver {
                 .with_max_level(log::LevelFilter::Debug)
                 .with_tag("librespot"),
         );
+        // Riga di controllo: se questa non compare nel logcat col tag "librespot",
+        // il problema e' l'installazione del logger stesso (non il fatto che
+        // librespot non scriva nulla).
+        log::info!("[diag] logger inizializzato, livello massimo = {:?}", log::max_level());
 
         let runtime = tokio::runtime::Builder::new_multi_thread()
             .enable_all()
