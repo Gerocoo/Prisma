@@ -24,8 +24,11 @@ import org.spotube.spotube.core.paths.Paths
 import org.spotube.spotube.core.share.AndroidShareService
 import org.spotube.spotube.core.share.ShareService
 import org.spotube.spotube.media.MediaBrowseHelper
+import org.spotube.spotube.media.SpotifyConnectReceiverService
 import org.spotube.spotube.modules.library.local_tracks.media.AndroidLocalMediaDiscoveryService
 import org.spotube.spotube.modules.library.local_tracks.media.LocalMediaDiscoveryService
+import org.koin.core.module.dsl.createdAtStart
+import org.koin.core.module.dsl.withOptions
 import org.koin.dsl.module
 
 actual val platformModules = module {
@@ -33,6 +36,11 @@ actual val platformModules = module {
     single<AudioPlayerInterface>(org.koin.core.qualifier.named("local")) { AudioPlayer(get<Context>()) }
     single<LocalMediaDiscoveryService> { AndroidLocalMediaDiscoveryService(get()) }
     single<ShareService> { AndroidShareService(get()) }
+    single {
+        SpotifyConnectReceiverService(
+            settingsProvider = get(),
+            spotifyAuth = get())
+    } withOptions { createdAtStart() }
     single {
         MediaBrowseHelper(
             pluginManager = get(),

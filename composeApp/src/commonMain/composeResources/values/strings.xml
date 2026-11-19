@@ -215,6 +215,8 @@
     <string name="settings_desktop_minimize_subtitle">Keep Prisma running in the system tray when the window is minimized.</string>
     <string name="settings_desktop_discord_title">Discord rich presence</string>
     <string name="settings_desktop_discord_subtitle">Show your current playback status in Discord on desktop.</string>
+    <string name="settings_connect_receiver_title">Make this phone discoverable</string>
+    <string name="settings_connect_receiver_subtitle">Lets the official Spotify app see and control this phone as a Connect device, like a speaker.</string>
 
     <string name="settings_updates_auto_check_title">Automatically check for updates</string>
     <string name="settings_updates_auto_check_subtitle">Look for new Prisma releases in the background.</string>
