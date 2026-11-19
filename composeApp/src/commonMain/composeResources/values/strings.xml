@@ -614,6 +614,9 @@
     <string name="lyrics_artist_followers">%1$s followers</string>
     <string name="lyrics_artist_no_bio">No artist info available</string>
     <string name="lyrics_related_empty">No related tracks found</string>
+    <string name="lyrics_translate">Translate</string>
+    <string name="lyrics_show_original">Original</string>
+    <string name="lyrics_translating">Translating…</string>
 
     <!-- Settings: audio format/quality labels -->
     <string name="settings_audio_format_label">%1$s in %2$s</string>

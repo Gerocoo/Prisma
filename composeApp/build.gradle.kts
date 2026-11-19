@@ -335,6 +335,8 @@ kotlin {
                 implementation(libs.media3.cast)
                 implementation(libs.media3.ui)
                 implementation(libs.androidx.compose.material3)
+                implementation(libs.mlkit.translate)
+                implementation(libs.mlkit.language.id)
             }
         }
         val iosMain by creating {

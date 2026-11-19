@@ -22,6 +22,8 @@ import org.spotube.spotube.core.audioplayer.AudioPlayerInterface
 import org.spotube.spotube.core.paths.Paths
 import org.spotube.spotube.core.share.IosShareService
 import org.spotube.spotube.core.share.ShareService
+import org.spotube.spotube.core.translation.IosTranslationService
+import org.spotube.spotube.core.translation.TranslationService
 import org.spotube.spotube.core.webview.WebViewController
 import org.spotube.spotube.modules.library.local_tracks.media.IosLocalMediaDiscoveryService
 import org.spotube.spotube.modules.library.local_tracks.media.LocalMediaDiscoveryService
@@ -34,4 +36,5 @@ actual val platformModules = module {
     single<AudioPlayerInterface>(org.koin.core.qualifier.named("local")) { AudioPlayer(Unit) }
     single<LocalMediaDiscoveryService> { IosLocalMediaDiscoveryService() }
     single<ShareService> { IosShareService() }
+    single<TranslationService> { IosTranslationService() }
 }

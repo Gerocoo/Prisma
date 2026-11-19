@@ -587,6 +587,9 @@
     <string name="lyrics_artist_followers">%1$s follower</string>
     <string name="lyrics_artist_no_bio">Nessuna informazione sull'artista disponibile</string>
     <string name="lyrics_related_empty">Nessuna traccia correlata trovata</string>
+    <string name="lyrics_translate">Traduci</string>
+    <string name="lyrics_show_original">Originale</string>
+    <string name="lyrics_translating">Traduzione in corso…</string>
 
     <!-- Settings: audio format/quality labels -->
     <string name="settings_audio_format_label">%1$s in %2$s</string>

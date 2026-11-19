@@ -17,6 +17,7 @@
 
 package org.spotube.spotube.modules.lyrics
 
+import androidx.compose.ui.text.intl.Locale
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import org.spotube.plugin_interfaces.plugin_apis.lyrics.LyricsLine
@@ -25,8 +26,12 @@ import org.spotube.plugin_interfaces.plugin_apis.metadata.track.MetadataTrack
 import org.spotube.spotube.core.audioplayer.AudioPlayerInterface
 import org.spotube.spotube.core.audioplayer.AudioPlayerQueue
 import org.spotube.spotube.core.audioplayer.QueueEntry
+import org.spotube.spotube.core.translation.TranslationService
 import org.spotube.spotube.modules.artist.ArtistRepository
 import org.spotube.spotube.modules.plugin.PluginManager
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -60,13 +65,31 @@ data class LyricsUiState(
     val artistOverview: MetadataArtistOverview? = null,
     val artistOverviewLoading: Boolean = false,
     val relatedTracks: List<MetadataTrack>? = null,
-    val relatedTracksLoading: Boolean = false)
+    val relatedTracksLoading: Boolean = false,
+    // "Traduci" pill (artist bio): only shown once we've confirmed the bio's language
+    // differs from the device/app language.
+    val bioTranslationAvailable: Boolean = false,
+    val bioTranslating: Boolean = false,
+    val translatedBio: String? = null,
+    val showTranslatedBio: Boolean = false,
+    // "Traduci" pill (lyrics, synced or plain): translated text keeps each LyricsLine's
+    // original `time` so the synced view stays scrollable/clickable ("dinamico").
+    val lyricsTranslationAvailable: Boolean = false,
+    val lyricsTranslating: Boolean = false,
+    val translatedPlainLyrics: String? = null,
+    val translatedSyncedLyrics: List<LyricsLine>? = null,
+    val showTranslatedLyrics: Boolean = false)
 
 class LyricsViewModel(
     private val pluginManager: PluginManager,
     private val audioPlayer: AudioPlayerInterface,
     private val audioPlayerQueue: AudioPlayerQueue,
-    private val artistRepository: ArtistRepository) : ViewModel() {
+    private val artistRepository: ArtistRepository,
+    private val translationService: TranslationService) : ViewModel() {
+
+    /** BCP-47-ish 2-letter tag of the app/device language, e.g. "it", "en". */
+    private val targetLanguageTag: String
+        get() = Locale.current.language
 
     private val _uiState = MutableStateFlow(LyricsUiState())
 
@@ -100,7 +123,18 @@ class LyricsViewModel(
             }
 
             currentTrackId = track.id
-            _uiState.update { it.copy(isLoading = true, error = null) }
+            _uiState.update {
+                it.copy(
+                    isLoading = true,
+                    error = null,
+                    bioTranslationAvailable = false,
+                    translatedBio = null,
+                    showTranslatedBio = false,
+                    lyricsTranslationAvailable = false,
+                    translatedPlainLyrics = null,
+                    translatedSyncedLyrics = null,
+                    showTranslatedLyrics = false)
+            }
             try {
                 pluginManager.selectedLyricsPlugin.value?.let { pluginService ->
                     pluginService.use {
@@ -112,12 +146,70 @@ class LyricsViewModel(
                                 plainLyrics = lyrics?.plainLyrics,
                                 isLoading = false)
                         }
+                        checkLyricsTranslationAvailable(lyrics?.plainLyrics, lyrics?.syncedLyrics)
                     }
                 } ?: run {
                     _uiState.update { it.copy(isLoading = false) }
                 }
             } catch (e: Exception) {
                 _uiState.update { it.copy(isLoading = false, error = e.message) }
+            }
+        }
+    }
+
+    /** Detects whether the lyrics' language differs from [targetLanguageTag] to show the pill. */
+    private suspend fun checkLyricsTranslationAvailable(
+        plainLyrics: String?,
+        syncedLyrics: List<LyricsLine>?) {
+        val sample = plainLyrics?.takeIf { it.isNotBlank() }
+            ?: syncedLyrics?.joinToString(" ") { it.text }?.takeIf { it.isNotBlank() }
+            ?: return
+        val detected = translationService.detectLanguage(sample) ?: return
+        val available = !detected.startsWith(targetLanguageTag, ignoreCase = true)
+        _uiState.update { it.copy(lyricsTranslationAvailable = available) }
+    }
+
+    /** Toggles between the original and translated lyrics (plain block or line-by-line). */
+    fun toggleLyricsTranslation() {
+        val state = _uiState.value
+        if (!state.lyricsTranslationAvailable) return
+
+        if (state.showTranslatedLyrics) {
+            _uiState.update { it.copy(showTranslatedLyrics = false) }
+            return
+        }
+
+        if (state.translatedPlainLyrics != null || state.translatedSyncedLyrics != null) {
+            _uiState.update { it.copy(showTranslatedLyrics = true) }
+            return
+        }
+
+        viewModelScope.launch {
+            _uiState.update { it.copy(lyricsTranslating = true) }
+            val target = targetLanguageTag
+            val plain = state.plainLyrics?.takeIf { it.isNotBlank() }
+            val synced = state.syncedLyrics
+
+            val translatedPlain = plain?.let { translationService.translate(it, target) }
+            // Each line is translated individually, keeping its original `time`, so the
+            // translated version stays synced/scrollable/clickable just like the original.
+            val translatedSynced = synced?.takeIf { it.isNotEmpty() }?.let { lines ->
+                coroutineScope {
+                    lines.map { line ->
+                        async {
+                            val translated = translationService.translate(line.text, target)
+                            line.copy(text = translated ?: line.text)
+                        }
+                    }.awaitAll()
+                }
+            }
+
+            _uiState.update {
+                it.copy(
+                    lyricsTranslating = false,
+                    translatedPlainLyrics = translatedPlain,
+                    translatedSyncedLyrics = translatedSynced,
+                    showTranslatedLyrics = translatedPlain != null || translatedSynced != null)
             }
         }
     }
@@ -163,9 +255,48 @@ class LyricsViewModel(
         if (artistId == currentArtistId) return
         currentArtistId = artistId
         viewModelScope.launch {
-            _uiState.update { it.copy(artistOverviewLoading = true) }
+            _uiState.update {
+                it.copy(
+                    artistOverviewLoading = true,
+                    bioTranslationAvailable = false,
+                    translatedBio = null,
+                    showTranslatedBio = false)
+            }
             val overview = runCatching { artistRepository.artistOverview(artistId) }.getOrNull()
             _uiState.update { it.copy(artistOverview = overview, artistOverviewLoading = false) }
+
+            val bio = overview?.artist?.biography?.takeIf { it.isNotBlank() } ?: return@launch
+            val detected = translationService.detectLanguage(bio) ?: return@launch
+            val available = !detected.startsWith(targetLanguageTag, ignoreCase = true)
+            _uiState.update { it.copy(bioTranslationAvailable = available) }
+        }
+    }
+
+    /** Toggles the artist bio between its original text and the translated version. */
+    fun toggleBioTranslation() {
+        val state = _uiState.value
+        if (!state.bioTranslationAvailable) return
+
+        if (state.showTranslatedBio) {
+            _uiState.update { it.copy(showTranslatedBio = false) }
+            return
+        }
+
+        if (state.translatedBio != null) {
+            _uiState.update { it.copy(showTranslatedBio = true) }
+            return
+        }
+
+        val bio = state.artistOverview?.artist?.biography?.takeIf { it.isNotBlank() } ?: return
+        viewModelScope.launch {
+            _uiState.update { it.copy(bioTranslating = true) }
+            val translated = translationService.translate(bio, targetLanguageTag)
+            _uiState.update {
+                it.copy(
+                    bioTranslating = false,
+                    translatedBio = translated,
+                    showTranslatedBio = translated != null)
+            }
         }
     }
 

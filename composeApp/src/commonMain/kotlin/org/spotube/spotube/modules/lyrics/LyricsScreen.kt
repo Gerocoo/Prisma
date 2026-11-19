@@ -129,6 +129,9 @@ import spotube.composeapp.generated.resources.lyrics_track_no_info
 import spotube.composeapp.generated.resources.lyrics_artist_followers
 import spotube.composeapp.generated.resources.lyrics_artist_no_bio
 import spotube.composeapp.generated.resources.lyrics_related_empty
+import spotube.composeapp.generated.resources.lyrics_translate
+import spotube.composeapp.generated.resources.lyrics_show_original
+import spotube.composeapp.generated.resources.lyrics_translating
 import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -236,7 +239,7 @@ fun LyricsScreen(
                         when (page) {
                             0 -> LyricsBody(uiState, viewModel)
                             1 -> TrackInfoTab(uiState)
-                            2 -> ArtistInfoTab(uiState)
+                            2 -> ArtistInfoTab(uiState, viewModel::toggleBioTranslation)
                             else -> RelatedTracksTab(uiState)
                         }
                     }
@@ -287,6 +290,15 @@ fun LyricsScreen(
 
 @Composable
 private fun ColumnScope.LyricsBody(uiState: LyricsUiState, viewModel: LyricsViewModel) {
+    if (!uiState.isLoading && uiState.error == null && uiState.lyricsTranslationAvailable) {
+        Box(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp), contentAlignment = Alignment.CenterEnd) {
+            TranslatePill(
+                translating = uiState.lyricsTranslating,
+                showingTranslation = uiState.showTranslatedLyrics,
+                onClick = viewModel::toggleLyricsTranslation
+            )
+        }
+    }
     when {
         uiState.isLoading -> CenteredMessage {
             ExpressiveLoadingIndicator(size = 48.dp)
@@ -302,13 +314,49 @@ private fun ColumnScope.LyricsBody(uiState: LyricsUiState, viewModel: LyricsView
         }
 
         uiState.mode == LyricType.SYNCED -> SyncedLyricsContent(
-            syncedLyrics = uiState.syncedLyrics ?: emptyList(),
+            syncedLyrics = (if (uiState.showTranslatedLyrics) uiState.translatedSyncedLyrics else null)
+                ?: uiState.syncedLyrics ?: emptyList(),
             currentIndex = uiState.currentIndex,
             onLineClick = viewModel::seekToLine
         )
 
         uiState.mode == LyricType.STATIC -> PlainLyricsContent(
-            plainLyrics = uiState.plainLyrics ?: ""
+            plainLyrics = (if (uiState.showTranslatedLyrics) uiState.translatedPlainLyrics else null)
+                ?: uiState.plainLyrics ?: ""
+        )
+    }
+}
+
+/** Small pill shown above the lyrics/bio: switches between the native text and its translation. */
+@Composable
+private fun TranslatePill(
+    translating: Boolean,
+    showingTranslation: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier) {
+    val pal = LocalLyricsColors.current
+    Row(
+        modifier = modifier
+            .clip(RoundedCornerShape(50))
+            .background(pal?.tonal ?: MillenniumTheme.colors.raised)
+            .clickable(role = Role.Button, enabled = !translating, onClick = onClick)
+            .padding(horizontal = 14.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (translating) {
+            ExpressiveLoadingIndicator(size = 14.dp)
+        }
+        Text(
+            text = stringResource(
+                when {
+                    translating -> Res.string.lyrics_translating
+                    showingTranslation -> Res.string.lyrics_show_original
+                    else -> Res.string.lyrics_translate
+                }
+            ),
+            style = AppTheme.typography.labelLarge,
+            color = lyricsText()
         )
     }
 }
@@ -564,7 +612,7 @@ private fun TrackInfoTab(uiState: LyricsUiState) {
 
 /** "Artista" tab: biography and basics for the track's main artist. */
 @Composable
-private fun ArtistInfoTab(uiState: LyricsUiState) {
+private fun ArtistInfoTab(uiState: LyricsUiState, onToggleBioTranslation: () -> Unit) {
     val overview = uiState.artistOverview
     when {
         uiState.artistOverviewLoading -> CenteredLyricsMessage { ExpressiveLoadingIndicator(size = 40.dp) }
@@ -612,9 +660,17 @@ private fun ArtistInfoTab(uiState: LyricsUiState) {
                             modifier = Modifier.padding(bottom = 12.dp)
                         )
                     }
-                    artist.biography?.takeIf { it.isNotBlank() }?.let {
+                    artist.biography?.takeIf { it.isNotBlank() }?.let { bio ->
+                        if (uiState.bioTranslationAvailable) {
+                            TranslatePill(
+                                translating = uiState.bioTranslating,
+                                showingTranslation = uiState.showTranslatedBio,
+                                onClick = onToggleBioTranslation,
+                                modifier = Modifier.padding(bottom = 10.dp)
+                            )
+                        }
                         Text(
-                            text = it,
+                            text = (if (uiState.showTranslatedBio) uiState.translatedBio else null) ?: bio,
                             style = AppTheme.typography.bodyLarge,
                             color = lyricsText()
                         )

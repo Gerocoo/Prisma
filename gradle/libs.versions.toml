@@ -18,6 +18,8 @@ android-compileSdk = "37"
 android-minSdk = "28"
 android-targetSdk = "37"
 agp = "9.1.0"
+mlkitTranslate = "17.0.3"
+mlkitLanguageId = "17.0.6"
 androidx-activity = "1.13.0"
 androidx-lifecycle = "2.10.0"
 appdirs = "1.5.0"
@@ -69,6 +71,10 @@ mokkery = "3.5.1"
 jmustache = "1.16"
 
 [libraries]
+# On-device translation (artist bio / lyrics "Traduci" pill): no API key, works
+# offline once the language model has been downloaded once.
+mlkit-translate = { module = "com.google.mlkit:translate", version.ref = "mlkitTranslate" }
+mlkit-language-id = { module = "com.google.mlkit:language-id", version.ref = "mlkitLanguageId" }
 # buildSrc: renders the package manager manifests in packaging/
 jmustache = { module = "com.samskivert:jmustache", version.ref = "jmustache" }
 appdirs = { module = "net.harawata:appdirs", version.ref = "appdirs" }
