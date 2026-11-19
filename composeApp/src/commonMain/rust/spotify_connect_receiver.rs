@@ -36,14 +36,17 @@ use tokio::sync::Mutex as AsyncMutex;
 /// just gone) once it decides the process is misbehaving in the
 /// background, instead of the login attempt failing cleanly and visibly.
 ///
-/// 8s was too slow: a bugreport from a rapid off/on toggle cycle showed 5
-/// consecutive EXIT_SELF process deaths each 5-9s apart, none of them
-/// preceded by our own LoginFailed log line - i.e. the OS killed the whole
-/// process before our own timeout even got a chance to fire. Android seems
-/// to get more aggressive about killing a process that keeps dying/
-/// restarting quickly, so this needs real margin, not just "shorter than
-/// what we saw once".
-const CONNECT_TIMEOUT: Duration = Duration::from_secs(4);
+/// 8s was too slow during a rapid off/on toggle cycle (bugreport showed 5
+/// consecutive EXIT_SELF process deaths before our own timeout could fire -
+/// Android seems to get more aggressive about killing a process that keeps
+/// dying/restarting quickly). But 4s turned out too tight the other way:
+/// with real librespot logging finally wired up (see android_logger below),
+/// a clean single attempt showed Spirc::new() legitimately needs ~5s just to
+/// solve a hashcash proof-of-work challenge from Spotify's clienttoken
+/// endpoint before it even gets to the actual connection - not stuck, just
+/// slow. 12s gives that room while still being far short of what seems to
+/// trigger the OS-level kill in a non-rapid-retry scenario.
+const CONNECT_TIMEOUT: Duration = Duration::from_secs(12);
 
 #[derive(Debug, uniffi::Error)]
 pub enum SpotifyConnectError {
