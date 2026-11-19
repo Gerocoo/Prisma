@@ -34,3 +34,10 @@ path = "src/commonMain/rust/lib.rs"
 strip = true
 lto = true
 codegen-units = 1
+
+# Da quando c'e' dentro tutto lo stack di librespot (crypto, TLS, audio), i .so di debug
+# non stripped erano enormi - moltiplicato per le 3 architetture nell'universal APK, portava
+# l'APK debug a quasi un giga. "debuginfo" toglie solo le info DWARF (non tocca LTO/opt-level,
+# quindi la velocita' di compilazione in debug resta la stessa).
+[profile.dev]
+strip = "debuginfo"
