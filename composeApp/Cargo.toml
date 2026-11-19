@@ -11,6 +11,11 @@ thiserror = "2.0"
 parking_lot = "0.12"
 log = "0.4"
 tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros", "sync"] }
+# Per vedere i log interni di librespot (dove si blocca esattamente il login
+# del receiver Spotify Connect) nel logcat di Android - senza, i suoi log::debug!/trace!
+# non arrivano da nessuna parte e vediamo solo l'errore finale generico.
+[target.'cfg(target_os = "android")'.dependencies]
+android_logger = "0.14"
 # Puntiamo direttamente al branch dev su GitHub (versione 0.8.0 li') invece
 # che alla release 0.6.0 su crates.io: quella release ha un conflitto rotto
 # tra vergen e vergen-gitcl che le impedisce di compilare (vedi nota piu'

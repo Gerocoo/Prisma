@@ -118,6 +118,18 @@ pub struct SpotifyConnectReceiver {
 impl SpotifyConnectReceiver {
     #[uniffi::constructor]
     pub fn new() -> Self {
+        // android_logger::init_once e' no-op se chiamato di nuovo (es. stop/start
+        // ripetuti) - sicuro da richiamare ogni volta che creiamo un receiver.
+        // Senza questo, i log::debug!/trace! di librespot (risoluzione access
+        // point, connessione TCP, handshake, login) non arrivano da nessuna
+        // parte: vediamo solo l'eccezione finale generica lato Kotlin.
+        #[cfg(target_os = "android")]
+        android_logger::init_once(
+            android_logger::Config::default()
+                .with_max_level(log::LevelFilter::Debug)
+                .with_tag("librespot"),
+        );
+
         let runtime = tokio::runtime::Builder::new_multi_thread()
             .enable_all()
             .build()
