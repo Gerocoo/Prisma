@@ -37,8 +37,10 @@ path = "src/commonMain/rust/lib.rs"
 
 [profile.release]
 strip = true
-lto = true
-codegen-units = 1
+# Thin LTO + piu' codegen units: build release molto piu' veloci (link
+# parallelo su tutti i core), libreria appena piu' grande.
+lto = "thin"
+codegen-units = 16
 
 # Da quando c'e' dentro tutto lo stack di librespot (crypto, TLS, audio), i .so di debug
 # non stripped erano enormi - moltiplicato per le 3 architetture nell'universal APK, portava
