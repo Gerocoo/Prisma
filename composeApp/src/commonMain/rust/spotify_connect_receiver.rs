@@ -35,7 +35,7 @@ use tokio::sync::Mutex as AsyncMutex;
 /// killing the whole app process outright (no exception, no crash log -
 /// just gone) once it decides the process is misbehaving in the
 /// background, instead of the login attempt failing cleanly and visibly.
-const CONNECT_TIMEOUT: Duration = Duration::from_secs(15);
+const CONNECT_TIMEOUT: Duration = Duration::from_secs(8);
 
 #[derive(Debug, uniffi::Error)]
 pub enum SpotifyConnectError {
