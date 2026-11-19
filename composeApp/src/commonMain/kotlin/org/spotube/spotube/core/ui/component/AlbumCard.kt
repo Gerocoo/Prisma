@@ -43,7 +43,8 @@ fun AlbumCard(
     playbackHelper: CollectionPlaybackHelper = koinInject(),
     navigationCommands: NavigationCommands = koinInject(),
     remotePlaybackController: RemotePlaybackController = koinInject(),
-    listMode: Boolean = false
+    listMode: Boolean = false,
+    cardWidth: androidx.compose.ui.unit.Dp = 160.dp
 ) {
     val currentCollectionEntry by audioPlayerQueue.currentCollectionEntryFlow.collectAsStateWithLifecycle()
     val busyCollections by remotePlaybackController.busyCollections.collectAsStateWithLifecycle()
@@ -72,7 +73,7 @@ fun AlbumCard(
                 album.title
             )
         },
-        modifier = if (listMode) modifier else modifier.width(160.dp),
+        modifier = if (listMode) modifier else modifier.width(cardWidth),
         sharedElementKey = "album_art_${album.id}",
         listMode = listMode,
         playLoading = CollectionPlaybackKey(RemoteCollectionType.Album, album.id, PlaybackDestinationAction.Play) in busyCollections,

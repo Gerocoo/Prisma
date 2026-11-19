@@ -42,6 +42,7 @@ import kotlinx.coroutines.delay
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import org.spotube.spotube.modules.shell.PlayPauseGlyph
 import org.spotube.spotube.modules.shell.PlayerControlButton
@@ -146,14 +147,26 @@ fun LyricsScreen(
     val scope = rememberCoroutineScope()
 
     // The four carousel pages: lyrics, track info, artist info, related tracks.
-    val pagerState = rememberPagerState(pageCount = { 4 })
+    // Survives the card collapsing/re-expanding (rememberSaveable, not remember) so
+    // re-opening the card lands back on whichever tab (e.g. "Autore") the person was
+    // last reading, instead of always snapping back to "Testo".
+    var lastSelectedPage by rememberSaveable { mutableStateOf(0) }
+    val pagerState = rememberPagerState(initialPage = lastSelectedPage, pageCount = { 4 })
+    LaunchedEffect(pagerState.currentPage) {
+        lastSelectedPage = pagerState.currentPage
+    }
     var autoPageChosen by remember { mutableStateOf(false) }
     LaunchedEffect(uiState.isLoading, uiState.syncedLyrics, uiState.plainLyrics) {
+        // Only auto-redirect when the person hadn't already picked a tab themselves -
+        // otherwise re-expanding on a lyrics-less track would snap "Autore" back to
+        // "Brano" even though they'd deliberately navigated there.
         if (!autoPageChosen && !uiState.isLoading) {
             autoPageChosen = true
-            val hasLyrics = !uiState.syncedLyrics.isNullOrEmpty() || !uiState.plainLyrics.isNullOrBlank()
-            // No lyrics for this track: open straight on "Brano" instead of an empty page.
-            if (!hasLyrics) pagerState.scrollToPage(1)
+            if (lastSelectedPage == 0) {
+                val hasLyrics = !uiState.syncedLyrics.isNullOrEmpty() || !uiState.plainLyrics.isNullOrBlank()
+                // No lyrics for this track: open straight on "Brano" instead of an empty page.
+                if (!hasLyrics) pagerState.scrollToPage(1)
+            }
         }
     }
 
