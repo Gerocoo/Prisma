@@ -141,6 +141,10 @@ impl SpotifyConnectReceiver {
         // il problema e' l'installazione del logger stesso (non il fatto che
         // librespot non scriva nulla).
         log::info!("[diag] logger inizializzato, livello massimo = {:?}", log::max_level());
+        // Controllo indipendente dal crate "log": se nemmeno questo compare nel
+        // logcat, il problema non e' l'installazione di android_logger ma qualcosa
+        // di piu' a monte (stdout/stderr del processo non arriva a logd).
+        eprintln!("[diag-eprintln] SpotifyConnectReceiver::new chiamato");
 
         let runtime = tokio::runtime::Builder::new_multi_thread()
             .enable_all()
@@ -214,7 +218,11 @@ impl SpotifyConnectReceiver {
             .map_err(|_| SpotifyConnectError::LoginFailed {
                 reason: "connection timed out".to_string(),
             })?
-            .map_err(|e| SpotifyConnectError::LoginFailed { reason: e.to_string() })?;
+            // {:?} invece di {} ({e}/to_string usa Display, che per molti errori di
+            // hyper/rustls accorcia tutto a un generico "client error (Connect)" e
+            // nasconde la causa vera, es. DNS fallita, TLS, connessione rifiutata.
+            // Debug di solito espande la catena "source" completa.
+            .map_err(|e| SpotifyConnectError::LoginFailed { reason: format!("{e:?}") })?;
 
             let listener_for_task = event_listener.clone();
             let task_handle = tokio::spawn(async move {
