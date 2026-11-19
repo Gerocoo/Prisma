@@ -132,6 +132,15 @@ import spotube.composeapp.generated.resources.lyrics_related_empty
 import spotube.composeapp.generated.resources.lyrics_translate
 import spotube.composeapp.generated.resources.lyrics_show_original
 import spotube.composeapp.generated.resources.lyrics_translating
+import spotube.composeapp.generated.resources.player_track_details_album_type
+import spotube.composeapp.generated.resources.player_track_details_album_genres
+import spotube.composeapp.generated.resources.player_track_details_album_track_count
+import spotube.composeapp.generated.resources.player_track_details_track_number
+import spotube.composeapp.generated.resources.player_track_details_disc_number
+import spotube.composeapp.generated.resources.player_track_details_explicit
+import spotube.composeapp.generated.resources.player_track_details_popularity
+import spotube.composeapp.generated.resources.player_track_details_isrc
+import spotube.composeapp.generated.resources.common_yes
 import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -594,6 +603,9 @@ private fun TrackInfoTab(uiState: LyricsUiState) {
                 track.album?.title?.takeIf { it.isNotBlank() }?.let {
                     LyricsInfoRow(stringResource(Res.string.lyrics_track_album), it)
                 }
+                track.album?.albumType?.let {
+                    LyricsInfoRow(stringResource(Res.string.player_track_details_album_type), it.name)
+                }
                 track.album?.releaseDate?.takeIf { it.isNotBlank() }?.let {
                     LyricsInfoRow(stringResource(Res.string.lyrics_track_release_date), it)
                 }
@@ -601,9 +613,31 @@ private fun TrackInfoTab(uiState: LyricsUiState) {
                     stringResource(Res.string.lyrics_track_duration),
                     org.spotube.spotube.modules.shell.formatPlayerTime(track.durationMs.milliseconds)
                 )
+                // Track/disc position within the album, Spotify-credits style.
+                if (track.trackNumber != null || track.discNumber != null) {
+                    track.trackNumber?.let {
+                        LyricsInfoRow(stringResource(Res.string.player_track_details_track_number), it.toString())
+                    }
+                    track.discNumber?.let {
+                        LyricsInfoRow(stringResource(Res.string.player_track_details_disc_number), it.toString())
+                    }
+                }
+                track.album?.trackCount?.takeIf { it > 0 }?.let {
+                    LyricsInfoRow(stringResource(Res.string.player_track_details_album_track_count), it.toString())
+                }
                 val genres = track.album?.genres.orEmpty()
                 if (genres.isNotEmpty()) {
-                    LyricsInfoRow(stringResource(Res.string.lyrics_track_album), genres.joinToString(", "))
+                    LyricsInfoRow(stringResource(Res.string.player_track_details_album_genres), genres.joinToString(", "))
+                }
+                if (track.explicit == true) {
+                    LyricsInfoRow(stringResource(Res.string.player_track_details_explicit), stringResource(Res.string.common_yes))
+                }
+                // Spotify's own 0-100 "how popular right now" score for the track.
+                track.popularity?.let {
+                    LyricsInfoRow(stringResource(Res.string.player_track_details_popularity), "$it/100")
+                }
+                track.isrcCode?.takeIf { it.isNotBlank() }?.let {
+                    LyricsInfoRow(stringResource(Res.string.player_track_details_isrc), it)
                 }
             }
         }

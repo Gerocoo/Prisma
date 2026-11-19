@@ -631,6 +631,8 @@
     <string name="common_loading">Loading...</string>
     <string name="common_unknown">Unknown</string>
     <string name="common_unknown_error">Unknown error</string>
+    <string name="common_yes">Yes</string>
+    <string name="common_no">No</string>
 
     <!-- Media cards -->
     <string name="media_user">User</string>
