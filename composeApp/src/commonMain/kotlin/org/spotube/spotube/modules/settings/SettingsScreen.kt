@@ -44,7 +44,6 @@ import org.spotube.spotube.core.ui.component.ApplicationMainBar
 import spotube.composeapp.generated.resources.*
 import org.spotube.spotube.modules.settings.sections.appearanceSection
 import org.spotube.spotube.modules.settings.sections.connectSection
-import org.spotube.spotube.modules.settings.sections.connectReceiverSection
 import org.spotube.spotube.modules.settings.sections.cacheSection
 import org.spotube.spotube.modules.settings.sections.desktopSection
 import org.spotube.spotube.modules.settings.sections.jamSection
@@ -122,7 +121,6 @@ private fun CompactSettingsContent(
     val isDesktopPlatform = platformType == PlatformType.Windows ||
             platformType == PlatformType.Linux ||
             platformType == PlatformType.MacOS
-    val isAndroidPlatform = platformType == PlatformType.Android
 
     Box(modifier = modifier.fillMaxSize()) {
         LazyColumn(
@@ -146,11 +144,6 @@ private fun CompactSettingsContent(
                     navigatorCommands = navigatorCommands,
                     requestLocalNetworkPermission = requestLocalNetworkPermission)
                 connectSection(navigationCommands = navigatorCommands)
-                if (isAndroidPlatform) {
-                    connectReceiverSection(
-                        settings = settings,
-                        settingsViewModel = settingsViewModel)
-                }
                 jamSection(
                     settings = settings,
                     navigationCommands = navigatorCommands)

@@ -10,26 +10,7 @@ discord-rich-presence = "1.1.0"
 thiserror = "2.0"
 parking_lot = "0.12"
 log = "0.4"
-tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros", "sync"] }
-# Per vedere i log interni di librespot (dove si blocca esattamente il login
-# del receiver Spotify Connect) nel logcat di Android - senza, i suoi log::debug!/trace!
-# non arrivano da nessuna parte e vediamo solo l'errore finale generico.
-[target.'cfg(target_os = "android")'.dependencies]
-android_logger = "0.14"
-# Puntiamo direttamente al branch dev su GitHub (versione 0.8.0 li') invece
-# che alla release 0.6.0 su crates.io: quella release ha un conflitto rotto
-# tra vergen e vergen-gitcl che le impedisce di compilare (vedi nota piu'
-# sotto). Il tentativo precedente con [patch.crates-io] non ha funzionato
-# perche' il vincolo di versione "0.6" qui sopra scartava la patch (0.8.0
-# non soddisfa "^0.6"): dichiarare direttamente la dipendenza git risolve
-# il problema alla radice.
-# TLS: rustls (Rust puro) invece di native-tls/OpenSSL, che da Windows non
-# si riesce a cross-compilare per Android. webpki-roots = certificati Mozilla
-# inclusi nel binario, adatti ad Android. Va messo su TUTTI e tre i crate
-# librespot: connect e playback hanno native-tls nei default e lo riattivano.
-librespot-core = { git = "https://github.com/librespot-org/librespot", branch = "dev", default-features = false, features = ["rustls-tls-webpki-roots"] }
-librespot-connect = { git = "https://github.com/librespot-org/librespot", branch = "dev", default-features = false, features = ["rustls-tls-webpki-roots"] }
-librespot-playback = { git = "https://github.com/librespot-org/librespot", branch = "dev", default-features = false, features = ["rustls-tls-webpki-roots"] }
+tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros"] }
 
 [lib]
 crate-type = ["cdylib", "staticlib"]
@@ -37,14 +18,5 @@ path = "src/commonMain/rust/lib.rs"
 
 [profile.release]
 strip = true
-# Thin LTO + piu' codegen units: build release molto piu' veloci (link
-# parallelo su tutti i core), libreria appena piu' grande.
 lto = "thin"
 codegen-units = 16
-
-# Da quando c'e' dentro tutto lo stack di librespot (crypto, TLS, audio), i .so di debug
-# non stripped erano enormi - moltiplicato per le 3 architetture nell'universal APK, portava
-# l'APK debug a quasi un giga. "debuginfo" toglie solo le info DWARF (non tocca LTO/opt-level,
-# quindi la velocita' di compilazione in debug resta la stessa).
-[profile.dev]
-strip = "debuginfo"
