@@ -486,15 +486,21 @@ android {
                     val outDir = outputDirectory.get().asFile
                     // AGP produces one "universal" APK plus one ABI-specific split per
                     // architecture (armeabi-v7a, x86_64, arm64-v8a) in the same directory.
-                    // Renaming every *.apk to the same targetName let the ABI splits
-                    // overwrite the universal one in an arbitrary (listFiles) order, so the
-                    // file that survived could end up containing only one architecture's
-                    // native libs - installable only on a matching device/emulator, and
-                    // "App not installed" everywhere else. Only the universal APK (the one
-                    // whose own filename contains "universal") is renamed/kept; the
-                    // ABI-specific splits are removed instead of being left stale.
-                    outDir.listFiles { f -> f.extension == "apk" }?.forEach { f ->
-                        if (f.name.contains("universal")) {
+                    // We used to pick the universal one by checking if its filename
+                    // contained "universal" - fragile, and for at least one variant
+                    // (stable/debug) AGP's actual output naming didn't match that
+                    // assumption, so the check matched nothing, every file hit the
+                    // "else" branch and got deleted, leaving the output folder empty
+                    // after an otherwise successful build.
+                    // The universal APK bundles every architecture's native libs, so
+                    // it is always the largest file in the group - picking by size
+                    // doesn't depend on AGP's naming scheme at all. Only that one is
+                    // renamed/kept; the ABI-specific splits are removed instead of
+                    // being left stale.
+                    val apks = outDir.listFiles { f -> f.extension == "apk" }?.toList().orEmpty()
+                    val universal = apks.maxByOrNull { it.length() }
+                    apks.forEach { f ->
+                        if (f == universal) {
                             if (f.name != targetName) {
                                 val newFile = f.resolveSibling(targetName)
                                 f.copyTo(newFile, overwrite = true)
