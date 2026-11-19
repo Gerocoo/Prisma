@@ -73,10 +73,6 @@ data class UserSettings(
     // Local media
     val localMediaFolders: List<String> = emptyList(),
 
-    // Spotify Connect receiver (Android only): makes this phone itself a selectable device
-    // inside the official Spotify app, via librespot.
-    val spotifyConnectReceiverEnabled: Boolean = false,
-
     // Desktop
     val minimizeToTray: Boolean = false,
     val discordRichPresence: Boolean = true,

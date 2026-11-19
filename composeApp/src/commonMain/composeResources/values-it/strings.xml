@@ -216,8 +216,6 @@
     <string name="settings_desktop_minimize_subtitle">Mantieni Prisma in esecuzione nell'area di notifica quando la finestra è ridotta a icona.</string>
     <string name="settings_desktop_discord_title">Rich Presence di Discord</string>
     <string name="settings_desktop_discord_subtitle">Mostra lo stato di riproduzione attuale su Discord dal desktop.</string>
-    <string name="settings_connect_receiver_title">Rendi questo telefono individuabile</string>
-    <string name="settings_connect_receiver_subtitle">Permette all'app Spotify ufficiale di vedere e controllare questo telefono come dispositivo Connect, come fosse una cassa.</string>
 
     <string name="settings_updates_auto_check_title">Controlla automaticamente gli aggiornamenti</string>
     <string name="settings_updates_auto_check_subtitle">Cerca nuove versioni di Prisma in background.</string>
