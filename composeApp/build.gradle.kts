@@ -493,12 +493,7 @@ android {
                     // "App not installed" everywhere else. Only the universal APK (the one
                     // whose own filename contains "universal") is renamed/kept; the
                     // ABI-specific splits are removed instead of being left stale.
-                    // Diagnostica temporanea: un apk stable/debug spariva senza che
-                    // comparisse nessun errore - serve vedere i nomi file reali che AGP
-                    // produce qui, prima di decidere rinomina/cancellazione.
-                    println("[apk-rename-diag] outDir=$outDir contenuto: ${outDir.listFiles()?.map { it.name }}")
                     outDir.listFiles { f -> f.extension == "apk" }?.forEach { f ->
-                        println("[apk-rename-diag] valuto file=${f.name} contains(universal)=${f.name.contains("universal")}")
                         if (f.name.contains("universal")) {
                             if (f.name != targetName) {
                                 val newFile = f.resolveSibling(targetName)
