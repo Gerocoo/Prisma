@@ -41,6 +41,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.map
 import org.spotube.spotube.core.audioplayer.AudioPlayerInterface
 import org.spotube.spotube.core.audioplayer.AudioPlayerQueue
+import org.spotube.spotube.core.extras.resolveOpenableSpotifyUrl
 import org.spotube.spotube.core.audioplayer.PlayerState
 import org.spotube.spotube.core.navigation.NavigationCommands
 import org.spotube.spotube.core.jam.JamRole
@@ -138,7 +139,7 @@ fun PlaylistScreen(
             owner?.let { o ->
                 navigationCommands.navigateTo(
                     org.spotube.spotube.core.navigation.Routes.ExternalProfile(
-                        url = o.externalUri ?: "https://open.spotify.com/user/${o.id}",
+                        url = resolveOpenableSpotifyUrl(o.externalUri, "https://open.spotify.com/user/${o.id}"),
                         title = ownerName
                     )
                 )

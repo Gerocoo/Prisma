@@ -29,6 +29,7 @@ import dev.nucleusframework.webview.web.WebContent
 import dev.nucleusframework.webview.web.WebView
 import dev.nucleusframework.webview.web.WebViewState
 import dev.nucleusframework.webview.web.rememberWebViewNavigator
+import org.spotube.spotube.core.extras.resolveOpenableSpotifyUrl
 import org.spotube.spotube.core.tools.user_agents.UserAgents
 import org.spotube.spotube.core.ui.component.ApplicationMainBar
 import org.spotube.spotube.core.ui.theming.AppTheme
@@ -40,10 +41,14 @@ import org.spotube.spotube.core.ui.theming.AppTheme
  */
 @Composable
 fun ExternalProfileScreen(url: String, title: String) {
-    val state = remember(url) {
+    // Defensive fallback: a caller may still pass a raw "spotify:type:id" URI (some
+    // metadata plugins populate externalUri that way). This is an http(s)-only WebView,
+    // so such a URI must be converted first or loading fails with ERR_UNKNOWN_URL_SCHEME.
+    val resolvedUrl = remember(url) { resolveOpenableSpotifyUrl(url, url) }
+    val state = remember(resolvedUrl) {
         WebViewState(
             WebContent.Url(
-                url = url,
+                url = resolvedUrl,
                 additionalHttpHeaders = mapOf("User-Agent" to UserAgents.random())
             )
         )
