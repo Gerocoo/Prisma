@@ -76,6 +76,8 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.layout.onSizeChanged
@@ -274,6 +276,10 @@ fun AppShell(
                             val blur = 24.dp.toPx() * p
                             renderEffect = if (blur > 0.5f) BlurEffect(blur, blur, TileMode.Decal) else null
                         }
+                            // The expanded player (Cast, Spotify Connect, queue, options, playback
+                            // controls...) stays composed and blurred underneath the lyrics overlay,
+                            // so without this its buttons would still be clickable through the blur.
+                            .disablePointerInputWhen(isLyricsOverlayVisible)
                     ) {
                     CompactPlayerOverlay(
                         navigator = navigator,
@@ -585,3 +591,23 @@ private fun Modifier.predictiveBackCard(progress: () -> Float, cornerRadius: Dp)
         clip = true
     }
 }
+
+/**
+ * Swallows every touch/pointer event directed at this composable's subtree while [disabled] is
+ * true, without affecting how it looks. Used to keep the expanded player's buttons (Connect,
+ * Cast, queue, options, playback controls...) from reacting to taps while they're just blurred
+ * in the background behind another screen (e.g. the lyrics overlay), rather than disabling each
+ * button individually.
+ */
+private fun Modifier.disablePointerInputWhen(disabled: Boolean): Modifier =
+    if (disabled) {
+        this.pointerInput(Unit) {
+            awaitPointerEventScope {
+                while (true) {
+                    awaitPointerEvent(pass = PointerEventPass.Initial).changes.forEach { it.consume() }
+                }
+            }
+        }
+    } else {
+        this
+    }
