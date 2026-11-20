@@ -137,6 +137,7 @@ fun AppShell(
     val isQueueVisible by queueViewModel.isQueueVisible.collectAsState()
     val isAlternativeVisible by alternativeViewModel.isAlternativeVisible.collectAsState()
     val isLyricsOverlayVisible by viewModel.isLyricsOverlayVisible.collectAsState()
+    val lyricsOverlayInitialPage by viewModel.lyricsOverlayInitialPageState.collectAsState()
 
     LaunchedEffect(navigatorCommands, navigator) {
         launch {
@@ -332,6 +333,7 @@ fun AppShell(
                     ) {
                         LyricsScreen(
                             modifier = Modifier.fillMaxSize().predictiveBackCard({ lyricsBack }, displayCorner),
+                            initialPage = lyricsOverlayInitialPage,
                             onClose = { viewModel.hideLyricsOverlay() })
                     }
                 }
@@ -359,7 +361,7 @@ internal fun CompactPlayerOverlay(
     viewModel: AppShellViewModel,
     onQueue: () -> Unit,
     onAlternativeSource: () -> Unit,
-    onExpandLyrics: () -> Unit,
+    onExpandLyrics: (initialPage: Int) -> Unit,
     floatingPlayer: @Composable (Modifier) -> Unit = { AppFloatingPlayer(modifier = it) },
     expandedPlayer: @Composable (modifier: Modifier, onCollapse: () -> Unit) -> Unit = { modifier, onCollapse ->
         AppExpandedPlayer(

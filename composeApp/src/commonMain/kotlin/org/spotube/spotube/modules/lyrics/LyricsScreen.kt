@@ -148,6 +148,7 @@ import kotlin.time.Duration.Companion.milliseconds
 fun LyricsScreen(
     viewModel: LyricsViewModel = koinViewModel(),
     modifier: Modifier = Modifier,
+    initialPage: Int = 0,
     onClose: (() -> Unit)? = null) {
     val uiState by viewModel.uiState.collectAsState()
     // Expressive lyrics: the whole page takes the cover's palette, like the full player.
@@ -159,10 +160,11 @@ fun LyricsScreen(
     val scope = rememberCoroutineScope()
 
     // The four carousel pages: lyrics, track info, artist info, related tracks.
-    // Survives the card collapsing/re-expanding (rememberSaveable, not remember) so
-    // re-opening the card lands back on whichever tab (e.g. "Autore") the person was
-    // last reading, instead of always snapping back to "Testo".
-    var lastSelectedPage by rememberSaveable { mutableStateOf(0) }
+    // Seeded from initialPage (the compact mini-carousel's own current page when it was
+    // expanded), so opening from e.g. "Artista" there lands on "Artista" here too, instead
+    // of always snapping back to "Testo". rememberSaveable (not remember) also keeps
+    // whichever tab the person manually switches to within this same screen instance.
+    var lastSelectedPage by rememberSaveable { mutableStateOf(initialPage) }
     val pagerState = rememberPagerState(initialPage = lastSelectedPage, pageCount = { 4 })
     LaunchedEffect(pagerState.currentPage) {
         lastSelectedPage = pagerState.currentPage

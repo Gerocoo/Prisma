@@ -54,6 +54,10 @@ class AppShellViewModel : ViewModel() {
     val expandedPlayerVisibilityThreshold = 0.001f
 
     private val lyricsOverlayVisible = MutableStateFlow(false)
+    // Which of the 4 lyrics tabs (Testo/Brano/Artista/Correlate) the overlay should open on -
+    // set from the compact carousel's own current page, so expanding it (e.g. while the
+    // carousel is showing "Artista") lands on that same tab instead of always "Testo".
+    private val lyricsOverlayInitialPage = MutableStateFlow(0)
     private val compactChrome = MutableStateFlow(CompactChromeUiState())
     val compactChromeUiState = compactChrome.asStateFlow()
 
@@ -62,6 +66,7 @@ class AppShellViewModel : ViewModel() {
     }
 
     val isLyricsOverlayVisible: StateFlow<Boolean> = lyricsOverlayVisible.asStateFlow()
+    val lyricsOverlayInitialPageState: StateFlow<Int> = lyricsOverlayInitialPage.asStateFlow()
 
     @Composable
     fun useSidebar(maxWidth: Dp? = null): Boolean {
@@ -102,7 +107,8 @@ class AppShellViewModel : ViewModel() {
         )
     }
 
-    fun showLyricsOverlay() {
+    fun showLyricsOverlay(initialPage: Int = 0) {
+        lyricsOverlayInitialPage.value = initialPage
         lyricsOverlayVisible.value = true
     }
 

@@ -224,7 +224,7 @@ fun AppExpandedPlayer(
     onCollapse: () -> Unit = {},
     onQueue: () -> Unit = {},
     onAlternativeSource: () -> Unit = {},
-    onExpandLyrics: () -> Unit = {},
+    onExpandLyrics: (initialPage: Int) -> Unit = {},
     onGoToAlbum: () -> Unit = {},
     onSleepTimer: () -> Unit = {},
     audioPlayer: AudioPlayerInterface = koinInject(),
@@ -813,7 +813,7 @@ private fun rememberSharedAlbumArtModifier(
 private fun PlayerInfoCarousel(
     colors: ArtworkColors,
     modifier: Modifier = Modifier,
-    onExpand: () -> Unit,
+    onExpand: (initialPage: Int) -> Unit,
     viewModel: LyricsViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -843,7 +843,9 @@ private fun PlayerInfoCarousel(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .clickable(onClick = onExpand)
+                    // Open the full lyrics screen on the same tab this page shows (Testo,
+                    // Brano, Artista or Correlate), instead of always snapping back to Testo.
+                    .clickable(onClick = { onExpand(page) })
                     .padding(start = 16.dp, end = 52.dp, top = 8.dp, bottom = 8.dp)
             ) {
                 when (page) {
@@ -869,7 +871,7 @@ private fun PlayerInfoCarousel(
                 .size(32.dp)
                 .clip(CircleShape)
                 .background(colors.tonal)
-                .clickable(role = Role.Button, onClick = onExpand),
+                .clickable(role = Role.Button, onClick = { onExpand(pagerState.currentPage) }),
             contentAlignment = Alignment.Center
         ) {
             MillenniumIcon(
