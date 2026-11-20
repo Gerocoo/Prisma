@@ -502,6 +502,17 @@ private fun ArtistMeta(
             textAlign = if (isCompact) TextAlign.Center else TextAlign.Start
         )
 
+        val monthlyListenersText = artist.monthlyListeners?.let { formatMonthlyListeners(it) }
+        val worldRankText = artist.worldRank?.let { stringResource(Res.string.artist_world_rank, it) }
+        if (monthlyListenersText != null || worldRankText != null) {
+            Text(
+                text = listOfNotNull(monthlyListenersText, worldRankText).joinToString(" • "),
+                style = AppTheme.typography.bodyMedium,
+                color = AppTheme.colors.onSurfaceVariant,
+                textAlign = if (isCompact) TextAlign.Center else TextAlign.Start
+            )
+        }
+
         artist.biography?.takeIf { it.isNotBlank() }?.let {
             Text(
                 text = it,
@@ -778,6 +789,14 @@ private fun formatFollowers(count: Int?): String {
         count >= 1_000 -> stringResource(Res.string.artist_followers_thousands, formatAbbreviatedCount(count, 1_000))
         else -> pluralStringResource(Res.plurals.artist_followers_count, count, count)
     }
+}
+
+@Composable
+private fun formatMonthlyListeners(count: Int): String = when {
+    count >= 1_000_000_000 -> stringResource(Res.string.artist_monthly_listeners_billions, formatAbbreviatedCount(count, 1_000_000_000))
+    count >= 1_000_000 -> stringResource(Res.string.artist_monthly_listeners_millions, formatAbbreviatedCount(count, 1_000_000))
+    count >= 1_000 -> stringResource(Res.string.artist_monthly_listeners_thousands, formatAbbreviatedCount(count, 1_000))
+    else -> pluralStringResource(Res.plurals.artist_monthly_listeners_count, count, count)
 }
 
 private fun formatAbbreviatedCount(count: Int, divisor: Int): String {

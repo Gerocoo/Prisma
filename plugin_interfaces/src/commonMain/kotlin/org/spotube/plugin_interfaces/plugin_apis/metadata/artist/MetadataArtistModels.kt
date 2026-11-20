@@ -47,6 +47,11 @@ sealed class MetadataArtist {
         val genres: List<String>,
         val biography: String?,
         val followersCount: Int?,
+        // Spotify's own "X monthly listeners" stat, shown on the artist's profile.
+        val monthlyListeners: Int? = null,
+        // Spotify's global popularity rank for the artist (lower is more popular), shown
+        // as e.g. "#130 in the world" on the artist's profile. Null when not available.
+        val worldRank: Int? = null,
         override val id: String,
         override val name: String,
         override val thumbnails: List<Thumbnail>,

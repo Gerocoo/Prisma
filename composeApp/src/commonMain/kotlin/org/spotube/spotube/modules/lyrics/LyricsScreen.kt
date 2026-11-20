@@ -124,9 +124,12 @@ import spotube.composeapp.generated.resources.lyrics_tab_artist
 import spotube.composeapp.generated.resources.lyrics_tab_related
 import spotube.composeapp.generated.resources.lyrics_track_album
 import spotube.composeapp.generated.resources.lyrics_track_release_date
-import spotube.composeapp.generated.resources.lyrics_track_duration
+import spotube.composeapp.generated.resources.lyrics_track_credits_header
+import spotube.composeapp.generated.resources.lyrics_track_credits_artist
 import spotube.composeapp.generated.resources.lyrics_track_no_info
 import spotube.composeapp.generated.resources.lyrics_artist_followers
+import spotube.composeapp.generated.resources.lyrics_artist_monthly_listeners
+import spotube.composeapp.generated.resources.lyrics_artist_world_rank
 import spotube.composeapp.generated.resources.lyrics_artist_no_bio
 import spotube.composeapp.generated.resources.lyrics_related_empty
 import spotube.composeapp.generated.resources.lyrics_translate
@@ -138,11 +141,9 @@ import spotube.composeapp.generated.resources.player_track_details_album_track_c
 import spotube.composeapp.generated.resources.player_track_details_track_number
 import spotube.composeapp.generated.resources.player_track_details_disc_number
 import spotube.composeapp.generated.resources.player_track_details_explicit
-import spotube.composeapp.generated.resources.player_track_details_popularity
 import spotube.composeapp.generated.resources.player_track_details_isrc
 import spotube.composeapp.generated.resources.common_yes
 import kotlin.math.roundToInt
-import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun LyricsScreen(
@@ -602,19 +603,30 @@ private fun TrackInfoTab(uiState: LyricsUiState) {
     ) {
         item {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                // Grouped like Spotify's own "Riconoscimenti" (Credits) panel: the release
+                // this track belongs to, when it came out, and who's behind it. The metadata
+                // source only gives us the performing artist(s) - not per-role songwriting,
+                // production or engineering credits - so only "Artista" is listed here.
+                Text(
+                    text = stringResource(Res.string.lyrics_track_credits_header),
+                    style = AppTheme.typography.titleMedium,
+                    color = lyricsText()
+                )
                 track.album?.title?.takeIf { it.isNotBlank() }?.let {
                     LyricsInfoRow(stringResource(Res.string.lyrics_track_album), it)
-                }
-                track.album?.albumType?.let {
-                    LyricsInfoRow(stringResource(Res.string.player_track_details_album_type), it.name)
                 }
                 track.album?.releaseDate?.takeIf { it.isNotBlank() }?.let {
                     LyricsInfoRow(stringResource(Res.string.lyrics_track_release_date), it)
                 }
-                LyricsInfoRow(
-                    stringResource(Res.string.lyrics_track_duration),
-                    org.spotube.spotube.modules.shell.formatPlayerTime(track.durationMs.milliseconds)
-                )
+                if (track.artists.isNotEmpty()) {
+                    LyricsInfoRow(
+                        stringResource(Res.string.lyrics_track_credits_artist),
+                        track.artists.joinToString(", ") { it.name }
+                    )
+                }
+                track.album?.albumType?.let {
+                    LyricsInfoRow(stringResource(Res.string.player_track_details_album_type), it.name)
+                }
                 // Track/disc position within the album, Spotify-credits style.
                 if (track.trackNumber != null || track.discNumber != null) {
                     track.trackNumber?.let {
@@ -633,10 +645,6 @@ private fun TrackInfoTab(uiState: LyricsUiState) {
                 }
                 if (track.explicit == true) {
                     LyricsInfoRow(stringResource(Res.string.player_track_details_explicit), stringResource(Res.string.common_yes))
-                }
-                // Spotify's own 0-100 "how popular right now" score for the track.
-                track.popularity?.let {
-                    LyricsInfoRow(stringResource(Res.string.player_track_details_popularity), "$it/100")
                 }
                 track.isrcCode?.takeIf { it.isNotBlank() }?.let {
                     LyricsInfoRow(stringResource(Res.string.player_track_details_isrc), it)
@@ -682,6 +690,20 @@ private fun ArtistInfoTab(uiState: LyricsUiState, onToggleBioTranslation: () -> 
                             artist.followersCount?.let {
                                 Text(
                                     text = stringResource(Res.string.lyrics_artist_followers, formatLyricsCount(it)),
+                                    style = AppTheme.typography.bodyMedium,
+                                    color = lyricsMuted()
+                                )
+                            }
+                            artist.monthlyListeners?.let {
+                                Text(
+                                    text = stringResource(Res.string.lyrics_artist_monthly_listeners, formatLyricsCount(it)),
+                                    style = AppTheme.typography.bodyMedium,
+                                    color = lyricsMuted()
+                                )
+                            }
+                            artist.worldRank?.let {
+                                Text(
+                                    text = stringResource(Res.string.lyrics_artist_world_rank, it),
                                     style = AppTheme.typography.bodyMedium,
                                     color = lyricsMuted()
                                 )

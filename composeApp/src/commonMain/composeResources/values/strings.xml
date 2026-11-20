@@ -608,10 +608,14 @@
     <string name="lyrics_tab_artist">Artist</string>
     <string name="lyrics_tab_related">Related</string>
     <string name="lyrics_track_album">Album</string>
+    <string name="lyrics_track_credits_header">Spotify credits</string>
+    <string name="lyrics_track_credits_artist">Artist</string>
     <string name="lyrics_track_release_date">Release date</string>
     <string name="lyrics_track_duration">Duration</string>
     <string name="lyrics_track_no_info">No track info available</string>
     <string name="lyrics_artist_followers">%1$s followers</string>
+    <string name="lyrics_artist_monthly_listeners">%1$s monthly listeners</string>
+    <string name="lyrics_artist_world_rank">#%1$d in the world</string>
     <string name="lyrics_artist_no_bio">No artist info available</string>
     <string name="lyrics_related_empty">No related tracks found</string>
     <string name="lyrics_translate">Translate</string>
@@ -727,6 +731,14 @@
         <item quantity="one">%1$d follower</item>
         <item quantity="other">%1$d followers</item>
     </plurals>
+    <string name="artist_monthly_listeners_thousands">%1$sK monthly listeners</string>
+    <string name="artist_monthly_listeners_millions">%1$sM monthly listeners</string>
+    <string name="artist_monthly_listeners_billions">%1$sB monthly listeners</string>
+    <plurals name="artist_monthly_listeners_count">
+        <item quantity="one">%1$d monthly listener</item>
+        <item quantity="other">%1$d monthly listeners</item>
+    </plurals>
+    <string name="artist_world_rank">#%1$d in the world</string>
 
     <!-- Player -->
     <string name="player_like_content_description">Like</string>
