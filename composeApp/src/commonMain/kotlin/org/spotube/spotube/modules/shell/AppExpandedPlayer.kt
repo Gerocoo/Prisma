@@ -122,6 +122,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -623,6 +629,39 @@ fun AppExpandedPlayer(
                     color = art.onContainerMuted,
                     textAlign = TextAlign.Center
                 )
+
+                // Album link right below the artist: tapping it opens that album's page.
+                val albumId = playerUiState.albumId
+                if (albumId != null && playerUiState.album.isNotBlank()) {
+                    val albumLinkColor = art.accent
+                    val annotatedAlbum = buildAnnotatedString {
+                        withLink(
+                            LinkAnnotation.Clickable(
+                                tag = albumId,
+                                styles = TextLinkStyles(
+                                    style = SpanStyle(textDecoration = TextDecoration.Underline),
+                                    hoveredStyle = SpanStyle(
+                                        color = albumLinkColor,
+                                        textDecoration = TextDecoration.Underline
+                                    ),
+                                ),
+                                linkInteractionListener = {
+                                    navigationCommands.navigateTo(Routes.Album(albumId))
+                                    onCollapse()
+                                },
+                            )
+                        ) { append(playerUiState.album) }
+                    }
+                    Text(
+                        text = annotatedAlbum,
+                        style = AppTheme.typography.bodyMedium,
+                        color = art.onContainerMuted,
+                        textAlign = TextAlign.Center,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.fillMaxWidth().padding(top = 2.dp)
+                    )
+                }
             }
 
             Column(modifier = Modifier.padding(top = 8.dp, start = 4.dp, end = 4.dp)) {

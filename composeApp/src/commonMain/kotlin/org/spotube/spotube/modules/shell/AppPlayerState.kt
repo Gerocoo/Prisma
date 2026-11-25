@@ -45,6 +45,7 @@ internal data class PlayerUiState(
     val artists: String = "No-op artists",
     val artistList: List<PlayerArtist> = emptyList(),
     val album: String = "",
+    val albumId: String? = null,
     val position: Duration = 0.milliseconds,
     val actualDuration: Duration = 0.milliseconds,
     val metadataDuration: Duration = 0.milliseconds,
@@ -106,6 +107,7 @@ internal fun rememberPlayerUiState(
         artists = currentQueueEntry?.displayArtists().orEmpty().ifBlank { fallbackArtists },
         artistList = currentQueueEntry?.displayArtistList().orEmpty(),
         album = currentQueueEntry?.displayAlbum(unknownAlbum).orEmpty(),
+        albumId = currentQueueEntry?.displayAlbumId(),
         position = position,
         actualDuration = duration,
         metadataDuration = metadataDuration,
@@ -146,6 +148,14 @@ private fun QueueEntry.displayAlbum(unknownAlbum: String): String {
     return when (this) {
         is QueueEntry.StreamingTrack -> track.album?.title ?: unknownAlbum
         is QueueEntry.LocalTrack -> album.orEmpty()
+    }
+}
+
+// Local tracks have no album id to navigate to (no catalog album behind them).
+private fun QueueEntry.displayAlbumId(): String? {
+    return when (this) {
+        is QueueEntry.StreamingTrack -> track.album?.id
+        is QueueEntry.LocalTrack -> null
     }
 }
 
