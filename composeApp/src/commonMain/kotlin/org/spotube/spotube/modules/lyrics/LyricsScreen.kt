@@ -36,7 +36,13 @@ import org.spotube.spotube.core.ui.theming.ArtworkColors
 import org.spotube.spotube.modules.shell.rememberPlayerUiState
 import org.spotube.spotube.core.audioplayer.AudioPlayerQueue
 import org.spotube.spotube.core.audioplayer.AudioPlayerInterface
+import org.spotube.spotube.core.audioplayer.QueueEntry
+import org.spotube.plugin_interfaces.plugin_apis.metadata.track.MetadataTrack
+import org.spotube.spotube.modules.shell.PlayerArtist
+import org.spotube.spotube.modules.shell.PlayerArtistsText
 import org.koin.compose.koinInject
+import org.spotube.spotube.core.navigation.NavigationCommands
+import org.spotube.spotube.core.navigation.Routes
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 import androidx.compose.runtime.LaunchedEffect
@@ -75,6 +81,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.Dp
 import coil3.compose.AsyncImage
 import org.spotube.spotube.core.ui.theming.materialPanelBrush
@@ -119,7 +131,6 @@ import spotube.composeapp.generated.resources.lyrics_no_plain
 import spotube.composeapp.generated.resources.lyrics_no_synced
 import spotube.composeapp.generated.resources.common_close
 import spotube.composeapp.generated.resources.lyrics_tab_lyrics
-import spotube.composeapp.generated.resources.lyrics_tab_track
 import spotube.composeapp.generated.resources.lyrics_tab_artist
 import spotube.composeapp.generated.resources.lyrics_tab_related
 import spotube.composeapp.generated.resources.lyrics_track_album
@@ -160,26 +171,26 @@ fun LyricsScreen(
     val playerUiState = rememberPlayerUiState(audioPlayer, audioPlayerQueue)
     val scope = rememberCoroutineScope()
 
-    // The four carousel pages: lyrics, track info, artist info, related tracks.
+    // The three carousel pages: lyrics, artist info, related tracks.
     // Seeded from initialPage (the compact mini-carousel's own current page when it was
     // expanded), so opening from e.g. "Artista" there lands on "Artista" here too, instead
     // of always snapping back to "Testo". rememberSaveable (not remember) also keeps
     // whichever tab the person manually switches to within this same screen instance.
     var lastSelectedPage by rememberSaveable { mutableStateOf(initialPage) }
-    val pagerState = rememberPagerState(initialPage = lastSelectedPage, pageCount = { 4 })
+    val pagerState = rememberPagerState(initialPage = lastSelectedPage, pageCount = { 3 })
     LaunchedEffect(pagerState.currentPage) {
         lastSelectedPage = pagerState.currentPage
     }
     var autoPageChosen by remember { mutableStateOf(false) }
     LaunchedEffect(uiState.isLoading, uiState.syncedLyrics, uiState.plainLyrics) {
         // Only auto-redirect when the person hadn't already picked a tab themselves -
-        // otherwise re-expanding on a lyrics-less track would snap "Autore" back to
-        // "Brano" even though they'd deliberately navigated there.
+        // otherwise re-expanding on a lyrics-less track would snap "Artista" back to
+        // "Testo" even though they'd deliberately navigated there.
         if (!autoPageChosen && !uiState.isLoading) {
             autoPageChosen = true
             if (lastSelectedPage == 0) {
                 val hasLyrics = !uiState.syncedLyrics.isNullOrEmpty() || !uiState.plainLyrics.isNullOrBlank()
-                // No lyrics for this track: open straight on "Brano" instead of an empty page.
+                // No lyrics for this track: open straight on "Artista" instead of an empty page.
                 if (!hasLyrics) pagerState.scrollToPage(1)
             }
         }
@@ -223,7 +234,6 @@ fun LyricsScreen(
 
             val tabLabels = listOf(
                 stringResource(Res.string.lyrics_tab_lyrics),
-                stringResource(Res.string.lyrics_tab_track),
                 stringResource(Res.string.lyrics_tab_artist),
                 stringResource(Res.string.lyrics_tab_related)
             )
@@ -250,8 +260,7 @@ fun LyricsScreen(
                     Column(Modifier.fillMaxSize()) {
                         when (page) {
                             0 -> LyricsBody(uiState, viewModel)
-                            1 -> TrackInfoTab(uiState)
-                            2 -> ArtistInfoTab(uiState, viewModel::toggleBioTranslation)
+                            1 -> ArtistInfoTab(uiState, viewModel::toggleBioTranslation)
                             else -> RelatedTracksTab(uiState)
                         }
                     }
@@ -589,75 +598,11 @@ private fun LyricsControls(
     }
 }
 
-/** "Brano" tab: album, release date, duration and other metadata for the current track. */
-@Composable
-private fun TrackInfoTab(uiState: LyricsUiState) {
-    val track = uiState.track
-    if (track == null) {
-        CenteredLyricsMessage { Text(text = stringResource(Res.string.lyrics_track_no_info), color = lyricsMuted()) }
-        return
-    }
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp)
-    ) {
-        item {
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                // Grouped like Spotify's own "Riconoscimenti" (Credits) panel: the release
-                // this track belongs to, when it came out, and who's behind it. The metadata
-                // source only gives us the performing artist(s) - not per-role songwriting,
-                // production or engineering credits - so only "Artista" is listed here.
-                Text(
-                    text = stringResource(Res.string.lyrics_track_credits_header),
-                    style = AppTheme.typography.titleMedium,
-                    color = lyricsText()
-                )
-                track.album?.title?.takeIf { it.isNotBlank() }?.let {
-                    LyricsInfoRow(stringResource(Res.string.lyrics_track_album), it)
-                }
-                track.album?.releaseDate?.takeIf { it.isNotBlank() }?.let {
-                    LyricsInfoRow(stringResource(Res.string.lyrics_track_release_date), it)
-                }
-                if (track.artists.isNotEmpty()) {
-                    LyricsInfoRow(
-                        stringResource(Res.string.lyrics_track_credits_artist),
-                        track.artists.joinToString(", ") { it.name }
-                    )
-                }
-                track.album?.albumType?.let {
-                    LyricsInfoRow(stringResource(Res.string.player_track_details_album_type), it.name)
-                }
-                // Track/disc position within the album, Spotify-credits style.
-                if (track.trackNumber != null || track.discNumber != null) {
-                    track.trackNumber?.let {
-                        LyricsInfoRow(stringResource(Res.string.player_track_details_track_number), it.toString())
-                    }
-                    track.discNumber?.let {
-                        LyricsInfoRow(stringResource(Res.string.player_track_details_disc_number), it.toString())
-                    }
-                }
-                track.album?.trackCount?.takeIf { it > 0 }?.let {
-                    LyricsInfoRow(stringResource(Res.string.player_track_details_album_track_count), it.toString())
-                }
-                val genres = track.album?.genres.orEmpty()
-                if (genres.isNotEmpty()) {
-                    LyricsInfoRow(stringResource(Res.string.player_track_details_album_genres), genres.joinToString(", "))
-                }
-                if (track.explicit == true) {
-                    LyricsInfoRow(stringResource(Res.string.player_track_details_explicit), stringResource(Res.string.common_yes))
-                }
-                track.isrcCode?.takeIf { it.isNotBlank() }?.let {
-                    LyricsInfoRow(stringResource(Res.string.player_track_details_isrc), it)
-                }
-            }
-        }
-    }
-}
-
 /** "Artista" tab: biography and basics for the track's main artist. */
 @Composable
 private fun ArtistInfoTab(uiState: LyricsUiState, onToggleBioTranslation: () -> Unit) {
     val overview = uiState.artistOverview
+    val navigationCommands = koinInject<NavigationCommands>()
     when {
         uiState.artistOverviewLoading -> CenteredLyricsMessage { ExpressiveLoadingIndicator(size = 40.dp) }
         overview == null -> CenteredLyricsMessage {
@@ -686,7 +631,29 @@ private fun ArtistInfoTab(uiState: LyricsUiState, onToggleBioTranslation: () -> 
                             )
                         }
                         Column {
-                            Text(text = artist.name, style = AppTheme.typography.titleLarge, color = lyricsText())
+                            val artistNameLinkColor = AppTheme.colors.primary
+                            val annotatedArtistName = buildAnnotatedString {
+                                withLink(
+                                    LinkAnnotation.Clickable(
+                                        tag = artist.id,
+                                        styles = TextLinkStyles(
+                                            style = SpanStyle(textDecoration = TextDecoration.Underline),
+                                            hoveredStyle = SpanStyle(
+                                                color = artistNameLinkColor,
+                                                textDecoration = TextDecoration.Underline
+                                            ),
+                                        ),
+                                        linkInteractionListener = {
+                                            navigationCommands.navigateTo(Routes.Artist(artist.id))
+                                        },
+                                    )
+                                ) { append(artist.name) }
+                            }
+                            Text(
+                                text = annotatedArtistName,
+                                style = AppTheme.typography.titleLarge,
+                                color = lyricsText()
+                            )
                             artist.followersCount?.let {
                                 Text(
                                     text = stringResource(Res.string.lyrics_artist_followers, formatLyricsCount(it)),
@@ -743,6 +710,21 @@ private fun ArtistInfoTab(uiState: LyricsUiState, onToggleBioTranslation: () -> 
 @Composable
 private fun RelatedTracksTab(uiState: LyricsUiState) {
     val tracks = uiState.relatedTracks
+    val audioPlayerQueue: AudioPlayerQueue = koinInject()
+    val navigationCommands = koinInject<NavigationCommands>()
+    val scope = rememberCoroutineScope()
+
+    fun playOnPrisma(track: MetadataTrack) {
+        scope.launch {
+            audioPlayerQueue.load(
+                entries = listOf(QueueEntry.StreamingTrack(track = track, url = "")),
+                autoPlay = true,
+                startPosition = 0,
+                collectionEntry = null
+            )
+        }
+    }
+
     when {
         uiState.relatedTracksLoading -> CenteredLyricsMessage { ExpressiveLoadingIndicator(size = 40.dp) }
         tracks.isNullOrEmpty() -> CenteredLyricsMessage {
@@ -770,32 +752,69 @@ private fun RelatedTracksTab(uiState: LyricsUiState) {
                         )
                     }
                     Column(Modifier.weight(1f)) {
+                        // Track title: underlined, clicking it plays the track on Prisma (not Spotify).
+                        val titleLinkColor = AppTheme.colors.primary
+                        val annotatedTitle = buildAnnotatedString {
+                            withLink(
+                                LinkAnnotation.Clickable(
+                                    tag = track.id,
+                                    styles = TextLinkStyles(
+                                        style = SpanStyle(textDecoration = TextDecoration.Underline),
+                                        hoveredStyle = SpanStyle(
+                                            color = titleLinkColor,
+                                            textDecoration = TextDecoration.Underline
+                                        ),
+                                    ),
+                                    linkInteractionListener = { playOnPrisma(track) },
+                                )
+                            ) { append(track.title) }
+                        }
                         Text(
-                            text = track.title,
+                            text = annotatedTitle,
                             style = AppTheme.typography.titleMedium,
                             color = lyricsText(),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
-                        Text(
-                            text = track.artists.joinToString(", ") { it.name },
+                        // Artist name(s): always underlined, tapping navigates to the artist page.
+                        PlayerArtistsText(
+                            artists = track.artists.map { PlayerArtist(id = it.id, name = it.name) },
+                            onArtistClick = { artistId -> navigationCommands.navigateTo(Routes.Artist(artistId)) },
                             style = AppTheme.typography.bodyMedium,
-                            color = lyricsMuted(),
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
+                            color = lyricsMuted()
                         )
+                        // Album link, shown right below the artist line, same underline treatment.
+                        track.album?.let { album ->
+                            val albumLinkColor = AppTheme.colors.primary
+                            val annotatedAlbum = buildAnnotatedString {
+                                withLink(
+                                    LinkAnnotation.Clickable(
+                                        tag = album.id,
+                                        styles = TextLinkStyles(
+                                            style = SpanStyle(textDecoration = TextDecoration.Underline),
+                                            hoveredStyle = SpanStyle(
+                                                color = albumLinkColor,
+                                                textDecoration = TextDecoration.Underline
+                                            ),
+                                        ),
+                                        linkInteractionListener = {
+                                            navigationCommands.navigateTo(Routes.Album(album.id))
+                                        },
+                                    )
+                                ) { append(album.title) }
+                            }
+                            Text(
+                                text = annotatedAlbum,
+                                style = AppTheme.typography.bodySmall,
+                                color = lyricsMuted(),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
                     }
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun LyricsInfoRow(label: String, value: String) {
-    Column {
-        Text(text = label, style = AppTheme.typography.labelLarge, color = lyricsMuted())
-        Text(text = value, style = AppTheme.typography.bodyLarge, color = lyricsText())
     }
 }
 

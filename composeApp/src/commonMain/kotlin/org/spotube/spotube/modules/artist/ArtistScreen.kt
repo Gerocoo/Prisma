@@ -35,6 +35,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -46,6 +47,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 
 import org.spotube.spotube.core.ui.theming.AppTheme
 import com.composeunstyled.Text
@@ -371,7 +374,7 @@ private fun ArtistHeaderCard(
     onBlacklistClick: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        ArtistPhotoCarousel(artist = artist)
+        ArtistPhotoHero(artist = artist)
 
         Column(
             modifier = Modifier
@@ -394,51 +397,66 @@ private fun ArtistHeaderCard(
 }
 
 /**
- * Horizontally scrollable strip of artist photos, matching Spotify's artist-page hero.
- * The plugin only supplies a single avatar image today, so this renders one large photo;
- * it already behaves like a real carousel, so a future photo gallery from the plugin needs
- * no change here, only more items in [MetadataArtist.Detailed.thumbnails].
+ * Full-bleed artist photo with the artist name overlaid directly on the image (scrimmed by a
+ * bottom gradient), matching Spotify's artist-page hero. The plugin only supplies a single
+ * avatar image today, so this renders one large photo behind the name; a future photo gallery
+ * from the plugin only needs this to pick a different photo, since the name overlay itself
+ * does not depend on how many photos exist.
  */
 @Composable
-private fun ArtistPhotoCarousel(artist: MetadataArtist.Detailed) {
-    val photos = artist.thumbnails.distinctBy { it.url }.take(1)
+private fun ArtistPhotoHero(artist: MetadataArtist.Detailed) {
+    val photo = artist.thumbnails.firstOrNull()
 
-    if (photos.isEmpty()) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(1f)
-                .background(AppTheme.colors.surfaceContainerHighest),
-            contentAlignment = Alignment.Center
-        ) {
-            MillenniumIcon(
-                imageVector = Iconsax.User,
-                contentDescription = artist.name,
-                tint = AppTheme.colors.onSurfaceVariant,
-                modifier = Modifier.size(96.dp)
-            )
-        }
-        return
-    }
-
-    val listState = rememberLazyListState()
-    LazyRow(
-        state = listState,
-        modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(horizontal = 12.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(1f),
+        contentAlignment = Alignment.BottomStart
     ) {
-        items(photos) { photo ->
+        if (photo != null) {
             AsyncImage(
                 model = photo.url,
                 contentDescription = artist.name,
-                modifier = Modifier
-                    .fillParentMaxWidth(if (photos.size > 1) 0.82f else 1f)
-                    .aspectRatio(1f)
-                    .clip(RoundedCornerShape(12.dp)),
+                modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
+        } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(AppTheme.colors.surfaceContainerHighest),
+                contentAlignment = Alignment.Center
+            ) {
+                MillenniumIcon(
+                    imageVector = Iconsax.User,
+                    contentDescription = artist.name,
+                    tint = AppTheme.colors.onSurfaceVariant,
+                    modifier = Modifier.size(96.dp)
+                )
+            }
         }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(140.dp)
+                .align(Alignment.BottomStart)
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.75f))
+                    )
+                )
+        )
+
+        Text(
+            text = artist.name,
+            style = AppTheme.typography.displaySmall,
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
+        )
     }
 }
 
@@ -449,20 +467,10 @@ private fun ArtistMeta(artist: MetadataArtist.Detailed) {
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Text(
-            text = artist.name,
-            style = AppTheme.typography.headlineLarge,
-            fontWeight = FontWeight.SemiBold,
-            textAlign = TextAlign.Start,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
-
         val monthlyListenersText = artist.monthlyListeners?.let { formatMonthlyListeners(it) }
-        val worldRankText = artist.worldRank?.let { stringResource(Res.string.artist_world_rank, it) }
-        if (monthlyListenersText != null || worldRankText != null) {
+        if (monthlyListenersText != null) {
             Text(
-                text = listOfNotNull(monthlyListenersText, worldRankText).joinToString(" • "),
+                text = monthlyListenersText,
                 style = AppTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
                 color = AppTheme.colors.primary,

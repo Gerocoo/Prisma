@@ -134,7 +134,6 @@ import org.spotube.spotube.core.jam.JamRole
 import org.spotube.spotube.core.jam.JamRoomService
 import org.spotube.spotube.core.navigation.NavigationCommands
 import org.spotube.spotube.core.navigation.Routes
-import org.spotube.plugin_interfaces.plugin_apis.metadata.track.MetadataTrack
 import org.spotube.spotube.modules.lyrics.LyricsViewModel
 import org.spotube.spotube.modules.lyrics.SyncedLyricsList
 import org.spotube.spotube.modules.saved_tracks.SAVED_TRACKS_COLLECTION_ID
@@ -824,11 +823,11 @@ private fun PlayerInfoCarousel(
         return
     }
 
-    val pagerState = rememberPagerState(pageCount = { 4 })
+    val pagerState = rememberPagerState(pageCount = { 3 })
 
-    // Same cover-tinted colors as the player and the full lyrics page. Four swipeable pages -
-    // lyrics, track info, artist info, related tracks - the compact counterpart of the tabs in
-    // the full lyrics screen that onExpand opens.
+    // Same cover-tinted colors as the player and the full lyrics page. Three swipeable pages -
+    // lyrics, artist info, related tracks - the compact counterpart of the tabs in the full
+    // lyrics screen that onExpand opens.
     Box(
         modifier = modifier
             .height(PreviewCardHeight)
@@ -844,21 +843,13 @@ private fun PlayerInfoCarousel(
                 modifier = Modifier
                     .fillMaxSize()
                     // Open the full lyrics screen on the same tab this page shows (Testo,
-                    // Brano, Artista or Correlate), instead of always snapping back to Testo.
+                    // Artista or Correlate), instead of always snapping back to Testo.
                     .clickable(onClick = { onExpand(page) })
                     .padding(start = 16.dp, end = 52.dp, top = 8.dp, bottom = 8.dp)
             ) {
                 when (page) {
                     0 -> LyricsPreviewPage(uiState, colors)
-                    1 -> uiState.track?.let {
-                        TrackInfoPreview(
-                            track = it,
-                            mutedColor = colors.onContainerMuted,
-                            textColor = colors.onContainer,
-                            modifier = Modifier.fillMaxSize()
-                        )
-                    }
-                    2 -> ArtistInfoPreviewPage(uiState, colors)
+                    1 -> ArtistInfoPreviewPage(uiState, colors)
                     else -> RelatedTracksPreviewPage(uiState, colors)
                 }
             }
@@ -882,14 +873,14 @@ private fun PlayerInfoCarousel(
             )
         }
 
-        // Four dots, same spirit as the recap story progress dashes.
+        // Three dots, same spirit as the recap story progress dashes.
         Row(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
-            repeat(4) { i ->
+            repeat(3) { i ->
                 Box(
                     modifier = Modifier
                         .size(6.dp)
@@ -1054,37 +1045,6 @@ private fun formatCompactCount(count: Int): String {
         count >= 1_000_000 -> scaled(1_000_000, "M")
         count >= 1_000 -> scaled(1_000, "K")
         else -> count.toString()
-    }
-}
-
-/** Compact "Brano" fallback shown in the preview card when the track has no lyrics. */
-@Composable
-private fun TrackInfoPreview(
-    track: MetadataTrack,
-    mutedColor: Color,
-    textColor: Color,
-    modifier: Modifier = Modifier
-) {
-    Column(modifier = modifier, verticalArrangement = Arrangement.Center) {
-        track.album?.title?.takeIf { it.isNotBlank() }?.let {
-            Text(text = it, style = AppTheme.typography.titleMedium, color = textColor, maxLines = 1, overflow = TextOverflow.Ellipsis)
-        }
-        track.album?.releaseDate?.takeIf { it.isNotBlank() }?.let {
-            Text(
-                text = it,
-                style = AppTheme.typography.bodyMedium,
-                color = mutedColor,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(top = 4.dp)
-            )
-        }
-        Text(
-            text = formatPlayerTime(track.durationMs.milliseconds),
-            style = AppTheme.typography.bodyMedium,
-            color = mutedColor,
-            modifier = Modifier.padding(top = 4.dp)
-        )
     }
 }
 
