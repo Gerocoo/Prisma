@@ -29,22 +29,23 @@ import org.spotube.millennium.theme.MillenniumTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import com.composeunstyled.currentWindowWidthBreakpoint
-import org.spotube.millennium.adaptive.WindowBreakpoints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 
 import org.spotube.spotube.core.ui.theming.AppTheme
 import com.composeunstyled.Text
@@ -369,125 +370,105 @@ private fun ArtistHeaderCard(
     isBlacklisted: Boolean,
     onBlacklistClick: () -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxWidth()) {
-        val isCompact = currentWindowWidthBreakpoint() isBelow WindowBreakpoints.Medium
+    Column(modifier = Modifier.fillMaxWidth()) {
+        ArtistPhotoCarousel(artist = artist)
 
-        MillenniumCard(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 8.dp)
+                .padding(horizontal = 16.dp)
+                .padding(top = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
-            if (isCompact) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(14.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    ArtistAvatar(
-                        artist = artist,
-                        size = 180.dp
-                    )
+            ArtistMeta(artist = artist)
 
-                    ArtistMeta(
-                        artist = artist,
-                        isCompact = true
-                    )
-
-                    ArtistHeaderActions(
-                        isSaved = isSaved,
-                        isSaving = isSaving,
-                        onFollowClick = onFollowClick,
-                        isBlacklisted = isBlacklisted,
-                        onBlacklistClick = onBlacklistClick
-                    )
-                }
-            } else {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp),
-                    horizontalArrangement = Arrangement.spacedBy(20.dp),
-                    verticalAlignment = Alignment.Top
-                ) {
-                    ArtistAvatar(
-                        artist = artist,
-                        size = 220.dp
-                    )
-
-                    Column(
-                        modifier = Modifier.weight(1f),
-                        verticalArrangement = Arrangement.spacedBy(14.dp)
-                    ) {
-                        ArtistMeta(
-                            artist = artist,
-                            isCompact = false
-                        )
-
-                        ArtistHeaderActions(
-                            isSaved = isSaved,
-                            isSaving = isSaving,
-                            onFollowClick = onFollowClick,
-                            isBlacklisted = isBlacklisted,
-                            onBlacklistClick = onBlacklistClick
-                        )
-                    }
-                }
-            }
+            ArtistHeaderActions(
+                isSaved = isSaved,
+                isSaving = isSaving,
+                onFollowClick = onFollowClick,
+                isBlacklisted = isBlacklisted,
+                onBlacklistClick = onBlacklistClick
+            )
         }
     }
 }
 
+/**
+ * Horizontally scrollable strip of artist photos, matching Spotify's artist-page hero.
+ * The plugin only supplies a single avatar image today, so this renders one large photo;
+ * it already behaves like a real carousel, so a future photo gallery from the plugin needs
+ * no change here, only more items in [MetadataArtist.Detailed.thumbnails].
+ */
 @Composable
-private fun ArtistAvatar(
-    artist: MetadataArtist.Detailed,
-    size: androidx.compose.ui.unit.Dp
-) {
-    Box(
-        modifier = Modifier
-            .size(size)
-            .clip(CircleShape)
-            .background(AppTheme.colors.surfaceContainerHighest),
-        contentAlignment = Alignment.Center
-    ) {
-        val imageUrl = artist.thumbnails.firstOrNull()?.url.orEmpty()
-        if (imageUrl.isNotBlank()) {
-            AsyncImage(
-                model = imageUrl,
-                contentDescription = artist.name,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-        } else {
+private fun ArtistPhotoCarousel(artist: MetadataArtist.Detailed) {
+    val photos = artist.thumbnails.distinctBy { it.url }.take(1)
+
+    if (photos.isEmpty()) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1f)
+                .background(AppTheme.colors.surfaceContainerHighest),
+            contentAlignment = Alignment.Center
+        ) {
             MillenniumIcon(
                 imageVector = Iconsax.User,
                 contentDescription = artist.name,
                 tint = AppTheme.colors.onSurfaceVariant,
-                modifier = Modifier.size(size * 0.4f)
+                modifier = Modifier.size(96.dp)
+            )
+        }
+        return
+    }
+
+    val listState = rememberLazyListState()
+    LazyRow(
+        state = listState,
+        modifier = Modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(horizontal = 12.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(photos) { photo ->
+            AsyncImage(
+                model = photo.url,
+                contentDescription = artist.name,
+                modifier = Modifier
+                    .fillParentMaxWidth(if (photos.size > 1) 0.82f else 1f)
+                    .aspectRatio(1f)
+                    .clip(RoundedCornerShape(12.dp)),
+                contentScale = ContentScale.Crop
             )
         }
     }
 }
 
 @Composable
-private fun ArtistMeta(
-    artist: MetadataArtist.Detailed,
-    isCompact: Boolean
-) {
+private fun ArtistMeta(artist: MetadataArtist.Detailed) {
     Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = if (isCompact) Alignment.CenterHorizontally else Alignment.Start,
+        horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         Text(
             text = artist.name,
-            style = if (isCompact) AppTheme.typography.headlineSmall else AppTheme.typography.headlineLarge,
+            style = AppTheme.typography.headlineLarge,
             fontWeight = FontWeight.SemiBold,
-            textAlign = if (isCompact) TextAlign.Center else TextAlign.Start,
+            textAlign = TextAlign.Start,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
+
+        val monthlyListenersText = artist.monthlyListeners?.let { formatMonthlyListeners(it) }
+        val worldRankText = artist.worldRank?.let { stringResource(Res.string.artist_world_rank, it) }
+        if (monthlyListenersText != null || worldRankText != null) {
+            Text(
+                text = listOfNotNull(monthlyListenersText, worldRankText).joinToString(" • "),
+                style = AppTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = AppTheme.colors.primary,
+                textAlign = TextAlign.Start
+            )
+        }
 
         Text(
             text = buildString {
@@ -499,28 +480,17 @@ private fun ArtistMeta(
             },
             style = AppTheme.typography.bodyMedium,
             color = AppTheme.colors.onSurfaceVariant,
-            textAlign = if (isCompact) TextAlign.Center else TextAlign.Start
+            textAlign = TextAlign.Start
         )
-
-        val monthlyListenersText = artist.monthlyListeners?.let { formatMonthlyListeners(it) }
-        val worldRankText = artist.worldRank?.let { stringResource(Res.string.artist_world_rank, it) }
-        if (monthlyListenersText != null || worldRankText != null) {
-            Text(
-                text = listOfNotNull(monthlyListenersText, worldRankText).joinToString(" • "),
-                style = AppTheme.typography.bodyMedium,
-                color = AppTheme.colors.onSurfaceVariant,
-                textAlign = if (isCompact) TextAlign.Center else TextAlign.Start
-            )
-        }
 
         artist.biography?.takeIf { it.isNotBlank() }?.let {
             Text(
                 text = it,
                 style = AppTheme.typography.bodyMedium,
                 color = AppTheme.colors.onSurfaceVariant,
-                maxLines = if (isCompact) 4 else 6,
+                maxLines = 6,
                 overflow = TextOverflow.Ellipsis,
-                textAlign = if (isCompact) TextAlign.Center else TextAlign.Start
+                textAlign = TextAlign.Start
             )
         }
     }
