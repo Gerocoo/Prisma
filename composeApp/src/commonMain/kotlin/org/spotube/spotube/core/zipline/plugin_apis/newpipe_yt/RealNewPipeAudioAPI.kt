@@ -79,6 +79,12 @@ class RealNewPipeAudioAPI : AudioAPI, KoinComponent {
         // Auto-generated "Artist - Topic" uploads are the studio audio, preferred over videos
         if (isTopicChannel && isUploaderMatch) confidence += 0.1f
         confidence = confidence.coerceAtMost(1f)
+        // A matching uploader (or duration) alone says nothing about *which song* this is - an
+        // artist's channel uploads many tracks. Without some textual link between the video's
+        // title and the track's title/artist, this candidate must not be accepted, however high
+        // the other signals push it, or playback can silently start a completely different song.
+        val hasTitleRelevance = isTitleMatch || isArtistInTitle
+        if (!hasTitleRelevance) confidence = 0f
 
         logger.i {
             "[Match] video id=${video.id} title='${video.title}' uploader='${video.uploader}' " +
