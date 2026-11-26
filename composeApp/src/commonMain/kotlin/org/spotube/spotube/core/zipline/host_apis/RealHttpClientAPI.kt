@@ -23,13 +23,13 @@ import org.spotube.plugin_interfaces.host_apis.HttpClientAPI
 import org.spotube.plugin_interfaces.host_apis.HttpMethod
 import org.spotube.plugin_interfaces.host_apis.HttpResponse
 import org.spotube.spotube.core.di.injectLogger
-import io.ktor.client.request.header
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsBytes
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.content.ByteArrayContent
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.takeFrom
 import org.koin.core.component.KoinComponent
 import kotlin.io.encoding.Base64
