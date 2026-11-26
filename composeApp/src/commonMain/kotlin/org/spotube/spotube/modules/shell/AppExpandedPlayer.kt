@@ -658,7 +658,7 @@ fun AppExpandedPlayer(
                         modifier = Modifier.fillMaxWidth().padding(top = 2.dp)
                     ) {
                         MillenniumIcon(
-                            imageVector = IconsaxCd,
+                            imageVector = Iconsax.IconsaxCd,
                             contentDescription = null,
                             tint = art.onContainerMuted,
                             modifier = Modifier.size(14.dp).padding(end = 4.dp)
