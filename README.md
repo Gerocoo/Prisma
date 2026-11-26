@@ -22,8 +22,8 @@ Prisma is a fork of [Spotube](https://github.com/team-spotube/spotube), the plug
 client, for **Android and iPhone**. The playback engine and plugin system come from Spotube; the interface
 has been redesigned from scratch around **Material 3 Expressive** and everyday Android conventions.
 
-Everything Spotube already does is still there: plugins for any service, downloads with metadata,
-synced lyrics, local files, Jam sessions with friends, no telemetry.
+Most of what Spotube already does is still there: plugins for any service, synced lyrics, local
+files, Jam sessions with friends, no telemetry.
 
 ## Install
 
@@ -78,8 +78,8 @@ with your own Apple ID. With a free Apple ID the app has to be refreshed every 7
   artists.
 - **Year in review**: an annual listening recap built from your local history. It appears in the
   same season as the yearly recaps of the big streaming services, and stays hidden otherwise.
-- **Library** with playlists, albums, artists, local tracks and downloads, all shown as rounded
-  tonal cards like the album and playlist pages.
+- **Library** with playlists, albums, artists and local tracks, all shown as rounded tonal cards
+  like the album and playlist pages.
 - **Liked songs** update instantly when you tap the heart.
 - **Artist pages** with popular tracks, a *Show discography* button that lists every release, and
   a follow button that turns into *Following*.
@@ -88,7 +88,7 @@ with your own Apple ID. With a free Apple ID the app has to be refreshed every 7
 
 - The three dots next to a track, or a **long press** on it in any list (playlists, albums, artist
   pages, search), open the same menu: like, add to playlist, queue, play next, go to album, go to
-  artist, share, download.
+  artist, share.
 - Tapping anywhere on a row plays the track; the artist page is reached from the menu or from the
   player.
 
@@ -213,7 +213,8 @@ entirely optional.
 
 Prisma is built on the work of
 [Kingkor Roy Tirtho and the Spotube contributors](https://github.com/team-spotube/spotube). Like the
-original project, it is licensed under **AGPL-3.0-or-later**: see [LICENSE](LICENSE).
+original project, it is licensed under **AGPL-3.0-or-later**: see [LICENSE](LICENSE). See
+[NOTICE.md](NOTICE.md) for what has been changed relative to the original project.
 
 The Figtree typeface is licensed under the [SIL Open Font License](assets/licenses/Figtree-OFL.txt).
 
