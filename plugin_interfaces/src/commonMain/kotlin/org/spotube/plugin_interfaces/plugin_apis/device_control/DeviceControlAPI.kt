@@ -63,6 +63,14 @@ class DeviceControlException(val statusCode: Int, message: String) : Exception(m
 interface DeviceControlAPI : ZiplineService {
     suspend fun isAvailable(): Boolean
 
+    /**
+     * Video URL of the Canvas (the short looping video behind some tracks) for [trackId], or
+     * null when there is none, the lookup failed, or this plugin doesn't offer Canvas. Shares
+     * this interface/ability with device control because both talk to the same account's
+     * unofficial, undocumented backend; apps calling this never speak that protocol directly.
+     */
+    suspend fun canvasUrl(trackId: String): String?
+
     /** The account's devices, most recently active first. Also refreshes [currentPlayback]. */
     suspend fun devices(): List<RemoteDevice>
 

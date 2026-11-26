@@ -115,10 +115,16 @@ interface ScrobblePluginSource {
     val selectedScrobblePlugin: StateFlow<PluginService?>
 }
 
+/** Narrow read-only view of the active device-control plugin (Spotify Connect, Canvas...),
+ * used by consumers that only need to call it without depending on the full [PluginManager]. */
+interface DeviceControlPluginSource {
+    val selectedDeviceControlPlugin: StateFlow<PluginService?>
+}
+
 class PluginManager(
     val database: Database,
     val paths: Paths,
-    private val httpClientFactory: HttpClientFactory) : KoinComponent, PluginProvider, AudioPluginSource, ScrobblePluginSource {
+    private val httpClientFactory: HttpClientFactory) : KoinComponent, PluginProvider, AudioPluginSource, ScrobblePluginSource, DeviceControlPluginSource {
     private val logger by injectLogger<PluginManager>()
 
     // plugin.json may carry fields newer than this app knows about (e.g. `entryPoint`).
@@ -306,6 +312,8 @@ class PluginManager(
         filterSelectedPluginByType(PluginAbility.LYRICS)
     override val selectedScrobblePlugin =
         filterSelectedPluginByType(PluginAbility.SCROBBLE)
+    override val selectedDeviceControlPlugin =
+        filterSelectedPluginByType(PluginAbility.DEVICE_CONTROL)
 
     fun launchTask(block: suspend CoroutineScope.() -> Unit): Job {
         return scope.launch(block = block)

@@ -23,11 +23,27 @@ import org.spotube.plugin_interfaces.host_apis.HttpClientAPI
 import org.spotube.plugin_interfaces.host_apis.HttpMethod
 import org.spotube.plugin_interfaces.host_apis.HttpResponse
 import org.spotube.spotube.core.di.injectLogger
+import io.ktor.client.request.header
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
+import io.ktor.client.statement.bodyAsBytes
 import io.ktor.client.statement.bodyAsText
+import io.ktor.http.content.ByteArrayContent
+import io.ktor.http.ContentType
 import io.ktor.http.takeFrom
 import org.koin.core.component.KoinComponent
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
+
+/**
+ * Header convention (not part of the shared [HttpClientAPI] contract): a plugin that needs to
+ * send or receive raw bytes over this text-only bridge (protobuf, for instance) sets this
+ * request header to "base64". The request [HttpResponse.body] is then treated as Base64 of the
+ * actual bytes to send, and the response body is returned as Base64 of the actual bytes received,
+ * with the same header echoed back on the response headers so the caller knows to decode it.
+ */
+private const val BINARY_BODY_HEADER = "X-Zipline-Binary-Body"
+private const val BINARY_BODY_VALUE = "base64"
 
 class RealHttpClientAPI : HttpClientAPI, KoinComponent {
     val logger by injectLogger<RealHttpClientAPI>()
@@ -55,23 +71,30 @@ class RealHttpClientAPI : HttpClientAPI, KoinComponent {
         return send(method, url, requestHeaders, body)
     }
 
+    @OptIn(ExperimentalEncodingApi::class)
     private suspend fun send(
         method: HttpMethod,
         url: String,
         requestHeaders: Map<String, String>?,
         body: String?
     ): HttpResponse {
-        val (requestHeaders, body) = SpotifyWebClientHints.adapt(url, requestHeaders, body)
+        // Binary convention: see BINARY_BODY_HEADER doc above. Not applied to the Spotify-token
+        // special-casing path, which is always text (JSON).
+        val isBinary = requestHeaders?.entries
+            ?.any { (k, v) -> k.equals(BINARY_BODY_HEADER, ignoreCase = true) && v.equals(BINARY_BODY_VALUE, ignoreCase = true) } == true
+        val sendHeaders = requestHeaders?.filterKeys { !it.equals(BINARY_BODY_HEADER, ignoreCase = true) }
+
+        val (adaptedHeaders, adaptedBody) = if (isBinary) sendHeaders to body
+            else SpotifyWebClientHints.adapt(url, sendHeaders, body)
+
         logger.i {
             buildString {
                 append("[${method.name.uppercase()}] $url\n")
                 append("Headers:\n")
-                requestHeaders?.forEach { (key, value) ->
+                adaptedHeaders?.forEach { (key, value) ->
                     append("  $key: $value\n")
                 }
-                body?.let {
-                    append("Body: $it\n")
-                }
+                if (!isBinary) adaptedBody?.let { append("Body: $it\n") }
             }
         }
         val res = httpClient.request {
@@ -87,18 +110,38 @@ class RealHttpClientAPI : HttpClientAPI, KoinComponent {
             this.url {
                 takeFrom(url)
             }
-            requestHeaders?.forEach { (key, value) ->
-                headers.append(key, value)
+            adaptedHeaders?.forEach { (key, value) ->
+                if (!key.equals(HttpHeaders.ContentType, ignoreCase = true) || !isBinary) {
+                    headers.append(key, value)
+                }
             }
-            body?.let { setBody(it) }
+            if (isBinary) {
+                val bytes = adaptedBody?.let { Base64.decode(it) } ?: ByteArray(0)
+                val contentType = adaptedHeaders?.entries
+                    ?.firstOrNull { it.key.equals(HttpHeaders.ContentType, ignoreCase = true) }
+                    ?.value?.let { ContentType.parse(it) } ?: ContentType.Application.OctetStream
+                setBody(ByteArrayContent(bytes, contentType))
+            } else {
+                adaptedBody?.let { setBody(it) }
+            }
         }
 
-        val responseText = res.bodyAsText()
-        SpotifyWebClientHints.inspect(url, body, responseText)
-        return HttpResponse(
-            statusCode = res.status.value,
-            headers = res.headers.entries().associate { it.key to it.value.joinToString(",") },
-            body = responseText
-        )
+        return if (isBinary) {
+            val responseBytes = res.bodyAsBytes()
+            HttpResponse(
+                statusCode = res.status.value,
+                headers = res.headers.entries().associate { it.key to it.value.joinToString(",") } +
+                    (BINARY_BODY_HEADER to BINARY_BODY_VALUE),
+                body = Base64.encode(responseBytes)
+            )
+        } else {
+            val responseText = res.bodyAsText()
+            SpotifyWebClientHints.inspect(url, adaptedBody, responseText)
+            HttpResponse(
+                statusCode = res.status.value,
+                headers = res.headers.entries().associate { it.key to it.value.joinToString(",") },
+                body = responseText
+            )
+        }
     }
 }

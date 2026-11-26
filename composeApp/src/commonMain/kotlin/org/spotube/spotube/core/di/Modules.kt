@@ -75,6 +75,7 @@ import org.spotube.spotube.modules.playlist.AddTracksToPlaylistViewModel
 import org.spotube.spotube.modules.playlist.PlaylistRepository
 import org.spotube.spotube.modules.playlist.PlaylistViewModel
 import org.spotube.spotube.modules.plugin.AudioPluginSource
+import org.spotube.spotube.modules.plugin.DeviceControlPluginSource
 import org.spotube.spotube.modules.plugin.PluginManager
 import org.spotube.spotube.modules.plugin.PluginProvider
 import org.spotube.spotube.modules.plugin.PluginViewModel
@@ -115,8 +116,8 @@ val sharedModules = module {
     singleOf(::Database)
     single { HttpClientFactory() } withOptions { onClose { it?.close() } }
     single { org.spotube.spotube.core.spotify.SpotifyPluginAuth(get()) }
-    single { org.spotube.spotube.core.spotify.SpotifyCanvasRepository(get(), get()) }
-    single { org.spotube.spotube.core.spotify.SpotifyConnectApi(get(), get()) }
+    single { org.spotube.spotube.core.spotify.SpotifyCanvasRepository(get()) }
+    single { org.spotube.spotube.core.spotify.SpotifyConnectApi(get()) }
 
     singleOf(::WebViewController)
 
@@ -153,6 +154,7 @@ val sharedModules = module {
         bind<PluginProvider>()
         bind<AudioPluginSource>()
         bind<ScrobblePluginSource>()
+        bind<DeviceControlPluginSource>()
     }
     viewModelOf(::PluginViewModel)
     viewModelOf(::MetadataPluginGuardViewModel)
