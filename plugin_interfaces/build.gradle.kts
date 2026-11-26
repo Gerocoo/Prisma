@@ -95,7 +95,10 @@ kotlin {
 
 mavenPublishing {
     publishToMavenCentral()
-    signAllPublications()
+    // Firma disattivata: per ora si pubblica solo su Maven locale (./gradlew
+    // :plugin_interfaces:publishToMavenLocal), che non richiede una chiave
+    // di firma. Riattivare signAllPublications() se/quando si pubblica
+    // davvero su Maven Central con una chiave propria.
     coordinates(
         group.toString(),
         "plugin_interfaces",
