@@ -652,15 +652,26 @@ fun AppExpandedPlayer(
                             )
                         ) { append(playerUiState.album) }
                     }
-                    Text(
-                        text = annotatedAlbum,
-                        style = AppTheme.typography.bodyMedium,
-                        color = art.onContainerMuted,
-                        textAlign = TextAlign.Center,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxWidth().padding(top = 2.dp)
-                    )
+                    ) {
+                        MillenniumIcon(
+                            imageVector = IconsaxCd,
+                            contentDescription = null,
+                            tint = art.onContainerMuted,
+                            modifier = Modifier.size(14.dp).padding(end = 4.dp)
+                        )
+                        Text(
+                            text = annotatedAlbum,
+                            style = AppTheme.typography.bodyMedium,
+                            color = art.onContainerMuted,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.weight(1f, fill = false)
+                        )
+                    }
                 }
             }
 
